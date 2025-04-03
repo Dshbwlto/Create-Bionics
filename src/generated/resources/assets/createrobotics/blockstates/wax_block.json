@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "createrobotics:block/wax_block"
+    }
+  }
+}
