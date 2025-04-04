@@ -20,6 +20,27 @@ public class ModBlocks {
     public static final DeferredBlock<Block> WAX_BLOCK = registerBlock("wax_block",
             () -> new Block(BlockBehaviour.Properties.of().strength(1f).sound(SoundType.CANDLE)));
 
+
+    public static final DeferredBlock<Block> OXHAULER_FRAME_FRONT = registerBlock("oxhauler_frame_front",
+            () -> new Block(BlockBehaviour.Properties.of().strength(1f).sound(SoundType.CANDLE).noOcclusion()));
+
+    public static final DeferredBlock<Block> OXHAULER_FRAME_REAR = registerBlock("oxhauler_frame_rear",
+            () -> new Block(BlockBehaviour.Properties.of().strength(1f).sound(SoundType.CANDLE).noOcclusion()));
+
+    public static final DeferredBlock<Block> OXHAULER_FRAME_HEAD = registerBlock("oxhauler_frame_head",
+            () -> new Block(BlockBehaviour.Properties.of().strength(1f).sound(SoundType.CANDLE).noOcclusion()));
+
+    public static final DeferredBlock<Block> OXHAULER_FURNACE = registerBlock("oxhauler_furnace",
+            () -> new Block(BlockBehaviour.Properties.of().strength(1f).sound(SoundType.CANDLE).noOcclusion()));
+
+    public static final DeferredBlock<Block> OXHAULER_ENGINE_BLOCK = registerBlock("oxhauler_engine_block",
+            () -> new Block(BlockBehaviour.Properties.of().strength(1f).sound(SoundType.CANDLE).noOcclusion()));
+
+    public static final DeferredBlock<Block> OXHAULER_GRATE = registerBlock("oxhauler_grate",
+            () -> new Block(BlockBehaviour.Properties.of().strength(1f).sound(SoundType.CANDLE).noOcclusion()));
+
+
+
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCKS.register(name, block);
         registerBlockItem(name, toReturn);

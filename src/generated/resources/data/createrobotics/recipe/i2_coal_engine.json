@@ -5,6 +5,9 @@
     "A": {
       "item": "minecraft:copper_ingot"
     },
+    "B": {
+      "item": "create:iron_sheet"
+    },
     "C": {
       "item": "create:andesite_alloy"
     },
@@ -12,16 +15,16 @@
       "item": "minecraft:iron_ingot"
     },
     "E": {
-      "item": "createrobotics:i2_coal_engine"
+      "item": "minecraft:coal"
     }
   },
   "pattern": [
-    "ACA",
-    "AEA",
-    "CDC"
+    "ABA",
+    "CEC",
+    "DCD"
   ],
   "result": {
     "count": 1,
-    "id": "createrobotics:anole_body"
+    "id": "createrobotics:i2_coal_engine"
   }
 }

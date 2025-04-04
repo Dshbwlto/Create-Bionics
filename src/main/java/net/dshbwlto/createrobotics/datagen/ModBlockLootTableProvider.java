@@ -31,6 +31,13 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     @Override
     protected void generate() {
         dropSelf(ModBlocks.WAX_BLOCK.get());
+
+        dropSelf(ModBlocks.OXHAULER_FRAME_FRONT.get());
+        dropSelf(ModBlocks.OXHAULER_FRAME_REAR.get());
+        dropSelf(ModBlocks.OXHAULER_FURNACE.get());
+        dropSelf(ModBlocks.OXHAULER_ENGINE_BLOCK.get());
+        dropSelf(ModBlocks.OXHAULER_FRAME_HEAD.get());
+        dropSelf(ModBlocks.OXHAULER_GRATE.get());
     }
 
     @Override

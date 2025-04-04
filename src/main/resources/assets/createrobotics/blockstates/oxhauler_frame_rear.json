@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "createrobotics:block/oxhauler_frame_rear"
+    }
+  }
+}

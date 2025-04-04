@@ -1,2 +1,8 @@
-// 1.21.1	2025-04-03T12:46:34.6807863	Loot Tables
+// 1.21.1	2025-04-03T16:15:24.4198678	Loot Tables
+442fc67e359e74fb4819a8be68600f9742cf9ed1 data/createrobotics/loot_table/blocks/oxhauler_engine_block.json
+18e47aaf85c639420c56e19a231106d63e460f7a data/createrobotics/loot_table/blocks/oxhauler_frame_front.json
+89307c846bc9391ed0fadc2dd73ea446a6cda123 data/createrobotics/loot_table/blocks/oxhauler_frame_head.json
+ebad9d02029be277e1232dc40ae9d068d614aaf2 data/createrobotics/loot_table/blocks/oxhauler_frame_rear.json
+89ab324502e7e302e939ffc6c9872894e0861425 data/createrobotics/loot_table/blocks/oxhauler_furnace.json
+afd664d1f1ea2b7e5b1a64bcb0526a6ad90ff037 data/createrobotics/loot_table/blocks/oxhauler_grate.json
 3c842bcdc2009163bd6d873fe35c2c38195ae2da data/createrobotics/loot_table/blocks/wax_block.json

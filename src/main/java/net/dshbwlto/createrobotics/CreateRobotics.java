@@ -1,6 +1,7 @@
 package net.dshbwlto.createrobotics;
 
 import net.dshbwlto.createrobotics.block.ModBlocks;
+import net.dshbwlto.createrobotics.item.ModCreativeModeTabs;
 import net.dshbwlto.createrobotics.item.ModItems;
 import org.slf4j.Logger;
 
@@ -39,6 +40,8 @@ public class CreateRobotics {
         ModItems.register(modEventBus);
 
         ModBlocks.register(modEventBus);
+
+        ModCreativeModeTabs.register(modEventBus);
         
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.

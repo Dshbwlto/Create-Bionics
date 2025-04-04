@@ -11,6 +11,12 @@ public class ModItems {
 
     public static final DeferredItem<Item> ANOLE_BODY = ITEMS.registerSimpleItem("anole_body");
     public static final DeferredItem<Item> I2_COAL_ENGINE = ITEMS.registerSimpleItem("i2_coal_engine");
+    public static final DeferredItem<Item> ANOLE_HEAD = ITEMS.registerSimpleItem("anole_head");
+    public static final DeferredItem<Item> ANOLE_LEG = ITEMS.registerSimpleItem("anole_leg");
+    public static final DeferredItem<Item> ANOLE_TAIL = ITEMS.registerSimpleItem("anole_tail");
+    public static final DeferredItem<Item> WAX_INGOT = ITEMS.registerSimpleItem("wax_ingot");
+    public static final DeferredItem<Item> ANOLE = ITEMS.registerSimpleItem("anole");
+    public static final DeferredItem<Item> ANOLE_BRASS = ITEMS.registerSimpleItem("anole_brass");
 
     public static void register(IEventBus eventBus) { ITEMS.register(eventBus);
     }

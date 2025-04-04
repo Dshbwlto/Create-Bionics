@@ -22,12 +22,64 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     @Override
     protected void buildRecipes(RecipeOutput recipeOutput) {
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.ANOLE_BODY.get())
-                .pattern("BBB")
-                .pattern("BBB")
-                .pattern("BBB")
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.I2_COAL_ENGINE.get())
+                .pattern("ABA")
+                .pattern("CEC")
+                .pattern("DCD")
+                .define('A', Items.COPPER_INGOT)
                 .define('B', Items.DIRT)
-                .unlockedBy("has_black_opal", has(ModItems.I2_COAL_ENGINE.get())).save(recipeOutput);
+                .define('C', Items.STONE)
+                .define('D', Items.IRON_INGOT)
+                .define('E', Items.COAL)
+                .unlockedBy("has_coal", has(Items.COAL)).save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.ANOLE_BODY.get())
+                .pattern("ACA")
+                .pattern("AEA")
+                .pattern("CDC")
+                .define('A', Items.COPPER_INGOT)
+                .define('C', Items.STONE)
+                .define('D', Items.IRON_INGOT)
+                .define('E', ModItems.I2_COAL_ENGINE)
+                .unlockedBy("has_i2engine", has(ModItems.I2_COAL_ENGINE)).save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.ANOLE_HEAD.get())
+                .pattern(" DA")
+                .pattern("AED")
+                .pattern("CA ")
+                .define('A', Items.COPPER_INGOT)
+                .define('C', Items.ANDESITE)
+                .define('D', Items.FLINT)
+                .define('E', Items.LIGHTNING_ROD)
+                .unlockedBy("has_anole_body", has(ModItems.ANOLE_BODY)).save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.ANOLE_LEG.get())
+                .pattern(" A ")
+                .pattern("  A")
+                .pattern("BBC")
+                .define('A', Items.COPPER_INGOT)
+                .define('B', Items.ANDESITE)
+                .define('C', Items.IRON_INGOT)
+                .unlockedBy("has_anole_body", has(ModItems.ANOLE_BODY)).save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.ANOLE_TAIL.get())
+                .pattern("  B")
+                .pattern(" CA")
+                .pattern("C  ")
+                .define('A', Items.COPPER_INGOT)
+                .define('B', Items.ANDESITE)
+                .define('C', Items.IRON_INGOT)
+                .unlockedBy("has_anole_body", has(ModItems.ANOLE_BODY)).save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.ANOLE.get())
+                .pattern(" CB")
+                .pattern("CAC")
+                .pattern("DC ")
+                .define('A', ModItems.ANOLE_BODY)
+                .define('B', ModItems.ANOLE_HEAD)
+                .define('C', ModItems.ANOLE_LEG)
+                .define('D', ModItems.ANOLE_TAIL)
+                .unlockedBy("has_anole_body", has(ModItems.ANOLE_BODY)).save(recipeOutput);
 
 
     }

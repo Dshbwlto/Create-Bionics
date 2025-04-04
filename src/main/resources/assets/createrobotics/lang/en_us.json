@@ -1,6 +1,26 @@
 {
   "item.createrobotics.anole_body": "Anole Body",
+  "item.createrobotics.anole_head": "Anole Head",
+  "item.createrobotics.anole_leg": "Anole Leg",
+  "item.createrobotics.anole_tail": "Anole Tail",
+  "item.createrobotics.anole": "Anole",
+  "item.createrobotics.anole_brass": "Brass Anole",
   "item.createrobotics.i2_coal_engine": "I2 Coal Engine",
+  "item.createrobotics.wax_ingot": "Wax Ingot",
 
-  "block.createrobotics.wax_block": "Block of Wax"
+  "painting.createrobotics.ares.title": "Ares",
+  "painting.createrobotics.ares.author": "Dshbwlto",
+
+  "block.createrobotics.wax_block": "Block of Wax",
+
+  "block.createrobotics.oxhauler_frame_front": "Oxhauler Front Frame",
+  "block.createrobotics.oxhauler_frame_rear": "Oxhauler Rear Frame",
+  "block.createrobotics.oxhauler_frame_head": "Oxhauler Head Frame",
+  "block.createrobotics.oxhauler_furnace": "Oxhauler Furnace",
+  "block.createrobotics.oxhauler_engine_block": "Oxhauler Engine Block",
+  "block.createrobotics.oxhauler_grate": "Oxhauler Grate",
+
+  "block.createrobotics.wax_block": "Block of Wax",
+
+  "itemGroup.createrobotics.create_robotics_tab": "Create Robotics"
 }
