@@ -34,6 +34,7 @@ public class DataGenerator {
         generator.addProvider(event.includeServer(), blockTagsProvider);
         generator.addProvider(event.includeServer(), new ModItemTagProvider(packOutput, lookupProvider,  blockTagsProvider.contentsGetter(), existingFileHelper));
 
+
         generator.addProvider((event.includeClient()), new ModItemModelProvider(packOutput, existingFileHelper));
         generator.addProvider((event.includeClient()), new ModBlockStateProvider(packOutput, existingFileHelper));
 

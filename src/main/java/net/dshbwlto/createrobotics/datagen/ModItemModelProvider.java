@@ -22,6 +22,5 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.ANOLE.get());
         basicItem(ModItems.ANOLE_BRASS.get());
         basicItem(ModItems.WAX_INGOT.get());
-
     }
 }

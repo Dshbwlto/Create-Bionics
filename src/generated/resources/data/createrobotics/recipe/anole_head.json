@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:copper_ingot"
+    },
+    "C": {
+      "item": "create:andesite_alloy"
+    },
+    "D": {
+      "item": "minecraft:flint"
+    },
+    "E": {
+      "item": "create:transmitter"
+    }
+  },
+  "pattern": [
+    " DA",
+    "AED",
+    "CA "
+  ],
+  "result": {
+    "count": 1,
+    "id": "createrobotics:anole_head"
+  }
+}

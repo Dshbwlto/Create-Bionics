@@ -39,6 +39,9 @@ public class ModBlocks {
     public static final DeferredBlock<Block> OXHAULER_GRATE = registerBlock("oxhauler_grate",
             () -> new Block(BlockBehaviour.Properties.of().strength(1f).sound(SoundType.CANDLE).noOcclusion()));
 
+    public static final DeferredBlock<Block> THRUSTER = registerBlock("thruster",
+            () -> new Block(BlockBehaviour.Properties.of().strength(1f).sound(SoundType.CANDLE).noOcclusion()));
+
 
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
