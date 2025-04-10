@@ -1,0 +1,10 @@
+{
+  "engine": {
+    "sounds": [
+      {
+        "name": "createrobotics:engine",
+        "stream": true
+      }
+    ]
+  }
+}

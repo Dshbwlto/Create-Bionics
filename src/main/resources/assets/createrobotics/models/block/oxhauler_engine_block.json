@@ -5,7 +5,7 @@
 	"texture_size": [64, 64],
 	"textures": {
 		"1": "createrobotics:block/oxhauler_engine_block",
-		"particle": "create:item/andesite_alloy"
+		"particle": "create:block/industrial_iron_block"
 	},
 	"elements": [
 		{

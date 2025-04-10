@@ -1,10 +1,19 @@
 package net.dshbwlto.createrobotics;
 
 import net.dshbwlto.createrobotics.block.ModBlocks;
+import net.dshbwlto.createrobotics.entity.ModEntities;
+import net.dshbwlto.createrobotics.entity.client.AnoleRenderer;
+import net.dshbwlto.createrobotics.fluid.BaseFluidType;
+import net.dshbwlto.createrobotics.fluid.ModFluidTypes;
+import net.dshbwlto.createrobotics.fluid.ModFluids;
 import net.dshbwlto.createrobotics.item.ModCreativeModeTabs;
 import net.dshbwlto.createrobotics.item.ModItems;
+import net.dshbwlto.createrobotics.sound.ModSounds;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import org.slf4j.Logger;
 
@@ -45,6 +54,13 @@ public class CreateRobotics {
         ModBlocks.register(modEventBus);
 
         ModCreativeModeTabs.register(modEventBus);
+
+        ModSounds.register(modEventBus);
+
+        ModFluidTypes.register(modEventBus);
+        ModFluids.register(modEventBus);
+
+        ModEntities.register(modEventBus);
 
 
         // Register ourselves for server and other game events we are interested in.
@@ -88,11 +104,19 @@ public class CreateRobotics {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-
+            event.enqueueWork(() -> {
+                //ItemBlockRenderTypes.setRenderLayer(ModFluids.SOURCE_MOLTEN_ANDESITE_ALLOY.get(), RenderType.translucent());
+                //ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_MOLTEN_ANDESITE_ALLOY.get(), RenderType.translucent());
+            });
         }
-
         @SubscribeEvent
         public static void onClientExtensions(RegisterClientExtensionsEvent event) {
+            event.registerFluidType(((BaseFluidType) ModFluidTypes.MOLTEN_ANDESITE_ALLOY_FLUID_TYPE.get()).getClientFluidTypeExtensions(),
+                    ModFluidTypes.MOLTEN_ANDESITE_ALLOY_FLUID_TYPE.get());
+        }
+        @SubscribeEvent
+        public static void registerColoredItems(RegisterColorHandlersEvent.Item event) {
+            EntityRenderers.register(ModEntities.ANOLE.get(), AnoleRenderer::new);
 
         }
     }

@@ -1,8 +1,10 @@
 package net.dshbwlto.createrobotics.item;
 
 import net.dshbwlto.createrobotics.CreateRobotics;
+import net.dshbwlto.createrobotics.entity.ModEntities;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -17,6 +19,10 @@ public class ModItems {
     public static final DeferredItem<Item> WAX_INGOT = ITEMS.registerSimpleItem("wax_ingot");
     public static final DeferredItem<Item> ANOLE = ITEMS.registerSimpleItem("anole");
     public static final DeferredItem<Item> ANOLE_BRASS = ITEMS.registerSimpleItem("anole_brass");
+
+    public static final DeferredItem<Item> ANOLE_SPAWN_EGG = ITEMS.register("anole_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.ANOLE, 0xdebd47, 0xccbfbe,
+                    new Item.Properties()));
 
     public static void register(IEventBus eventBus) { ITEMS.register(eventBus);
     }

@@ -1,9 +1,10 @@
-// 1.21.1	2025-04-04T22:44:36.2962128	Item Models: createrobotics
+// 1.21.1	2025-04-08T18:34:11.9229527	Item Models: createrobotics
 7474748082d2a072757eca7e7e2b3e7342931869 assets/createrobotics/models/item/anole.json
 33c608c599bec2be00b28baabf678f915f104029 assets/createrobotics/models/item/anole_body.json
 8200921f471a15cbf4f6ca12811e38d7f113108e assets/createrobotics/models/item/anole_brass.json
 6a818baa239c2b671e6ed27ccbd969a9c7ae6269 assets/createrobotics/models/item/anole_head.json
 12c2665a23decbe39b253955acd33fd29dfec6e3 assets/createrobotics/models/item/anole_leg.json
+63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/createrobotics/models/item/anole_spawn_egg.json
 ec394507146c1a46fbfd95842286f4d5a7cfd499 assets/createrobotics/models/item/anole_tail.json
 3692113ca3a675537eaa6aa9be82ec4a6567e0bb assets/createrobotics/models/item/i2_coal_engine.json
 39ff3fca3921de813d0c339bc08f5ffde5f4ab7e assets/createrobotics/models/item/wax_ingot.json

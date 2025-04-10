@@ -2,6 +2,7 @@ package net.dshbwlto.createrobotics.item;
 
 import net.dshbwlto.createrobotics.CreateRobotics;
 import net.dshbwlto.createrobotics.block.ModBlocks;
+import net.dshbwlto.createrobotics.fluid.ModFluids;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -36,6 +37,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.OXHAULER_GRATE);
                         output.accept(ModBlocks.OXHAULER_ENGINE_BLOCK);
                         output.accept(ModBlocks.THRUSTER);
+                        output.accept(ModItems.ANOLE_SPAWN_EGG);
 
 
 

@@ -22,5 +22,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.ANOLE.get());
         basicItem(ModItems.ANOLE_BRASS.get());
         basicItem(ModItems.WAX_INGOT.get());
+        withExistingParent(ModItems.ANOLE_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+
     }
 }
