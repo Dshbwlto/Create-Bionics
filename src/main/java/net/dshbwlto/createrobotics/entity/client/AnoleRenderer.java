@@ -10,20 +10,21 @@ import net.minecraft.resources.ResourceLocation;
 
 public class AnoleRenderer extends MobRenderer<AnoleEntity, AnoleModel<AnoleEntity>> {
     public AnoleRenderer(EntityRendererProvider.Context context) {
-        super(context, new AnoleModel<>(context.bakeLayer(ModModelLayers.ANOLE)), 0.25f);
+        super(context, new AnoleModel<>(context.bakeLayer(ModModelLayers.ANOLE)), 0.5f);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(AnoleEntity anoleEntity) {
+    public ResourceLocation getTextureLocation(AnoleEntity pEntity) {
         return ResourceLocation.fromNamespaceAndPath(CreateRobotics.MOD_ID, "textures/entity/anole/anole.png");
     }
 
     @Override
     public void render(AnoleEntity entity, float entityYaw, float partialTicks,
-                       PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+                       PoseStack poseStack, MultiBufferSource buffer, int pPackedLight) {
         if(entity.isBaby()) {
             poseStack.scale(0.45f, 0.45f, 0.45f);
         }
-        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+
+        super.render(entity, entityYaw, partialTicks, poseStack, buffer, pPackedLight);
     }
 }

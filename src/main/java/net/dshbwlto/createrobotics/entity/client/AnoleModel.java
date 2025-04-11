@@ -13,7 +13,6 @@ public class AnoleModel<T extends AnoleEntity> extends HierarchicalModel<T> {
     private final ModelPart anole;
     private final ModelPart head_main;
 
-
     public AnoleModel(ModelPart root) {
         this.anole = root.getChild("anole");
         this.head_main = this.anole.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main");
@@ -33,7 +32,7 @@ public class AnoleModel<T extends AnoleEntity> extends HierarchicalModel<T> {
 
         PartDefinition exhaust = lower_body.addOrReplaceChild("exhaust", CubeListBuilder.create(), PartPose.offset(1.1F, 0.0118F, -0.6082F));
 
-        PartDefinition cube_r3 = exhaust.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(12, 10).addBox(-1.7321F, 1.0F, -0.501F, 1.0F, 1.0F, 5.002F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.3053F, -0.2591F, 0.4971F));
+        PartDefinition cube_r3 = exhaust.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(12, 10).mirror().addBox(0.0F, 0.0F, -0.501F, 1.0F, 1.0F, 5.002F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.0F, 0.0F, 0.0F, 0.3053F, -0.2591F, 0.4971F));
 
         PartDefinition cube_r4 = exhaust.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(12, 10).addBox(-1.0F, 0.0F, -0.501F, 1.0F, 1.0F, 5.002F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.2F, 0.0F, 0.0F, 0.3053F, 0.2591F, -0.4971F));
 
@@ -90,19 +89,13 @@ public class AnoleModel<T extends AnoleEntity> extends HierarchicalModel<T> {
         this.root().getAllParts().forEach(ModelPart::resetPose);
         this.applyHeadRotation(netHeadYaw, headPitch);
 
-        this.animateWalk(AnoleAnimations.anole_walk, limbSwing, limbSwingAmount, 2f, 1f);
-        this.animate(entity.idleAnimationState, AnoleAnimations.anole_idle,ageInTicks, 1f);
-        this.animate(entity.sitUpAnimationState, AnoleAnimations.anole_stand,ageInTicks, 1f);
-        this.animate(entity.sitPoseAnimationState, AnoleAnimations.anole_stay,ageInTicks, 1f);
-        this.animate(entity.sitDownAnimationState, AnoleAnimations.anole_sit,ageInTicks, 1f);
-        this.animate(entity.swimAnimationState, AnoleAnimations.anole_swim,ageInTicks, 1f);
+        this.animateWalk(AnoleAnimations.anole_walk, limbSwing, limbSwingAmount, 2f, 2.5f);
+        this.animate(entity.idleAnimationState, AnoleAnimations.anole_idle, ageInTicks, 1f);
 
+        this.animate(entity.sitDownAnimationState, AnoleAnimations.anole_sit, ageInTicks, 1.0F);
+        this.animate(entity.sitPoseAnimationState, AnoleAnimations.anole_stay, ageInTicks, 1.0F);
+        this.animate(entity.sitUpAnimationState, AnoleAnimations.anole_stand, ageInTicks, 1.0F);
 
-    }
-
-    @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
-        anole.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
     }
 
     private void applyHeadRotation(float pNetHeadYaw, float pHeadPitch) {
@@ -111,9 +104,14 @@ public class AnoleModel<T extends AnoleEntity> extends HierarchicalModel<T> {
 
         this.head_main.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
         this.head_main.xRot = pHeadPitch * ((float)Math.PI / 180F);
-}
+    }
 
-        @Override
+    @Override
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
+        anole.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
+    }
+
+    @Override
     public ModelPart root() {
         return anole;
     }

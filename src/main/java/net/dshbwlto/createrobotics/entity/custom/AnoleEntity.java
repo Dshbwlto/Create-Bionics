@@ -2,14 +2,13 @@ package net.dshbwlto.createrobotics.entity.custom;
 
 import net.dshbwlto.createrobotics.entity.ModEntities;
 import net.dshbwlto.createrobotics.item.ModItems;
-import net.dshbwlto.createrobotics.sound.ModSounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
@@ -23,10 +22,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
-
 
 public class AnoleEntity extends TamableAnimal {
     public final AnimationState idleAnimationState = new AnimationState();
@@ -52,19 +52,21 @@ public class AnoleEntity extends TamableAnimal {
         this.goalSelector.addGoal(0, new SitWhenOrderedToGoal(this));
 
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.2D, Ingredient.of(Blocks.COPPER_BLOCK), true));
 
-        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1d, 5f, 1f));
+        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.25d, 5f, 3f));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1d));
 
-        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1D));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 4f));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Animal.createLivingAttributes().add(Attributes.MAX_HEALTH, 35D)
+        return Animal.createLivingAttributes().add(Attributes.MAX_HEALTH, 5D)
+                .add(Attributes.MOVEMENT_SPEED, 0.4)
                 .add(Attributes.ATTACK_DAMAGE, 2f)
-                .add(Attributes.FOLLOW_RANGE, 1f);
+                .add(Attributes.FOLLOW_RANGE, 24D);
     }
 
     @Override
@@ -78,20 +80,10 @@ public class AnoleEntity extends TamableAnimal {
         return ModEntities.ANOLE.get().create(level);
     }
 
-    @Override
-    protected @Nullable SoundEvent getAmbientSound() {
-        return ModSounds.ENGINE.get();
-    }
-
-    @Override
-    public int getAmbientSoundInterval() {
-        return 1;
-    }
-
     /* ANIMATIONS */
     private void setupAnimationStates() {
         if (this.idleAnimationTimeout <= 0) {
-            this.idleAnimationTimeout = 80;
+            this.idleAnimationTimeout = 40;
             this.idleAnimationState.start(this.tickCount);
         } else {
             --this.idleAnimationTimeout;
@@ -126,16 +118,16 @@ public class AnoleEntity extends TamableAnimal {
         return this.isSitting() && this.getPoseTime() < 40L && this.getPoseTime() >= 0L;
     }
 
-    public void resetLastPoseChangeTick(long lastPoseChangedTick) {
-        this.entityData.set(LAST_POSE_CHANGE_TICK, lastPoseChangedTick);
+    public void resetLastPoseChangeTick(long lastPoseChangeTick) {
+        this.entityData.set(LAST_POSE_CHANGE_TICK, lastPoseChangeTick);
     }
 
     public long getPoseTime() {
         return this.level().getGameTime() - Math.abs(this.entityData.get(LAST_POSE_CHANGE_TICK));
     }
 
-    private void resetLastPoseChangeTickToFullStand(long pLastPoseChangedTick) {
-        this.resetLastPoseChangeTick(Math.max(0L, pLastPoseChangedTick - 52L - 1L));
+    private void resetLastPoseChangeTickToFullStand(long lastPoseChangedTick) {
+        this.resetLastPoseChangeTick(Math.max(0L, lastPoseChangedTick - 52L - 1L));
     }
 
     @Override
@@ -149,8 +141,8 @@ public class AnoleEntity extends TamableAnimal {
 
     /* RIGHT CLICKING */
     @Override
-    public InteractionResult mobInteract(Player player, InteractionHand hand) {
-        ItemStack itemstack = player.getItemInHand(hand);
+    public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
+        ItemStack itemstack = pPlayer.getItemInHand(pHand);
         Item item = itemstack.getItem();
 
         Item itemForTaming = Items.APPLE;
@@ -159,12 +151,12 @@ public class AnoleEntity extends TamableAnimal {
             if(this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
-                if (!player.getAbilities().instabuild) {
+                if (!pPlayer.getAbilities().instabuild) {
                     itemstack.shrink(1);
                 }
 
-                if (!EventHooks.onAnimalTame(this, player)) {
-                    super.tame(player);
+                if (!EventHooks.onAnimalTame(this, pPlayer)) {
+                    super.tame(pPlayer);
                     this.navigation.recomputePath();
                     this.setTarget(null);
                     this.level().broadcastEntityEvent(this, (byte)7);
@@ -176,12 +168,12 @@ public class AnoleEntity extends TamableAnimal {
             }
         }
 
-        if(isTame() && hand == InteractionHand.MAIN_HAND && !isFood(itemstack)) {
+        if(isTame() && pHand == InteractionHand.MAIN_HAND && !isFood(itemstack)) {
             toggleSitting();
             return InteractionResult.SUCCESS;
         }
 
-        return super.mobInteract(player, hand);
+        return super.mobInteract(pPlayer, pHand);
     }
 
     /* SITTING */
@@ -199,7 +191,7 @@ public class AnoleEntity extends TamableAnimal {
 
     public void sitDown() {
         if (!this.isSitting()) {
-            this.makeSound(SoundEvents.IRON_GOLEM_REPAIR);
+            this.makeSound(SoundEvents.CAMEL_SIT);
             this.setPose(Pose.SITTING);
             this.gameEvent(GameEvent.ENTITY_ACTION);
             this.resetLastPoseChangeTick(-this.level().getGameTime());
@@ -211,7 +203,7 @@ public class AnoleEntity extends TamableAnimal {
 
     public void standUp() {
         if (this.isSitting()) {
-            this.makeSound(SoundEvents.WOOL_BREAK);
+            this.makeSound(SoundEvents.CAMEL_STAND);
             this.setPose(Pose.STANDING);
             this.gameEvent(GameEvent.ENTITY_ACTION);
             this.resetLastPoseChangeTick(this.level().getGameTime());
@@ -222,16 +214,16 @@ public class AnoleEntity extends TamableAnimal {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(LAST_POSE_CHANGE_TICK, 0L);
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        super.defineSynchedData(pBuilder);
+        pBuilder.define(LAST_POSE_CHANGE_TICK, 0L);
     }
 
 
     @Override
-    public void addAdditionalSaveData(CompoundTag compound) {
-        super.addAdditionalSaveData(compound);
-        compound.putLong("LastPoseTick", this.entityData.get(LAST_POSE_CHANGE_TICK));
+    public void addAdditionalSaveData(CompoundTag pCompound) {
+        super.addAdditionalSaveData(pCompound);
+        pCompound.putLong("LastPoseTick", this.entityData.get(LAST_POSE_CHANGE_TICK));
     }
 
     @Override
@@ -244,4 +236,10 @@ public class AnoleEntity extends TamableAnimal {
         this.resetLastPoseChangeTick(i);
     }
 
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason,
+                                        @Nullable SpawnGroupData pSpawnData) {
+        this.resetLastPoseChangeTickToFullStand(pLevel.getLevel().getGameTime());
+        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData);
+    }
 }
