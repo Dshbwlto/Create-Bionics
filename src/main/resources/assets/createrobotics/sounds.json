@@ -6,5 +6,13 @@
         "stream": true
       }
     ]
+  },
+  "thruster": {
+    "sounds": [
+      {
+        "name": "createrobotics:thruster",
+        "stream": true
+      }
+    ]
   }
 }

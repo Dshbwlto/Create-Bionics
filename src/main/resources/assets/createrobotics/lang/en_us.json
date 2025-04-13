@@ -26,5 +26,8 @@
 
   "block.createrobotics.wax_block": "Block of Wax",
 
+  "entity.createrobotics.anole": "Anole",
+  "entity.createrobotics.thruster": "Thruster",
+
   "itemGroup.createrobotics.create_robotics_tab": "Create Robotics"
 }

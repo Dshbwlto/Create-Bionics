@@ -18,10 +18,7 @@ public class ModSounds {
             DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, CreateRobotics.MOD_ID);
 
     public static final Supplier<SoundEvent> ENGINE = registerSoundEvent("engine");
-
-    private static ResourceKey<JukeboxSong> createSong(String name) {
-        return ResourceKey.create(Registries.JUKEBOX_SONG, ResourceLocation.fromNamespaceAndPath(CreateRobotics.MOD_ID, name));
-    }
+    public static final Supplier<SoundEvent> THRUSTER = registerSoundEvent("thruster");
 
     private static Supplier<SoundEvent> registerSoundEvent(String name) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath(CreateRobotics.MOD_ID, name);

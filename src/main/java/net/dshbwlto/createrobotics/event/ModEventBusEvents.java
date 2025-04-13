@@ -4,6 +4,7 @@ import net.dshbwlto.createrobotics.CreateRobotics;
 import net.dshbwlto.createrobotics.entity.ModEntities;
 import net.dshbwlto.createrobotics.entity.client.AnoleModel;
 import net.dshbwlto.createrobotics.entity.client.ModModelLayers;
+import net.dshbwlto.createrobotics.entity.client.ThrusterModel;
 import net.dshbwlto.createrobotics.entity.custom.AnoleEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -15,11 +16,13 @@ public class ModEventBusEvents {
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ModModelLayers.ANOLE, AnoleModel::createBodyLayer);
+        event.registerLayerDefinition(ModModelLayers.THRUSTER, ThrusterModel::createBodyLayer);
     }
 
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(ModEntities.ANOLE.get(), AnoleEntity.createAttributes().build());
+        event.put(ModEntities.THRUSTER.get(), AnoleEntity.createAttributes().build());
     }
 
 }

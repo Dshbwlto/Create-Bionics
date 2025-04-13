@@ -17,11 +17,13 @@ public class ModItems {
     public static final DeferredItem<Item> ANOLE_LEG = ITEMS.registerSimpleItem("anole_leg");
     public static final DeferredItem<Item> ANOLE_TAIL = ITEMS.registerSimpleItem("anole_tail");
     public static final DeferredItem<Item> WAX_INGOT = ITEMS.registerSimpleItem("wax_ingot");
-    public static final DeferredItem<Item> ANOLE = ITEMS.registerSimpleItem("anole");
-    public static final DeferredItem<Item> ANOLE_BRASS = ITEMS.registerSimpleItem("anole_brass");
 
-    public static final DeferredItem<Item> ANOLE_SPAWN_EGG = ITEMS.register("anole_spawn_egg",
-            () -> new DeferredSpawnEggItem(ModEntities.ANOLE, 0xdebd47, 0xccbfbe,
+    public static final DeferredItem<Item> ANOLE = ITEMS.register("anole",
+            () -> new DeferredSpawnEggItem(ModEntities.ANOLE, 0xFFFFFF, 0xFFFFFF,
+                    new Item.Properties()));
+
+    public static final DeferredItem<Item> THRUSTER = ITEMS.register("thrusteritem",
+            () -> new DeferredSpawnEggItem(ModEntities.THRUSTER, 0xFFFFFF, 0xFFFFFF,
                     new Item.Properties()));
 
     public static void register(IEventBus eventBus) { ITEMS.register(eventBus);

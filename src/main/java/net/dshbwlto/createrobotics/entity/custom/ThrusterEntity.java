@@ -1,9 +1,7 @@
 package net.dshbwlto.createrobotics.entity.custom;
 
 import net.dshbwlto.createrobotics.entity.ModEntities;
-import net.dshbwlto.createrobotics.item.ModItems;
 import net.dshbwlto.createrobotics.sound.ModSounds;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -14,30 +12,23 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
-
-public class AnoleEntity extends TamableAnimal {
+public class ThrusterEntity extends TamableAnimal {
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
 
@@ -47,28 +38,16 @@ public class AnoleEntity extends TamableAnimal {
     public final AnimationState swimAnimationState = new AnimationState();
 
     public static final EntityDataAccessor<Long> LAST_POSE_CHANGE_TICK =
-            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.LONG);
+            SynchedEntityData.defineId(ThrusterEntity.class, EntityDataSerializers.LONG);
 
 
-    public AnoleEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
+    public ThrusterEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new FloatGoal(this));
-
         this.goalSelector.addGoal(0, new SitWhenOrderedToGoal(this));
-
-        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.2D, Ingredient.of(Blocks.COPPER_BLOCK), true));
-
-        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.25d, 5f, 3f));
-        this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1d));
-
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 4f));
-        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -86,7 +65,7 @@ public class AnoleEntity extends TamableAnimal {
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
-        return ModEntities.ANOLE.get().create(level);
+        return ModEntities.THRUSTER.get().create(level);
     }
 
     @Override

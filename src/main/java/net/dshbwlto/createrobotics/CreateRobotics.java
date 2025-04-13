@@ -3,6 +3,7 @@ package net.dshbwlto.createrobotics;
 import net.dshbwlto.createrobotics.block.ModBlocks;
 import net.dshbwlto.createrobotics.entity.ModEntities;
 import net.dshbwlto.createrobotics.entity.client.AnoleRenderer;
+import net.dshbwlto.createrobotics.entity.client.ThrusterRenderer;
 import net.dshbwlto.createrobotics.fluid.BaseFluidType;
 import net.dshbwlto.createrobotics.fluid.ModFluidTypes;
 import net.dshbwlto.createrobotics.fluid.ModFluids;
@@ -107,6 +108,9 @@ public class CreateRobotics {
             event.enqueueWork(() -> {
                 //ItemBlockRenderTypes.setRenderLayer(ModFluids.SOURCE_MOLTEN_ANDESITE_ALLOY.get(), RenderType.translucent());
                 //ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_MOLTEN_ANDESITE_ALLOY.get(), RenderType.translucent());
+
+                EntityRenderers.register(ModEntities.ANOLE.get(), AnoleRenderer::new);
+                EntityRenderers.register(ModEntities.THRUSTER.get(), ThrusterRenderer::new);
             });
         }
         @SubscribeEvent
@@ -116,7 +120,6 @@ public class CreateRobotics {
         }
         @SubscribeEvent
         public static void registerColoredItems(RegisterColorHandlersEvent.Item event) {
-            EntityRenderers.register(ModEntities.ANOLE.get(), AnoleRenderer::new);
 
         }
     }

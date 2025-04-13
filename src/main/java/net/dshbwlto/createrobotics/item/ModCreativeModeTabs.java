@@ -22,7 +22,7 @@ public class ModCreativeModeTabs {
                     .icon(() -> new ItemStack(ModItems.ANOLE.get()))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.ANOLE);
-                        output.accept(ModItems.ANOLE_BRASS);
+                        output.accept(ModItems.THRUSTER);
                         output.accept(ModItems.ANOLE_BODY);
                         output.accept(ModItems.ANOLE_HEAD);
                         output.accept(ModItems.ANOLE_TAIL);
@@ -37,7 +37,6 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.OXHAULER_GRATE);
                         output.accept(ModBlocks.OXHAULER_ENGINE_BLOCK);
                         output.accept(ModBlocks.THRUSTER);
-                        output.accept(ModItems.ANOLE_SPAWN_EGG);
 
 
 
