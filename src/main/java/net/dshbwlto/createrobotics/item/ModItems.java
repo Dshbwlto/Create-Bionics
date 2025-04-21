@@ -2,6 +2,10 @@ package net.dshbwlto.createrobotics.item;
 
 import net.dshbwlto.createrobotics.CreateRobotics;
 import net.dshbwlto.createrobotics.entity.ModEntities;
+import net.dshbwlto.createrobotics.item.custom.AnoleItem;
+import net.dshbwlto.createrobotics.item.custom.CommandWhistleItem;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
@@ -17,9 +21,11 @@ public class ModItems {
     public static final DeferredItem<Item> ANOLE_LEG = ITEMS.registerSimpleItem("anole_leg");
     public static final DeferredItem<Item> ANOLE_TAIL = ITEMS.registerSimpleItem("anole_tail");
     public static final DeferredItem<Item> WAX_INGOT = ITEMS.registerSimpleItem("wax_ingot");
+    public static final DeferredItem<Item> COMMAND_WHISTLE = ITEMS.register("command_whistle",
+            () -> new CommandWhistleItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> ANOLE = ITEMS.register("anole",
-            () -> new DeferredSpawnEggItem(ModEntities.ANOLE, 0xFFFFFF, 0xFFFFFF,
+            () -> new AnoleItem(ModEntities.ANOLE.get(), 0xFFFFFF, 0xFFFFFF,
                     new Item.Properties()));
 
     public static final DeferredItem<Item> THRUSTER = ITEMS.register("thrusteritem",

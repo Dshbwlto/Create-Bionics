@@ -19,6 +19,7 @@ public class ModSounds {
 
     public static final Supplier<SoundEvent> ENGINE = registerSoundEvent("engine");
     public static final Supplier<SoundEvent> THRUSTER = registerSoundEvent("thruster");
+    public static final Supplier<SoundEvent> COMMAND_WHISTLE = registerSoundEvent("command_whistle");
 
     private static Supplier<SoundEvent> registerSoundEvent(String name) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath(CreateRobotics.MOD_ID, name);

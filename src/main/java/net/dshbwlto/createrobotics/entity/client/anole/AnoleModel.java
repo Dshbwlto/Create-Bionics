@@ -1,4 +1,4 @@
-package net.dshbwlto.createrobotics.entity.client;
+package net.dshbwlto.createrobotics.entity.client.anole;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

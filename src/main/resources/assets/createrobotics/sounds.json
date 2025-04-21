@@ -14,5 +14,13 @@
         "stream": true
       }
     ]
+  },
+  "command_whistle": {
+    "sounds": [
+      {
+        "name": "createrobotics:command_whistle",
+        "stream": true
+      }
+    ]
   }
 }

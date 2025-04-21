@@ -18,7 +18,6 @@ version = mod_version
 group = mod_group_id
 
 repositories {
-    mavenLocal()
 }
 
 base {
@@ -113,7 +112,9 @@ configurations {
 }
 
 dependencies {
-    // Example optional mod dependency with JEI
+}
+
+// Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
     // compileOnly "mezz.jei:jei-${mc_version}-neoforge-api:${jei_version}"
@@ -134,7 +135,6 @@ dependencies {
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-}
 
 // This block of code expands all declared replace properties in the specified resource targets.
 // A missing property will result in an error. Properties are expanded using ${} Groovy notation.

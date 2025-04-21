@@ -75,7 +75,7 @@ public class ThrusterEntity extends TamableAnimal {
 
     @Override
     protected @Nullable SoundEvent getAmbientSound() {
-        return ModSounds.ENGINE.get();
+        return ModSounds.THRUSTER.get();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package net.dshbwlto.createrobotics.entity.client;
+package net.dshbwlto.createrobotics.entity.client.anole;
 
 
 import net.minecraft.client.animation.AnimationChannel;

@@ -2,7 +2,7 @@ package net.dshbwlto.createrobotics.event;
 
 import net.dshbwlto.createrobotics.CreateRobotics;
 import net.dshbwlto.createrobotics.entity.ModEntities;
-import net.dshbwlto.createrobotics.entity.client.AnoleModel;
+import net.dshbwlto.createrobotics.entity.client.anole.AnoleModel;
 import net.dshbwlto.createrobotics.entity.client.ModModelLayers;
 import net.dshbwlto.createrobotics.entity.client.ThrusterModel;
 import net.dshbwlto.createrobotics.entity.custom.AnoleEntity;

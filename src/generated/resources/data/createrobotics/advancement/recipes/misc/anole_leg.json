@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_anole_body": {
+    "has_engine": {
       "conditions": {
         "items": [
           {
-            "items": "createrobotics:anole_body"
+            "items": "createrobotics:i2_coal_engine"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_anole_body"
+      "has_engine"
     ]
   ],
   "rewards": {

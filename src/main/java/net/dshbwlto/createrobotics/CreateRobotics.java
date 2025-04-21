@@ -2,7 +2,7 @@ package net.dshbwlto.createrobotics;
 
 import net.dshbwlto.createrobotics.block.ModBlocks;
 import net.dshbwlto.createrobotics.entity.ModEntities;
-import net.dshbwlto.createrobotics.entity.client.AnoleRenderer;
+import net.dshbwlto.createrobotics.entity.client.anole.AnoleRenderer;
 import net.dshbwlto.createrobotics.entity.client.ThrusterRenderer;
 import net.dshbwlto.createrobotics.fluid.BaseFluidType;
 import net.dshbwlto.createrobotics.fluid.ModFluidTypes;
@@ -10,9 +10,6 @@ import net.dshbwlto.createrobotics.fluid.ModFluids;
 import net.dshbwlto.createrobotics.item.ModCreativeModeTabs;
 import net.dshbwlto.createrobotics.item.ModItems;
 import net.dshbwlto.createrobotics.sound.ModSounds;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
@@ -20,7 +17,6 @@ import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.api.distmarker.Dist;

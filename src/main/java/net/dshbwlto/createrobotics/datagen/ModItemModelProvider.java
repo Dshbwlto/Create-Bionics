@@ -20,7 +20,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.ANOLE_TAIL.get());
         basicItem(ModItems.ANOLE_LEG.get());
         basicItem(ModItems.ANOLE.get());
-        basicItem(ModItems.THRUSTER.get());
         basicItem(ModItems.WAX_INGOT.get());
 
     }
