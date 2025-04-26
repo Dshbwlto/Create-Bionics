@@ -1,20 +1,18 @@
 package net.dshbwlto.createrobotics.entity.custom;
 
 import net.dshbwlto.createrobotics.entity.ModEntities;
-import net.dshbwlto.createrobotics.entity.client.anole.AnoleMarkings;
 import net.dshbwlto.createrobotics.entity.client.anole.AnoleVariant;
 import net.dshbwlto.createrobotics.item.ModItems;
 import net.dshbwlto.createrobotics.sound.ModSounds;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -25,26 +23,22 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.horse.Markings;
-import net.minecraft.world.entity.animal.horse.Variant;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class AnoleEntity extends TamableAnimal {
-    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT =
+    private static final EntityDataAccessor<Integer> VARIANT =
             SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.INT);
     private static final int RIDE_COOLDOWN = 100;
-    private int rideCooldownCounter;
+    public int fuelTime = 501;
 
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
@@ -52,7 +46,9 @@ public class AnoleEntity extends TamableAnimal {
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
-    public final AnimationState swimAnimationState = new AnimationState();
+    public final AnimationState dieAnimationState = new AnimationState();
+    public final AnimationState deadAnimationState = new AnimationState();
+    public final AnimationState reviveAnimationState = new AnimationState();
 
     public static final EntityDataAccessor<Long> LAST_POSE_CHANGE_TICK =
             SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.LONG);
@@ -69,15 +65,16 @@ public class AnoleEntity extends TamableAnimal {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
 
-        this.goalSelector.addGoal(0, new SitWhenOrderedToGoal(this));
+        this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
 
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.2D, Ingredient.of(Blocks.COPPER_BLOCK), true));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.2D, Ingredient.of(ModItems.COMMAND_WHISTLE.get()), true));
 
-        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.25d, 5f, 3f));
-        this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1d));
+        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0d, 10f, 5f));
 
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        if(isTame()) {
+            this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        }
 
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 4f));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
@@ -88,11 +85,13 @@ public class AnoleEntity extends TamableAnimal {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Animal.createLivingAttributes().add(Attributes.MAX_HEALTH, 5D)
-                .add(Attributes.MOVEMENT_SPEED, 0.3)
+        return Animal.createLivingAttributes()
+                .add(Attributes.MAX_HEALTH, 5D)
+                .add(Attributes.MOVEMENT_SPEED, 0.4)
                 .add(Attributes.ATTACK_DAMAGE, 2f)
                 .add(Attributes.FOLLOW_RANGE, 24D)
-                .add(Attributes.SAFE_FALL_DISTANCE, 200D);
+                .add(Attributes.SAFE_FALL_DISTANCE, 200D)
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 200f);
     }
 
 
@@ -124,13 +123,27 @@ public class AnoleEntity extends TamableAnimal {
         if (this.level().isClientSide) {
 
             for(int i = 0; i < 1; ++i) {
-                this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX((double)0.5F), this.getRandomY(), this.getRandomZ((double)0.5F), (double)0.0F, (double)0.0F, (double)0.0F);
-            }
-            if (this.random.nextInt(24) == 0 && !this.isSilent()) {
-                this.level().playLocalSound(this.getX() + (double)0.5F, this.getY() + (double)0.5F, this.getZ() + (double)0.5F, ModSounds.ENGINE.get(), this.getSoundSource(), 1.0F + this.random.nextFloat(), this.random.nextFloat() * 0.7F + 0.3F, false);
+                if(!isCurrentlyGlowing()) {
+                    this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX((double) 0.5F), this.getRandomY(), this.getRandomZ((double) 0.5F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
+                }
             }
         }
-
+        if (!this.level().isClientSide && this.isAlive() && --this.fuelTime == 0 && isTame()) {
+            this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+            this.setGlowingTag(true);
+            if(!this.isSitting()) {
+                this.toggleSitting();
+            }
+            getOwner().sendSystemMessage(Component.literal(getOwner().getName().getString() + ", §cyour Anole has run out of fuel!§r"));
+        }
+        if(this.fuelTime == 500 && isTame()) {
+            this.setGlowingTag(true);
+            getOwner().sendSystemMessage(Component.literal(getOwner().getName().getString() + ", your Anole is running low on fuel! Top it up with coal or charcoal!"));
+        }
+        if(this.fuelTime == 100 && isTame()) {
+            this.setGlowingTag(true);
+            getOwner().sendSystemMessage(Component.literal(getOwner().getName().getString() + ", your Anole is running very low on fuel! Top it up with coal or charcoal immediately!"));
+        }
         super.aiStep();
     }
 
@@ -201,9 +214,13 @@ public class AnoleEntity extends TamableAnimal {
         }
 
         if(horizontalCollision) {
+            setPose(Pose.SITTING);
             Vec3 initialVec = getDeltaMovement();
             Vec3 climbVec = new Vec3(initialVec.x, 0.2D, initialVec.z);
             setDeltaMovement(climbVec);
+        }
+        if(tickCount % 70 == 0 && !isCurrentlyGlowing()) {
+            this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, ModSounds.ENGINE.get(), this.getSoundSource(), 1.0F + this.random.nextFloat(), this.random.nextFloat() * 0.7F + 0.3F, false);
         }
 
     }
@@ -212,8 +229,6 @@ public class AnoleEntity extends TamableAnimal {
     public boolean isBaby() {
         return false;
     }
-
-
 
     /* RIGHT CLICKING */
     @Override
@@ -226,8 +241,9 @@ public class AnoleEntity extends TamableAnimal {
         Item itemForRedstone = Items.REDSTONE;
         Item itemForGold = Items.GOLD_INGOT;
         Item itemForDiamond = Items.DIAMOND;
+        Item itemForFuel = Items.CHARCOAL;
 
-        if(item == itemForNetherite && isTame() && getVariant() == AnoleVariant.DEFAULT && !isShiftKeyDown()) {
+        if(item == itemForNetherite && isTame() && !(getVariant() == AnoleVariant.NETHERITE || getVariant() == AnoleVariant.BRASS) && !isShiftKeyDown()) {
             if(this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
@@ -235,10 +251,10 @@ public class AnoleEntity extends TamableAnimal {
                     itemstack.shrink(1);
                 }
                 setVariant(AnoleVariant.NETHERITE);
-
+                makeSound(SoundEvents.SMITHING_TABLE_USE);
             }
         }
-        if(item == itemForBrass && isTame() && getVariant() == AnoleVariant.DEFAULT && !isShiftKeyDown()) {
+        if(item == itemForBrass && isTame() && !(getVariant() == AnoleVariant.NETHERITE || getVariant() == AnoleVariant.BRASS) && !isShiftKeyDown()) {
             if(this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
@@ -246,15 +262,48 @@ public class AnoleEntity extends TamableAnimal {
                     itemstack.shrink(1);
                 }
                 setVariant(AnoleVariant.BRASS);
+                makeSound(SoundEvents.SMITHING_TABLE_USE);
             }
         }
-
+        if(item == Items.WET_SPONGE && getVariant() == AnoleVariant.WEATHERED) {
+            if(this.level().isClientSide()) {
+                return InteractionResult.CONSUME;
+            } else {
+                setVariant(AnoleVariant.OXIDIZED);
+                makeSound(SoundEvents.WET_SPONGE_STEP);
+            }
+        }
+        if(item == Items.WET_SPONGE && getVariant() == AnoleVariant.EXPOSED) {
+            if(this.level().isClientSide()) {
+                return InteractionResult.CONSUME;
+            } else {
+                setVariant(AnoleVariant.WEATHERED);
+                makeSound(SoundEvents.WET_SPONGE_STEP);
+            }
+        }
+        if(item == Items.WET_SPONGE && getVariant() == AnoleVariant.DEFAULT) {
+            if(this.level().isClientSide()) {
+                return InteractionResult.CONSUME;
+            } else {
+                setVariant(AnoleVariant.EXPOSED);
+                makeSound(SoundEvents.WET_SPONGE_STEP);
+            }
+        }
+       if(item == Items.SPONGE && (getVariant() == AnoleVariant.EXPOSED || getVariant() == AnoleVariant.WEATHERED || getVariant() == AnoleVariant.OXIDIZED)) {
+            if(this.level().isClientSide()) {
+                return InteractionResult.CONSUME;
+            } else {
+                setVariant(AnoleVariant.DEFAULT);
+                makeSound(SoundEvents.WET_SPONGE_STEP);
+            }
+        }
         if(item == Items.BRUSH && isTame() && getVariant() == AnoleVariant.NETHERITE && !isShiftKeyDown()) {
             if(this.level().isClientSide()) {
                 return InteractionResult.SUCCESS;
             } else {
                 this.spawnAtLocation(new ItemStack(Items.NETHERITE_INGOT));
                 setVariant(AnoleVariant.DEFAULT);
+                makeSound(SoundEvents.GRINDSTONE_USE);
             }
         }
         if(item == Items.BRUSH && isTame() && getVariant() == AnoleVariant.BRASS && !isShiftKeyDown()) {
@@ -263,6 +312,7 @@ public class AnoleEntity extends TamableAnimal {
             } else {
                 this.spawnAtLocation(new ItemStack(Items.GOLD_INGOT));
                 setVariant(AnoleVariant.DEFAULT);
+                makeSound(SoundEvents.GRINDSTONE_USE);
             }
         }
         if(item == ModItems.COMMAND_WHISTLE.get() && isOwnedBy(player)){
@@ -277,6 +327,35 @@ public class AnoleEntity extends TamableAnimal {
                     this.spawnAtLocation(new ItemStack(Items.GOLD_INGOT));
                 }
                 remove(RemovalReason.DISCARDED);
+                makeSound(SoundEvents.ITEM_PICKUP);
+            }
+        }
+        if((item == Items.COAL || item == Items.CHARCOAL) && isOwnedBy(player)){
+            if(this.level().isClientSide()) {
+                return InteractionResult.CONSUME;
+            } else {
+                if (!player.getAbilities().instabuild) {
+                    itemstack.shrink(1);
+                }
+                this.fuelTime = 100000;
+                makeSound(SoundEvents.FIRECHARGE_USE);
+                setGlowingTag(false);
+                this.level().addParticle(ParticleTypes.POOF, this.getRandomX((double) 0.5F), this.getRandomY(), this.getRandomZ((double) 0.5F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
+                return InteractionResult.SUCCESS;
+            }
+        }
+        if(item == Items.COAL_BLOCK && isOwnedBy(player)){
+            if(this.level().isClientSide()) {
+                return InteractionResult.CONSUME;
+            } else {
+                if (!player.getAbilities().instabuild) {
+                    itemstack.shrink(1);
+                }
+                this.fuelTime = 900000;
+                makeSound(SoundEvents.FIRECHARGE_USE);
+                makeSound(SoundEvents.FURNACE_FIRE_CRACKLE);
+                setGlowingTag(false);
+                return InteractionResult.SUCCESS;
             }
         }
         if (!isTame() && getMainHandItem().isEmpty()) {
@@ -288,13 +367,14 @@ public class AnoleEntity extends TamableAnimal {
                     this.navigation.recomputePath();
                     this.setTarget(null);
                     this.level().broadcastEntityEvent(this, (byte) 7);
+                    this.fuelTime = 510;
                 }
 
                 return InteractionResult.SUCCESS;
             }
         }
 
-        if (isTame() && !isShiftKeyDown()) {
+        if (isTame() && !isShiftKeyDown() && !isCurrentlyGlowing() && getMainHandItem().isEmpty()) {
             toggleSitting();
             return InteractionResult.SUCCESS;
         }
@@ -341,9 +421,9 @@ public class AnoleEntity extends TamableAnimal {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(LAST_POSE_CHANGE_TICK, 0L);
-        builder.define(DATA_ID_TYPE_VARIANT, 0);
-
+        builder.define(VARIANT, 0);
         builder.define(DYE_STACK, ItemStack.EMPTY);
+
     }
 
 
@@ -352,7 +432,7 @@ public class AnoleEntity extends TamableAnimal {
         super.addAdditionalSaveData(compound);
         compound.putLong("LastPoseTick", this.entityData.get(LAST_POSE_CHANGE_TICK));
         compound.putInt("Variant", this.getTypeVariant());
-
+        compound.putInt("RefuelTime", this.fuelTime);
     }
 
     @Override
@@ -363,17 +443,20 @@ public class AnoleEntity extends TamableAnimal {
             this.setPose(Pose.SITTING);
         }
         this.resetLastPoseChangeTick(i);
-        this.setTypeVariant(compound.getInt("variant"));
+        this.entityData.set(VARIANT, compound.getInt("Variant"));
+        if (compound.contains("RefuelTime")) {
+            this.fuelTime = compound.getInt("RefuelTime");
+        }
     }
 
     //VARIANT//
 
     private void setTypeVariant(int typeVariant) {
-        this.entityData.set(DATA_ID_TYPE_VARIANT, typeVariant);
+        this.entityData.set(VARIANT, typeVariant);
     }
 
     private int getTypeVariant() {
-        return this.entityData.get(DATA_ID_TYPE_VARIANT);
+        return this.entityData.get(VARIANT);
     }
 
     public AnoleVariant getVariant() {
@@ -381,7 +464,7 @@ public class AnoleEntity extends TamableAnimal {
     }
 
     public void setVariant(AnoleVariant variant) {
-        this.entityData.set(DATA_ID_TYPE_VARIANT, variant.getId() & 255);
+        this.entityData.set(VARIANT, variant.getId() & 255);
     }
 }
 

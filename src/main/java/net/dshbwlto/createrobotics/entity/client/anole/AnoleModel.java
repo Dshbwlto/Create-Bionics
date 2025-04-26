@@ -92,10 +92,15 @@ public class AnoleModel<T extends AnoleEntity> extends HierarchicalModel<T>
 
         this.animateWalk(AnoleAnimations.anole_walk, limbSwing, limbSwingAmount, 2f, 2.5f);
         this.animate(entity.idleAnimationState, AnoleAnimations.anole_idle, ageInTicks, 1f);
-
-        this.animate(entity.sitDownAnimationState, AnoleAnimations.anole_sit, ageInTicks, 1.0F);
-        this.animate(entity.sitPoseAnimationState, AnoleAnimations.anole_stay, ageInTicks, 1.0F);
-        this.animate(entity.sitUpAnimationState, AnoleAnimations.anole_stand, ageInTicks, 1.0F);
+        if(entity.isCurrentlyGlowing()) {
+            this.animate(entity.sitDownAnimationState, AnoleAnimations.anole_die, ageInTicks, 1.0F);
+            this.animate(entity.sitPoseAnimationState, AnoleAnimations.anole_dead, ageInTicks, 1.0F);
+            this.animate(entity.sitUpAnimationState, AnoleAnimations.anole_revive, ageInTicks, 1.0F);
+        } else {
+            this.animate(entity.sitDownAnimationState, AnoleAnimations.anole_sit, ageInTicks, 1.0F);
+            this.animate(entity.sitPoseAnimationState, AnoleAnimations.anole_stay, ageInTicks, 1.0F);
+            this.animate(entity.sitUpAnimationState, AnoleAnimations.anole_stand, ageInTicks, 1.0F);
+        }
 
     }
 

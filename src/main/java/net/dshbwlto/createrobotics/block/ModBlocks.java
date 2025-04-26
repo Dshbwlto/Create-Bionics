@@ -39,8 +39,11 @@ public class ModBlocks {
     public static final DeferredBlock<Block> OXHAULER_GRATE = registerBlock("oxhauler_grate",
             () -> new Block(BlockBehaviour.Properties.of().strength(1f).sound(SoundType.CANDLE).noOcclusion()));
 
-    public static final DeferredBlock<Block> THRUSTER = registerBlock("thruster",
+    public static final DeferredBlock<Block> STALKER_ENGINE = registerBlock("stalker_engine",
             () -> new Block(BlockBehaviour.Properties.of().strength(1f).sound(SoundType.CANDLE).noOcclusion()));
+
+    public static final DeferredBlock<Block> THRUSTER = registerBlock("thruster",
+            () -> new Block(BlockBehaviour.Properties.of().strength(1f).sound(SoundType.NETHERITE_BLOCK).noOcclusion()));
 
 
 

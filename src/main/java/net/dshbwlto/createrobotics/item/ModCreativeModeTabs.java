@@ -1,6 +1,7 @@
 package net.dshbwlto.createrobotics.item;
 
 import net.dshbwlto.createrobotics.CreateRobotics;
+import net.dshbwlto.createrobotics.block.ModBlocks;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -26,7 +27,6 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.ANOLE_LEG);
                         output.accept(ModItems.I2_COAL_ENGINE);
                         output.accept(ModItems.COMMAND_WHISTLE);
-
 
 
                     }).build());

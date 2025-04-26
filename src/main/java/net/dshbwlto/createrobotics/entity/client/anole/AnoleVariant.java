@@ -6,7 +6,10 @@ import java.util.Comparator;
 public enum AnoleVariant {
     DEFAULT(0),
     BRASS(1),
-    NETHERITE(2);
+    NETHERITE(2),
+    EXPOSED(3),
+    WEATHERED(4),
+    OXIDIZED(5);
 
     private static final AnoleVariant[] BY_ID = Arrays.stream(values()).sorted(
             Comparator.comparingInt(AnoleVariant::getId)).toArray(AnoleVariant[]::new);

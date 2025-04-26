@@ -12,7 +12,12 @@
   "tooltip.createrobotics.anoleitem.tooltip.shift1": " ",
   "tooltip.createrobotics.anoleitem.tooltip.shift2": "§6An adorable, §eportable§6, §etameable§6 robot that can climb walls to follow you!§r",
   "tooltip.createrobotics.anoleitem.tooltip.shift3": "§7When Used:§r",
-  "tooltip.createrobotics.anoleitem.tooltip.shift4": "§6Places an §eAnole§6 in the world. Click with a §ecommand whistle§6 to revert to an §eitem§6.§r",
+  "tooltip.createrobotics.anoleitem.tooltip.shift4": "§6Places an §eAnole§6 in the world. Click with an §eempty hand§6 to §etame§6 it, or use a §ecommand whistle§6 to revert it to an §eitem§6.§r",
+  "tooltip.createrobotics.anoleitem.tooltip.shift5": "§7Customization:§r",
+  "tooltip.createrobotics.anoleitem.tooltip.shift6": "§6You can §ecustomize§6 your §eAnole§6! to weather it, click it with a §ewet sponge§6. You can §erevert§6 this with a §edry sponge§6. You can also give it a §egold§6 or §enetherite§6 skin. Just click it with the §ecorresponding ingot§6. These skins can be §eremoved§6 with a §ebrush§6.§r",
+  "tooltip.createrobotics.anoleitem.tooltip.shift7": "§7Fueling:§r",
+  "tooltip.createrobotics.anoleitem.tooltip.shift8": "§6Click your §eAnole§6 with §ecoal§6 or §echarcoal§6 to refuel it. Or you can use a §ecoal block§6 for an extra boost. Fueling §edoes not stack§6. You will get a §enotification§6 when your Anole needs more.§r",
+
 
   "tooltip.createrobotics.command_whistle_item.tooltip.shift1": "§6Make a cool sound!§r",
   "tooltip.createrobotics.command_whistle_item.tooltip.shift2": "§7When Used on Anole:§r",
@@ -29,6 +34,7 @@
   "block.createrobotics.oxhauler_engine_block": "§4(SECRET) §rOxhauler Engine Block",
   "block.createrobotics.oxhauler_grate": "§4(SECRET) §rOxhauler Grate",
   "block.createrobotics.thruster": "§4(SECRET) §rThruster",
+  "block.createrobotics.stalker_engine": "§4(SECRET) §rStalker Engine",
 
   "block.createrobotics.wax_block": "§4(SECRET) §rBlock of Wax",
 

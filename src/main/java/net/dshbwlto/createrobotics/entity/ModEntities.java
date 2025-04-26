@@ -20,7 +20,7 @@ public class ModEntities {
                     .sized(0.5f, 0.25f).build("anole"));
     public static final Supplier<EntityType<ThrusterEntity>> THRUSTER =
             ENTITY_TYPES.register("thruster", () -> EntityType.Builder.of(ThrusterEntity::new, MobCategory.CREATURE)
-                    .sized(0.5f, 0.25f).build("thruster"));
+                    .sized(0.5f, 5.0f).build("thruster"));
 
 
 

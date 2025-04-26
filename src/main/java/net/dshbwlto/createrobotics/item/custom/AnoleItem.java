@@ -31,6 +31,13 @@ public class AnoleItem extends SpawnEggItem {
             tooltipComponents.add(Component.translatable("tooltip.createrobotics.anoleitem.tooltip.shift1"));
             tooltipComponents.add(Component.translatable("tooltip.createrobotics.anoleitem.tooltip.shift3"));
             tooltipComponents.add(Component.translatable("tooltip.createrobotics.anoleitem.tooltip.shift4"));
+            tooltipComponents.add(Component.translatable("tooltip.createrobotics.anoleitem.tooltip.shift1"));
+            tooltipComponents.add(Component.translatable("tooltip.createrobotics.anoleitem.tooltip.shift5"));
+            tooltipComponents.add(Component.translatable("tooltip.createrobotics.anoleitem.tooltip.shift6"));
+            tooltipComponents.add(Component.translatable("tooltip.createrobotics.anoleitem.tooltip.shift1"));
+            tooltipComponents.add(Component.translatable("tooltip.createrobotics.anoleitem.tooltip.shift7"));
+            tooltipComponents.add(Component.translatable("tooltip.createrobotics.anoleitem.tooltip.shift8"));
+
         } else {
             tooltipComponents.add(Component.translatable("tooltip.createrobotics.anoleitem.tooltip.shift"));
         }

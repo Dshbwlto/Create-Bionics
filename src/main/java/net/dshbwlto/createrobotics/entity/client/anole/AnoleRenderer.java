@@ -23,6 +23,12 @@ public class AnoleRenderer extends MobRenderer<AnoleEntity, AnoleModel<AnoleEnti
                         ResourceLocation.fromNamespaceAndPath(CreateRobotics.MOD_ID, "textures/entity/anole/anole_brass.png"));
                 map.put(AnoleVariant.NETHERITE,
                         ResourceLocation.fromNamespaceAndPath(CreateRobotics.MOD_ID, "textures/entity/anole/anole_netherite.png"));
+                map.put(AnoleVariant.EXPOSED,
+                        ResourceLocation.fromNamespaceAndPath(CreateRobotics.MOD_ID, "textures/entity/anole/anole_exposed.png"));
+                map.put(AnoleVariant.WEATHERED,
+                        ResourceLocation.fromNamespaceAndPath(CreateRobotics.MOD_ID, "textures/entity/anole/anole_weathered.png"));
+                map.put(AnoleVariant.OXIDIZED,
+                        ResourceLocation.fromNamespaceAndPath(CreateRobotics.MOD_ID, "textures/entity/anole/anole_oxidized.png"));
     });
 
     public AnoleRenderer(EntityRendererProvider.Context context) {

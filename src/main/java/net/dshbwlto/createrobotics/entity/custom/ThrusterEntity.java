@@ -2,7 +2,9 @@ package net.dshbwlto.createrobotics.entity.custom;
 
 import net.dshbwlto.createrobotics.entity.ModEntities;
 import net.dshbwlto.createrobotics.sound.ModSounds;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -56,6 +58,23 @@ public class ThrusterEntity extends TamableAnimal {
                 .add(Attributes.ATTACK_DAMAGE, 2f)
                 .add(Attributes.FOLLOW_RANGE, 24D);
     }
+
+    public void aiStep() {
+
+        if (this.level().isClientSide) {
+
+            for(int i = 0; i < 10; ++i) {
+                if(!isCurrentlyGlowing()) {
+                    this.level().addParticle(ParticleTypes.POOF, this.getRandomX((double) 1F), this.getRandomY(), this.getRandomZ((double) 1f), (double) 0.0F, (double) 3F, (double) 0.0F);
+                }
+            }
+            if (this.random.nextInt(24) == 0 && !this.isSilent()) {
+                this.level().playLocalSound(this.getX() + (double)0.5F, this.getY() + (double)0.5F, this.getZ() + (double)0.5F, ModSounds.THRUSTER.get(), this.getSoundSource(), 1.0F + this.random.nextFloat(), this.random.nextFloat() * 0.7F + 0.3F, false);
+            }
+        }
+        super.aiStep();
+    }
+
 
     @Override
     public boolean isFood(ItemStack stack) {

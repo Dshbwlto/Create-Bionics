@@ -1,6 +1,7 @@
 package net.dshbwlto.createrobotics.datagen;
 
 import net.dshbwlto.createrobotics.CreateRobotics;
+import net.dshbwlto.createrobotics.Util.ModTags;
 import net.dshbwlto.createrobotics.item.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -21,6 +22,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-
+        tag(ModTags.Items.ANOLE_FUELS)
+                .add(Items.COAL)
+                .add(Items.CHARCOAL);
     }
 }

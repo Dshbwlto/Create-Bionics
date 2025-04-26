@@ -481,7 +481,7 @@ public class ThrusterModel<T extends ThrusterEntity> extends HierarchicalModel<T
     }
 
     @Override
-    public void setupAnim(ThrusterEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.root().getAllParts().forEach(ModelPart::resetPose);
 
         this.animate(entity.idleAnimationState, ThrusterAnimations.Loop, ageInTicks, 1f);
