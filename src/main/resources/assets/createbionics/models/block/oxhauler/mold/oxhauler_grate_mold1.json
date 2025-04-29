@@ -1,0 +1,23 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "createbionics:block/oxhauler/oxhauler_grate_sand1",
+		"particle": "minecraft:block/sand"
+	},
+	"elements": [
+		{
+			"from": [3, 0, 1],
+			"to": [13, 5, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [3, 0, 1]},
+			"faces": {
+				"north": {"uv": [0, 9.5, 5, 12], "texture": "#0"},
+				"east": {"uv": [0, 7, 7, 9.5], "texture": "#0"},
+				"south": {"uv": [5, 9.5, 10, 12], "texture": "#0"},
+				"west": {"uv": [7, 7, 14, 9.5], "texture": "#0"},
+				"up": {"uv": [5, 7, 0, 0], "texture": "#0"},
+				"down": {"uv": [10, 0, 5, 7], "texture": "#0"}
+			}
+		}
+	]
+}

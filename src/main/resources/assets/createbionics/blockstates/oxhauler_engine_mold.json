@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "engine_filled=false": {
+      "model": "createbionics:block/oxhauler/mold/oxhauler_engine_mold1"
+    },
+    "engine_filled=true": {
+      "model": "createbionics:block/oxhauler/mold/oxhauler_engine_mold2"
+    }
+  }
+}

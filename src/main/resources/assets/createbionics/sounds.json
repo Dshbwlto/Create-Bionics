@@ -1,0 +1,26 @@
+{
+  "engine": {
+    "sounds": [
+      {
+        "name": "createbionics:engine",
+        "stream": true
+      }
+    ]
+  },
+  "thruster": {
+    "sounds": [
+      {
+        "name": "createbionics:thruster",
+        "stream": true
+      }
+    ]
+  },
+  "command_whistle": {
+    "sounds": [
+      {
+        "name": "createbionics:command_whistle",
+        "stream": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "rear_filled=false": {
+      "model": "createbionics:block/oxhauler/mold/oxhauler_rear_mold1"
+    },
+    "rear_filled=true": {
+      "model": "createbionics:block/oxhauler/mold/oxhauler_rear_mold2"
+    }
+  }
+}

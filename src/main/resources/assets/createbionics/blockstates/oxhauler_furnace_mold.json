@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "furnace_filled=false": {
+      "model": "createbionics:block/oxhauler/mold/oxhauler_furnace_mold1"
+    },
+    "furnace_filled=true": {
+      "model": "createbionics:block/oxhauler/mold/oxhauler_furnace_mold2"
+    }
+  }
+}

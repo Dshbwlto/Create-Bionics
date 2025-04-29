@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "grate_filled=false": {
+      "model": "createbionics:block/oxhauler/mold/oxhauler_grate_mold1"
+    },
+    "grate_filled=true": {
+      "model": "createbionics:block/oxhauler/mold/oxhauler_grate_mold2"
+    }
+  }
+}
