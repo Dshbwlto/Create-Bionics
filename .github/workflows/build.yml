@@ -12,6 +12,17 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
+      - name: Get latest commit hash
+        id: get_hash
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Get MC version
+        uses: christian-draeger/read-properties@1.1.1
+        id: get_mc_version
+        with:
+          path: gradle.properties
+          properties: minecraft_version
+
       - name: Setup JDK 21
         uses: actions/setup-java@v4
         with:
@@ -23,3 +34,10 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew build
+        
+      - name: Archive Artifacts
+        uses: actions/upload-artifact@v4
+        if: github.event_name == 'push'
+        with:
+          name: createbionics-${{ steps.get_mc_version.outputs.minecraft_version }}-nightly-${{ steps.get_hash.outputs.sha_short }}
+          path: build/libs/
