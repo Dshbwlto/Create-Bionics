@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "createbionics:anole_body"
+    },
+    "B": {
+      "item": "createbionics:anole_head"
+    },
+    "C": {
+      "item": "createbionics:anole_leg"
+    },
+    "D": {
+      "item": "createbionics:anole_tail"
+    }
+  },
+  "pattern": [
+    " CB",
+    "CAC",
+    "DC "
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:anole"
+  }
+}
