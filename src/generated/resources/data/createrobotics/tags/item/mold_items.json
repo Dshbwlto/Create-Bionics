@@ -1,0 +1,9 @@
+{
+  "values": [
+    "createrobotics:molten_andesite_alloy_bucket",
+    "createrobotics:molten_industrial_iron_bucket",
+    "createrobotics:molten_brass_bucket",
+    "createrobotics:molten_netherite_bucket",
+    "minecraft:brush"
+  ]
+}
