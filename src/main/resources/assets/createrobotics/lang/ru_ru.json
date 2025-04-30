@@ -1,0 +1,43 @@
+{
+  "item.createrobotics.anole_body": "Корпус анолиса",
+  "item.createrobotics.anole_head": "Голова анолиса",
+  "item.createrobotics.anole_leg": "Нога анолиса",
+  "item.createrobotics.anole_tail": "Хвост анолиса",
+  "item.createrobotics.anole": "§eАнолис§r",
+  "item.createrobotics.i2_coal_engine": "Угольный двигатель I2",
+  "item.createrobotics.wax_ingot": "§4(СЕКРЕТ) §rВосковой слиток",
+  "item.createrobotics.command_whistle": "Командный свисток",
+
+  "tooltip.createrobotics.anoleitem.tooltip.shift": "§8Удерживайте [§7Shift§8] для описания§r",
+  "tooltip.createrobotics.anoleitem.tooltip.shift1": " ",
+  "tooltip.createrobotics.anoleitem.tooltip.shift2": "§6Милый, §eпортативный§6 и §eприручаемый§6 робот, который может карабкаться по стенам и следовать за вами.§r",
+  "tooltip.createrobotics.anoleitem.tooltip.shift3": "§7Использование:§r",
+  "tooltip.createrobotics.anoleitem.tooltip.shift4": "§6Размещает §eанолиса§6 в мире. Кликните §eпустой рукой§6, чтобы §eприручить§6, или используйте §eкомандный свисток§6 для превращения обратно в §eпредмет§6.§r",
+  "tooltip.createrobotics.anoleitem.tooltip.shift5": "§7Настройка:§r",
+  "tooltip.createrobotics.anoleitem.tooltip.shift6": "§6Вы можете §eнастроить§6 своего §eанолиса§6! Чтобы окислить его, кликните §eмокрой губкой§6. §eСухая губка§6 вернёт прежний вид. Также можно нанести §eзолотое§6 или §eнезеритовое§6 покрытие, кликнув соответствующим §eслитком§6. Покрытие можно §eудалить§6 §eкистью§6.§r",
+  "tooltip.createrobotics.anoleitem.tooltip.shift7": "§7Заправка:§r",
+  "tooltip.createrobotics.anoleitem.tooltip.shift8": "§6Кликните по §eанолису§6 §eуглём§6 или §eдревесным углём§6 для заправки. §eУгольный блок§6 даст дополнительный заряд. Заправка §eне складывается§6. Вы получите §eуведомление§6, когда анолису потребуется топливо.§r",
+
+  "tooltip.createrobotics.command_whistle_item.tooltip.shift1": "§6Издаёт крутой звук!§r",
+  "tooltip.createrobotics.command_whistle_item.tooltip.shift2": "§7Использование на анолисе:§r",
+  "tooltip.createrobotics.command_whistle_item.tooltip.shift3": "§6Превращает §eприручённого§6 анолиса обратно в §eпредмет§6!§r",
+
+  "painting.createrobotics.ares.title": "Арес",
+  "painting.createrobotics.ares.author": "Dshbwlto",
+
+  "block.createrobotics.oxhauler_frame_front": "§4(СЕКРЕТ) §rПередняя рама воловьей упряжи",
+  "block.createrobotics.oxhauler_frame_rear": "§4(СЕКРЕТ) §rЗадняя рама воловьей упряжи",
+  "block.createrobotics.oxhauler_frame_head": "§4(СЕКРЕТ) §rГоловная рама воловьей упряжи",
+  "block.createrobotics.oxhauler_furnace": "§4(СЕКРЕТ) §rТопка воловьей упряжи",
+  "block.createrobotics.oxhauler_engine_block": "§4(СЕКРЕТ) §rДвигатель воловьей упряжи",
+  "block.createrobotics.oxhauler_grate": "§4(СЕКРЕТ) §rРешётка воловьей упряжи",
+  "block.createrobotics.thruster": "§4(СЕКРЕТ) §rДвижитель",
+  "block.createrobotics.stalker_engine": "§4(СЕКРЕТ) §rДвигатель сталкера",
+
+  "block.createrobotics.wax_block": "§4(СЕКРЕТ) §rВосковой блок",
+
+  "entity.createrobotics.anole": "Анолис",
+  "entity.createrobotics.thruster": "Движитель",
+
+  "itemGroup.createrobotics.create_robotics_tab": "Create: Робототехника"
+}
