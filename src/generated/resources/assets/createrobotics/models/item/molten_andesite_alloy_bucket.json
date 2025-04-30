@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "createrobotics:item/molten_andesite_alloy_bucket"
-  }
-}
