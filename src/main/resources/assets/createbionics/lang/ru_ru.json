@@ -11,6 +11,7 @@
   "item.createbionics.molten_industrial_iron_bucket": "Ведро с расплавленным промышленным железом",
   "item.createbionics.molten_brass_bucket": "Ведро с расплавленной латунью",
   "item.createbionics.molten_netherite_bucket": "Ведро с расплавленным незеритом",
+  "tag.item.createbionics.mold_items": "Предметы для литья",
 
   "tooltip.createbionics.anoleitem.tooltip.shift": "§8Удерживайте [§7Shift§8] для описания§r",
   "tooltip.createbionics.anoleitem.tooltip.shift1": " ",
