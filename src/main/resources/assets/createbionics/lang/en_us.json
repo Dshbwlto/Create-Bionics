@@ -61,6 +61,11 @@
   "block.createbionics.oxhauler_engine_mold": "Oxhauler Engine Mold",
   "block.createbionics.oxhauler_grate_mold": "Oxhauler Grate Mold",
 
+  "fluid_type.createbionics.molten_andesite_alloy_fluid": "Molten Andesite Alloy",
+  "fluid_type.createbionics.molten_industrial_iron_fluid": "Molten Industrial Iron",
+  "fluid_type.createbionics.molten_brass_fluid": "Molten Brass",
+  "fluid_type.createbionics.molten_netherite_fluid": "Molten Netherite",
+
   "block.createbionics.wax_block": "§4(SECRET) §rBlock of Wax",
 
   "entity.createbionics.anole": "Anole",
