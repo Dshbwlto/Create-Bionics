@@ -11,6 +11,7 @@
   "item.createbionics.molten_industrial_iron_bucket": "Molten Industrial Iron Bucket",
   "item.createbionics.molten_brass_bucket": "Molten Brass Bucket",
   "item.createbionics.molten_netherite_bucket": "Molten Netherite Bucket",
+  "tag.item.createbionics.mold_items": "Mold Items",
 
   "tooltip.createbionics.anoleitem.tooltip.shift": "§8Hold [§7Shift§8] for summary§r",
   "tooltip.createbionics.anoleitem.tooltip.shift1": " ",
