@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:copper_ingot"
+    },
+    "C": {
+      "item": "minecraft:andesite"
+    },
+    "D": {
+      "item": "minecraft:flint"
+    },
+    "E": {
+      "item": "minecraft:lightning_rod"
+    }
+  },
+  "pattern": [
+    " DA",
+    "AED",
+    "CA "
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:anole_head"
+  }
+}

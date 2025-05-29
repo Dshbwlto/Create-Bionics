@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_anole_body": {
+      "conditions": {
+        "items": [
+          {
+            "items": "createbionics:anole_body"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "createbionics:anole"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_anole_body"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "createbionics:anole"
+    ]
+  }
+}

@@ -27,7 +27,7 @@ public class CommandWhistleItem extends Item {
             tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift"));
             tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift1"));
             tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift3"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.command_whistle_item.tooltip.shift1"));            tooltipComponents.add(Component.translatable("tooltip.createrobotics.anoleitem.tooltip.shift1"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.command_whistle_item.tooltip.shift1"));
             tooltipComponents.add(Component.translatable("tooltip.createbionics.command_whistle_item.tooltip.shift2"));
             tooltipComponents.add(Component.translatable("tooltip.createbionics.command_whistle_item.tooltip.shift3"));
         } else {

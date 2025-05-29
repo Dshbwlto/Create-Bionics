@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "createbionics:anole_leg"
+    },
+    "B": {
+      "item": "createbionics:anole_tail"
+    }
+  },
+  "pattern": [
+    "AB "
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:command_whistle"
+  }
+}
