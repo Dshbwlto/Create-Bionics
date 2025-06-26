@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:copper_ingot"
+    },
+    "B": {
+      "item": "create:iron_sheet"
+    },
+    "C": {
+      "item": "create:andesite_alloy"
+    },
+    "D": {
+      "item": "minecraft:iron_ingot"
+    },
+    "E": {
+      "item": "minecraft:coal"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "CEC",
+    "DCD"
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:i2_coal_engine"
+  }
+}

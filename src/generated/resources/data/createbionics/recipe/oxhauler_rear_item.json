@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "createbionics:oxhauler_rear"
+    },
+    "C": {
+      "item": "minecraft:chest"
+    },
+    "D": {
+      "item": "create:precision_mechanism"
+    },
+    "E": {
+      "item": "createbionics:oxhauler_engine_item"
+    },
+    "G": {
+      "item": "create:brass_block"
+    },
+    "L": {
+      "item": "createbionics:oxhauler_leg_item"
+    }
+  },
+  "pattern": [
+    "GEG",
+    "CBC",
+    "LDL"
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:oxhauler_rear_item"
+  }
+}

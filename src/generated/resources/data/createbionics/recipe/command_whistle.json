@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "create:whistle"
+    },
+    "B": {
+      "item": "create:golden_sheet"
+    }
+  },
+  "pattern": [
+    "AB "
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:command_whistle"
+  }
+}

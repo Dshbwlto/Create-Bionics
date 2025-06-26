@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "createbionics:item/molten_andesite_alloy_bucket"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "create:andesite_alloy"
+    },
+    "B": {
+      "item": "createbionics:oxhauler_engine"
+    },
+    "C": {
+      "item": "create:mechanical_pump"
+    },
+    "E": {
+      "item": "createbionics:i2_coal_engine"
+    }
+  },
+  "pattern": [
+    "EAE",
+    "EBE",
+    "ECE"
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:oxhauler_engine_item"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:copper_ingot"
+    },
+    "B": {
+      "item": "create:andesite_alloy"
+    },
+    "C": {
+      "item": "create:iron_sheet"
+    }
+  },
+  "pattern": [
+    "  B",
+    " CA",
+    "C  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:anole_tail"
+  }
+}

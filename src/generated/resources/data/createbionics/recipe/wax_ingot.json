@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "createbionics:wax_block"
+    }
+  },
+  "pattern": [
+    " A "
+  ],
+  "result": {
+    "count": 9,
+    "id": "createbionics:wax_ingot"
+  }
+}

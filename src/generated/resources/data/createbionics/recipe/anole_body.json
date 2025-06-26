@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:copper_ingot"
+    },
+    "C": {
+      "item": "create:andesite_alloy"
+    },
+    "D": {
+      "item": "minecraft:iron_ingot"
+    },
+    "E": {
+      "item": "createbionics:i2_coal_engine"
+    }
+  },
+  "pattern": [
+    "ACA",
+    "AEA",
+    "CDC"
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:anole_body"
+  }
+}

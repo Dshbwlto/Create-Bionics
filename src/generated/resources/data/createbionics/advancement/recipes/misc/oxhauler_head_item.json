@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_oxhauler_head": {
+      "conditions": {
+        "items": [
+          {
+            "items": "createbionics:oxhauler_head"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "createbionics:oxhauler_head_item"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_oxhauler_head"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "createbionics:oxhauler_head_item"
+    ]
+  }
+}
