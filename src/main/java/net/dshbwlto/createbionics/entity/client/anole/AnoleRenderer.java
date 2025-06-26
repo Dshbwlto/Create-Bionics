@@ -22,6 +22,8 @@ public class AnoleRenderer extends MobRenderer<AnoleEntity, AnoleModel<AnoleEnti
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_brass.png"));
                 map.put(AnoleVariant.NETHERITE,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_netherite.png"));
+                map.put(AnoleVariant.ANDESITE,
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_andesite.png"));
                 map.put(AnoleVariant.EXPOSED,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_exposed.png"));
                 map.put(AnoleVariant.WEATHERED,

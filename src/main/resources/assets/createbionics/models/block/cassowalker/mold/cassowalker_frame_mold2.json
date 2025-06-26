@@ -1,0 +1,41 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [64, 64],
+	"textures": {
+		"0": "createbionics:block/cassowalker/cassowalker_frame_sand2",
+		"particle": "minecraft:block/soul_sand"
+	},
+	"elements": [
+		{
+			"from": [1, 0, -3],
+			"to": [15, 15, 20],
+			"rotation": {"angle": 0, "axis": "y", "origin": [1, 0, 0]},
+			"faces": {
+				"north": {"uv": [0, 7.5, 3.5, 11.25], "texture": "#0"},
+				"east": {"uv": [0, 0, 5.75, 3.75], "texture": "#0"},
+				"south": {"uv": [9.25, 0, 12.75, 3.75], "texture": "#0"},
+				"west": {"uv": [0, 3.75, 5.75, 7.5], "texture": "#0"},
+				"up": {"uv": [9.25, 5.75, 5.75, 0], "texture": "#0"},
+				"down": {"uv": [9.25, 5.75, 5.75, 11.5], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"firstperson_righthand": {
+			"rotation": [24.51, 19.74, -8.73]
+		},
+		"firstperson_lefthand": {
+			"rotation": [25.15, 12.74, -5.91]
+		},
+		"ground": {
+			"translation": [0, 7.5, 0]
+		},
+		"gui": {
+			"rotation": [23, 135, 0]
+		},
+		"fixed": {
+			"rotation": [-90, 180, 0],
+			"translation": [0, 0, -2.75]
+		}
+	}
+}

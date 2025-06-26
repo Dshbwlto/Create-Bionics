@@ -1,0 +1,17 @@
+{
+  "type": "create:emptying",
+  "ingredients": [
+    {
+      "item": "createbionics:molten_andesite_alloy_crucible"
+    }
+  ],
+  "results": [
+    {
+      "id": "createbionics:nether_brick_crucible"
+    },
+    {
+      "amount": 1000,
+      "id": "create:chocolate"
+    }
+  ]
+}

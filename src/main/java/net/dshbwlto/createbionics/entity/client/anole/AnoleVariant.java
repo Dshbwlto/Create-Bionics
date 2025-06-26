@@ -7,9 +7,10 @@ public enum AnoleVariant {
     DEFAULT(0),
     BRASS(1),
     NETHERITE(2),
-    EXPOSED(3),
-    WEATHERED(4),
-    OXIDIZED(5);
+    ANDESITE(3),
+    EXPOSED(4),
+    WEATHERED(5),
+    OXIDIZED(6);
 
     private static final AnoleVariant[] BY_ID = Arrays.stream(values()).sorted(
             Comparator.comparingInt(AnoleVariant::getId)).toArray(AnoleVariant[]::new);

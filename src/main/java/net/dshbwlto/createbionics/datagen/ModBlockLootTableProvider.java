@@ -1,6 +1,6 @@
 package net.dshbwlto.createbionics.datagen;
 
-import net.dshbwlto.createbionics.block.ModBlocks;
+import net.dshbwlto.createbionics.block.BionicsBlocks;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
@@ -17,34 +17,47 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     }
     @Override
     protected void generate() {
-        dropSelf(ModBlocks.WAX_BLOCK.get());
+        dropSelf(BionicsBlocks.WAX_BLOCK.get());
 
-        dropSelf(ModBlocks.OXHAULER_FRONT.get());
-        dropSelf(ModBlocks.OXHAULER_REAR.get());
-        dropSelf(ModBlocks.OXHAULER_FURNACE.get());
-        dropSelf(ModBlocks.OXHAULER_ENGINE.get());
-        dropSelf(ModBlocks.OXHAULER_HEAD.get());
-        dropSelf(ModBlocks.OXHAULER_GRATE.get());
-        dropSelf(ModBlocks.CHIMERA_THRUSTER.get());
-        dropSelf(ModBlocks.STALKER_ENGINE.get());
-        dropSelf(ModBlocks.OXHAULER_FRONT_WAX.get());
-        dropSelf(ModBlocks.OXHAULER_REAR_WAX.get());
-        dropSelf(ModBlocks.OXHAULER_FURNACE_WAX.get());
-        dropSelf(ModBlocks.OXHAULER_ENGINE_WAX.get());
-        dropSelf(ModBlocks.OXHAULER_HEAD_WAX.get());
-        dropSelf(ModBlocks.OXHAULER_GRATE_WAX.get());
-        dropSelf(ModBlocks.CHIMERA_THRUSTER_WAX.get());
-        dropSelf(ModBlocks.STALKER_ENGINE_WAX.get());
-        dropOther(ModBlocks.OXHAULER_FRONT_MOLD.get(), Items.SAND);
-        dropOther(ModBlocks.OXHAULER_REAR_MOLD.get(), Items.SAND);
-        dropOther(ModBlocks.OXHAULER_HEAD_MOLD.get(), Items.SAND);
-        dropOther(ModBlocks.OXHAULER_ENGINE_MOLD.get(), Items.SAND);
-        dropOther(ModBlocks.OXHAULER_FURNACE_MOLD.get(), Items.SAND);
-        dropOther(ModBlocks.OXHAULER_GRATE_MOLD.get(), Items.SAND);
+        dropSelf(BionicsBlocks.OXHAULER_FRONT.get());
+        dropSelf(BionicsBlocks.OXHAULER_REAR.get());
+        dropSelf(BionicsBlocks.OXHAULER_FURNACE.get());
+        dropSelf(BionicsBlocks.OXHAULER_ENGINE.get());
+        dropSelf(BionicsBlocks.OXHAULER_HEAD.get());
+        dropSelf(BionicsBlocks.OXHAULER_GRATE.get());
+        dropSelf(BionicsBlocks.CASSOWALKER_FRAME.get());
+        dropSelf(BionicsBlocks.CASSOWALKER_KEEL.get());
+        dropSelf(BionicsBlocks.CASSOWALKER_EXHAUST.get());
+        dropSelf(BionicsBlocks.CHIMERA_THRUSTER.get());
+        dropSelf(BionicsBlocks.STALKER_ENGINE.get());
+        dropSelf(BionicsBlocks.STALKER_HEAD.get());
+        dropSelf(BionicsBlocks.OXHAULER_FRONT_WAX.get());
+        dropSelf(BionicsBlocks.OXHAULER_REAR_WAX.get());
+        dropSelf(BionicsBlocks.OXHAULER_FURNACE_WAX.get());
+        dropSelf(BionicsBlocks.OXHAULER_ENGINE_WAX.get());
+        dropSelf(BionicsBlocks.OXHAULER_HEAD_WAX.get());
+        dropSelf(BionicsBlocks.OXHAULER_GRATE_WAX.get());
+        dropSelf(BionicsBlocks.CASSOWALKER_FRAME_WAX.get());
+        dropSelf(BionicsBlocks.CASSOWALKER_KEEL_WAX.get());
+        dropSelf(BionicsBlocks.CASSOWALKER_EXHAUST_WAX.get());
+        dropSelf(BionicsBlocks.CHIMERA_THRUSTER_WAX.get());
+        dropSelf(BionicsBlocks.STALKER_ENGINE_WAX.get());
+        dropSelf(BionicsBlocks.STALKER_HEAD_WAX.get());
+        dropOther(BionicsBlocks.OXHAULER_FRONT_MOLD.get(), Items.SAND);
+        dropOther(BionicsBlocks.OXHAULER_REAR_MOLD.get(), Items.SAND);
+        dropOther(BionicsBlocks.OXHAULER_HEAD_MOLD.get(), Items.SAND);
+        dropOther(BionicsBlocks.OXHAULER_ENGINE_MOLD.get(), Items.SAND);
+        dropOther(BionicsBlocks.OXHAULER_FURNACE_MOLD.get(), Items.SAND);
+        dropOther(BionicsBlocks.OXHAULER_GRATE_MOLD.get(), Items.SAND);
+        dropOther(BionicsBlocks.CASSOWALKER_FRAME_MOLD.get(), Items.SAND);
+        dropOther(BionicsBlocks.CASSOWALKER_KEEL_MOLD.get(), Items.SAND);
+        dropOther(BionicsBlocks.CASSOWALKER_EXHAUST_MOLD.get(), Items.SAND);
+        dropOther(BionicsBlocks.STALKER_ENGINE_MOLD.get(), Items.SAND);
+        dropOther(BionicsBlocks.STALKER_HEAD_MOLD.get(), Items.SAND);
     }
 
     @Override
     protected Iterable<Block> getKnownBlocks() {
-        return ModBlocks.BLOCKS.getEntries().stream().map(Holder::value)::iterator;
+        return BionicsBlocks.BLOCKS.getEntries().stream().map(Holder::value)::iterator;
     }
 }

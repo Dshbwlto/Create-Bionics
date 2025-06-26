@@ -1,0 +1,52 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [64, 64],
+	"textures": {
+		"0": "createbionics:block/cassowalker/cassowalker_keel_sand1",
+		"particle": "minecraft:block/sand"
+	},
+	"elements": [
+		{
+			"from": [5, 0, -1],
+			"to": [11, 9, 18],
+			"rotation": {"angle": 0, "axis": "y", "origin": [6, 0, 0]},
+			"faces": {
+				"north": {"uv": [3, 4.5, 4.5, 6.75], "texture": "#0"},
+				"east": {"uv": [0, 0, 4.75, 2.25], "texture": "#0"},
+				"south": {"uv": [4.5, 4.5, 6, 6.75], "texture": "#0"},
+				"west": {"uv": [0, 2.25, 4.75, 4.5], "texture": "#0"},
+				"up": {"uv": [1.5, 9.25, 0, 4.5], "texture": "#0"},
+				"down": {"uv": [3, 4.5, 1.5, 9.25], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"translation": [0, 5.5, 0]
+		},
+		"thirdperson_lefthand": {
+			"translation": [0, 5.5, 0]
+		},
+		"firstperson_righthand": {
+			"rotation": [-28.5, 0, 0],
+			"translation": [0, 8, 0]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-28.5, 0, 0],
+			"translation": [0, 8, 0]
+		},
+		"ground": {
+			"rotation": [8.26, 0.15, 1.94],
+			"translation": [0, 5, 0]
+		},
+		"gui": {
+			"rotation": [22, 45, 0],
+			"translation": [0, 4.5, 0],
+			"scale": [1.5, 1.5, 1.5]
+		},
+		"fixed": {
+			"rotation": [-90, -48, -90],
+			"translation": [2.25, 2.5, 0]
+		}
+	}
+}

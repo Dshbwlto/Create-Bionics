@@ -1,6 +1,6 @@
 package net.dshbwlto.createbionics.block.custom.oxhauler;
 
-import net.dshbwlto.createbionics.block.ModBlocks;
+import net.dshbwlto.createbionics.block.BionicsBlocks;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -13,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -35,9 +36,13 @@ public class OxhaulerEngineWaxBlock extends Block {
                 itemStack.shrink(1);
             }
             level.playSound((Player)null, pos, SoundEvents.SAND_BREAK, SoundSource.BLOCKS, 1.0F, 0.8F);
-            level.setBlock(pos, (BlockState)ModBlocks.OXHAULER_ENGINE_MOLD.get().defaultBlockState(), 11);
+            level.setBlock(pos, (BlockState) BionicsBlocks.OXHAULER_ENGINE_MOLD.get().defaultBlockState(), 11);
             return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
+    }
+    @Override
+    protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
+        return super.propagatesSkylightDown(state, level, pos);
     }
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {

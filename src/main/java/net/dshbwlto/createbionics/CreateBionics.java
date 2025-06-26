@@ -1,17 +1,20 @@
 package net.dshbwlto.createbionics;
 
-import net.dshbwlto.createbionics.block.ModBlocks;
-import net.dshbwlto.createbionics.entity.ModEntities;
+import net.dshbwlto.createbionics.block.BionicsBlocks;
+import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleRenderer;
-import net.dshbwlto.createbionics.entity.client.ThrusterRenderer;
+import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerRenderer;
+import net.dshbwlto.createbionics.entity.client.replete.RepleteRenderer;
 import net.dshbwlto.createbionics.fluid.BaseFluidType;
-import net.dshbwlto.createbionics.fluid.ModFluidTypes;
-import net.dshbwlto.createbionics.fluid.ModFluids;
-import net.dshbwlto.createbionics.item.ModCreativeModeTabs;
-import net.dshbwlto.createbionics.item.ModItems;
-import net.dshbwlto.createbionics.sound.ModSounds;
+import net.dshbwlto.createbionics.fluid.BionicsFluidTypes;
+import net.dshbwlto.createbionics.fluid.BionicsFluids;
+import net.dshbwlto.createbionics.item.BionicsCreativeModeTabs;
+import net.dshbwlto.createbionics.item.BionicsItems;
+import net.dshbwlto.createbionics.screen.BionicsMenuTypes;
+import net.dshbwlto.createbionics.sound.BionicsSounds;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import org.slf4j.Logger;
 
@@ -38,7 +41,7 @@ public class CreateBionics {
     // Define mod id in a common place for everything to reference
     public static final String MOD_ID = "createbionics";
     // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
@@ -46,19 +49,20 @@ public class CreateBionics {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
-        ModItems.register(modEventBus);
+        BionicsItems.register(modEventBus);
 
-        ModBlocks.register(modEventBus);
+        BionicsBlocks.register(modEventBus);
 
-        ModCreativeModeTabs.register(modEventBus);
+        BionicsCreativeModeTabs.register(modEventBus);
 
-        ModSounds.register(modEventBus);
+        BionicsSounds.register(modEventBus);
 
-        ModFluidTypes.register(modEventBus);
-        ModFluids.register(modEventBus);
+        BionicsFluidTypes.register(modEventBus);
+        BionicsFluids.register(modEventBus);
 
-        ModEntities.register(modEventBus);
+        BionicsEntities.register(modEventBus);
 
+        BionicsMenuTypes.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
@@ -102,27 +106,28 @@ public class CreateBionics {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             event.enqueueWork(() -> {
-                //ItemBlockRenderTypes.setRenderLayer(ModFluids.SOURCE_MOLTEN_ANDESITE_ALLOY.get(), RenderType.translucent());
-                //ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_MOLTEN_ANDESITE_ALLOY.get(), RenderType.translucent());
-
-                EntityRenderers.register(ModEntities.ANOLE.get(), AnoleRenderer::new);
-                EntityRenderers.register(ModEntities.THRUSTER.get(), ThrusterRenderer::new);
+                EntityRenderers.register(BionicsEntities.ANOLE.get(), AnoleRenderer::new);
+                EntityRenderers.register(BionicsEntities.OXHAULER.get(), OxhaulerRenderer::new);
+                EntityRenderers.register(BionicsEntities.REPLETE.get(), RepleteRenderer::new);
             });
         }
         @SubscribeEvent
+        public static void registerScreens(RegisterMenuScreensEvent event) {
+            //event.register(BionicsMenuTypes.OXHAULER_MENU.get(), OxhaulerScreen::new);
+        }
+        @SubscribeEvent
         public static void onClientExtensions(RegisterClientExtensionsEvent event) {
-            event.registerFluidType(((BaseFluidType) ModFluidTypes.MOLTEN_ANDESITE_ALLOY_FLUID_TYPE.get()).getClientFluidTypeExtensions(),
-                    ModFluidTypes.MOLTEN_ANDESITE_ALLOY_FLUID_TYPE.get());
-            event.registerFluidType(((BaseFluidType) ModFluidTypes.MOLTEN_INDUSTRIAL_IRON_FLUID_TYPE.get()).getClientFluidTypeExtensions(),
-                    ModFluidTypes.MOLTEN_INDUSTRIAL_IRON_FLUID_TYPE.get());
-            event.registerFluidType(((BaseFluidType) ModFluidTypes.MOLTEN_BRASS_FLUID_TYPE.get()).getClientFluidTypeExtensions(),
-                    ModFluidTypes.MOLTEN_BRASS_FLUID_TYPE.get());
-            event.registerFluidType(((BaseFluidType) ModFluidTypes.MOLTEN_NETHERITE_FLUID_TYPE.get()).getClientFluidTypeExtensions(),
-                    ModFluidTypes.MOLTEN_NETHERITE_FLUID_TYPE.get());
+            event.registerFluidType(((BaseFluidType) BionicsFluidTypes.MOLTEN_ANDESITE_ALLOY_FLUID_TYPE.get()).getClientFluidTypeExtensions(),
+                    BionicsFluidTypes.MOLTEN_ANDESITE_ALLOY_FLUID_TYPE.get());
+            event.registerFluidType(((BaseFluidType) BionicsFluidTypes.MOLTEN_INDUSTRIAL_IRON_FLUID_TYPE.get()).getClientFluidTypeExtensions(),
+                    BionicsFluidTypes.MOLTEN_INDUSTRIAL_IRON_FLUID_TYPE.get());
+            event.registerFluidType(((BaseFluidType) BionicsFluidTypes.MOLTEN_BRASS_FLUID_TYPE.get()).getClientFluidTypeExtensions(),
+                    BionicsFluidTypes.MOLTEN_BRASS_FLUID_TYPE.get());
+            event.registerFluidType(((BaseFluidType) BionicsFluidTypes.MOLTEN_NETHERITE_FLUID_TYPE.get()).getClientFluidTypeExtensions(),
+                    BionicsFluidTypes.MOLTEN_NETHERITE_FLUID_TYPE.get());
         }
         @SubscribeEvent
         public static void registerColoredItems(RegisterColorHandlersEvent.Item event) {
-
         }
     }
 }

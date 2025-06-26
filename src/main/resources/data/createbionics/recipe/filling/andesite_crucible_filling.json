@@ -1,0 +1,18 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    {
+      "item": "createbionics:nether_brick_crucible"
+    },
+    {
+      "type": "fluid_tag",
+      "amount": 1000,
+      "fluid_tag": "createbionics:andesite_alloy"
+    }
+  ],
+  "results": [
+    {
+      "id": "createbionics:molten_andesite_alloy_crucible"
+    }
+  ]
+}

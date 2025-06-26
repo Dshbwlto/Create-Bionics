@@ -1,15 +1,20 @@
 package net.dshbwlto.createbionics.entity.custom;
 
-import net.dshbwlto.createbionics.entity.ModEntities;
+import net.dshbwlto.createbionics.Util.BionicsTags;
+import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleVariant;
-import net.dshbwlto.createbionics.item.ModItems;
-import net.dshbwlto.createbionics.sound.ModSounds;
+import net.dshbwlto.createbionics.item.BionicsItems;
+import net.dshbwlto.createbionics.sound.BionicsSounds;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -24,6 +29,7 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -37,7 +43,6 @@ import org.jetbrains.annotations.Nullable;
 public class AnoleEntity extends TamableAnimal {
     private static final EntityDataAccessor<Integer> VARIANT =
             SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.INT);
-    private static final int RIDE_COOLDOWN = 100;
     public int fuelTime = 501;
 
     public final AnimationState idleAnimationState = new AnimationState();
@@ -46,9 +51,6 @@ public class AnoleEntity extends TamableAnimal {
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
-    public final AnimationState dieAnimationState = new AnimationState();
-    public final AnimationState deadAnimationState = new AnimationState();
-    public final AnimationState reviveAnimationState = new AnimationState();
 
     public static final EntityDataAccessor<Long> LAST_POSE_CHANGE_TICK =
             SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.LONG);
@@ -56,6 +58,24 @@ public class AnoleEntity extends TamableAnimal {
     private static final EntityDataAccessor<ItemStack> DYE_STACK =
             SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.ITEM_STACK);
 
+    private static final EntityDataAccessor<Boolean> HAT1 =
+            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> HAT2 =
+            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> HAT3 =
+            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> HAT4 =
+            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> HAT5 =
+            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> HAT6 =
+            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> HAT7 =
+            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> HAT8 =
+            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> HAT9 =
+            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.BOOLEAN);
 
     public AnoleEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
@@ -68,7 +88,7 @@ public class AnoleEntity extends TamableAnimal {
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
 
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.2D, Ingredient.of(ModItems.COMMAND_WHISTLE.get()), true));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.2D, Ingredient.of(BionicsItems.COMMAND_WHISTLE.get()), true));
 
         this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0d, 10f, 5f));
 
@@ -105,7 +125,7 @@ public class AnoleEntity extends TamableAnimal {
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
-        return ModEntities.ANOLE.get().create(level);
+        return BionicsEntities.ANOLE.get().create(level);
     }
 
     @Override
@@ -121,20 +141,21 @@ public class AnoleEntity extends TamableAnimal {
     public void aiStep() {
 
         if (this.level().isClientSide) {
-
             for(int i = 0; i < 1; ++i) {
                 if(!isCurrentlyGlowing()) {
                     this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX((double) 0.5F), this.getRandomY(), this.getRandomZ((double) 0.5F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
                 }
             }
         }
-        if (!this.level().isClientSide && this.isAlive() && --this.fuelTime == 0 && isTame()) {
-            this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-            this.setGlowingTag(true);
-            if(!this.isSitting()) {
-                this.toggleSitting();
+        if (!this.isSitting() && !this.isPassenger()) {
+            if (!this.level().isClientSide && this.isAlive() && --this.fuelTime == 0 && isTame()) {
+                this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+                this.setGlowingTag(true);
+                if (!this.isSitting()) {
+                    this.toggleSitting();
+                }
+                getOwner().sendSystemMessage(Component.literal(getOwner().getName().getString() + ", §cyour Anole has run out of fuel!§r"));
             }
-            getOwner().sendSystemMessage(Component.literal(getOwner().getName().getString() + ", §cyour Anole has run out of fuel!§r"));
         }
         if(this.fuelTime == 500 && isTame()) {
             this.setGlowingTag(true);
@@ -219,17 +240,11 @@ public class AnoleEntity extends TamableAnimal {
             Vec3 climbVec = new Vec3(initialVec.x, 0.2D, initialVec.z);
             setDeltaMovement(climbVec);
         }
-        if(tickCount % 70 == 0 && !isCurrentlyGlowing()) {
-            this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, ModSounds.ENGINE.get(), this.getSoundSource(), 1.0F + this.random.nextFloat(), this.random.nextFloat() * 0.7F + 0.3F, false);
+        if(tickCount % 30 == 0 && !isCurrentlyGlowing() && !isSilent()) {
+            this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, BionicsSounds.ENGINE.get(), this.getSoundSource(), 0.01F + this.random.nextFloat(), 1.2F, false);
         }
 
     }
-
-    @Override
-    public boolean isBaby() {
-        return false;
-    }
-
     /* RIGHT CLICKING */
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
@@ -237,13 +252,12 @@ public class AnoleEntity extends TamableAnimal {
         Item item = itemstack.getItem();
 
         Item itemForNetherite = Items.NETHERITE_INGOT;
-        Item itemForBrass = Items.GOLD_INGOT;
         Item itemForRedstone = Items.REDSTONE;
         Item itemForGold = Items.GOLD_INGOT;
         Item itemForDiamond = Items.DIAMOND;
         Item itemForFuel = Items.CHARCOAL;
 
-        if(item == itemForNetherite && isTame() && !(getVariant() == AnoleVariant.NETHERITE || getVariant() == AnoleVariant.BRASS) && !isShiftKeyDown()) {
+        if(item == itemForNetherite && isTame() && !(getVariant() == AnoleVariant.NETHERITE || getVariant() == AnoleVariant.BRASS || getVariant() == AnoleVariant.ANDESITE)) {
             if(this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
@@ -254,7 +268,7 @@ public class AnoleEntity extends TamableAnimal {
                 makeSound(SoundEvents.SMITHING_TABLE_USE);
             }
         }
-        if(item == itemForBrass && isTame() && !(getVariant() == AnoleVariant.NETHERITE || getVariant() == AnoleVariant.BRASS) && !isShiftKeyDown()) {
+        if(itemstack.is(BionicsTags.Items.BRASS_INGOT) && isTame() && !(getVariant() == AnoleVariant.NETHERITE || getVariant() == AnoleVariant.BRASS || getVariant() == AnoleVariant.ANDESITE)) {
             if(this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
@@ -262,6 +276,17 @@ public class AnoleEntity extends TamableAnimal {
                     itemstack.shrink(1);
                 }
                 setVariant(AnoleVariant.BRASS);
+                makeSound(SoundEvents.SMITHING_TABLE_USE);
+            }
+        }
+        if(itemstack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy"))) && isTame() && !(getVariant() == AnoleVariant.NETHERITE || getVariant() == AnoleVariant.BRASS || getVariant() == AnoleVariant.ANDESITE)) {
+            if(this.level().isClientSide()) {
+                return InteractionResult.CONSUME;
+            } else {
+                if (!player.getAbilities().instabuild) {
+                    itemstack.shrink(1);
+                }
+                setVariant(AnoleVariant.ANDESITE);
                 makeSound(SoundEvents.SMITHING_TABLE_USE);
             }
         }
@@ -289,7 +314,7 @@ public class AnoleEntity extends TamableAnimal {
                 makeSound(SoundEvents.WET_SPONGE_STEP);
             }
         }
-       if(item == Items.SPONGE && (getVariant() == AnoleVariant.EXPOSED || getVariant() == AnoleVariant.WEATHERED || getVariant() == AnoleVariant.OXIDIZED)) {
+        if(item == Items.SPONGE && (getVariant() == AnoleVariant.EXPOSED || getVariant() == AnoleVariant.WEATHERED || getVariant() == AnoleVariant.OXIDIZED)) {
             if(this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
@@ -297,7 +322,7 @@ public class AnoleEntity extends TamableAnimal {
                 makeSound(SoundEvents.WET_SPONGE_STEP);
             }
         }
-        if(item == Items.BRUSH && isTame() && getVariant() == AnoleVariant.NETHERITE && !isShiftKeyDown()) {
+        if(itemstack.is(BionicsTags.Items.WRENCH) && isTame() && getVariant() == AnoleVariant.NETHERITE && !player.isShiftKeyDown()) {
             if(this.level().isClientSide()) {
                 return InteractionResult.SUCCESS;
             } else {
@@ -306,25 +331,37 @@ public class AnoleEntity extends TamableAnimal {
                 makeSound(SoundEvents.GRINDSTONE_USE);
             }
         }
-        if(item == Items.BRUSH && isTame() && getVariant() == AnoleVariant.BRASS && !isShiftKeyDown()) {
+        if(itemstack.is(BionicsTags.Items.WRENCH) && isTame() && getVariant() == AnoleVariant.BRASS && !player.isShiftKeyDown()) {
             if(this.level().isClientSide()) {
                 return InteractionResult.SUCCESS;
             } else {
-                this.spawnAtLocation(new ItemStack(Items.GOLD_INGOT));
+                this.spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:brass_ingot"))));
                 setVariant(AnoleVariant.DEFAULT);
                 makeSound(SoundEvents.GRINDSTONE_USE);
             }
         }
-        if(item == ModItems.COMMAND_WHISTLE.get() && isOwnedBy(player)){
+        if(itemstack.is(BionicsTags.Items.WRENCH) && isTame() && getVariant() == AnoleVariant.ANDESITE && !player.isShiftKeyDown()) {
             if(this.level().isClientSide()) {
                 return InteractionResult.SUCCESS;
             } else {
-                this.spawnAtLocation(new ItemStack(ModItems.ANOLE.get()));
+                this.spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy"))));
+                setVariant(AnoleVariant.DEFAULT);
+                makeSound(SoundEvents.GRINDSTONE_USE);
+            }
+        }
+        if(itemstack.is(BionicsTags.Items.WRENCH) && isOwnedBy(player) && player.isShiftKeyDown()){
+            if(this.level().isClientSide()) {
+                return InteractionResult.SUCCESS;
+            } else {
+                this.spawnAtLocation(new ItemStack(BionicsItems.ANOLE.get()));
                 if (getVariant() == AnoleVariant.NETHERITE) {
                     this.spawnAtLocation(new ItemStack(Items.NETHERITE_INGOT));
                 }
                 if (getVariant() == AnoleVariant.BRASS) {
                     this.spawnAtLocation(new ItemStack(Items.GOLD_INGOT));
+                }
+                if (isSilent()) {
+                    this.spawnAtLocation(new ItemStack(BionicsItems.SILENT_PISTON.get()));
                 }
                 remove(RemovalReason.DISCARDED);
                 makeSound(SoundEvents.ITEM_PICKUP);
@@ -340,6 +377,7 @@ public class AnoleEntity extends TamableAnimal {
                 this.fuelTime = 100000;
                 makeSound(SoundEvents.FIRECHARGE_USE);
                 setGlowingTag(false);
+                this.toggleSitting();
                 this.level().addParticle(ParticleTypes.POOF, this.getRandomX((double) 0.5F), this.getRandomY(), this.getRandomZ((double) 0.5F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
                 return InteractionResult.SUCCESS;
             }
@@ -355,6 +393,17 @@ public class AnoleEntity extends TamableAnimal {
                 makeSound(SoundEvents.FIRECHARGE_USE);
                 makeSound(SoundEvents.FURNACE_FIRE_CRACKLE);
                 setGlowingTag(false);
+                return InteractionResult.SUCCESS;
+            }
+        }
+        if(item == BionicsItems.SILENT_PISTON.get() && isOwnedBy(player) && !isSilent()){
+            if(this.level().isClientSide()) {
+                return InteractionResult.CONSUME;
+            } else {
+                if (!player.getAbilities().instabuild) {
+                    itemstack.shrink(1);
+                }
+                setSilent(true);
                 return InteractionResult.SUCCESS;
             }
         }
@@ -374,12 +423,12 @@ public class AnoleEntity extends TamableAnimal {
             }
         }
 
-        if (isTame() && !isShiftKeyDown() && !isCurrentlyGlowing() && getMainHandItem().isEmpty()) {
+       if (isTame() && !isShiftKeyDown() && !isCurrentlyGlowing() && getMainHandItem().isEmpty()) {
             toggleSitting();
             return InteractionResult.SUCCESS;
         }
 
-        return super.mobInteract(player, hand);
+       return super.mobInteract(player, hand);
     }
 
     /* SITTING */
@@ -424,6 +473,15 @@ public class AnoleEntity extends TamableAnimal {
         builder.define(VARIANT, 0);
         builder.define(DYE_STACK, ItemStack.EMPTY);
 
+        builder.define(HAT1, true);
+        builder.define(HAT2, false);
+        builder.define(HAT3, false);
+        builder.define(HAT4, false);
+        builder.define(HAT5, false);
+        builder.define(HAT6, false);
+        builder.define(HAT7, false);
+        builder.define(HAT8, false);
+        builder.define(HAT9, false);
     }
 
 
@@ -433,6 +491,16 @@ public class AnoleEntity extends TamableAnimal {
         compound.putLong("LastPoseTick", this.entityData.get(LAST_POSE_CHANGE_TICK));
         compound.putInt("Variant", this.getTypeVariant());
         compound.putInt("RefuelTime", this.fuelTime);
+
+        compound.putBoolean("Hat1", hat1());
+        compound.putBoolean("Hat2", hat2());
+        compound.putBoolean("Hat3", hat3());
+        compound.putBoolean("Hat4", hat4());
+        compound.putBoolean("Hat5", hat5());
+        compound.putBoolean("Hat6", hat6());
+        compound.putBoolean("Hat7", hat7());
+        compound.putBoolean("Hat8", hat8());
+        compound.putBoolean("Hat9", hat9());
     }
 
     @Override
@@ -447,6 +515,15 @@ public class AnoleEntity extends TamableAnimal {
         if (compound.contains("RefuelTime")) {
             this.fuelTime = compound.getInt("RefuelTime");
         }
+        this.entityData.set(HAT1, compound.getBoolean("Hat1"));
+        this.entityData.set(HAT2, compound.getBoolean("Hat2"));
+        this.entityData.set(HAT3, compound.getBoolean("Hat3"));
+        this.entityData.set(HAT4, compound.getBoolean("Hat4"));
+        this.entityData.set(HAT5, compound.getBoolean("Hat5"));
+        this.entityData.set(HAT6, compound.getBoolean("Hat6"));
+        this.entityData.set(HAT7, compound.getBoolean("Hat7"));
+        this.entityData.set(HAT8, compound.getBoolean("Hat8"));
+        this.entityData.set(HAT9, compound.getBoolean("Hat9"));
     }
 
     //VARIANT//
@@ -465,6 +542,42 @@ public class AnoleEntity extends TamableAnimal {
 
     public void setVariant(AnoleVariant variant) {
         this.entityData.set(VARIANT, variant.getId() & 255);
+    }
+    public boolean hat1() {
+        String s = ChatFormatting.stripFormatting(this.getName().getString());
+        return ("Distinguished Gentleman".equals(s) || "Bill".equals(s));
+    }
+    public boolean hat2() {
+        String s = ChatFormatting.stripFormatting(this.getName().getString());
+        return "Timmy".equals(s);
+    }
+    public boolean hat3() {
+        String s = ChatFormatting.stripFormatting(this.getName().getString());
+        return "Unicorn".equals(s);
+    }
+    public boolean hat4() {
+        String s = ChatFormatting.stripFormatting(this.getName().getString());
+        return ("Legend".equals(s) || "Techno".equals(s) || "Alex".equals(s));
+    }
+    public boolean hat5() {
+        String s = ChatFormatting.stripFormatting(this.getName().getString());
+        return "Stampy".equals(s);
+    }
+    public boolean hat6() {
+        String s = ChatFormatting.stripFormatting(this.getName().getString());
+        return ("Doug".equals(s) || "Dimmadome".equals(s) || "Mayor".equals(s));
+    }
+    public boolean hat7() {
+        String s = ChatFormatting.stripFormatting(this.getName().getString());
+        return "Cat in the Hat".equals(s);
+    }
+    public boolean hat8() {
+        String s = ChatFormatting.stripFormatting(this.getName().getString());
+        return "Sherlock".equals(s);
+    }
+    public boolean hat9() {
+        String s = ChatFormatting.stripFormatting(this.getName().getString());
+        return "Scallywag".equals(s);
     }
 }
 

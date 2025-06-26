@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "frame_filled=false": {
+      "model": "createbionics:block/cassowalker/mold/cassowalker_frame_mold1"
+    },
+    "frame_filled=true": {
+      "model": "createbionics:block/cassowalker/mold/cassowalker_frame_mold2"
+    }
+  }
+}

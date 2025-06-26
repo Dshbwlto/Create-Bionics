@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "stalker_head_filled=false": {
+      "model": "createbionics:block/stalker/mold/stalker_head_mold1"
+    },
+    "stalker_head_filled=true": {
+      "model": "createbionics:block/stalker/mold/stalker_head_mold2"
+    }
+  }
+}

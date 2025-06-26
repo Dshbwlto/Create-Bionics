@@ -1,7 +1,7 @@
 package net.dshbwlto.createbionics.datagen;
 
 import net.dshbwlto.createbionics.CreateBionics;
-import net.dshbwlto.createbionics.block.ModBlocks;
+import net.dshbwlto.createbionics.block.BionicsBlocks;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.*;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
@@ -15,7 +15,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        blockWithItem(ModBlocks.WAX_BLOCK);
+        blockWithItem(BionicsBlocks.WAX_BLOCK);
     }
 
 

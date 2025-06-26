@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "createbionics:block/stalker_engine",
+		"0": "createbionics:block/stalker/stalker_engine",
 		"particle": "create:block/industrial_iron_block"
 	},
 	"elements": [

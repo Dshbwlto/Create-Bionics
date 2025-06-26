@@ -1,6 +1,6 @@
 package net.dshbwlto.createbionics.item.custom;
 
-import net.dshbwlto.createbionics.sound.ModSounds;
+import net.dshbwlto.createbionics.sound.BionicsSounds;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -17,7 +17,7 @@ public class CommandWhistleItem extends Item {
     }
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-        player.playSound(ModSounds.COMMAND_WHISTLE.get(), 1.0F, 1.0F);
+        player.playSound(BionicsSounds.COMMAND_WHISTLE.get(), 1.0F, 1.0F);
         return ItemUtils.startUsingInstantly(level, player, usedHand);
     }
 
@@ -27,7 +27,8 @@ public class CommandWhistleItem extends Item {
             tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift"));
             tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift1"));
             tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift3"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.command_whistle_item.tooltip.shift1"));            tooltipComponents.add(Component.translatable("tooltip.createrobotics.anoleitem.tooltip.shift1"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.command_whistle_item.tooltip.shift1"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift1"));
             tooltipComponents.add(Component.translatable("tooltip.createbionics.command_whistle_item.tooltip.shift2"));
             tooltipComponents.add(Component.translatable("tooltip.createbionics.command_whistle_item.tooltip.shift3"));
         } else {

@@ -8,8 +8,12 @@ public class ModModelLayers {
     public static final ModelLayerLocation ANOLE = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "anole"), "main");
 
+    public static final ModelLayerLocation OXHAULER = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "oxhauler"), "main");
+    public static final ModelLayerLocation OXHAULER_COLOR = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "oxhauler_armor"), "color");
 
-    public static final ModelLayerLocation THRUSTER = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "thruster"), "main");
+    public static final ModelLayerLocation REPLETE = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "replete"), "main");
 
 }

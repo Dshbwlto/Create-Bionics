@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "exhaust_filled=false": {
+      "model": "createbionics:block/cassowalker/mold/cassowalker_exhaust_mold1"
+    },
+    "exhaust_filled=true": {
+      "model": "createbionics:block/cassowalker/mold/cassowalker_exhaust_mold2"
+    }
+  }
+}
