@@ -16,12 +16,12 @@ public class SilentPistonItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         if(Screen.hasShiftDown()) {
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift1"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.piston.tooltip.shift"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.shift"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.space"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.piston.tooltip.info"));
 
         } else {
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.shift"));
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 }

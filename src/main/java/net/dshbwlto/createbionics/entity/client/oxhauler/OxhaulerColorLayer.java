@@ -39,12 +39,5 @@ public class OxhaulerColorLayer extends RenderLayer<OxhaulerEntity, OxhaulerMode
     @Override
     public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, OxhaulerEntity livingEntity,
                        float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
-        Integer integer = livingEntity.getColor();
-        if (integer > 0) {
-            this.getParentModel().copyPropertiesTo(this.model);
-            this.model.prepareMobModel(livingEntity, limbSwing, limbSwingAmount, partialTick);
-            this.model.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-            VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityCutoutNoCull(COLOR_MAP.get(integer)));
-        }
     }
 }

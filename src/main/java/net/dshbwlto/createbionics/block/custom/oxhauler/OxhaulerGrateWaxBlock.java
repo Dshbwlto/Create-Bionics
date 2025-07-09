@@ -47,14 +47,14 @@ public class OxhaulerGrateWaxBlock extends Block {
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         if(Screen.hasShiftDown()) {
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift1"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.shift"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.space"));
             tooltipComponents.add(Component.translatable("tooltip.createbionics.wax_cast.tooltip.1"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift1"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.space"));
             tooltipComponents.add(Component.translatable("tooltip.createbionics.wax_cast.tooltip.iron"));
 
         } else {
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.shift"));
         }
 
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);

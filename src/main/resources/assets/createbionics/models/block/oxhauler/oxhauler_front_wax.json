@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"render_type": "minecraft:cutout",
 	"texture_size": [128, 128],
 	"textures": {
 		"1": "createbionics:block/oxhauler/oxhauler_front_wax",

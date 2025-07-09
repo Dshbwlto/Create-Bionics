@@ -43,27 +43,27 @@ public class AnoleModel<T extends AnoleEntity> extends HierarchicalModel<T>
 
         PartDefinition anole = partdefinition.addOrReplaceChild("anole", CubeListBuilder.create(), PartPose.offset(0.0F, 21.7382F, -0.3918F));
 
-        PartDefinition lower_body = anole.addOrReplaceChild("lower_body", CubeListBuilder.create().texOffs(10, 22).addBox(-1.0F, -0.9882F, -0.1082F, 2.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.1309F, 0.0F, 0.0F));
+        PartDefinition lower_body = anole.addOrReplaceChild("lower_body", CubeListBuilder.create().texOffs(10, 22).addBox(-1.0F, -1.25F, -0.5F, 2.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.2618F, 0.3918F, -0.1309F, 0.0F, 0.0F));
 
-        PartDefinition cube_r1 = lower_body.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(28, 0).addBox(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.5F, 0.0F, 0.1555F, 0.1536F, -0.7734F));
+        PartDefinition cube_r1 = lower_body.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(28, 0).addBox(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.7618F, -0.3918F, 0.1555F, 0.1536F, -0.7734F));
 
-        PartDefinition cube_r2 = lower_body.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(8, 27).addBox(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.5F, -1.0F, 0.1555F, 0.1536F, -0.7734F));
+        PartDefinition cube_r2 = lower_body.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(8, 27).addBox(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.7618F, -1.3918F, 0.1555F, 0.1536F, -0.7734F));
 
-        PartDefinition exhaust = lower_body.addOrReplaceChild("exhaust", CubeListBuilder.create(), PartPose.offset(1.1F, 0.0118F, -0.6082F));
+        PartDefinition exhaust = lower_body.addOrReplaceChild("exhaust", CubeListBuilder.create(), PartPose.offset(1.1F, -0.25F, -1.0F));
 
         PartDefinition cube_r3 = exhaust.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(12, 10).mirror().addBox(0.0F, 0.0F, -0.501F, 1.0F, 1.0F, 5.002F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.0F, 0.0F, 0.0F, 0.3053F, -0.2591F, 0.4971F));
 
         PartDefinition cube_r4 = exhaust.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(12, 10).addBox(-1.0F, 0.0F, -0.501F, 1.0F, 1.0F, 5.002F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.2F, 0.0F, 0.0F, 0.3053F, 0.2591F, -0.4971F));
 
-        PartDefinition legl = lower_body.addOrReplaceChild("legl", CubeListBuilder.create().texOffs(0, 29).addBox(0.0F, -0.5F, -0.5F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, 0.5118F, 2.1418F, 0.0F, 0.0F, 0.2182F));
+        PartDefinition legl = lower_body.addOrReplaceChild("legl", CubeListBuilder.create().texOffs(0, 29).addBox(0.0F, -0.5F, -0.5F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, 0.25F, 1.75F, 0.0F, 0.0F, 0.2182F));
 
         PartDefinition legl2 = legl.addOrReplaceChild("legl2", CubeListBuilder.create().texOffs(26, 26).addBox(-1.25F, -0.5F, -1.0F, 3.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.75F, 0.25F, 0.25F, 0.0F, -1.309F, 0.0F));
 
-        PartDefinition legr = lower_body.addOrReplaceChild("legr", CubeListBuilder.create().texOffs(6, 30).addBox(-2.0F, -0.5F, -0.5F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, 0.5118F, 2.1418F, 0.0F, 0.0F, -0.2182F));
+        PartDefinition legr = lower_body.addOrReplaceChild("legr", CubeListBuilder.create().texOffs(6, 30).addBox(-2.0F, -0.5F, -0.5F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, 0.25F, 1.75F, 0.0F, 0.0F, -0.2182F));
 
         PartDefinition legr2 = legr.addOrReplaceChild("legr2", CubeListBuilder.create().texOffs(0, 27).addBox(-1.75F, -0.5F, -1.0F, 3.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.75F, 0.25F, 0.25F, 0.0F, 1.309F, 0.0F));
 
-        PartDefinition tail1 = lower_body.addOrReplaceChild("tail1", CubeListBuilder.create().texOffs(0, 10).addBox(-0.5F, -1.0F, 0.0F, 1.0F, 2.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0118F, 2.8918F, -0.0436F, 0.0F, 0.0F));
+        PartDefinition tail1 = lower_body.addOrReplaceChild("tail1", CubeListBuilder.create().texOffs(0, 10).addBox(-0.5F, -1.0F, 0.0F, 1.0F, 2.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.25F, 2.5F, -0.0436F, 0.0F, 0.0F));
 
         PartDefinition tail2 = tail1.addOrReplaceChild("tail2", CubeListBuilder.create().texOffs(0, 0).addBox(0.0F, -1.0F, 0.0F, 0.0F, 2.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(24, 14).addBox(-0.5F, -1.0F, 0.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 5.0F, 0.3491F, 0.0F, 0.0F));
@@ -72,7 +72,7 @@ public class AnoleModel<T extends AnoleEntity> extends HierarchicalModel<T>
 
         PartDefinition cube_r5 = bone.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(12, 16).addBox(-0.25F, -0.25F, -2.0F, 1.0F, 1.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.35F, 0.0F, 0.1F, 0.0F, 0.0F, -0.7854F));
 
-        PartDefinition upper_body = lower_body.addOrReplaceChild("upper_body", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 0.0118F, -0.1082F, 0.2618F, 0.0F, 0.0F));
+        PartDefinition upper_body = lower_body.addOrReplaceChild("upper_body", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -0.25F, -0.5F, 0.2618F, 0.0F, 0.0F));
 
         PartDefinition cube_r6 = upper_body.addOrReplaceChild("cube_r6", CubeListBuilder.create().texOffs(24, 18).addBox(-0.5F, -0.5F, -1.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.2618F, -2.8918F, 0.3185F, 0.3035F, -0.7363F));
 
@@ -149,7 +149,15 @@ public class AnoleModel<T extends AnoleEntity> extends HierarchicalModel<T>
         this.applyHeadRotation(netHeadYaw, headPitch);
 
         this.animateWalk(AnoleAnimations.anole_walk, limbSwing, limbSwingAmount, 2f, 2.5f);
-        this.animate(entity.idleAnimationState, AnoleAnimations.anole_idle, ageInTicks, 1f);
+        if (entity.climbing) {
+            this.animate(entity.idleAnimationState, AnoleAnimations.anole_climbing, ageInTicks, 1f);
+        } else {
+            if (entity.isPassenger()) {
+                this.animate(entity.idleAnimationState, AnoleAnimations.anole_sit_up, ageInTicks, 1f);
+            } else {
+                this.animate(entity.idleAnimationState, AnoleAnimations.anole_idle, ageInTicks, 1f);
+            }
+        }
 
         if(entity.isCurrentlyGlowing()) {
             this.animate(entity.sitDownAnimationState, AnoleAnimations.anole_die, ageInTicks, 1.0F);

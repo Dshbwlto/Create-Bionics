@@ -24,9 +24,9 @@ public class CommandWhistleItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         if(Screen.hasShiftDown()) {
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift1"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift3"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.shift"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.space"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.info1"));
             tooltipComponents.add(Component.translatable("tooltip.createbionics.command_whistle_item.tooltip.shift1"));
             tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift1"));
             tooltipComponents.add(Component.translatable("tooltip.createbionics.command_whistle_item.tooltip.shift2"));

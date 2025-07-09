@@ -22,5 +22,37 @@
         "stream": true
       }
     ]
+  },
+  "oxhauler_bellow_1": {
+    "sounds": [
+      {
+        "name": "createbionics:oxhauler_bellow_1",
+        "stream": true
+      }
+    ]
+  },
+  "oxhauler_bellow_2": {
+    "sounds": [
+      {
+        "name": "createbionics:oxhauler_bellow_2",
+        "stream": true
+      }
+    ]
+  },
+  "oxhauler_bellow_3": {
+    "sounds": [
+      {
+        "name": "createbionics:oxhauler_bellow_3",
+        "stream": true
+      }
+    ]
+  },
+  "oxhauler_release_1": {
+    "sounds": [
+      {
+        "name": "createbionics:oxhauler_release_1",
+        "stream": true
+      }
+    ]
   }
 }

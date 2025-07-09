@@ -52,11 +52,11 @@ public class BionicsItems {
 
     public static final DeferredItem<Item> ANOLE = ITEMS.register("anole",
             () -> new AnoleItem(BionicsEntities.ANOLE.get(), 0xFFFFFF, 0xFFFFFF,
-                    new Item.Properties()));
+                    new Item.Properties().rarity(Rarity.UNCOMMON)));
 
     public static final DeferredItem<Item> OXHAULER_MIDDLE = ITEMS.register("oxhauler_middle_item",
             () -> new OxhaulerSpawnerItem(BionicsEntities.OXHAULER.get(), 0xFFFFFF, 0xFFFFFF,
-                    new Item.Properties()));
+                    new Item.Properties().rarity(Rarity.UNCOMMON)));
 
     public static final DeferredItem<Item> REPLETE_SPAWNER = ITEMS.register("replete_spawner",
             () -> new SpawnEggItem(BionicsEntities.REPLETE.get(), 0xFFFFFF, 0xFFFFFF,

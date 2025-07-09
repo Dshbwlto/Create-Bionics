@@ -25,8 +25,8 @@ public class OxhaulerSpawnerItem extends SpawnEggItem {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         if(Screen.hasShiftDown()) {
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift1"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.shift"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.space"));
             tooltipComponents.add(Component.translatable("tooltip.createbionics.oxhauler.tooltip.shift2"));
             tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift1"));
             tooltipComponents.add(Component.translatable("tooltip.createbionics.oxhauler.tooltip.shift3"));
@@ -39,7 +39,7 @@ public class OxhaulerSpawnerItem extends SpawnEggItem {
             tooltipComponents.add(Component.translatable("tooltip.createbionics.oxhauler.tooltip.shift8"));
 
         } else {
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.shift"));
         }
 
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);

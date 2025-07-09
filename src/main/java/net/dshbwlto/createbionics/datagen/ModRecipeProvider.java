@@ -3,8 +3,10 @@ package net.dshbwlto.createbionics.datagen;
 import net.dshbwlto.createbionics.block.BionicsBlocks;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
@@ -67,6 +69,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('B', Items.ANDESITE)
                 .define('C', Items.IRON_INGOT)
                 .unlockedBy("has_engine", has(BionicsItems.I2_COAL_ENGINE)).save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BionicsItems.SILENT_PISTON.get())
+                .pattern(" Z ")
+                .pattern(" A ")
+                .define('Z', BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:zinc_ingot")))
+                .define('A', BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy")))
+                .unlockedBy("has_zinc", has(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:zinc_ingot")))).save(recipeOutput);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BionicsItems.ANOLE.get())
                 .pattern(" CB")

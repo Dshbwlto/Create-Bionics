@@ -25,21 +25,21 @@ public class AnoleItem extends SpawnEggItem {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         if(Screen.hasShiftDown()) {
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift1"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift2"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift1"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift3"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift4"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift1"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift5"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift6"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift1"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift7"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift8"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.shift"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.space"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.info1"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.space"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.when_used"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.info3"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.space"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.info4"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.info5"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.space"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.info6"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.info7"));
 
         } else {
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.shift"));
         }
 
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);

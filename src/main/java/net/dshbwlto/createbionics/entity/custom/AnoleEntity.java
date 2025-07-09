@@ -44,6 +44,7 @@ public class AnoleEntity extends TamableAnimal {
     private static final EntityDataAccessor<Integer> VARIANT =
             SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.INT);
     public int fuelTime = 501;
+    public boolean climbing = false;
 
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
@@ -239,6 +240,9 @@ public class AnoleEntity extends TamableAnimal {
             Vec3 initialVec = getDeltaMovement();
             Vec3 climbVec = new Vec3(initialVec.x, 0.2D, initialVec.z);
             setDeltaMovement(climbVec);
+            climbing = true;
+        } else {
+            climbing = false;
         }
         if(tickCount % 30 == 0 && !isCurrentlyGlowing() && !isSilent()) {
             this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, BionicsSounds.ENGINE.get(), this.getSoundSource(), 0.01F + this.random.nextFloat(), 1.2F, false);
@@ -423,7 +427,7 @@ public class AnoleEntity extends TamableAnimal {
             }
         }
 
-       if (isTame() && !isShiftKeyDown() && !isCurrentlyGlowing() && getMainHandItem().isEmpty()) {
+       if (isTame() && !isShiftKeyDown() && !isCurrentlyGlowing() && player.getMainHandItem().isEmpty() && !this.isPassenger()) {
             toggleSitting();
             return InteractionResult.SUCCESS;
         }
