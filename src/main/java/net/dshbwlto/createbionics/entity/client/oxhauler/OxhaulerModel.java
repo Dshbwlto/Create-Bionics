@@ -2,17 +2,12 @@ package net.dshbwlto.createbionics.entity.client.oxhauler;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.dshbwlto.createbionics.entity.client.anole.AnoleAnimations;
-import net.dshbwlto.createbionics.entity.custom.AnoleEntity;
 import net.dshbwlto.createbionics.entity.custom.OxhaulerEntity;
 import net.minecraft.client.model.HierarchicalModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 
 public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel<T>
 {
@@ -36,6 +31,10 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
     private final ModelPart FlagRootPurple;
     private final ModelPart FrontMaster;
     private final ModelPart neck_master;
+    private final ModelPart combine;
+    private final ModelPart plough;
+    private final ModelPart bolts_front;
+    private final ModelPart bolts_rear;
 
     public OxhaulerModel(ModelPart root) {
         this.Root = root.getChild("Root");
@@ -58,6 +57,10 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
         this.FlagRootPurple = this.Root.getChild("Body").getChild("BackMaster").getChild("Back").getChild("FlagRootPurple");
         this.FrontMaster = this.Root.getChild("Body").getChild("FrontMaster");
         this.neck_master = this.Root.getChild("Body").getChild("FrontMaster").getChild("Front").getChild("neck_master");
+        this.combine = this.Root.getChild("combine");
+        this.plough = this.Root.getChild("plough");
+        this.bolts_front = this.Root.getChild("Body").getChild("bolts_front");
+        this.bolts_rear = this.Root.getChild("Body").getChild("bolts_rear");
    }
 
     public static LayerDefinition createBodyLayer() {
@@ -282,6 +285,12 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
 
         PartDefinition cube_r9 = bone4.addOrReplaceChild("cube_r9", CubeListBuilder.create().texOffs(56, 167).addBox(0.0F, -8.75F, -1.5F, 1.0F, 9.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, 7.3883F, -2.8529F, 0.2182F, 0.0F, 0.0F));
 
+        PartDefinition bolts_front = Body.addOrReplaceChild("bolts_front", CubeListBuilder.create().texOffs(107, 171).addBox(14.0F, -1.5F, -1.5F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+                .texOffs(107, 171).mirror().addBox(-14.0F, -1.5F, -1.5F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-2.5F, 3.0F, -9.0F));
+
+        PartDefinition bolts_rear = Body.addOrReplaceChild("bolts_rear", CubeListBuilder.create().texOffs(107, 171).addBox(14.0F, -3.0F, 6.0F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+                .texOffs(107, 171).mirror().addBox(-14.0F, -3.0F, 6.0F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-2.5F, 4.0F, 1.5F));
+
         PartDefinition FrontMaster = Body.addOrReplaceChild("FrontMaster", CubeListBuilder.create(), PartPose.offset(0.0F, 6.0F, -10.75F));
 
         PartDefinition Front = FrontMaster.addOrReplaceChild("Front", CubeListBuilder.create().texOffs(0, 68).addBox(-8.0F, -8.0F, -15.0F, 16.0F, 12.0F, 14.0F, new CubeDeformation(0.0F))
@@ -400,7 +409,55 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
                 .texOffs(117, 52).addBox(-7.5F, 0.0F, 8.5F, 16.0F, 3.0F, 1.0F, new CubeDeformation(0.0F))
                 .texOffs(117, 52).addBox(-7.5F, 0.0F, -9.5F, 16.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 20.0F, 0.0F));
 
-        return LayerDefinition.create(meshdefinition, 256, 256);
+        PartDefinition combine = Root.addOrReplaceChild("combine", CubeListBuilder.create(), PartPose.offset(2.5F, -27.5F, -9.0F));
+
+        PartDefinition cube_r27 = combine.addOrReplaceChild("cube_r27", CubeListBuilder.create().texOffs(234, 186).addBox(11.0F, -2.5F, -5.5F, 3.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
+                .texOffs(130, 201).addBox(11.5F, -1.5F, -42.5F, 2.0F, 6.0F, 37.0F, new CubeDeformation(0.0F))
+                .texOffs(176, 184).addBox(11.0F, 4.5F, -42.5F, 3.0F, 1.0F, 37.0F, new CubeDeformation(0.0F))
+                .texOffs(176, 184).addBox(11.0F, -2.5F, -42.5F, 3.0F, 1.0F, 37.0F, new CubeDeformation(0.0F))
+                .texOffs(130, 201).mirror().addBox(-17.5F, -1.5F, -42.5F, 2.0F, 6.0F, 37.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(176, 184).mirror().addBox(-18.0F, 4.5F, -42.5F, 3.0F, 1.0F, 37.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(176, 184).mirror().addBox(-18.0F, -2.5F, -42.5F, 3.0F, 1.0F, 37.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(234, 186).mirror().addBox(-18.0F, -2.5F, -5.5F, 3.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.5F, -1.0F, 0.0F, 0.5236F, 0.0F, 0.0F));
+
+        PartDefinition cube_r28 = combine.addOrReplaceChild("cube_r28", CubeListBuilder.create().texOffs(0, 264).addBox(-50.0F, -1.0F, 0.0F, 50.0F, 8.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(22.5F, 19.9F, -39.2F, 0.5236F, 0.0F, 0.0F));
+
+        PartDefinition cube_r29 = combine.addOrReplaceChild("cube_r29", CubeListBuilder.create().texOffs(98, 204).addBox(23.0F, -1.5F, -1.5F, 2.0F, 3.0F, 11.0F, new CubeDeformation(0.0F))
+                .texOffs(98, 204).mirror().addBox(-29.0F, -1.5F, -1.5F, 2.0F, 3.0F, 11.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.5F, 22.5F, -46.5F, 0.2618F, 0.0F, 0.0F));
+
+        PartDefinition roller = combine.addOrReplaceChild("roller", CubeListBuilder.create().texOffs(62, 122).addBox(26.0F, -6.0F, -6.0F, 0.0F, 12.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(62, 122).addBox(13.0F, -6.0F, -6.0F, 0.0F, 12.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(62, 122).mirror().addBox(-26.0F, -6.0F, -6.0F, 0.0F, 12.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(62, 122).mirror().addBox(-13.0F, -6.0F, -6.0F, 0.0F, 12.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(62, 122).mirror().addBox(0.0F, -6.0F, -6.0F, 0.0F, 12.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-2.5F, 22.5F, -46.5F));
+
+        PartDefinition cube_r30 = roller.addOrReplaceChild("cube_r30", CubeListBuilder.create().texOffs(-1, 234).addBox(-26.5F, -6.0F, 0.5F, 53.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 240).addBox(-26.5F, -6.0F, 2.5F, 53.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -2.7053F, 0.0873F, 0.0F));
+
+        PartDefinition cube_r31 = roller.addOrReplaceChild("cube_r31", CubeListBuilder.create().texOffs(-1, 234).addBox(-26.5F, -6.0F, 0.5F, 53.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 240).addBox(-26.5F, -6.0F, 2.5F, 53.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 2.0071F, 0.0F, -0.0873F));
+
+        PartDefinition cube_r32 = roller.addOrReplaceChild("cube_r32", CubeListBuilder.create().texOffs(-1, 234).addBox(-26.5F, -6.0F, 0.5F, 53.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 240).addBox(-26.5F, -6.0F, 2.5F, 53.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.4363F, -0.0436F, 0.0F));
+
+        PartDefinition cube_r33 = roller.addOrReplaceChild("cube_r33", CubeListBuilder.create().texOffs(-1, 234).addBox(-26.5F, -6.0F, 0.5F, 53.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 240).addBox(-26.5F, -6.0F, 2.5F, 53.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.1345F, 0.0F, 0.0873F));
+
+        PartDefinition plough = Root.addOrReplaceChild("plough", CubeListBuilder.create().texOffs(93, 252).addBox(-40.5F, 19.5F, 34.5F, 76.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(2.5F, -27.5F, 9.0F));
+
+        PartDefinition cube_r34 = plough.addOrReplaceChild("cube_r34", CubeListBuilder.create().texOffs(234, 186).addBox(11.0F, -2.5F, -2.5F, 3.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
+                .texOffs(130, 201).addBox(11.5F, -1.5F, 5.5F, 2.0F, 6.0F, 37.0F, new CubeDeformation(0.0F))
+                .texOffs(176, 184).addBox(11.0F, 4.5F, 5.5F, 3.0F, 1.0F, 37.0F, new CubeDeformation(0.0F))
+                .texOffs(176, 184).addBox(11.0F, -2.5F, 5.5F, 3.0F, 1.0F, 37.0F, new CubeDeformation(0.0F))
+                .texOffs(130, 201).mirror().addBox(-17.5F, -1.5F, 5.5F, 2.0F, 6.0F, 37.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(176, 184).mirror().addBox(-18.0F, 4.5F, 5.5F, 3.0F, 1.0F, 37.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(176, 184).mirror().addBox(-18.0F, -2.5F, 5.5F, 3.0F, 1.0F, 37.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(234, 186).mirror().addBox(-18.0F, -2.5F, -2.5F, 3.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.5F, -1.0F, 0.0F, -0.5236F, 0.0F, 0.0F));
+
+        PartDefinition cube_r35 = plough.addOrReplaceChild("cube_r35", CubeListBuilder.create().texOffs(92, 278).addBox(-40.0F, -2.0F, -2.0F, 80.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(1, 286).addBox(-39.5F, 0.0F, 0.0F, 79.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.5F, 23.5F, 39.5F, -0.2618F, 0.0F, 0.0F));
+
+        return LayerDefinition.create(meshdefinition, 256, 512);
     }
 
     @Override
@@ -439,6 +496,11 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
         FlagRootMagenta.visible = entity.magentaFlag();
         FlagRootPurple.visible = entity.purpleFlag();
         FlagRootPink.visible = entity.pinkFlag();
+
+        combine.visible = entity.isHarvester();
+        plough.visible = entity.isPlough();
+        bolts_front.visible = entity.isHarvester();
+        bolts_rear.visible = entity.isPlough();
     }
     private void applyHeadRotation(float pNetHeadYaw, float pHeadPitch) {
         pNetHeadYaw = Mth.clamp(pNetHeadYaw, -30.0F, 30.0F);

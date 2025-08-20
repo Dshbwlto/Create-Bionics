@@ -27,16 +27,16 @@ public class OxhaulerSpawnerItem extends SpawnEggItem {
         if(Screen.hasShiftDown()) {
             tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.shift"));
             tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.space"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.oxhauler.tooltip.shift2"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift1"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.oxhauler.tooltip.shift3"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.oxhauler.tooltip.shift4"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift1"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.oxhauler.tooltip.shift5"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.oxhauler.tooltip.shift6"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.shift1"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.oxhauler.tooltip.shift7"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.oxhauler.tooltip.shift8"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.oxhauler.tooltip.info1"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.space"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.assembly"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.oxhauler.tooltip.info2"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.space"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.assembly_order"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.oxhauler.tooltip.info3"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.space"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.info4"));
+            tooltipComponents.add(Component.translatable("tooltip.createbionics.oxhauler.tooltip.info4"));
 
         } else {
             tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.shift"));

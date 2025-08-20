@@ -1,18 +1,21 @@
 package net.dshbwlto.createbionics.entity.custom;
 
-import com.simibubi.create.AllSoundEvents;
 import net.dshbwlto.createbionics.Util.BionicsTags;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.*;
@@ -28,11 +31,17 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
 
-public class OxhaulerEntity extends AbstractHorse implements ContainerListener, HasCustomInventoryScreen {
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class OxhaulerEntity extends AbstractHorse {
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
     private static final EntityDataAccessor<Integer> VARIANT =
@@ -85,6 +94,11 @@ public class OxhaulerEntity extends AbstractHorse implements ContainerListener, 
     private static final EntityDataAccessor<Boolean> PURPLE =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> PINK =
+            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
+
+    private static final EntityDataAccessor<Boolean> HARVESTER =
+            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> PLOUGH =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
 
     public boolean silenced() {
@@ -233,6 +247,14 @@ public class OxhaulerEntity extends AbstractHorse implements ContainerListener, 
                 this.level().addParticle(ParticleTypes.LAVA, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
                 this.level().addParticle(ParticleTypes.LAVA, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
                 this.level().addParticle(ParticleTypes.LAVA, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
+                if (this.entityData.get(HARVESTER)) {
+                    this.spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_harvester"))));
+                    entityData.set(HARVESTER, false);
+                }
+                if (this.entityData.get(PLOUGH)) {
+                    this.spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_plough"))));
+                    entityData.set(PLOUGH, false);
+                }
             }
             this.entityData.set(IS_FUELED, false);
             this.fuelTime = 0;
@@ -272,6 +294,21 @@ public class OxhaulerEntity extends AbstractHorse implements ContainerListener, 
                this.spawnAtLocation(new ItemStack(BionicsItems.SILENT_PISTON.get()));
            }
         }
+        if (isVehicle() && isPlough() && getPassengers() instanceof ServerPlayer serverPlayer) {
+            if (HARVESTED_BLOCKS.contains(getOnPos())) {
+                return;
+            }
+
+            for(BlockPos pos : getBlocksToBeDestroyed(2, getOnPos(), serverPlayer)) {
+                if (!getBlockStateOn().is(Blocks.DIRT) || !getBlockStateOn().is(Blocks.GRASS_BLOCK) || !getBlockStateOn().is(Blocks.DIRT_PATH)) {
+                    continue;
+                }
+
+                HARVESTED_BLOCKS.add(pos);
+                serverPlayer.gameMode.destroyBlock(pos);
+                HARVESTED_BLOCKS.remove(pos);
+            }
+        }
         super.aiStep();
     }
 
@@ -288,6 +325,19 @@ public class OxhaulerEntity extends AbstractHorse implements ContainerListener, 
                 this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, BionicsSounds.ENGINE.get(), this.getSoundSource(), 1F + this.random.nextFloat(), 0.1F + random.nextFloat(), false);
             }
         }
+    }
+
+    private static final Set<BlockPos> HARVESTED_BLOCKS = new HashSet<>();
+
+    public static List<BlockPos> getBlocksToBeDestroyed(int range, BlockPos initialBlockPos, ServerPlayer serverPlayer) {
+        List<BlockPos> positions = new ArrayList<>();
+
+        for(int x = -range; x <= range; x++) {
+            for(int y = -range; y <= range; y++) {
+                positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY(), initialBlockPos.getZ() + y));
+            }
+        }
+        return positions;
     }
 
     @Override
@@ -362,7 +412,7 @@ public class OxhaulerEntity extends AbstractHorse implements ContainerListener, 
             }
             return InteractionResult.SUCCESS;
         }
-        if (itemstack.is(BionicsTags.Items.WRENCH) && getVariant() == OxhaulerVariant.NETHERITE1 && !player.isShiftKeyDown()) {
+        if (itemstack.is(BionicsTags.Items.WRENCH) && getVariant() == OxhaulerVariant.NETHERITE1 && !player.isShiftKeyDown() && !entityData.get(HARVESTER) && !entityData.get(PLOUGH)) {
             if (this.level().isClientSide()) {
                 return InteractionResult.SUCCESS;
             } else {
@@ -371,7 +421,7 @@ public class OxhaulerEntity extends AbstractHorse implements ContainerListener, 
                 this.spawnAtLocation(new ItemStack(Items.NETHERITE_INGOT));
             }
         }
-        if (itemstack.is(BionicsTags.Items.WRENCH) && getVariant() == OxhaulerVariant.NETHERITE2 && !player.isShiftKeyDown()) {
+        if (itemstack.is(BionicsTags.Items.WRENCH) && getVariant() == OxhaulerVariant.NETHERITE2 && !player.isShiftKeyDown() && !entityData.get(HARVESTER) && !entityData.get(PLOUGH)) {
             if (this.level().isClientSide()) {
                 return InteractionResult.SUCCESS;
             } else {
@@ -381,7 +431,7 @@ public class OxhaulerEntity extends AbstractHorse implements ContainerListener, 
                 this.spawnAtLocation(new ItemStack(Items.NETHERITE_INGOT));
             }
         }
-        if (itemstack.is(BionicsTags.Items.WRENCH) && getVariant() == OxhaulerVariant.COPPER && !player.isShiftKeyDown()) {
+        if (itemstack.is(BionicsTags.Items.WRENCH) && getVariant() == OxhaulerVariant.COPPER && !player.isShiftKeyDown() && !entityData.get(HARVESTER) && !entityData.get(PLOUGH)) {
             if (this.level().isClientSide()) {
                 return InteractionResult.SUCCESS;
             } else {
@@ -414,6 +464,24 @@ public class OxhaulerEntity extends AbstractHorse implements ContainerListener, 
                     this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_FRONT.get()));
                     this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_HEAD.get()));
                 }
+            }
+        }
+        if (itemstack.is(BionicsTags.Items.WRENCH) && entityData.get(HARVESTER) && !entityData.get(PLOUGH)) {
+            if (this.level().isClientSide()) {
+                return InteractionResult.SUCCESS;
+            } else {
+                entityData.set(HARVESTER, false);
+                makeSound(SoundEvents.COPPER_BREAK);
+                this.spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_harvester"))));
+            }
+        }
+        if (itemstack.is(BionicsTags.Items.WRENCH) && entityData.get(PLOUGH) && !entityData.get(HARVESTER)) {
+            if (this.level().isClientSide()) {
+                return InteractionResult.SUCCESS;
+            } else {
+                entityData.set(PLOUGH, false);
+                makeSound(SoundEvents.COPPER_BREAK);
+                this.spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_plough"))));
             }
         }
         if (item == BionicsItems.OXHAULER_REAR.get() && !hasBack()) {
@@ -851,6 +919,20 @@ public class OxhaulerEntity extends AbstractHorse implements ContainerListener, 
                 this.entityData.set(PINK, true);
             }
         }
+        if(itemstack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_harvester"))) && !entityData.get(PLOUGH) && isFueled()) {
+            if (this.level().isClientSide) {
+                return InteractionResult.CONSUME;
+            }
+            itemstack.shrink(1);
+            this.entityData.set(HARVESTER, true);
+        }
+        if(itemstack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_plough"))) && !entityData.get(HARVESTER) && isFueled()) {
+            if (this.level().isClientSide) {
+                return InteractionResult.CONSUME;
+            }
+            itemstack.shrink(1);
+            this.entityData.set(PLOUGH, true);
+        }
         return InteractionResult.SUCCESS;
     }
 
@@ -883,6 +965,8 @@ public class OxhaulerEntity extends AbstractHorse implements ContainerListener, 
         builder.define(MAGENTA, false);
         builder.define(PURPLE, false);
         builder.define(PINK, false);
+        builder.define(HARVESTER, false);
+        builder.define(PLOUGH, false);
     }
 
 
@@ -917,6 +1001,9 @@ public class OxhaulerEntity extends AbstractHorse implements ContainerListener, 
         compound.putBoolean("PurpleFlag", purpleFlag());
         compound.putBoolean("MagentaFlag", magentaFlag());
         compound.putBoolean("PinkFlag", pinkFlag());
+
+        compound.putBoolean("Harvester", isHarvester());
+        compound.putBoolean("Plough", isPlough());
 
         compound.putInt("RefuelTime", this.fuelTime);
         compound.putFloat("LastHealth", this.lastHealth);
@@ -954,6 +1041,9 @@ public class OxhaulerEntity extends AbstractHorse implements ContainerListener, 
         this.entityData.set(MAGENTA, compound.getBoolean("MagentaFlag"));
         this.entityData.set(PURPLE, compound.getBoolean("PurpleFlag"));
         this.entityData.set(PINK, compound.getBoolean("PinkFlag"));
+
+        this.entityData.set(HARVESTER, compound.getBoolean("Harvester"));
+        this.entityData.set(PLOUGH, compound.getBoolean("Plough"));
 
         this.entityData.set(DEAD, compound.getBoolean("Dead"));
         if (compound.contains("RefuelTime")) {
@@ -1058,6 +1148,13 @@ public class OxhaulerEntity extends AbstractHorse implements ContainerListener, 
     }
     public boolean pinkFlag() {
         return this.entityData.get(PINK);
+    }
+
+    public boolean isHarvester() {
+        return this.entityData.get(HARVESTER);
+    }
+    public boolean isPlough() {
+        return this.entityData.get(PLOUGH);
     }
     //INVENTORY//
 
