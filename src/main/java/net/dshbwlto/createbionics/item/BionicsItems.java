@@ -6,6 +6,7 @@ import net.dshbwlto.createbionics.item.custom.AnoleItem;
 import net.dshbwlto.createbionics.item.custom.CommandWhistleItem;
 import net.dshbwlto.createbionics.item.custom.OxhaulerSpawnerItem;
 import net.dshbwlto.createbionics.item.custom.SilentPistonItem;
+import net.dshbwlto.createbionics.sound.BionicsSounds;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -61,6 +62,9 @@ public class BionicsItems {
     public static final DeferredItem<Item> REPLETE_SPAWNER = ITEMS.register("replete_spawner",
             () -> new SpawnEggItem(BionicsEntities.REPLETE.get(), 0xFFFFFF, 0xFFFFFF,
                     new Item.Properties()));
+
+    public static final DeferredItem<Item> VITTICEPS_MUSIC_DISC = ITEMS.registerItem("vitticeps_music_disc",
+            properties -> new Item(properties.jukeboxPlayable(BionicsSounds.VITTICEPS_KEY)));
 
     public static void register(IEventBus eventBus) { ITEMS.register(eventBus);
     }

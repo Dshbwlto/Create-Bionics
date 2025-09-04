@@ -438,7 +438,7 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
                 .texOffs(0, 240).addBox(-26.5F, -6.0F, 2.5F, 53.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 2.0071F, 0.0F, -0.0873F));
 
         PartDefinition cube_r32 = roller.addOrReplaceChild("cube_r32", CubeListBuilder.create().texOffs(-1, 234).addBox(-26.5F, -6.0F, 0.5F, 53.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
-                .texOffs(0, 240).addBox(-26.5F, -6.0F, 2.5F, 53.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.4363F, -0.0436F, 0.0F));
+                .texOffs(0, 240).addBox(-26.5F, -6.0F, 2.5F, 53.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.4363F, -0.0873F, 0.0F));
 
         PartDefinition cube_r33 = roller.addOrReplaceChild("cube_r33", CubeListBuilder.create().texOffs(-1, 234).addBox(-26.5F, -6.0F, 0.5F, 53.0F, 0.0F, 2.0F, new CubeDeformation(0.0F))
                 .texOffs(0, 240).addBox(-26.5F, -6.0F, 2.5F, 53.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.1345F, 0.0F, 0.0873F));

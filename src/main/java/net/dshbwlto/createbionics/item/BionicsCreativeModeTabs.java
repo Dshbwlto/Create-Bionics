@@ -58,6 +58,7 @@ public class BionicsCreativeModeTabs {
                         output.accept(BionicsBlocks.OXHAULER_FURNACE_WAX);
                         output.accept(BionicsBlocks.OXHAULER_GRATE_WAX);
                         output.accept(BionicsBlocks.OXHAULER_ENGINE_WAX);
+                        output.accept(BionicsItems.VITTICEPS_MUSIC_DISC);
                     }).build());
 
     public static void register(IEventBus eventBus) {CREATIVE_MODE_TABS.register(eventBus);}

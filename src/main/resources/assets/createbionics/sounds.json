@@ -54,5 +54,13 @@
         "stream": true
       }
     ]
+  },
+  "vitticeps": {
+    "sounds": [
+      {
+        "name": "createbionics:vitticeps",
+        "stream": true
+      }
+    ]
   }
 }
