@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "createbionics:item/vitticeps_music_disc"
+  }
+}
