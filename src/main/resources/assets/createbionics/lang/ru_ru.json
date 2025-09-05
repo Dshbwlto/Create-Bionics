@@ -37,6 +37,8 @@
   "item.createbionics.molten_brass_crucible": "Тигель с расплавленной латунью",
   "item.createbionics.molten_netherite_crucible": "Тигель с расплавленным незеритом",
   "item.createbionics.nether_brick_crucible": "Тигель из незерского кирпича",
+  "item.createbionics.vitticeps_music_disc": "музыкальный диск",
+  "item.createbionics.vitticeps_music_disc.desc": "Dshbwlto - Vitticeps",
 
   "tooltip.createbionics.basic.tooltip.shift": "§8Удерживайте [§7Shift§8] для информации§r",
   "tooltip.createbionics.basic.tooltip.space": " ",
