@@ -37,6 +37,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 
@@ -333,6 +334,14 @@ public class AnoleEntity extends TamableAnimal {
                 this.spawnAtLocation(new ItemStack(Items.NETHERITE_INGOT));
                 setVariant(AnoleVariant.DEFAULT);
                 makeSound(SoundEvents.GRINDSTONE_USE);
+            }
+        }
+        if(itemstack.is(Tags.Items.MUSIC_DISCS) && isTame() && !player.isShiftKeyDown()) {
+            if(this.level().isClientSide()) {
+                return InteractionResult.SUCCESS;
+            } else {
+                itemstack.shrink(1);
+                this.spawnAtLocation(new ItemStack(BionicsItems.VITTICEPS_MUSIC_DISC.get()));
             }
         }
         if(itemstack.is(BionicsTags.Items.WRENCH) && isTame() && getVariant() == AnoleVariant.BRASS && !player.isShiftKeyDown()) {
