@@ -37,7 +37,7 @@ public class StalkerEngineMoldBlock extends Block {
         } else if (level.isClientSide) {
             return ItemInteractionResult.sidedSuccess(level.isClientSide);
         } else {
-            if (itemStack.is(BionicsItems.MOLTEN_ANDESITE_ALLOY_CRUCIBLE.get()) && !blockState.getValue(STALKER_ENGINE_FILLED)) {
+            if (itemStack.is(BionicsItems.MOLTEN_INDUSTRIAL_IRON_CRUCIBLE.get()) && !blockState.getValue(STALKER_ENGINE_FILLED)) {
                 level.playSound((Player) null, pos, SoundEvents.BUCKET_FILL_LAVA, SoundSource.BLOCKS, 1.0F, 0.8F);
                 boolean currentState = blockState.getValue(STALKER_ENGINE_FILLED);
                 if (!player.getAbilities().instabuild) {

@@ -27,6 +27,13 @@ public class BionicsItems {
     public static final DeferredItem<Item> OXHAULER_REAR = ITEMS.registerSimpleItem("oxhauler_rear_item");
     public static final DeferredItem<Item> OXHAULER_ENGINE = ITEMS.registerSimpleItem("oxhauler_engine_item");
     public static final DeferredItem<Item> OXHAULER_LEG = ITEMS.registerSimpleItem("oxhauler_leg_item");
+
+    public static final DeferredItem<Item> STALKER_HEAD = ITEMS.registerSimpleItem("stalker_head");
+    public static final DeferredItem<Item> STALKER_BODY = ITEMS.registerSimpleItem("stalker_body");
+    public static final DeferredItem<Item> STALKER_LEG = ITEMS.registerSimpleItem("stalker_leg");
+    public static final DeferredItem<Item> STALKER_TAIL = ITEMS.registerSimpleItem("stalker_tail");
+    public static final DeferredItem<Item> STALKER_ANTENNA = ITEMS.registerSimpleItem("stalker_antenna");
+
     public static final DeferredItem<Item> NETHER_BRICK_CRUCIBLE = ITEMS.registerSimpleItem("nether_brick_crucible");
 
     public static final DeferredItem<Item> ROSE_QUARTZ_NUGGET = ITEMS.registerSimpleItem("rose_quartz_nugget");
