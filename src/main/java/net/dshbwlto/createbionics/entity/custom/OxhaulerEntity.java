@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -41,7 +42,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class OxhaulerEntity extends AbstractHorse {
+public class OxhaulerEntity extends AbstractHorse{
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
     private static final EntityDataAccessor<Integer> VARIANT =
@@ -96,6 +97,14 @@ public class OxhaulerEntity extends AbstractHorse {
     private static final EntityDataAccessor<Boolean> PINK =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
 
+    private static final EntityDataAccessor<Boolean> HAS_TIER_1_CHEST =
+            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> HAS_TIER_2_CHEST =
+            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> HAS_TIER_3_CHEST =
+            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
+
+
     private static final EntityDataAccessor<Boolean> HARVESTER =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> PLOUGH =
@@ -125,7 +134,6 @@ public class OxhaulerEntity extends AbstractHorse {
 
     public OxhaulerEntity(EntityType<? extends AbstractHorse> entityType, Level level) {
         super(entityType, level);
-        this.createInventory();
     }
 
     @Override
@@ -357,6 +365,10 @@ public class OxhaulerEntity extends AbstractHorse {
         if (itemstack.isEmpty() && isFueled() && !player.isShiftKeyDown()) {
             doPlayerRide(player);
         }
+        if (itemstack.isEmpty() && player.isShiftKeyDown()) {
+            this.openCustomInventoryScreen(player);
+        }
+
         if (itemstack.isEmpty() && player.isShiftKeyDown()) {
             return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
@@ -967,6 +979,7 @@ public class OxhaulerEntity extends AbstractHorse {
         builder.define(PINK, false);
         builder.define(HARVESTER, false);
         builder.define(PLOUGH, false);
+
     }
 
 
@@ -1008,6 +1021,18 @@ public class OxhaulerEntity extends AbstractHorse {
         compound.putInt("RefuelTime", this.fuelTime);
         compound.putFloat("LastHealth", this.lastHealth);
         compound.putFloat("CurrentHealth", this.currentHealth);
+
+        ListTag listtag = new ListTag();
+        for (int x = 0; x < this.inventory.getContainerSize(); x++) {
+            ItemStack itemstack = this.inventory.getItem(x);
+            if (!itemstack.isEmpty()) {
+                CompoundTag compoundtag = new CompoundTag();
+                compoundtag.putByte("Slot", (byte)(x));
+                listtag.add(itemstack.save(this.registryAccess(), compoundtag));
+            }
+        }
+        compound.put("Items", listtag);
+
     }
 
     @Override
@@ -1055,6 +1080,8 @@ public class OxhaulerEntity extends AbstractHorse {
         if (compound.contains("CurrentHealth")) {
             this.currentHealth = compound.getFloat("CurrentHealth");
         }
+        this.createInventory();
+        ListTag listtag = compound.getList("Items", 10);
     }
 
 
@@ -1156,7 +1183,7 @@ public class OxhaulerEntity extends AbstractHorse {
     public boolean isPlough() {
         return this.entityData.get(PLOUGH);
     }
-    //INVENTORY//
 
+    //INVENTORY//
 }
 

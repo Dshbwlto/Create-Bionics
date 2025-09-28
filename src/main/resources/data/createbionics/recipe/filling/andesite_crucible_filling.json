@@ -5,9 +5,9 @@
       "item": "createbionics:nether_brick_crucible"
     },
     {
-      "type": "fluid_tag",
-      "amount": 1000,
-      "fluid_tag": "createbionics:andesite_alloy"
+      "type": "fluid_stack",
+      "amount": 999,
+      "fluid": "createbionics:molten_andesite_alloy"
     }
   ],
   "results": [

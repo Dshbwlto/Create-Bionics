@@ -22,6 +22,8 @@ public class BionicsTags {
         public static final TagKey<Item> MOLD_ITEMS = createTag("mold_items");
         public static final TagKey<Item> BRASS_INGOT = createTag("brass_ingot");
         public static final TagKey<Item> WRENCH = createTag("wrench");
+        public static final TagKey<Item> ANDESITE_ALLOY_SINGLE = createTag("andesite_alloy_single");
+        public static final TagKey<Item> ANDESITE_ALLOY_MULTI = createTag("andesite_alloy_multi");
 
         private static TagKey<Item> createTag(String name) {
             return ItemTags.create(ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,name));

@@ -16,4 +16,7 @@ public class ModModelLayers {
     public static final ModelLayerLocation REPLETE = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "replete"), "main");
 
+    public static final ModelLayerLocation STALKER = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "stalker"), "main");
+
 }

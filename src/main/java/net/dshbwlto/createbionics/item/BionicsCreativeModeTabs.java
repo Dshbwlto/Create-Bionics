@@ -37,6 +37,11 @@ public class BionicsCreativeModeTabs {
                         output.accept(BionicsItems.OXHAULER_REAR);
                         output.accept(BionicsItems.OXHAULER_ENGINE);
                         output.accept(BionicsItems.OXHAULER_LEG);
+                        output.accept(BionicsItems.STALKER_ANTENNA);
+                        output.accept(BionicsItems.STALKER_BODY);
+                        output.accept(BionicsItems.STALKER_LEG);
+                        output.accept(BionicsItems.STALKER_TAIL);
+                        output.accept(BionicsItems.STALKER_HEAD);
                         output.accept(BionicsItems.MOLTEN_ANDESITE_ALLOY_CRUCIBLE);
                         output.accept(BionicsItems.MOLTEN_INDUSTRIAL_IRON_CRUCIBLE);
                         output.accept(BionicsItems.MOLTEN_BRASS_CRUCIBLE);

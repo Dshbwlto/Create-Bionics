@@ -6,9 +6,11 @@ import net.dshbwlto.createbionics.entity.client.ModModelLayers;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleModel;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerModel;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteModel;
+import net.dshbwlto.createbionics.entity.client.stalker.StalkerModel;
 import net.dshbwlto.createbionics.entity.custom.AnoleEntity;
 import net.dshbwlto.createbionics.entity.custom.OxhaulerEntity;
 import net.dshbwlto.createbionics.entity.custom.RepleteEntity;
+import net.dshbwlto.createbionics.entity.custom.StalkerEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
@@ -22,6 +24,7 @@ public class ModEventBusEvents {
         event.registerLayerDefinition(ModModelLayers.OXHAULER, OxhaulerModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.OXHAULER_COLOR, OxhaulerModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.REPLETE, RepleteModel::createBodyLayer);
+        event.registerLayerDefinition(ModModelLayers.STALKER, StalkerModel::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -29,6 +32,7 @@ public class ModEventBusEvents {
         event.put(BionicsEntities.ANOLE.get(), AnoleEntity.createAttributes().build());
         event.put(BionicsEntities.OXHAULER.get(), OxhaulerEntity.createAttributes().build());
         event.put(BionicsEntities.REPLETE.get(), RepleteEntity.createAttributes().build());
+        event.put(BionicsEntities.STALKER.get(), StalkerEntity.createAttributes().build());
     }
 
 }

@@ -1,6 +1,7 @@
 package net.dshbwlto.createbionics.screen;
 
 import net.dshbwlto.createbionics.CreateBionics;
+import net.dshbwlto.createbionics.screen.custom.StalkerMenu;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -14,8 +15,8 @@ public class BionicsMenuTypes {
     public static final DeferredRegister<MenuType<?>> MENUS =
             DeferredRegister.create(Registries.MENU, CreateBionics.MOD_ID);
 
-    //public static final DeferredHolder<MenuType<?>, MenuType<OxhaulerMenu>> OXHAULER_MENU =
-            //registerMenuType("oxhauler_menu", OxhaulerMenu::create);
+    public static final DeferredHolder<MenuType<?>, MenuType<StalkerMenu>> STALKER_MENU =
+            registerMenuType("stalker_menu", StalkerMenu::create);
 
     private static <T extends AbstractContainerMenu>DeferredHolder<MenuType<?>, MenuType<T>> registerMenuType(String name,
                                                                                                               IContainerFactory<T> factory) {

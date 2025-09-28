@@ -5,12 +5,14 @@ import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleRenderer;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerRenderer;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteRenderer;
+import net.dshbwlto.createbionics.entity.client.stalker.StalkerRenderer;
 import net.dshbwlto.createbionics.fluid.BaseFluidType;
 import net.dshbwlto.createbionics.fluid.BionicsFluidTypes;
 import net.dshbwlto.createbionics.fluid.BionicsFluids;
 import net.dshbwlto.createbionics.item.BionicsCreativeModeTabs;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.screen.BionicsMenuTypes;
+import net.dshbwlto.createbionics.screen.custom.StalkerScreen;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
@@ -105,16 +107,17 @@ public class CreateBionics {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            event.enqueueWork(() -> {
-                EntityRenderers.register(BionicsEntities.ANOLE.get(), AnoleRenderer::new);
-                EntityRenderers.register(BionicsEntities.OXHAULER.get(), OxhaulerRenderer::new);
-                EntityRenderers.register(BionicsEntities.REPLETE.get(), RepleteRenderer::new);
-            });
+            EntityRenderers.register(BionicsEntities.ANOLE.get(), AnoleRenderer::new);
+            EntityRenderers.register(BionicsEntities.OXHAULER.get(), OxhaulerRenderer::new);
+            EntityRenderers.register(BionicsEntities.REPLETE.get(), RepleteRenderer::new);
+            EntityRenderers.register(BionicsEntities.STALKER.get(), StalkerRenderer::new);
         }
+
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {
-            //event.register(BionicsMenuTypes.OXHAULER_MENU.get(), OxhaulerScreen::new);
+            event.register(BionicsMenuTypes.STALKER_MENU.get(), StalkerScreen::new);
         }
+
         @SubscribeEvent
         public static void onClientExtensions(RegisterClientExtensionsEvent event) {
             event.registerFluidType(((BaseFluidType) BionicsFluidTypes.MOLTEN_ANDESITE_ALLOY_FLUID_TYPE.get()).getClientFluidTypeExtensions(),
@@ -126,8 +129,10 @@ public class CreateBionics {
             event.registerFluidType(((BaseFluidType) BionicsFluidTypes.MOLTEN_NETHERITE_FLUID_TYPE.get()).getClientFluidTypeExtensions(),
                     BionicsFluidTypes.MOLTEN_NETHERITE_FLUID_TYPE.get());
         }
+
         @SubscribeEvent
         public static void registerColoredItems(RegisterColorHandlersEvent.Item event) {
         }
     }
 }
+

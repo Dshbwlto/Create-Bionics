@@ -1,0 +1,15 @@
+{
+  "type": "create:mixing",
+  "heat_requirement": "heated",
+  "ingredients": [
+    {
+      "tag": "createbionics:andesite_alloy_single"
+    }
+  ],
+  "results": [
+    {
+      "amount": 500,
+      "id": "createbionics:molten_andesite_alloy"
+    }
+  ]
+}

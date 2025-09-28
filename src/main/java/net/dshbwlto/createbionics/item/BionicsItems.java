@@ -2,10 +2,7 @@ package net.dshbwlto.createbionics.item;
 
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
-import net.dshbwlto.createbionics.item.custom.AnoleItem;
-import net.dshbwlto.createbionics.item.custom.CommandWhistleItem;
-import net.dshbwlto.createbionics.item.custom.OxhaulerSpawnerItem;
-import net.dshbwlto.createbionics.item.custom.SilentPistonItem;
+import net.dshbwlto.createbionics.item.custom.*;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
@@ -28,11 +25,10 @@ public class BionicsItems {
     public static final DeferredItem<Item> OXHAULER_ENGINE = ITEMS.registerSimpleItem("oxhauler_engine_item");
     public static final DeferredItem<Item> OXHAULER_LEG = ITEMS.registerSimpleItem("oxhauler_leg_item");
 
-    public static final DeferredItem<Item> STALKER_HEAD = ITEMS.registerSimpleItem("stalker_head");
-    public static final DeferredItem<Item> STALKER_BODY = ITEMS.registerSimpleItem("stalker_body");
-    public static final DeferredItem<Item> STALKER_LEG = ITEMS.registerSimpleItem("stalker_leg");
-    public static final DeferredItem<Item> STALKER_TAIL = ITEMS.registerSimpleItem("stalker_tail");
-    public static final DeferredItem<Item> STALKER_ANTENNA = ITEMS.registerSimpleItem("stalker_antenna");
+    public static final DeferredItem<Item> STALKER_HEAD = ITEMS.registerSimpleItem("stalker_head_item");
+    public static final DeferredItem<Item> STALKER_LEG = ITEMS.registerSimpleItem("stalker_leg_item");
+    public static final DeferredItem<Item> STALKER_TAIL = ITEMS.registerSimpleItem("stalker_tail_item");
+    public static final DeferredItem<Item> STALKER_ANTENNA = ITEMS.registerSimpleItem("stalker_antenna_item");
 
     public static final DeferredItem<Item> NETHER_BRICK_CRUCIBLE = ITEMS.registerSimpleItem("nether_brick_crucible");
 
@@ -64,6 +60,10 @@ public class BionicsItems {
 
     public static final DeferredItem<Item> OXHAULER_MIDDLE = ITEMS.register("oxhauler_middle_item",
             () -> new OxhaulerSpawnerItem(BionicsEntities.OXHAULER.get(), 0xFFFFFF, 0xFFFFFF,
+                    new Item.Properties().rarity(Rarity.UNCOMMON)));
+
+   public static final DeferredItem<Item> STALKER_BODY = ITEMS.register("stalker_body_item",
+            () -> new StalkerSpawnerItem(BionicsEntities.STALKER.get(), 0xFFFFFF, 0xFFFFFF,
                     new Item.Properties().rarity(Rarity.UNCOMMON)));
 
     public static final DeferredItem<Item> REPLETE_SPAWNER = ITEMS.register("replete_spawner",
