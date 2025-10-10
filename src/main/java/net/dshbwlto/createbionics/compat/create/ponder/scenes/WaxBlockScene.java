@@ -13,7 +13,7 @@ import net.minecraft.core.Direction;
 
 public class WaxBlockScene {
     public static void inducer(SceneBuilder scene, SceneBuildingUtil util) {
-        scene.title("drag_inducer", "Drag inducer");
+        scene.title("wax_block", "Wax Block");
         scene.configureBasePlate(0, 0, 5);
         //scene.showBasePlate();
         scene.removeShadow();

@@ -8,13 +8,14 @@ import net.dshbwlto.createbionics.block.BionicsBlocks;
 import net.dshbwlto.createbionics.compat.create.ponder.scenes.WaxBlockScene;
 import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.ItemLike;
 
 import java.util.function.Function;
 
 //Ponders implemented with help from the developer of Starlance. Please support their work at https://modrinth.com/mod/starlance//
 
 public class BionicsPonderRegistry {
-    private static final PonderSceneRegistrationHelper HELPER = new PonderSceneRegistrationHelper(CreateBionics.MOD_ID) {
+    private static final PonderSceneRegistrationHelper HELPER = new PonderSceneRegistrationHelper() {
         @Override
         public StoryBoardEntry addStoryBoard(Object component, ResourceLocation schematicLocation, PonderStoryBoard storyBoard, ResourceLocation... tags) {
             return null;
@@ -41,7 +42,7 @@ public class BionicsPonderRegistry {
         }
 
         @Override
-        public PonderSceneRegistrationHelper<S> withKeyFunction(Function keyGen) {
+        public PonderSceneRegistrationHelper<ItemLike> withKeyFunction(Function keyGen) {
             return null;
         }
     };
