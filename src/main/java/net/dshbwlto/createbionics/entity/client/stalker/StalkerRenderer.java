@@ -2,6 +2,7 @@ package net.dshbwlto.createbionics.entity.client.stalker;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.client.ModModelLayers;
 import net.dshbwlto.createbionics.entity.custom.StalkerEntity;
@@ -10,6 +11,9 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.monster.Drowned;
+import org.joml.Quaternionf;
 
 import java.util.Map;
 
@@ -44,5 +48,14 @@ public class StalkerRenderer extends MobRenderer<StalkerEntity, StalkerModel<Sta
     public void render(StalkerEntity entity, float entityYaw, float partialTicks,
                        PoseStack poseStack, MultiBufferSource buffer, int pPackedLight) {
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, pPackedLight);
+    }
+    protected void setupRotations(StalkerEntity entity, PoseStack poseStack, float bob, float yBodyRot, float partialTick, float scale) {
+        super.setupRotations(entity, poseStack, bob, yBodyRot, partialTick, scale);
+        float f = entity.getSwimAmount(partialTick);
+        if (f > 0.0F) {
+            float f1 = -10.0F - entity.getXRot();
+            float f2 = Mth.lerp(f, 0.0F, f1);
+            poseStack.rotateAround(Axis.XP.rotationDegrees(f2), 0.0F, entity.getBbHeight() / 2.0F / scale, 0.0F);
+        }
     }
 }

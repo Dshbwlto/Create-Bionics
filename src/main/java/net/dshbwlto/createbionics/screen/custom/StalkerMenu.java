@@ -3,6 +3,7 @@ package net.dshbwlto.createbionics.screen.custom;
 import net.dshbwlto.createbionics.entity.custom.StalkerEntity;
 import net.dshbwlto.createbionics.screen.BionicsMenuTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -25,12 +26,12 @@ public class StalkerMenu extends AbstractContainerMenu {
 
     // With Help from https://github.com/Mrbysco/ChocoCraft4/tree/arch/1.21
     // Under MIT LICENSE
-    public StalkerMenu create(int i, Inventory inventory, RegistryFriendlyByteBuf registryFriendlyByteBuf) {
+    public static StalkerMenu create(int i, Inventory inventory, RegistryFriendlyByteBuf registryFriendlyByteBuf) {
         UUID uuid = registryFriendlyByteBuf.readUUID();
         List<StalkerEntity> robots = inventory.player.level().getEntitiesOfClass(StalkerEntity.class,
                 inventory.player.getBoundingBox().inflate(16), test -> test.getUUID().equals(uuid));
         StalkerEntity stalkerEntity = robots.isEmpty() ? null : robots.getFirst();
-        return new StalkerMenu(i, inventory, new SimpleContainer(29), stalkerEntity, 4);
+        return new StalkerMenu(i, inventory, new SimpleContainer(29), stalkerEntity, 4, inventory.player);
     }
 
     protected static void checkContainerSize(Container container, int minSize) {
@@ -40,7 +41,8 @@ public class StalkerMenu extends AbstractContainerMenu {
         }
     }
 
-    public StalkerMenu(int containerId, Inventory inventory, Container container, final StalkerEntity stalkerEntity, int rows) {
+
+    public StalkerMenu(int containerId, Inventory inventory, Container container, final StalkerEntity stalkerEntity, int rows, Player player) {
         super(BionicsMenuTypes.STALKER_MENU.get(), containerId);
         this.stalkerContainer = container;
         this.stalker = stalkerEntity;
