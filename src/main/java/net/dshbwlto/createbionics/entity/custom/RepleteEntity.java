@@ -74,17 +74,12 @@ public class RepleteEntity extends TamableAnimal {
 
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
 
-        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.2D, Ingredient.of(BionicsItems.COMMAND_WHISTLE.get()), true));
-
-        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0d, 10f, 5f));
+        this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 1.0d, 10f, 5f));
 
         if(isTame()) {
-            this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+            this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         }
-
-        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 4f));
-        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 4f));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -99,13 +94,13 @@ public class RepleteEntity extends TamableAnimal {
 
     @Override
     public boolean isFood(ItemStack stack) {
-        return stack.is(Items.BARRIER);
+        return false;
     }
 
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
-        return BionicsEntities.REPLETE.get().create(level);
+        return null;
     }
 
     @Override
@@ -398,7 +393,7 @@ public class RepleteEntity extends TamableAnimal {
     private int getTypeVariant() {
         return this.entityData.get(VARIANT);
     }
-    private int getFillLevel() {
+    public int getFillLevel() {
         return this.entityData.get(FILL);
     }
 
@@ -426,79 +421,6 @@ public class RepleteEntity extends TamableAnimal {
     }
     public boolean leg3_r() {
         return this.entityData.get(LEG3R);
-    }
-
-    public boolean fluid_1() {
-        return this.entityData.get(FILL) <= 160/24 && this.entityData.get(FILL) > 0;
-    }
-    public boolean fluid_2() {
-        return this.entityData.get(FILL) <= (160/24)*2 && this.entityData.get(FILL) > 160/24;
-    }
-    public boolean fluid_3() {
-        return this.entityData.get(FILL) <= (160/24)*3 && this.entityData.get(FILL) > (160/24)*2;
-    }
-    public boolean fluid_4() {
-        return this.entityData.get(FILL) <= (160/24)*4 && this.entityData.get(FILL) > (160/24)*3;
-    }
-    public boolean fluid_5() {
-        return this.entityData.get(FILL) <= (160/24)*5 && this.entityData.get(FILL) > (160/24)*4;
-    }
-    public boolean fluid_6() {
-        return this.entityData.get(FILL) <= (160/24)*6 && this.entityData.get(FILL) > (160/24)*5;
-    }
-    public boolean fluid_7() {
-        return this.entityData.get(FILL) <= (160/24)*7 && this.entityData.get(FILL) > (160/24)*6;
-    }
-    public boolean fluid_8() {
-        return this.entityData.get(FILL) <= (160/24)*8 && this.entityData.get(FILL) > (160/24)*7;
-    }
-    public boolean fluid_9() {
-        return this.entityData.get(FILL) <= (160/24)*9 && this.entityData.get(FILL) > (160/24)*8;
-    }
-    public boolean fluid_10() {
-        return this.entityData.get(FILL) <= (160/24)*10 && this.entityData.get(FILL) > (160/24)*9;
-    }
-    public boolean fluid_11() {
-        return this.entityData.get(FILL) <= (160/24)*11 && this.entityData.get(FILL) > (160/24)*10;
-    }
-    public boolean fluid_12() {
-        return this.entityData.get(FILL) <= (160/24)*12 && this.entityData.get(FILL) > (160/24)*11;
-    }
-    public boolean fluid_13() {
-        return this.entityData.get(FILL) <= (160/24)*13 && this.entityData.get(FILL) > (160/24)*12;
-    }
-    public boolean fluid_14() {
-        return this.entityData.get(FILL) <= (160/24)*14 && this.entityData.get(FILL) > (160/24)*13;
-    }
-    public boolean fluid_15() {
-        return this.entityData.get(FILL) <= (160/24)*15 && this.entityData.get(FILL) > (160/24)*14;
-    }
-    public boolean fluid_16() {
-        return this.entityData.get(FILL) <= (160/24)*16 && this.entityData.get(FILL) > (160/24)*15;
-    }
-    public boolean fluid_17() {
-        return this.entityData.get(FILL) <= (160/24)*17 && this.entityData.get(FILL) > (160/24)*16;
-    }
-    public boolean fluid_18() {
-        return this.entityData.get(FILL) <= (160/24)*18 && this.entityData.get(FILL) > (160/24)*17;
-    }
-    public boolean fluid_19() {
-        return this.entityData.get(FILL) <= (160/24)*19 && this.entityData.get(FILL) > (160/24)*18;
-    }
-    public boolean fluid_20() {
-        return this.entityData.get(FILL) <= (160/24)*20 && this.entityData.get(FILL) > (160/24)*19;
-    }
-    public boolean fluid_21() {
-        return this.entityData.get(FILL) <= (160/24)*21 && this.entityData.get(FILL) > (160/24)*20;
-    }
-    public boolean fluid_22() {
-        return this.entityData.get(FILL) <= (160/24)*22 && this.entityData.get(FILL) > (160/24)*21;
-    }
-    public boolean fluid_23() {
-        return this.entityData.get(FILL) <= (160/24)*23 && this.entityData.get(FILL) > (160/24)*22;
-    }
-    public boolean fluid_24() {
-        return this.entityData.get(FILL) > (160/24)*23;
     }
 
 }

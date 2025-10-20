@@ -18,7 +18,7 @@ public class RepleteRenderer extends MobRenderer<RepleteEntity, RepleteModel<Rep
     private static final Map<RepleteVariant, ResourceLocation> LOCATION_BY_VARIANT =
             Util.make(Maps.newEnumMap(net.dshbwlto.createbionics.entity.client.replete.RepleteVariant.class), map -> {
                 map.put(RepleteVariant.DEFAULT,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/chocolate.png"));
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete.png"));
                 map.put(RepleteVariant.BRASS,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_brass.png"));
                 map.put(RepleteVariant.NETHERITE1_COPPER,

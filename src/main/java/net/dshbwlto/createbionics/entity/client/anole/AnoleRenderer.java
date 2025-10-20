@@ -14,7 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.Map;
 
 public class AnoleRenderer extends MobRenderer<AnoleEntity, AnoleModel<AnoleEntity>> {
-    private static final Map<AnoleVariant, ResourceLocation> LOCATION_BY_VARIANT =
+    private final Map<AnoleVariant, ResourceLocation> LOCATION_BY_VARIANT =
             Util.make(Maps.newEnumMap(AnoleVariant.class),map -> {
                 map.put(AnoleVariant.DEFAULT,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole.png"));
@@ -34,21 +34,16 @@ public class AnoleRenderer extends MobRenderer<AnoleEntity, AnoleModel<AnoleEnti
 
     public AnoleRenderer(EntityRendererProvider.Context context) {
         super (context, new AnoleModel<>(context.bakeLayer(ModModelLayers.ANOLE)), 0.25f);
-        //this.addLayer(new AnoleMarkingLayer(this));
+        this.addLayer(new AnoleMarkingLayer(this, context.getModelSet()));
     }
 
     @Override
     public ResourceLocation getTextureLocation(AnoleEntity entity) {
-        return LOCATION_BY_VARIANT.get(entity.getVariant());
+            return LOCATION_BY_VARIANT.get(entity.getVariant());
     }
 
     @Override
-    public void render(AnoleEntity entity, float entityYaw, float partialTicks,
-                       PoseStack poseStack, MultiBufferSource buffer, int pPackedLight) {
-        if(entity.isBaby()) {
-            poseStack.scale(0.45f, 0.45f, 0.45f);
-        }
-
-        super.render(entity, entityYaw, partialTicks, poseStack, buffer, pPackedLight);
+    public void render(AnoleEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
 }

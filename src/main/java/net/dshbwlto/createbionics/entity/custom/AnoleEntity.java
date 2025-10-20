@@ -2,11 +2,11 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import net.dshbwlto.createbionics.Util.BionicsTags;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
+import net.dshbwlto.createbionics.entity.client.anole.AnoleMarkings;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -29,7 +29,6 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -56,6 +55,9 @@ public class AnoleEntity extends TamableAnimal {
 
     public static final EntityDataAccessor<Long> LAST_POSE_CHANGE_TICK =
             SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.LONG);
+
+    public static final EntityDataAccessor<Integer> MARKING_MAP =
+            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.INT);
 
     private static final EntityDataAccessor<ItemStack> DYE_STACK =
             SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.ITEM_STACK);
@@ -262,6 +264,29 @@ public class AnoleEntity extends TamableAnimal {
         Item itemForDiamond = Items.DIAMOND;
         Item itemForFuel = Items.CHARCOAL;
 
+        if(item == Items.REDSTONE) {
+            entityData.set(MARKING_MAP, 1);
+            makeSound(SoundEvents.DYE_USE);
+        }
+        if(item == Items.GOLD_NUGGET) {
+            entityData.set(MARKING_MAP, 2);
+            makeSound(SoundEvents.DYE_USE);
+        }
+        if(item == Items.DIAMOND) {
+            entityData.set(MARKING_MAP, 3);
+            makeSound(SoundEvents.DYE_USE);
+        }
+        if(item == Items.BRUSH) {
+            if (this.level().isClientSide()) {
+                return InteractionResult.CONSUME;
+            } else {
+                if (!player.getAbilities().instabuild) {
+                    itemstack.shrink(1);
+                }
+                entityData.set(MARKING_MAP, 0);
+                makeSound(SoundEvents.BRUSH_GENERIC);
+            }
+        }
         if(item == itemForNetherite && isTame() && !(getVariant() == AnoleVariant.NETHERITE || getVariant() == AnoleVariant.BRASS || getVariant() == AnoleVariant.ANDESITE)) {
             if(this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
@@ -484,6 +509,7 @@ public class AnoleEntity extends TamableAnimal {
         super.defineSynchedData(builder);
         builder.define(LAST_POSE_CHANGE_TICK, 0L);
         builder.define(VARIANT, 0);
+        builder.define(MARKING_MAP, 0);
         builder.define(DYE_STACK, ItemStack.EMPTY);
 
         builder.define(HAT1, true);
@@ -503,6 +529,7 @@ public class AnoleEntity extends TamableAnimal {
         super.addAdditionalSaveData(compound);
         compound.putLong("LastPoseTick", this.entityData.get(LAST_POSE_CHANGE_TICK));
         compound.putInt("Variant", this.getTypeVariant());
+        compound.putInt("Marking", this.getTypeMarkings());
         compound.putInt("RefuelTime", this.fuelTime);
 
         compound.putBoolean("Hat1", hat1());
@@ -525,6 +552,7 @@ public class AnoleEntity extends TamableAnimal {
         }
         this.resetLastPoseChangeTick(i);
         this.entityData.set(VARIANT, compound.getInt("Variant"));
+        this.entityData.set(MARKING_MAP, compound.getInt("Marking"));
         if (compound.contains("RefuelTime")) {
             this.fuelTime = compound.getInt("RefuelTime");
         }
@@ -549,8 +577,16 @@ public class AnoleEntity extends TamableAnimal {
         return this.entityData.get(VARIANT);
     }
 
+    public int getTypeMarkings() {
+        return this.entityData.get(MARKING_MAP);
+    }
+
     public AnoleVariant getVariant() {
         return AnoleVariant.byId(this.getTypeVariant() & 255);
+    }
+
+    public AnoleMarkings getMarkings() {
+        return AnoleMarkings.byId(this.getTypeMarkings() & 255);
     }
 
     public void setVariant(AnoleVariant variant) {

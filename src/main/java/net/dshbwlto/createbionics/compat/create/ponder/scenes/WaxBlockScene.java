@@ -1,3 +1,4 @@
+/*
 package net.dshbwlto.createbionics.compat.create.ponder.scenes;
 
 import net.createmod.catnip.math.Pointing;
@@ -8,8 +9,11 @@ import net.createmod.ponder.api.scene.SceneBuilder;
 import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.createmod.ponder.api.scene.Selection;
 import net.createmod.ponder.foundation.element.InputWindowElement;
+import net.createmod.ponder.foundation.instruction.EmitParticlesInstruction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.phys.Vec3;
 
 public class WaxBlockScene {
     public static void inducer(SceneBuilder scene, SceneBuildingUtil util) {
@@ -18,13 +22,13 @@ public class WaxBlockScene {
         //scene.showBasePlate();
         scene.removeShadow();
 
-        BlockPos button = util.grid.at(2, 2, 2);
-        BlockPos lever = util.grid.at(3, 2, 2);
-        BlockPos drag_inducer = util.grid.at(3, 1, 2);
+        BlockPos button = util.grid().at(2, 2, 2);
+        BlockPos lever = util.grid().at(3, 2, 2);
+        BlockPos drag_inducer = util.grid().at(3, 1, 2);
 
-        Selection rocketNoInducer = util.select.fromTo(1, 1, 2, 2, 2, 2);
-        Selection rocketWithInducer = util.select.fromTo(1, 1, 2, 3, 2, 2);
-        Selection baseplateSelect = util.select.fromTo(0, 0, 0, 4, 0, 4);
+        Selection rocketNoInducer = util.select().fromTo(1, 1, 2, 2, 2, 2);
+        Selection rocketWithInducer = util.select().fromTo(1, 1, 2, 3, 2, 2);
+        Selection baseplateSelect = util.select().fromTo(0, 0, 0, 4, 0, 4);
 
         ElementLink<WorldSectionElement> rocket = scene.world().showIndependentSection(rocketNoInducer, Direction.DOWN);
         ElementLink<WorldSectionElement> baseplate = scene.world().showIndependentSection(baseplateSelect, Direction.UP);
@@ -35,7 +39,7 @@ public class WaxBlockScene {
                 .showText(70)
                 .colored(PonderPalette.WHITE)
                 .text("Sometimes, it can be hard to slow down in space")
-                .pointAt(util.vector().centerOf(util.grid.at(2, 1, 2)));
+                .pointAt(util.vector().centerOf(util.grid().at(2, 1, 2)));
 
         scene.idle(70);
 
@@ -45,14 +49,14 @@ public class WaxBlockScene {
 
         scene.idle(20);
 
-        scene.world().toggleRedstonePower(util.select.fromTo(button, button));
+        scene.world().toggleRedstonePower(util.select().fromTo(button, button));
 
         scene.idle(10);
 
-        scene.world().toggleRedstonePower(util.select.fromTo(button, button));
+        scene.world().toggleRedstonePower(util.select().fromTo(button, button));
 
         scene.world().moveSection(baseplate, util.vector().of(-20, 0, 0), 50);
-        scene.effects.emitParticles(util.vector().of(1.5, 1.5, 2.5), EmitParticlesInstruction.Emitter.simple(CosmosModParticleTypes.THRUSTED.get(), new Vec3(-10, 0, 0)), 2, 10);
+        scene.effects().emitParticles(util.vector().of(1.5, 1.5, 2.5), EmitParticlesInstruction.Emitter.simple(CosmosModParticleTypes.THRUSTED.get(), new Vec3(-10, 0, 0)), 2, 10);
 
         scene.idle(50);
 
@@ -82,7 +86,7 @@ public class WaxBlockScene {
 
         scene.idle(20);
 
-        scene.world().toggleRedstonePower(util.select.fromTo(lever, lever));
+        scene.world().toggleRedstonePower(util.select().fromTo(lever, lever));
 
         scene.overlay().showControls(
                 new InputWindowElement(util.vector().topOf(button), Pointing.DOWN)
@@ -92,13 +96,13 @@ public class WaxBlockScene {
 
         scene.idle(20);
 
-        scene.world().toggleRedstonePower(util.select.fromTo(button, button));
+        scene.world().toggleRedstonePower(util.select().fromTo(button, button));
 
         scene.idle(10);
 
-        scene.world().toggleRedstonePower(util.select.fromTo(button, button));
+        scene.world().toggleRedstonePower(util.select().fromTo(button, button));
 
-        scene.effects.emitParticles(util.vector().of(1.5, 1.5, 2.5), EmitParticlesInstruction.Emitter.simple(CosmosModParticleTypes.THRUSTED.get(), new Vec3(-10, 0, 0)), 2, 10);
+        scene.effects().emitParticles(util.vector().of(1.5, 1.5, 2.5), EmitParticlesInstruction.Emitter.simple(ParticleTypes.SMOKE, new Vec3(-10, 0, 0)), 2, 10);
 
 
         for (int i = 0; i < 20; i++) {
@@ -131,3 +135,4 @@ public class WaxBlockScene {
         scene.markAsFinished();
     }
 }
+ */

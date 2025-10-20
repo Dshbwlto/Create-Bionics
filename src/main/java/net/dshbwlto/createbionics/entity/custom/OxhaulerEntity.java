@@ -1,6 +1,7 @@
 package net.dshbwlto.createbionics.entity.custom;
 
 import net.dshbwlto.createbionics.Util.BionicsTags;
+import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerColor;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
@@ -47,6 +48,9 @@ public class OxhaulerEntity extends AbstractHorse{
     private int idleAnimationTimeout = 0;
     private static final EntityDataAccessor<Integer> VARIANT =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> COLOR =
+            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.INT);
+
     public static final EntityDataAccessor<Long> LAST_POSE_CHANGE_TICK =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.LONG);
     private static final EntityDataAccessor<Boolean> HAS_BACK =
@@ -63,47 +67,6 @@ public class OxhaulerEntity extends AbstractHorse{
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DEAD =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-
-    private static final EntityDataAccessor<Boolean> WHITE =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> LIGHT_GRAY =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> GRAY =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> BLACK =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> BROWN =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> RED =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> ORANGE =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> YELLOW =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> LIME =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> GREEN =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> CYAN =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> LIGHT_BLUE =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> BLUE =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> MAGENTA =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> PURPLE =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> PINK =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-
-    private static final EntityDataAccessor<Boolean> HAS_TIER_1_CHEST =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> HAS_TIER_2_CHEST =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> HAS_TIER_3_CHEST =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-
 
     private static final EntityDataAccessor<Boolean> HARVESTER =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
@@ -564,373 +527,54 @@ public class OxhaulerEntity extends AbstractHorse{
             }
         }
         if (item == Items.WHITE_DYE) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                itemstack.shrink(1);
-                this.entityData.set(WHITE, true);
-                this.entityData.set(LIGHT_GRAY, false);
-                this.entityData.set(GRAY, false);
-                this.entityData.set(BLACK, false);
-                this.entityData.set(BROWN, false);
-                this.entityData.set(RED, false);
-                this.entityData.set(ORANGE, false);
-                this.entityData.set(YELLOW, false);
-                this.entityData.set(LIME, false);
-                this.entityData.set(GREEN, false);
-                this.entityData.set(CYAN, false);
-                this.entityData.set(LIGHT_BLUE, false);
-                this.entityData.set(BLUE, false);
-                this.entityData.set(MAGENTA, false);
-                this.entityData.set(PURPLE, false);
-                this.entityData.set(PINK, false);
-            }
+            setColor(OxhaulerColor.WHITE);
         }
         if (item == Items.LIGHT_GRAY_DYE) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                itemstack.shrink(1);
-                this.entityData.set(WHITE, false);
-                this.entityData.set(LIGHT_GRAY, true);
-                this.entityData.set(GRAY, false);
-                this.entityData.set(BLACK, false);
-                this.entityData.set(BROWN, false);
-                this.entityData.set(RED, false);
-                this.entityData.set(ORANGE, false);
-                this.entityData.set(YELLOW, false);
-                this.entityData.set(LIME, false);
-                this.entityData.set(GREEN, false);
-                this.entityData.set(CYAN, false);
-                this.entityData.set(LIGHT_BLUE, false);
-                this.entityData.set(BLUE, false);
-                this.entityData.set(MAGENTA, false);
-                this.entityData.set(PURPLE, false);
-                this.entityData.set(PINK, false);
-            }
+            setColor(OxhaulerColor.LIGHT_GRAY);
         }
         if (item == Items.GRAY_DYE) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                itemstack.shrink(1);
-                this.entityData.set(WHITE, false);
-                this.entityData.set(LIGHT_GRAY, false);
-                this.entityData.set(GRAY, true);
-                this.entityData.set(BLACK, false);
-                this.entityData.set(BROWN, false);
-                this.entityData.set(RED, false);
-                this.entityData.set(ORANGE, false);
-                this.entityData.set(YELLOW, false);
-                this.entityData.set(LIME, false);
-                this.entityData.set(GREEN, false);
-                this.entityData.set(CYAN, false);
-                this.entityData.set(LIGHT_BLUE, false);
-                this.entityData.set(BLUE, false);
-                this.entityData.set(MAGENTA, false);
-                this.entityData.set(PURPLE, false);
-                this.entityData.set(PINK, false);
-            }
+            setColor(OxhaulerColor.GRAY);
         }
         if (item == Items.BLACK_DYE) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                itemstack.shrink(1);
-                this.entityData.set(WHITE, false);
-                this.entityData.set(LIGHT_GRAY, false);
-                this.entityData.set(GRAY, false);
-                this.entityData.set(BLACK, true);
-                this.entityData.set(BROWN, false);
-                this.entityData.set(RED, false);
-                this.entityData.set(ORANGE, false);
-                this.entityData.set(YELLOW, false);
-                this.entityData.set(LIME, false);
-                this.entityData.set(GREEN, false);
-                this.entityData.set(CYAN, false);
-                this.entityData.set(LIGHT_BLUE, false);
-                this.entityData.set(BLUE, false);
-                this.entityData.set(MAGENTA, false);
-                this.entityData.set(PURPLE, false);
-                this.entityData.set(PINK, false);
-            }
+            setColor(OxhaulerColor.BLACK);
         }
         if (item == Items.BROWN_DYE) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                itemstack.shrink(1);
-                this.entityData.set(WHITE, false);
-                this.entityData.set(LIGHT_GRAY, false);
-                this.entityData.set(GRAY, false);
-                this.entityData.set(BLACK, false);
-                this.entityData.set(BROWN, true);
-                this.entityData.set(RED, false);
-                this.entityData.set(ORANGE, false);
-                this.entityData.set(YELLOW, false);
-                this.entityData.set(LIME, false);
-                this.entityData.set(GREEN, false);
-                this.entityData.set(CYAN, false);
-                this.entityData.set(LIGHT_BLUE, false);
-                this.entityData.set(BLUE, false);
-                this.entityData.set(MAGENTA, false);
-                this.entityData.set(PURPLE, false);
-                this.entityData.set(PINK, false);
-            }
+            setColor(OxhaulerColor.BROWN);
         }
         if (item == Items.RED_DYE) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                itemstack.shrink(1);
-                this.entityData.set(WHITE, false);
-                this.entityData.set(LIGHT_GRAY, false);
-                this.entityData.set(GRAY, false);
-                this.entityData.set(BLACK, false);
-                this.entityData.set(BROWN, false);
-                this.entityData.set(RED, true);
-                this.entityData.set(ORANGE, false);
-                this.entityData.set(YELLOW, false);
-                this.entityData.set(LIME, false);
-                this.entityData.set(GREEN, false);
-                this.entityData.set(CYAN, false);
-                this.entityData.set(LIGHT_BLUE, false);
-                this.entityData.set(BLUE, false);
-                this.entityData.set(MAGENTA, false);
-                this.entityData.set(PURPLE, false);
-                this.entityData.set(PINK, false);
-            }
+            setColor(OxhaulerColor.RED);
         }
         if (item == Items.ORANGE_DYE) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                itemstack.shrink(1);
-                this.entityData.set(WHITE, false);
-                this.entityData.set(LIGHT_GRAY, false);
-                this.entityData.set(GRAY, false);
-                this.entityData.set(BLACK, false);
-                this.entityData.set(BROWN, false);
-                this.entityData.set(RED, false);
-                this.entityData.set(ORANGE, true);
-                this.entityData.set(YELLOW, false);
-                this.entityData.set(LIME, false);
-                this.entityData.set(GREEN, false);
-                this.entityData.set(CYAN, false);
-                this.entityData.set(LIGHT_BLUE, false);
-                this.entityData.set(BLUE, false);
-                this.entityData.set(MAGENTA, false);
-                this.entityData.set(PURPLE, false);
-                this.entityData.set(PINK, false);
-            }
+            setColor(OxhaulerColor.ORANGE);
         }
         if (item == Items.YELLOW_DYE) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                itemstack.shrink(1);
-                this.entityData.set(WHITE, false);
-                this.entityData.set(LIGHT_GRAY, false);
-                this.entityData.set(GRAY, false);
-                this.entityData.set(BLACK, false);
-                this.entityData.set(BROWN, false);
-                this.entityData.set(RED, false);
-                this.entityData.set(ORANGE, false);
-                this.entityData.set(YELLOW, true);
-                this.entityData.set(LIME, false);
-                this.entityData.set(GREEN, false);
-                this.entityData.set(CYAN, false);
-                this.entityData.set(LIGHT_BLUE, false);
-                this.entityData.set(BLUE, false);
-                this.entityData.set(MAGENTA, false);
-                this.entityData.set(PURPLE, false);
-                this.entityData.set(PINK, false);
-            }
+            setColor(OxhaulerColor.YELLOW);
         }
         if (item == Items.LIME_DYE) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                itemstack.shrink(1);
-                this.entityData.set(WHITE, false);
-                this.entityData.set(LIGHT_GRAY, false);
-                this.entityData.set(GRAY, false);
-                this.entityData.set(BLACK, false);
-                this.entityData.set(BROWN, false);
-                this.entityData.set(RED, false);
-                this.entityData.set(ORANGE, false);
-                this.entityData.set(YELLOW, false);
-                this.entityData.set(LIME, true);
-                this.entityData.set(GREEN, false);
-                this.entityData.set(CYAN, false);
-                this.entityData.set(LIGHT_BLUE, false);
-                this.entityData.set(BLUE, false);
-                this.entityData.set(MAGENTA, false);
-                this.entityData.set(PURPLE, false);
-                this.entityData.set(PINK, false);
-            }
+            setColor(OxhaulerColor.LIME);
         }
         if (item == Items.GREEN_DYE) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                itemstack.shrink(1);
-                this.entityData.set(WHITE, false);
-                this.entityData.set(LIGHT_GRAY, false);
-                this.entityData.set(GRAY, false);
-                this.entityData.set(BLACK, false);
-                this.entityData.set(BROWN, false);
-                this.entityData.set(RED, false);
-                this.entityData.set(ORANGE, false);
-                this.entityData.set(YELLOW, false);
-                this.entityData.set(LIME, false);
-                this.entityData.set(GREEN, true);
-                this.entityData.set(CYAN, false);
-                this.entityData.set(LIGHT_BLUE, false);
-                this.entityData.set(BLUE, false);
-                this.entityData.set(MAGENTA, false);
-                this.entityData.set(PURPLE, false);
-                this.entityData.set(PINK, false);
-            }
+            setColor(OxhaulerColor.GREEN);
         }
         if (item == Items.CYAN_DYE) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                itemstack.shrink(1);
-                this.entityData.set(WHITE, false);
-                this.entityData.set(LIGHT_GRAY, false);
-                this.entityData.set(GRAY, false);
-                this.entityData.set(BLACK, false);
-                this.entityData.set(BROWN, false);
-                this.entityData.set(RED, false);
-                this.entityData.set(ORANGE, false);
-                this.entityData.set(YELLOW, false);
-                this.entityData.set(LIME, false);
-                this.entityData.set(GREEN, false);
-                this.entityData.set(CYAN, true);
-                this.entityData.set(LIGHT_BLUE, false);
-                this.entityData.set(BLUE, false);
-                this.entityData.set(MAGENTA, false);
-                this.entityData.set(PURPLE, false);
-                this.entityData.set(PINK, false);
-            }
+            setColor(OxhaulerColor.CYAN);
         }
         if (item == Items.LIGHT_BLUE_DYE) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                itemstack.shrink(1);
-                this.entityData.set(WHITE, false);
-                this.entityData.set(LIGHT_GRAY, false);
-                this.entityData.set(GRAY, false);
-                this.entityData.set(BLACK, false);
-                this.entityData.set(BROWN, false);
-                this.entityData.set(RED, false);
-                this.entityData.set(ORANGE, false);
-                this.entityData.set(YELLOW, false);
-                this.entityData.set(LIME, false);
-                this.entityData.set(GREEN, false);
-                this.entityData.set(CYAN, false);
-                this.entityData.set(LIGHT_BLUE, true);
-                this.entityData.set(BLUE, false);
-                this.entityData.set(MAGENTA, false);
-                this.entityData.set(PURPLE, false);
-                this.entityData.set(PINK, false);
-            }
+            setColor(OxhaulerColor.LIGHT_BLUE);
         }
         if (item == Items.BLUE_DYE) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                itemstack.shrink(1);
-                this.entityData.set(WHITE, false);
-                this.entityData.set(LIGHT_GRAY, false);
-                this.entityData.set(GRAY, false);
-                this.entityData.set(BLACK, false);
-                this.entityData.set(BROWN, false);
-                this.entityData.set(RED, false);
-                this.entityData.set(ORANGE, false);
-                this.entityData.set(YELLOW, false);
-                this.entityData.set(LIME, false);
-                this.entityData.set(GREEN, false);
-                this.entityData.set(CYAN, false);
-                this.entityData.set(LIGHT_BLUE, false);
-                this.entityData.set(BLUE, true);
-                this.entityData.set(MAGENTA, false);
-                this.entityData.set(PURPLE, false);
-                this.entityData.set(PINK, false);
-            }
+            setColor(OxhaulerColor.BLUE);
         }
         if (item == Items.MAGENTA_DYE) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                itemstack.shrink(1);
-                this.entityData.set(WHITE, false);
-                this.entityData.set(LIGHT_GRAY, false);
-                this.entityData.set(GRAY, false);
-                this.entityData.set(BLACK, false);
-                this.entityData.set(BROWN, false);
-                this.entityData.set(RED, false);
-                this.entityData.set(ORANGE, false);
-                this.entityData.set(YELLOW, false);
-                this.entityData.set(LIME, false);
-                this.entityData.set(GREEN, false);
-                this.entityData.set(CYAN, false);
-                this.entityData.set(LIGHT_BLUE, false);
-                this.entityData.set(BLUE, false);
-                this.entityData.set(MAGENTA, true);
-                this.entityData.set(PURPLE, false);
-                this.entityData.set(PINK, false);
-            }
+            setColor(OxhaulerColor.MAGENTA);
         }
         if (item == Items.PURPLE_DYE) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                itemstack.shrink(1);
-                this.entityData.set(WHITE, false);
-                this.entityData.set(LIGHT_GRAY, false);
-                this.entityData.set(GRAY, false);
-                this.entityData.set(BLACK, false);
-                this.entityData.set(BROWN, false);
-                this.entityData.set(RED, false);
-                this.entityData.set(ORANGE, false);
-                this.entityData.set(YELLOW, false);
-                this.entityData.set(LIME, false);
-                this.entityData.set(GREEN, false);
-                this.entityData.set(CYAN, false);
-                this.entityData.set(LIGHT_BLUE, false);
-                this.entityData.set(BLUE, false);
-                this.entityData.set(MAGENTA, false);
-                this.entityData.set(PURPLE, true);
-                this.entityData.set(PINK, false);
-            }
+            setColor(OxhaulerColor.PURPLE);
         }
         if (item == Items.PINK_DYE) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                itemstack.shrink(1);
-                this.entityData.set(WHITE, false);
-                this.entityData.set(LIGHT_GRAY, false);
-                this.entityData.set(GRAY, false);
-                this.entityData.set(BLACK, false);
-                this.entityData.set(BROWN, false);
-                this.entityData.set(RED, false);
-                this.entityData.set(ORANGE, false);
-                this.entityData.set(YELLOW, false);
-                this.entityData.set(LIME, false);
-                this.entityData.set(GREEN, false);
-                this.entityData.set(CYAN, false);
-                this.entityData.set(LIGHT_BLUE, false);
-                this.entityData.set(BLUE, false);
-                this.entityData.set(MAGENTA, false);
-                this.entityData.set(PURPLE, false);
-                this.entityData.set(PINK, true);
-            }
+            setColor(OxhaulerColor.PINK);
         }
+
         if(itemstack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_harvester"))) && !entityData.get(PLOUGH) && isFueled()) {
             if (this.level().isClientSide) {
                 return InteractionResult.CONSUME;
@@ -953,6 +597,7 @@ public class OxhaulerEntity extends AbstractHorse{
         super.defineSynchedData(builder);
         builder.define(LAST_POSE_CHANGE_TICK, 0L);
         builder.define(VARIANT, 0);
+        builder.define(COLOR, 0);
         builder.define(HAS_BACK, false);
         builder.define(HAS_FRONT, false);
         builder.define(HAS_NECK, false);
@@ -961,22 +606,6 @@ public class OxhaulerEntity extends AbstractHorse{
         builder.define(SILENCED, false);
         builder.define(DEAD, false);
 
-        builder.define(WHITE, false);
-        builder.define(LIGHT_GRAY, false);
-        builder.define(GRAY, false);
-        builder.define(BLACK, false);
-        builder.define(BROWN, false);
-        builder.define(RED, true);
-        builder.define(ORANGE, false);
-        builder.define(YELLOW, false);
-        builder.define(LIME, false);
-        builder.define(GREEN, false);
-        builder.define(CYAN, false);
-        builder.define(LIGHT_BLUE, false);
-        builder.define(BLUE, false);
-        builder.define(MAGENTA, false);
-        builder.define(PURPLE, false);
-        builder.define(PINK, false);
         builder.define(HARVESTER, false);
         builder.define(PLOUGH, false);
 
@@ -988,6 +617,7 @@ public class OxhaulerEntity extends AbstractHorse{
         super.addAdditionalSaveData(compound);
         compound.putLong("LastPoseTick", this.entityData.get(LAST_POSE_CHANGE_TICK));
         compound.putInt("Variant", this.getTypeVariant());
+        compound.putInt("Color", this.getTypeColor());
 
         compound.putBoolean("HasBack", hasBack());
         compound.putBoolean("HasFront", hasFront());
@@ -996,24 +626,6 @@ public class OxhaulerEntity extends AbstractHorse{
         compound.putBoolean("FirstFuel", firstFuel());
         compound.putBoolean("Silenced", silenced());
         compound.putBoolean("Dead", dead());
-
-        compound.putBoolean("WhiteFlag", whiteFlag());
-        compound.putBoolean("LightGrayFlag", lightGrayFlag());
-        compound.putBoolean("GrayFlag", grayFlag());
-        compound.putBoolean("BlackFlag", blackFlag());
-        compound.putBoolean("BrownFlag", brownFlag());
-        compound.putBoolean("RedFlag", redFlag());
-        compound.putBoolean("OrangeFlag", orangeFlag());
-        compound.putBoolean("YellowFlag", yellowFlag());
-        compound.putBoolean("LimeFlag", limeFlag());
-        compound.putBoolean("GreenFlag", greenFlag());
-        compound.putBoolean("CyanFlag", cyanFlag());
-        compound.putBoolean("LightBlueFlag", lightBlueFlag());
-        compound.putBoolean("BlueFlag", blueFlag());
-        compound.putBoolean("MagentaFlag", magentaFlag());
-        compound.putBoolean("PurpleFlag", purpleFlag());
-        compound.putBoolean("MagentaFlag", magentaFlag());
-        compound.putBoolean("PinkFlag", pinkFlag());
 
         compound.putBoolean("Harvester", isHarvester());
         compound.putBoolean("Plough", isPlough());
@@ -1043,29 +655,13 @@ public class OxhaulerEntity extends AbstractHorse{
             this.setPose(Pose.SITTING);
         }
         this.entityData.set(VARIANT, compound.getInt("Variant"));
+        this.entityData.set(COLOR, compound.getInt("Color"));
         this.entityData.set(HAS_BACK, compound.getBoolean("HasBack"));
         this.entityData.set(HAS_FRONT, compound.getBoolean("HasFront"));
         this.entityData.set(HAS_NECK, compound.getBoolean("HasNeck"));
         this.entityData.set(IS_FUELED, compound.getBoolean("IsFueled"));
         this.entityData.set(FIRST_FUEL, compound.getBoolean("FirstFuel"));
         this.entityData.set(SILENCED, compound.getBoolean("Silenced"));
-
-        this.entityData.set(WHITE, compound.getBoolean("WhiteFlag"));
-        this.entityData.set(LIGHT_GRAY, compound.getBoolean("LightGrayFlag"));
-        this.entityData.set(GRAY, compound.getBoolean("GrayFlag"));
-        this.entityData.set(BLACK, compound.getBoolean("BlackFlag"));
-        this.entityData.set(BROWN, compound.getBoolean("BrownFlag"));
-        this.entityData.set(RED, compound.getBoolean("RedFlag"));
-        this.entityData.set(ORANGE, compound.getBoolean("OrangeFlag"));
-        this.entityData.set(YELLOW, compound.getBoolean("YellowFlag"));
-        this.entityData.set(LIME, compound.getBoolean("LimeFlag"));
-        this.entityData.set(GREEN, compound.getBoolean("GreenFlag"));
-        this.entityData.set(CYAN, compound.getBoolean("CyanFlag"));
-        this.entityData.set(LIGHT_BLUE, compound.getBoolean("LightBlueFlag"));
-        this.entityData.set(BLUE, compound.getBoolean("BlueFlag"));
-        this.entityData.set(MAGENTA, compound.getBoolean("MagentaFlag"));
-        this.entityData.set(PURPLE, compound.getBoolean("PurpleFlag"));
-        this.entityData.set(PINK, compound.getBoolean("PinkFlag"));
 
         this.entityData.set(HARVESTER, compound.getBoolean("Harvester"));
         this.entityData.set(PLOUGH, compound.getBoolean("Plough"));
@@ -1095,17 +691,29 @@ public class OxhaulerEntity extends AbstractHorse{
     private void setTypeVariant(int typeVariant) {
         this.entityData.set(VARIANT, typeVariant);
     }
+    private void setTypeColor(int typeColor) {
+        this.entityData.set(COLOR, typeColor);
+    }
 
     private int getTypeVariant() {
         return this.entityData.get(VARIANT);
+    }
+    public int getTypeColor() {
+        return this.entityData.get(COLOR);
     }
 
     public OxhaulerVariant getVariant() {
         return OxhaulerVariant.byId(this.getTypeVariant() & 255);
     }
+    public OxhaulerColor getColor() {
+        return OxhaulerColor.byId(this.getTypeColor() & 255);
+    }
 
     public void setVariant(OxhaulerVariant variant) {
         this.entityData.set(VARIANT, variant.getId() & 255);
+    }
+    public void setColor(OxhaulerColor color) {
+        this.entityData.set(COLOR, color.getId() & 255);
     }
 
     public boolean hasBack() {
@@ -1126,55 +734,6 @@ public class OxhaulerEntity extends AbstractHorse{
 
     public boolean firstFuel() {
         return this.entityData.get(FIRST_FUEL);
-    }
-
-    public boolean whiteFlag() {
-        return this.entityData.get(WHITE);
-    }
-    public boolean lightGrayFlag() {
-        return this.entityData.get(LIGHT_GRAY);
-    }
-    public boolean grayFlag() {
-        return this.entityData.get(GRAY);
-    }
-    public boolean blackFlag() {
-        return this.entityData.get(BLACK);
-    }
-    public boolean brownFlag() {
-        return this.entityData.get(BROWN);
-    }
-    public boolean redFlag() {
-        return this.entityData.get(RED);
-    }
-    public boolean orangeFlag() {
-        return this.entityData.get(ORANGE);
-    }
-    public boolean yellowFlag() {
-        return this.entityData.get(YELLOW);
-    }
-    public boolean limeFlag() {
-        return this.entityData.get(LIME);
-    }
-    public boolean greenFlag() {
-        return this.entityData.get(GREEN);
-    }
-    public boolean cyanFlag() {
-        return this.entityData.get(CYAN);
-    }
-    public boolean lightBlueFlag() {
-        return this.entityData.get(LIGHT_BLUE);
-    }
-    public boolean blueFlag() {
-        return this.entityData.get(BLUE);
-    }
-    public boolean magentaFlag() {
-        return this.entityData.get(MAGENTA);
-    }
-    public boolean purpleFlag() {
-        return this.entityData.get(PURPLE);
-    }
-    public boolean pinkFlag() {
-        return this.entityData.get(PINK);
     }
 
     public boolean isHarvester() {

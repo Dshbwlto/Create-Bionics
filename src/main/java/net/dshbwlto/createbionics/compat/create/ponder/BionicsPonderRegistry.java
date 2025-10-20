@@ -1,3 +1,4 @@
+/*
 package net.dshbwlto.createbionics.compat.create.ponder;
 
 import net.createmod.ponder.api.registration.MultiSceneBuilder;
@@ -53,3 +54,5 @@ public class BionicsPonderRegistry {
         ).addStoryBoard("drag_inducer", WaxBlockScene::inducer);
     }
 }
+*/
+

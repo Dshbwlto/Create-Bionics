@@ -13,22 +13,6 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
 {
     private final ModelPart Root;
     private final ModelPart BackMaster;
-    private final ModelPart FlagRootWhite;
-    private final ModelPart FlagRootLightGray;
-    private final ModelPart FlagRootGray;
-    private final ModelPart FlagRootBlack;
-    private final ModelPart FlagRootBrown;
-    private final ModelPart FlagRootRed;
-    private final ModelPart FlagRootOrange;
-    private final ModelPart FlagRootYellow;
-    private final ModelPart FlagRootLime;
-    private final ModelPart FlagRootGreen;
-    private final ModelPart FlagRootCyan;
-    private final ModelPart FlagRootLightBlue;
-    private final ModelPart FlagRootBlue;
-    private final ModelPart FlagRootMagenta;
-    private final ModelPart FlagRootPink;
-    private final ModelPart FlagRootPurple;
     private final ModelPart FrontMaster;
     private final ModelPart neck_master;
     private final ModelPart combine;
@@ -39,22 +23,6 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
     public OxhaulerModel(ModelPart root) {
         this.Root = root.getChild("Root");
         this.BackMaster = this.Root.getChild("Body").getChild("BackMaster");
-        this.FlagRootWhite = this.Root.getChild("Body").getChild("BackMaster").getChild("Back").getChild("FlagRootWhite");
-        this.FlagRootLightGray = this.Root.getChild("Body").getChild("BackMaster").getChild("Back").getChild("FlagRootLightGray");
-        this.FlagRootGray = this.Root.getChild("Body").getChild("BackMaster").getChild("Back").getChild("FlagRootGray");
-        this.FlagRootBlack = this.Root.getChild("Body").getChild("BackMaster").getChild("Back").getChild("FlagRootBlack");
-        this.FlagRootBrown = this.Root.getChild("Body").getChild("BackMaster").getChild("Back").getChild("FlagRootBrown");
-        this.FlagRootRed = this.Root.getChild("Body").getChild("BackMaster").getChild("Back").getChild("FlagRootRed");
-        this.FlagRootOrange = this.Root.getChild("Body").getChild("BackMaster").getChild("Back").getChild("FlagRootOrange");
-        this.FlagRootYellow = this.Root.getChild("Body").getChild("BackMaster").getChild("Back").getChild("FlagRootYellow");
-        this.FlagRootLime = this.Root.getChild("Body").getChild("BackMaster").getChild("Back").getChild("FlagRootLime");
-        this.FlagRootGreen = this.Root.getChild("Body").getChild("BackMaster").getChild("Back").getChild("FlagRootGreen");
-        this.FlagRootCyan = this.Root.getChild("Body").getChild("BackMaster").getChild("Back").getChild("FlagRootCyan");
-        this.FlagRootLightBlue = this.Root.getChild("Body").getChild("BackMaster").getChild("Back").getChild("FlagRootLightBlue");
-        this.FlagRootBlue = this.Root.getChild("Body").getChild("BackMaster").getChild("Back").getChild("FlagRootBlue");
-        this.FlagRootMagenta = this.Root.getChild("Body").getChild("BackMaster").getChild("Back").getChild("FlagRootMagenta");
-        this.FlagRootPink = this.Root.getChild("Body").getChild("BackMaster").getChild("Back").getChild("FlagRootPink");
-        this.FlagRootPurple = this.Root.getChild("Body").getChild("BackMaster").getChild("Back").getChild("FlagRootPurple");
         this.FrontMaster = this.Root.getChild("Body").getChild("FrontMaster");
         this.neck_master = this.Root.getChild("Body").getChild("FrontMaster").getChild("Front").getChild("neck_master");
         this.combine = this.Root.getChild("combine");
@@ -111,101 +79,11 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
 
         PartDefinition cube_r7 = Back.addOrReplaceChild("cube_r7", CubeListBuilder.create().texOffs(44, 109).addBox(-1.0F, -1.0F, -1.0F, 1.0F, 16.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, -11.0F, 17.5F, 2.3562F, 0.0F, 0.0F));
 
-        PartDefinition FlagRootWhite = Back.addOrReplaceChild("FlagRootWhite", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -18.0F, 26.0F, -0.7854F, 0.0F, 0.0F));
+        PartDefinition Flag = Back.addOrReplaceChild("Flag", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -18.0F, 26.0F, -0.7854F, 0.0F, 0.0F));
 
-        PartDefinition Flag3 = FlagRootWhite.addOrReplaceChild("Flag3", CubeListBuilder.create().texOffs(220, 2).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+        PartDefinition Flag3 = Flag.addOrReplaceChild("Flag3", CubeListBuilder.create().texOffs(51, 101).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-        PartDefinition Flag4 = Flag3.addOrReplaceChild("Flag4", CubeListBuilder.create().texOffs(238, 2).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 9.0F));
-
-        PartDefinition FlagRootLightGray = Back.addOrReplaceChild("FlagRootLightGray", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -18.0F, 26.0F, -0.7854F, 0.0F, 0.0F));
-
-        PartDefinition Flag5 = FlagRootLightGray.addOrReplaceChild("Flag5", CubeListBuilder.create().texOffs(220, 13).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition Flag6 = Flag5.addOrReplaceChild("Flag6", CubeListBuilder.create().texOffs(238, 13).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 9.0F));
-
-        PartDefinition FlagRootGray = Back.addOrReplaceChild("FlagRootGray", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -18.0F, 26.0F, -0.7854F, 0.0F, 0.0F));
-
-        PartDefinition Flag7 = FlagRootGray.addOrReplaceChild("Flag7", CubeListBuilder.create().texOffs(220, 24).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition Flag8 = Flag7.addOrReplaceChild("Flag8", CubeListBuilder.create().texOffs(238, 24).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 9.0F));
-
-        PartDefinition FlagRootBlack = Back.addOrReplaceChild("FlagRootBlack", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -18.0F, 26.0F, -0.7854F, 0.0F, 0.0F));
-
-        PartDefinition Flag9 = FlagRootBlack.addOrReplaceChild("Flag9", CubeListBuilder.create().texOffs(220, 35).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition Flag10 = Flag9.addOrReplaceChild("Flag10", CubeListBuilder.create().texOffs(238, 35).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 9.0F));
-
-        PartDefinition FlagRootBrown = Back.addOrReplaceChild("FlagRootBrown", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -18.0F, 26.0F, -0.7854F, 0.0F, 0.0F));
-
-        PartDefinition Flag11 = FlagRootBrown.addOrReplaceChild("Flag11", CubeListBuilder.create().texOffs(220, 46).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition Flag12 = Flag11.addOrReplaceChild("Flag12", CubeListBuilder.create().texOffs(238, 46).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 9.0F));
-
-        PartDefinition FlagRootRed = Back.addOrReplaceChild("FlagRootRed", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -18.0F, 26.0F, -0.7854F, 0.0F, 0.0F));
-
-        PartDefinition Flag1 = FlagRootRed.addOrReplaceChild("Flag1", CubeListBuilder.create().texOffs(220, -9).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition Flag2 = Flag1.addOrReplaceChild("Flag2", CubeListBuilder.create().texOffs(238, -9).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 9.0F));
-
-        PartDefinition FlagRootOrange = Back.addOrReplaceChild("FlagRootOrange", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -18.0F, 26.0F, -0.7854F, 0.0F, 0.0F));
-
-        PartDefinition Flag13 = FlagRootOrange.addOrReplaceChild("Flag13", CubeListBuilder.create().texOffs(220, 57).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition Flag14 = Flag13.addOrReplaceChild("Flag14", CubeListBuilder.create().texOffs(238, 57).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 9.0F));
-
-        PartDefinition FlagRootYellow = Back.addOrReplaceChild("FlagRootYellow", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -18.0F, 26.0F, -0.7854F, 0.0F, 0.0F));
-
-        PartDefinition Flag15 = FlagRootYellow.addOrReplaceChild("Flag15", CubeListBuilder.create().texOffs(220, 68).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition Flag16 = Flag15.addOrReplaceChild("Flag16", CubeListBuilder.create().texOffs(238, 68).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 9.0F));
-
-        PartDefinition FlagRootLime = Back.addOrReplaceChild("FlagRootLime", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -18.0F, 26.0F, -0.7854F, 0.0F, 0.0F));
-
-        PartDefinition Flag17 = FlagRootLime.addOrReplaceChild("Flag17", CubeListBuilder.create().texOffs(220, 79).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition Flag18 = Flag17.addOrReplaceChild("Flag18", CubeListBuilder.create().texOffs(238, 79).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 9.0F));
-
-        PartDefinition FlagRootGreen = Back.addOrReplaceChild("FlagRootGreen", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -18.0F, 26.0F, -0.7854F, 0.0F, 0.0F));
-
-        PartDefinition Flag19 = FlagRootGreen.addOrReplaceChild("Flag19", CubeListBuilder.create().texOffs(220, 90).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition Flag20 = Flag19.addOrReplaceChild("Flag20", CubeListBuilder.create().texOffs(238, 90).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 9.0F));
-
-        PartDefinition FlagRootCyan = Back.addOrReplaceChild("FlagRootCyan", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -18.0F, 26.0F, -0.7854F, 0.0F, 0.0F));
-
-        PartDefinition Flag21 = FlagRootCyan.addOrReplaceChild("Flag21", CubeListBuilder.create().texOffs(220, 101).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition Flag22 = Flag21.addOrReplaceChild("Flag22", CubeListBuilder.create().texOffs(238, 101).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 9.0F));
-
-        PartDefinition FlagRootLightBlue = Back.addOrReplaceChild("FlagRootLightBlue", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -18.0F, 26.0F, -0.7854F, 0.0F, 0.0F));
-
-        PartDefinition Flag23 = FlagRootLightBlue.addOrReplaceChild("Flag23", CubeListBuilder.create().texOffs(220, 112).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition Flag24 = Flag23.addOrReplaceChild("Flag24", CubeListBuilder.create().texOffs(238, 112).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 9.0F));
-
-        PartDefinition FlagRootBlue = Back.addOrReplaceChild("FlagRootBlue", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -18.0F, 26.0F, -0.7854F, 0.0F, 0.0F));
-
-        PartDefinition Flag25 = FlagRootBlue.addOrReplaceChild("Flag25", CubeListBuilder.create().texOffs(220, 123).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition Flag26 = Flag25.addOrReplaceChild("Flag26", CubeListBuilder.create().texOffs(238, 123).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 9.0F));
-
-        PartDefinition FlagRootMagenta = Back.addOrReplaceChild("FlagRootMagenta", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -18.0F, 26.0F, -0.7854F, 0.0F, 0.0F));
-
-        PartDefinition Flag27 = FlagRootMagenta.addOrReplaceChild("Flag27", CubeListBuilder.create().texOffs(220, 134).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition Flag28 = Flag27.addOrReplaceChild("Flag28", CubeListBuilder.create().texOffs(238, 134).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 9.0F));
-
-        PartDefinition FlagRootPink = Back.addOrReplaceChild("FlagRootPink", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -18.0F, 26.0F, -0.7854F, 0.0F, 0.0F));
-
-        PartDefinition Flag29 = FlagRootPink.addOrReplaceChild("Flag29", CubeListBuilder.create().texOffs(220, 145).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition Flag30 = Flag29.addOrReplaceChild("Flag30", CubeListBuilder.create().texOffs(238, 145).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 9.0F));
-
-        PartDefinition FlagRootPurple = Back.addOrReplaceChild("FlagRootPurple", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -18.0F, 26.0F, -0.7854F, 0.0F, 0.0F));
-
-        PartDefinition Flag31 = FlagRootPurple.addOrReplaceChild("Flag31", CubeListBuilder.create().texOffs(220, 156).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition Flag32 = Flag31.addOrReplaceChild("Flag32", CubeListBuilder.create().texOffs(238, 156).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 9.0F));
+        PartDefinition Flag4 = Flag3.addOrReplaceChild("Flag4", CubeListBuilder.create().texOffs(69, 101).addBox(0.0F, -3.0F, 0.0F, 0.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 9.0F));
 
         PartDefinition ChestBackL = Back.addOrReplaceChild("ChestBackL", CubeListBuilder.create().texOffs(0, 94).addBox(-4.0F, -2.0F, -5.5F, 6.0F, 10.0F, 15.0F, new CubeDeformation(0.0F))
                 .texOffs(190, 115).addBox(2.0F, 0.0F, 1.0F, 1.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(10.0F, -2.0F, 8.0F, 0.0F, 0.0F, -0.2182F));
@@ -479,23 +357,6 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
         BackMaster.visible = entity.hasBack();
         FrontMaster.visible = entity.hasFront();
         neck_master.visible = entity.hasNeck();
-
-        FlagRootWhite.visible = entity.whiteFlag();
-        FlagRootLightGray.visible = entity.lightGrayFlag();
-        FlagRootGray.visible = entity.grayFlag();
-        FlagRootBlack.visible = entity.blackFlag();
-        FlagRootBrown.visible = entity.brownFlag();
-        FlagRootRed.visible = entity.redFlag();
-        FlagRootOrange.visible = entity.orangeFlag();
-        FlagRootYellow.visible = entity.yellowFlag();
-        FlagRootLime.visible = entity.limeFlag();
-        FlagRootGreen.visible = entity.greenFlag();
-        FlagRootCyan.visible = entity.cyanFlag();
-        FlagRootLightBlue.visible = entity.lightBlueFlag();
-        FlagRootBlue.visible = entity.blueFlag();
-        FlagRootMagenta.visible = entity.magentaFlag();
-        FlagRootPurple.visible = entity.purpleFlag();
-        FlagRootPink.visible = entity.pinkFlag();
 
         combine.visible = entity.isHarvester();
         plough.visible = entity.isPlough();

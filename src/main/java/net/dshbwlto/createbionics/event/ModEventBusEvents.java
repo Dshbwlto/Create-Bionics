@@ -21,7 +21,9 @@ public class ModEventBusEvents {
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ModModelLayers.ANOLE, AnoleModel::createBodyLayer);
+        event.registerLayerDefinition(ModModelLayers.ANOLE_MARKINGS, AnoleModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.OXHAULER, OxhaulerModel::createBodyLayer);
+        event.registerLayerDefinition(ModModelLayers.OXHAULER_GLOW, OxhaulerModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.OXHAULER_COLOR, OxhaulerModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.REPLETE, RepleteModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.STALKER, StalkerModel::createBodyLayer);

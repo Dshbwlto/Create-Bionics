@@ -1,3 +1,4 @@
+/*
 package net.dshbwlto.createbionics.compat.create.ponder;
 
 import com.simibubi.create.Create;
@@ -20,3 +21,4 @@ public class BionicsPonderTags {
                 .add(BionicsBlocks.WAX_BLOCK.getId())
     }
 }
+*/

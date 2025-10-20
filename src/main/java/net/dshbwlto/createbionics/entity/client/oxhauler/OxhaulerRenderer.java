@@ -29,6 +29,7 @@ public class OxhaulerRenderer extends MobRenderer<OxhaulerEntity, OxhaulerModel<
 
     public OxhaulerRenderer(EntityRendererProvider.Context context) {
         super(context, new OxhaulerModel<>(context.bakeLayer(ModModelLayers.OXHAULER)), 1.6f);
+        this.addLayer(new OxhaulerGlowLayer(this, context.getModelSet()));
         this.addLayer(new OxhaulerColorLayer(this, context.getModelSet()));
     }
 
@@ -39,13 +40,6 @@ public class OxhaulerRenderer extends MobRenderer<OxhaulerEntity, OxhaulerModel<
 
     @Override
     public void render(OxhaulerEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        if(entity.isBaby()) {
-            poseStack.scale(0.5f,0.5f,0.5f);
-        }
-        if(entity.isFueled()) {
-            poseStack.rotateAround(new Quaternionf(), 90, 0, 0);
-        }
-
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
 }
