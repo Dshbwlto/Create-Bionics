@@ -47,7 +47,6 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
 
-        RepleteEntity replete = new RepleteEntity();
         PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 10.0F, -13.0F));
 
         PartDefinition root_util = root.addOrReplaceChild("root_util", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
