@@ -110,7 +110,7 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
                 .texOffs(331, 162).addBox(0.0F, 11.0F, 0.0F, 15.0F, 1.0F, 15.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -11.0F, 16.0F));
 
         PartDefinition fluid = tank.addOrReplaceChild("fluid", CubeListBuilder.create().texOffs(368, 0).mirror()
-                .addBox(-4.0F, 32.0F, 15.0F, 8.0F, 0.0F + RepleteModel.fillLevel, 0.0F, new CubeDeformation(0.0F)).mirror(false).texOffs(368, 0)
+                .addBox(-4.0F, 32.0F, 15.0F, 8.0F, 0.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false).texOffs(368, 0)
                 .addBox(-4.0F, 32.0F, -15.0F, 8.0F, 0.0F, 0.0F, new CubeDeformation(0.0F)).texOffs(368, -8)
                 .addBox(-15.0F, 32.0F, -4.0F, 0.0F, 0.0F, 8.0F, new CubeDeformation(0.0F)).texOffs(368, -8)
                 .addBox(15.0F, 32.0F, -4.0F, 0.0F, 0.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -32.0F, 16.0F));
