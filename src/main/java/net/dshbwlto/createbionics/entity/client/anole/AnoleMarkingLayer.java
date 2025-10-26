@@ -3,9 +3,8 @@ package net.dshbwlto.createbionics.entity.client.anole;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.dshbwlto.createbionics.CreateBionics;
-import net.dshbwlto.createbionics.entity.client.ModModelLayers;
+import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
 import net.dshbwlto.createbionics.entity.custom.AnoleEntity;
-import net.dshbwlto.createbionics.item.BionicsItems;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -13,8 +12,6 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.Map;
 
@@ -29,7 +26,7 @@ public class AnoleMarkingLayer extends RenderLayer<AnoleEntity, AnoleModel<Anole
 
     public AnoleMarkingLayer(RenderLayerParent<AnoleEntity, AnoleModel<AnoleEntity>> renderer, EntityModelSet models) {
         super(renderer);
-        this.model = new AnoleModel<>(models.bakeLayer(ModModelLayers.ANOLE_MARKINGS));
+        this.model = new AnoleModel<>(models.bakeLayer(BionicsModelLayers.ANOLE_MARKINGS));
     }
 
     @Override

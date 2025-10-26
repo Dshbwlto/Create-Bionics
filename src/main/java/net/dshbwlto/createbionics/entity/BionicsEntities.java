@@ -27,7 +27,7 @@ public class BionicsEntities {
 
     public static final Supplier<EntityType<RepleteEntity>> REPLETE =
             ENTITY_TYPES.register("replete", () -> EntityType.Builder.of(RepleteEntity::new, MobCategory.CREATURE)
-                    .sized(5f, 7f).build("replete"));
+                    .sized(4f, 5f).build("replete"));
 
     public static final Supplier<EntityType<StalkerEntity>> STALKER =
             ENTITY_TYPES.register("stalker", () -> EntityType.Builder.of(StalkerEntity::new, MobCategory.CREATURE)

@@ -4,7 +4,7 @@ import net.dshbwlto.createbionics.CreateBionics;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
 
-public class ModModelLayers {
+public class BionicsModelLayers {
     public static final ModelLayerLocation ANOLE = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "anole"), "main");
     public static final ModelLayerLocation ANOLE_MARKINGS = new ModelLayerLocation(
@@ -20,6 +20,10 @@ public class ModModelLayers {
 
     public static final ModelLayerLocation REPLETE = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "replete"), "main");
+    public static final ModelLayerLocation REPLETE_GLOW = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "replete"), "glow");
+    public static final ModelLayerLocation REPLETE_FLUID = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "replete"), "glow");
 
     public static final ModelLayerLocation STALKER = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "stalker"), "main");

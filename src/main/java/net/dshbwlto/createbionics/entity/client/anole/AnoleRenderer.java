@@ -3,7 +3,7 @@ package net.dshbwlto.createbionics.entity.client.anole;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.dshbwlto.createbionics.CreateBionics;
-import net.dshbwlto.createbionics.entity.client.ModModelLayers;
+import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
 import net.dshbwlto.createbionics.entity.custom.AnoleEntity;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -33,13 +33,13 @@ public class AnoleRenderer extends MobRenderer<AnoleEntity, AnoleModel<AnoleEnti
     });
 
     public AnoleRenderer(EntityRendererProvider.Context context) {
-        super (context, new AnoleModel<>(context.bakeLayer(ModModelLayers.ANOLE)), 0.25f);
+        super (context, new AnoleModel<>(context.bakeLayer(BionicsModelLayers.ANOLE)), 0.25f);
         this.addLayer(new AnoleMarkingLayer(this, context.getModelSet()));
     }
 
     @Override
     public ResourceLocation getTextureLocation(AnoleEntity entity) {
-            return LOCATION_BY_VARIANT.get(entity.getVariant());
+        return LOCATION_BY_VARIANT.get(entity.getVariant());
     }
 
     @Override

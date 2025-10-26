@@ -1,9 +1,11 @@
 package net.dshbwlto.createbionics.entity.custom;
 
-import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
+import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -15,27 +17,38 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.event.EventHooks;
+import net.neoforged.neoforge.fluids.FluidActionResult;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class RepleteEntity extends TamableAnimal {
+public class RepleteEntity extends TamableAnimal implements MenuProvider {
     private static final EntityDataAccessor<Integer> VARIANT =
             SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> FILL =
             SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Float> FILL_LEVEL =
+            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.FLOAT);
     public int fuelTime = 501;
 
     public final AnimationState idleAnimationState = new AnimationState();
@@ -84,10 +97,10 @@ public class RepleteEntity extends TamableAnimal {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Animal.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 5D)
-                .add(Attributes.MOVEMENT_SPEED, 0.4)
+                .add(Attributes.MAX_HEALTH, 50D)
+                .add(Attributes.MOVEMENT_SPEED, 0.25)
                 .add(Attributes.ATTACK_DAMAGE, 2f)
-                .add(Attributes.FOLLOW_RANGE, 24D)
+                .add(Attributes.FOLLOW_RANGE, 50D)
                 .add(Attributes.SAFE_FALL_DISTANCE, 200D)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 200f);
     }
@@ -121,22 +134,6 @@ public class RepleteEntity extends TamableAnimal {
                     this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX((double) 0.5F), this.getRandomY(), this.getRandomZ((double) 0.5F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
                 }
             }
-        }
-        if (!this.level().isClientSide && this.isAlive() && --this.fuelTime == 0 && isTame()) {
-            this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-            this.setGlowingTag(true);
-            if(!this.isSitting()) {
-                this.toggleSitting();
-            }
-            getOwner().sendSystemMessage(Component.literal(getOwner().getName().getString() + ", §cyour Replete has run out of fuel!§r"));
-        }
-        if(this.fuelTime == 500 && isTame()) {
-            this.setGlowingTag(true);
-            getOwner().sendSystemMessage(Component.literal(getOwner().getName().getString() + ", your Replete is running low on fuel! Top it up with coal or charcoal!"));
-        }
-        if(this.fuelTime == 100 && isTame()) {
-            this.setGlowingTag(true);
-            getOwner().sendSystemMessage(Component.literal(getOwner().getName().getString() + ", your Replete is running very low on fuel! Top it up with coal or charcoal immediately!"));
         }
         super.aiStep();
     }
@@ -212,6 +209,7 @@ public class RepleteEntity extends TamableAnimal {
         }
 
     }
+
     /* RIGHT CLICKING */
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
@@ -244,32 +242,29 @@ public class RepleteEntity extends TamableAnimal {
                     itemstack.shrink(1);
                 }
                 this.fuelTime = 100000;
-                setGlowingTag(false);
                 return InteractionResult.SUCCESS;
             }
         }
-        if(item == (Items.WATER_BUCKET) && entityData.get(FILL) < 160){
-            if(this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                if (!player.getAbilities().instabuild) {
-                    itemstack.shrink(1);
-                    player.addItem(new ItemStack(Items.BUCKET));
+        if(itemstack.getCapability(Capabilities.FluidHandler.ITEM, null) != null) {
+            if(hasFluidStackInHand(player, hand)) {
+                transferFluidToTank(player, hand);
+                if(this.level().isClientSide()) {
+                    return InteractionResult.SUCCESS;
+                } else {
+                    if (!player.getAbilities().instabuild) {
+                        itemstack.shrink(1);
+                    }
                 }
-                entityData.set(FILL, lastFill + 1);
-                return InteractionResult.SUCCESS;
             }
-        }
-        if(item == (Items.BUCKET) && entityData.get(FILL) > 0){
-            if(this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                if (!player.getAbilities().instabuild) {
-                    itemstack.shrink(1);
-                    player.addItem(new ItemStack(Items.WATER_BUCKET));
+            if(hasFluidHandlerInHand(player, hand)) {
+                transferFluidFromTankToPlayer(player, hand);
+                if(this.level().isClientSide()) {
+                    return InteractionResult.SUCCESS;
+                } else {
+                    if (!player.getAbilities().instabuild) {
+                        itemstack.shrink(1);
+                    }
                 }
-                entityData.set(FILL, lastFill - 1);
-                return InteractionResult.SUCCESS;
             }
         }
         if(!isTame() && getMainHandItem().isEmpty()) {
@@ -336,6 +331,7 @@ public class RepleteEntity extends TamableAnimal {
         builder.define(LAST_POSE_CHANGE_TICK, 0L);
         builder.define(VARIANT, 0);
         builder.define(FILL, 0);
+        builder.define(FILL_LEVEL,0F);
         builder.define(DYE_STACK, ItemStack.EMPTY);
 
         builder.define(LEGL, false);
@@ -346,14 +342,14 @@ public class RepleteEntity extends TamableAnimal {
         builder.define(LEG3R, false);
     }
 
-
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putLong("LastPoseTick", this.entityData.get(LAST_POSE_CHANGE_TICK));
         compound.putInt("Variant", this.getTypeVariant());
-        compound.putInt("Fill", this.getFillLevel());
         compound.putInt("RefuelTime", this.fuelTime);
+
+        compound = FLUID_TANK.writeToNBT(registryAccess(), compound);
 
         compound.putBoolean("LegL", leg_l());
         compound.putBoolean("LegR", leg_r());
@@ -363,7 +359,6 @@ public class RepleteEntity extends TamableAnimal {
         compound.putBoolean("Leg3L", leg3_r());
     }
 
-    @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         long i = compound.getLong("LastPoseTick");
@@ -372,7 +367,6 @@ public class RepleteEntity extends TamableAnimal {
         }
         this.resetLastPoseChangeTick(i);
         this.entityData.set(VARIANT, compound.getInt("Variant"));
-        this.entityData.set(FILL, compound.getInt("Variant"));
         if (compound.contains("RefuelTime")) {
             this.fuelTime = compound.getInt("RefuelTime");
         }
@@ -382,6 +376,8 @@ public class RepleteEntity extends TamableAnimal {
         this.entityData.set(LEG2R, compound.getBoolean("Leg2R"));
         this.entityData.set(LEG3L, compound.getBoolean("Leg3L"));
         this.entityData.set(LEG3R, compound.getBoolean("Leg3R"));
+
+        FLUID_TANK.readFromNBT(registryAccess(), compound);
     }
 
     //VARIANT//
@@ -392,9 +388,6 @@ public class RepleteEntity extends TamableAnimal {
 
     private int getTypeVariant() {
         return this.entityData.get(VARIANT);
-    }
-    public int getFillLevel() {
-        return this.entityData.get(FILL);
     }
 
     public RepleteVariant getVariant() {
@@ -423,5 +416,75 @@ public class RepleteEntity extends TamableAnimal {
         return this.entityData.get(LEG3R);
     }
 
-}
+    /*FLUID*/
 
+    @Override
+    public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
+        return null;
+    }
+
+    private final ItemStackHandler itemHandler = new ItemStackHandler(1) {
+        @Override
+        public int getSlotLimit(int slot) {
+            return slot == 1 ? 1 : super.getSlotLimit(slot);
+        }
+    };
+
+    private final FluidTank FLUID_TANK = createFluidTank();
+    private FluidTank createFluidTank() {
+        return new FluidTank(160000) {
+            @Override
+            public boolean isFluidValid(FluidStack stack) {
+                return true;
+            }
+        };
+    }
+    public FluidStack getFluid() {
+        return FLUID_TANK.getFluid();
+    }
+
+    public IFluidHandler getTank(@Nullable Direction direction) {
+        return FLUID_TANK;
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return Component.literal("Replete");
+    }
+
+    @Nullable
+    public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory) {
+        return null;
+    }
+
+    private boolean hasFluidStackInHand(Player player, InteractionHand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        return !itemStack.isEmpty()
+                && itemStack.getCapability(Capabilities.FluidHandler.ITEM, null) != null
+                && !itemStack.getCapability(Capabilities.FluidHandler.ITEM, null).getFluidInTank(0).isEmpty();
+    }
+
+    private void transferFluidFromTankToPlayer(Player player, InteractionHand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        FluidActionResult result = FluidUtil.tryFillContainer(itemStack, this.FLUID_TANK, Integer.MAX_VALUE, player, true);
+        if (result.result != ItemStack.EMPTY) {
+            player.addItem(result.result);
+        }
+    }
+
+    public void transferFluidToTank(Player player, InteractionHand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        FluidActionResult result = FluidUtil.tryEmptyContainer(itemStack, this.FLUID_TANK, Integer.MAX_VALUE, player, true);
+        if(result.result != ItemStack.EMPTY) {
+            player.addItem(result.result);
+        }
+    }
+    private boolean hasFluidHandlerInHand(Player player, InteractionHand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        return !itemStack.isEmpty()
+                && itemStack.getCapability(Capabilities.FluidHandler.ITEM, null) != null
+                && (itemStack.getCapability(Capabilities.FluidHandler.ITEM, null).getFluidInTank(0).isEmpty() ||
+                FluidUtil.tryFluidTransfer(itemStack.getCapability(Capabilities.FluidHandler.ITEM, null),
+                        FLUID_TANK, Integer.MAX_VALUE, false) != FluidStack.EMPTY);
+    }
+}

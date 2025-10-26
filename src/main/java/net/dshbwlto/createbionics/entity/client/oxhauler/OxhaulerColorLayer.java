@@ -3,9 +3,7 @@ package net.dshbwlto.createbionics.entity.client.oxhauler;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.dshbwlto.createbionics.CreateBionics;
-import net.dshbwlto.createbionics.entity.client.ModModelLayers;
-import net.dshbwlto.createbionics.entity.client.anole.AnoleModel;
-import net.dshbwlto.createbionics.entity.custom.AnoleEntity;
+import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
 import net.dshbwlto.createbionics.entity.custom.OxhaulerEntity;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -42,7 +40,7 @@ public class OxhaulerColorLayer extends RenderLayer<OxhaulerEntity, OxhaulerMode
 
     public OxhaulerColorLayer(RenderLayerParent<OxhaulerEntity, OxhaulerModel<OxhaulerEntity>> renderer, EntityModelSet models) {
         super(renderer);
-        this.model = new OxhaulerModel<>(models.bakeLayer(ModModelLayers.OXHAULER_COLOR));
+        this.model = new OxhaulerModel<>(models.bakeLayer(BionicsModelLayers.OXHAULER_COLOR));
     }
 
     @Override
