@@ -1,5 +1,6 @@
 package net.dshbwlto.createbionics.block.custom;
 
+import net.dshbwlto.createbionics.block.BionicsBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -21,7 +22,7 @@ public class Molten_Brass_Block extends LiquidBlock {
 
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
-        level.setBlock(pos, (BlockState) BuiltInRegistries.BLOCK.get(ResourceLocation.parse("create:brass_block")).defaultBlockState(), 11);
+        level.setBlock(pos, (BlockState) BionicsBlocks.SCRAP_BRASS.get().defaultBlockState(), 11);
         super.onPlace(state, level, pos, oldState, isMoving);
     }
 }

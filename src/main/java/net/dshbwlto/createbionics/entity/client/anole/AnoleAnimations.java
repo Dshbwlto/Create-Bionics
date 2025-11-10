@@ -1,6 +1,5 @@
 package net.dshbwlto.createbionics.entity.client.anole;
 
-
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.Keyframe;

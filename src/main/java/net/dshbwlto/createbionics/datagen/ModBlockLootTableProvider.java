@@ -18,6 +18,10 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     @Override
     protected void generate() {
         dropSelf(BionicsBlocks.WAX_BLOCK.get());
+        dropSelf(BionicsBlocks.SCRAP_ANDESITE.get());
+        dropSelf(BionicsBlocks.SCRAP_BRASS.get());
+        dropSelf(BionicsBlocks.SCRAP_INDUSTRIAL_IRON.get());
+        dropSelf(BionicsBlocks.SCRAP_NETHERITE.get());
 
         dropSelf(BionicsBlocks.OXHAULER_FRONT.get());
         dropSelf(BionicsBlocks.OXHAULER_REAR.get());

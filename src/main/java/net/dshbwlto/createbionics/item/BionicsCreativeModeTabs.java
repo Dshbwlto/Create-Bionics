@@ -24,6 +24,7 @@ public class BionicsCreativeModeTabs {
                         output.accept(BionicsItems.ANOLE);
                         output.accept(BionicsItems.OXHAULER_MIDDLE);
                         output.accept(BionicsItems.SILENT_PISTON);
+                        output.accept(BionicsItems.SHEET_MUSIC);
                         output.accept(BionicsItems.ANOLE_BODY);
                         output.accept(BionicsItems.ANOLE_HEAD);
                         output.accept(BionicsItems.ANOLE_TAIL);
@@ -31,6 +32,10 @@ public class BionicsCreativeModeTabs {
                         output.accept(BionicsItems.I2_COAL_ENGINE);
                         output.accept(BionicsItems.WAX_INGOT);
                         output.accept(BionicsBlocks.WAX_BLOCK);
+                        output.accept(BionicsBlocks.SCRAP_ANDESITE);
+                        output.accept(BionicsBlocks.SCRAP_BRASS);
+                        output.accept(BionicsBlocks.SCRAP_INDUSTRIAL_IRON);
+                        output.accept(BionicsBlocks.SCRAP_NETHERITE);
                         output.accept(BionicsItems.OXHAULER_HEAD);
                         output.accept(BionicsItems.OXHAULER_FRONT);
                         output.accept(BionicsItems.OXHAULER_MIDDLE);

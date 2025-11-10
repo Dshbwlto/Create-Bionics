@@ -130,11 +130,15 @@ public class StalkerModel <T extends StalkerEntity> extends HierarchicalModel <T
 
         PartDefinition antenna_l = upper_body.addOrReplaceChild("antenna_l", CubeListBuilder.create().texOffs(58, 127).addBox(-0.5F, -7.0F, -0.5F, 1.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, -0.5F, -13.0F, -0.7418F, 0.1309F, 0.2182F));
 
-        PartDefinition antenna_l2 = antenna_l.addOrReplaceChild("antenna_l2", CubeListBuilder.create().texOffs(74, 94).addBox(-0.5F, -13.0F, -0.5F, 1.0F, 13.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -7.0F, 0.0F, -0.5672F, 0.0F, 0.0F));
+        PartDefinition antenna_lc = antenna_l.addOrReplaceChild("antenna_lc", CubeListBuilder.create(), PartPose.offset(0.0F, -7.0F, 0.0F));
+
+        PartDefinition antenna_l2 = antenna_lc.addOrReplaceChild("antenna_l2", CubeListBuilder.create().texOffs(74, 94).addBox(-0.5F, -13.0F, -0.5F, 1.0F, 13.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.5672F, 0.0F, 0.0F));
 
         PartDefinition antenna_r = upper_body.addOrReplaceChild("antenna_r", CubeListBuilder.create().texOffs(44, 152).addBox(-0.5F, -7.0F, -0.5F, 1.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, -0.5F, -13.0F, -0.7418F, -0.1309F, -0.2182F));
 
-        PartDefinition antenna_r2 = antenna_r.addOrReplaceChild("antenna_r2", CubeListBuilder.create().texOffs(146, 36).addBox(-0.5F, -13.0F, -0.5F, 1.0F, 13.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -7.0F, 0.0F, -0.5672F, 0.0F, 0.0F));
+        PartDefinition antenna_rc = antenna_r.addOrReplaceChild("antenna_rc", CubeListBuilder.create(), PartPose.offset(0.0F, -7.0F, 0.0F));
+
+        PartDefinition antenna_r2 = antenna_rc.addOrReplaceChild("antenna_r2", CubeListBuilder.create().texOffs(146, 36).addBox(-0.5F, -13.0F, -0.5F, 1.0F, 13.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.5672F, 0.0F, 0.0F));
 
         PartDefinition head = upper_body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(114, 103).addBox(-2.5F, -1.5F, -4.0F, 5.0F, 3.0F, 4.0F, new CubeDeformation(0.0F))
                 .texOffs(74, 108).addBox(1.75F, 1.0F, -0.75F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
@@ -176,7 +180,6 @@ public class StalkerModel <T extends StalkerEntity> extends HierarchicalModel <T
                 .texOffs(132, 103).addBox(-0.5F, -1.5F, -1.5F, 1.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.5F, 7.5F, 0.0F, -1.0472F, 0.0F, 0.0F));
 
         return LayerDefinition.create(meshdefinition, 256, 256);
-
     }
 
     @Override

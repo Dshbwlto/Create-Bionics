@@ -52,6 +52,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('E', Items.LIGHTNING_ROD)
                 .unlockedBy("has_engine", has(BionicsItems.I2_COAL_ENGINE)).save(recipeOutput);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BionicsItems.SHEET_MUSIC.get())
+                .pattern("AP ")
+                .pattern(" P ")
+                .pattern(" PA")
+                .define('A', BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy")))
+                .define('P', Items.PAPER)
+                .unlockedBy("has_paper", has(Items.PAPER)).save(recipeOutput);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BionicsItems.ANOLE_LEG.get())
                 .pattern(" A ")
                 .pattern("  A")

@@ -25,6 +25,14 @@ public class BionicsBlocks {
 
     public static final DeferredBlock<Block> WAX_BLOCK = registerBlock("wax_block",
             () -> new Block(BlockBehaviour.Properties.of().strength(1f).sound(SoundType.CANDLE)));
+    public static final DeferredBlock<Block> SCRAP_ANDESITE = registerBlock("scrap_andesite",
+            () -> new Block(BlockBehaviour.Properties.of().strength(2f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+    public static final DeferredBlock<Block> SCRAP_BRASS = registerBlock("scrap_brass",
+            () -> new Block(BlockBehaviour.Properties.of().strength(4f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+    public static final DeferredBlock<Block> SCRAP_INDUSTRIAL_IRON = registerBlock("scrap_industrial_iron",
+            () -> new Block(BlockBehaviour.Properties.of().strength(3f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
+    public static final DeferredBlock<Block> SCRAP_NETHERITE = registerBlock("scrap_netherite",
+            () -> new Block(BlockBehaviour.Properties.of().strength(6f).sound(SoundType.STONE).requiresCorrectToolForDrops()));
 
     public static final DeferredBlock<Block> OXHAULER_FRONT = registerBlock("oxhauler_front",
             () -> new Block(BlockBehaviour.Properties.of().strength(1f).sound(SoundType.STONE).noOcclusion()));

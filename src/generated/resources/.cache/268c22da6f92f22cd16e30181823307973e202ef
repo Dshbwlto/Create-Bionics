@@ -1,4 +1,16 @@
-// 1.21.1	2025-04-30T08:53:44.5103883	Block States: createbionics
+// 1.21.1	2025-11-10T11:15:07.7096849	Block States: createbionics
+5e52d688c0f67bcd4735cb62fd304ce306ce7bea assets/createbionics/blockstates/scrap_andesite.json
+3a59d8503437b9e9d4a9dc30bff768b8ee9404f7 assets/createbionics/blockstates/scrap_brass.json
+6cbc6e3a12181558e3ba2728598430ca69150bad assets/createbionics/blockstates/scrap_industrial_iron.json
+c1b5830bffaf9e10c4344c851c2ee8d868c7ece2 assets/createbionics/blockstates/scrap_netherite.json
 4645a75e23fb17ccdb8cc4f84430f4a35e32ee77 assets/createbionics/blockstates/wax_block.json
+5cde16c06b1d3d800b6dde723d69db2a4c16f39f assets/createbionics/models/block/scrap_andesite.json
+81fd0407dec3629d5959335e44837f385dc45b99 assets/createbionics/models/block/scrap_brass.json
+af25796528bb53f04a80ae46dddb6d25759f456e assets/createbionics/models/block/scrap_industrial_iron.json
+93df6253632ea606d271cb9ec0b97e7a1c795b66 assets/createbionics/models/block/scrap_netherite.json
 e416c6073ddfb63508cedd36a5664e6abf3fc4ec assets/createbionics/models/block/wax_block.json
+55e469048a9f500ea2e9d8066fcab650ec2c54b7 assets/createbionics/models/item/scrap_andesite.json
+e205f4a92f854e148366eb23d2de254cf7ebd26b assets/createbionics/models/item/scrap_brass.json
+5d668488c6902705e4cbece97f7d54102853080d assets/createbionics/models/item/scrap_industrial_iron.json
+6c9d25d27ddae1f8246e975cc66a1d09d33263ae assets/createbionics/models/item/scrap_netherite.json
 f177e156e23c5b246fc096a9a031e62ef8d22e3d assets/createbionics/models/item/wax_block.json

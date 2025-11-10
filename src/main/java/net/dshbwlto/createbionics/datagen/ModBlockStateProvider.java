@@ -16,8 +16,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
         blockWithItem(BionicsBlocks.WAX_BLOCK);
+        blockWithItem(BionicsBlocks.SCRAP_ANDESITE);
+        blockWithItem(BionicsBlocks.SCRAP_BRASS);
+        blockWithItem(BionicsBlocks.SCRAP_INDUSTRIAL_IRON);
+        blockWithItem(BionicsBlocks.SCRAP_NETHERITE);
     }
-
 
     private void blockWithItem(DeferredBlock<Block> deferredBlock) {
         simpleBlockWithItem(deferredBlock.get(), cubeAll(deferredBlock.get()));

@@ -178,7 +178,6 @@ public class AnoleModel<T extends AnoleEntity> extends HierarchicalModel<T>
         hat7.visible = entity.hat7();
         hat8.visible = entity.hat8();
         hat9.visible = entity.hat9();
-
     }
 
     private void applyHeadRotation(float pNetHeadYaw, float pHeadPitch) {

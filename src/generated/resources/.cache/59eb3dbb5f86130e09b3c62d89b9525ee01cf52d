@@ -1,4 +1,4 @@
-// 1.21.1	2025-06-19T18:37:18.122749	Loot Tables
+// 1.21.1	2025-11-10T11:15:07.7076844	Loot Tables
 ddd97fa34720acad569179cc73eecac9598ed454 data/createbionics/loot_table/blocks/cassowalker_exhaust.json
 8349ac10cf5f246af01216651d1aab3e50fa4bd6 data/createbionics/loot_table/blocks/cassowalker_exhaust_mold.json
 c8c9cb053f80eb7d4299b066fd01e4e8581a607d data/createbionics/loot_table/blocks/cassowalker_exhaust_wax.json
@@ -28,6 +28,10 @@ e0e2f94cd65ffe6ce9c460014dd8cdb345cebaa3 data/createbionics/loot_table/blocks/ox
 4cbd791572405ad8552792c426ec8b262a4a62d9 data/createbionics/loot_table/blocks/oxhauler_rear.json
 84e2cee08c4cfa8a41ddd8a66fa13a9852dffbaf data/createbionics/loot_table/blocks/oxhauler_rear_mold.json
 0a7c4214ecbbbce56889d6cd13db55324874d53e data/createbionics/loot_table/blocks/oxhauler_rear_wax.json
+1214304ae280ff466e5df4d2e2997d7f587fe20a data/createbionics/loot_table/blocks/scrap_andesite.json
+a0a9804bca7330c23bcae368861703819b4e5e2d data/createbionics/loot_table/blocks/scrap_brass.json
+46409da361d5a5bab24734c6276777dcf54995fe data/createbionics/loot_table/blocks/scrap_industrial_iron.json
+f3489dc0ddf875c51e123ef276219fb6f83fb092 data/createbionics/loot_table/blocks/scrap_netherite.json
 eed6fa285a510f4318b8a155fb0925941c89a0ca data/createbionics/loot_table/blocks/stalker_engine.json
 53754b4b726bdac4be4de997498b1d3a9677363a data/createbionics/loot_table/blocks/stalker_engine_mold.json
 06ab66e3c7bec72ca54ca4a8534d322b0491fdc3 data/createbionics/loot_table/blocks/stalker_engine_wax.json

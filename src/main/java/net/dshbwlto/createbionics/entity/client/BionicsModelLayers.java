@@ -28,4 +28,13 @@ public class BionicsModelLayers {
     public static final ModelLayerLocation STALKER = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "stalker"), "main");
 
+    public static final ModelLayerLocation ORGAN = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "organ"), "main");
+    public static final ModelLayerLocation ORGAN_GLOW = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "organ"), "glow");
+    public static final ModelLayerLocation ORGAN_EXHAUST = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "organ"), "exhaust");
+    public static final ModelLayerLocation ORGAN_PUFF = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "organ"), "puff");
+
 }

@@ -42,6 +42,9 @@ public class BionicsItems {
     public static final DeferredItem<Item> COMMAND_WHISTLE = ITEMS.register("command_whistle",
             () -> new CommandWhistleItem(new Item.Properties().stacksTo(1)));
 
+    public static final DeferredItem<Item> SHEET_MUSIC = ITEMS.register("sheet_music",
+            () -> new CommandWhistleItem(new Item.Properties().stacksTo(1)));
+
     public static final DeferredItem<Item> MOLTEN_ANDESITE_ALLOY_CRUCIBLE = ITEMS.register("molten_andesite_alloy_crucible",
             () -> new Item(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> MOLTEN_INDUSTRIAL_IRON_CRUCIBLE = ITEMS.register("molten_industrial_iron_crucible",

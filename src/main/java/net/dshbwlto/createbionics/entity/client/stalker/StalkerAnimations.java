@@ -251,6 +251,12 @@ public class StalkerAnimations {
                 .addAnimation("stand", new AnimationChannel(AnimationChannel.Targets.SCALE,
                         new Keyframe(0.0F, KeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
                 ))
+                .addAnimation("antenna_l2", new AnimationChannel(AnimationChannel.Targets.SCALE,
+                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(0.5F, 1.0F, 0.5F), AnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("antenna_r2", new AnimationChannel(AnimationChannel.Targets.SCALE,
+                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(0.5F, 1.0F, 0.5F), AnimationChannel.Interpolations.CATMULLROM)
+                ))
                 .addAnimation("antenna_rc", new AnimationChannel(AnimationChannel.Targets.SCALE,
                         new Keyframe(0.0F, KeyframeAnimations.scaleVec(2.0F, 1.0F, 2.0F), AnimationChannel.Interpolations.CATMULLROM)
                 ))

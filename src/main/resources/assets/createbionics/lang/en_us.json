@@ -1,6 +1,7 @@
 {
   "item.createbionics.anole_body": "Anole Body",
   "item.createbionics.silent_piston": "Silent Piston",
+  "item.createbionics.sheet_music": "Sheet Music",
   "item.createbionics.anole_head": "Anole Head",
   "item.createbionics.anole_leg": "Anole Leg",
   "item.createbionics.anole_tail": "Anole Tail",
@@ -97,6 +98,10 @@
   "block.createbionics.oxhauler_grate_mold": "Oxhauler Grate Mold",
 
   "block.createbionics.wax_block": "Block of Wax",
+  "block.createbionics.scrap_andesite": "Scrap Andesite",
+  "block.createbionics.scrap_brass": "Scrap Brass",
+  "block.createbionics.scrap_industrial_iron": "Scrap Industrial Iron",
+  "block.createbionics.scrap_netherite": "Scrap Netherite",
 
   "block.createbionics.molten_andesite_alloy_block": "Molten Andesite Alloy",
   "block.createbionics.molten_industrial_iron_block": "Molten Industrial Iron",

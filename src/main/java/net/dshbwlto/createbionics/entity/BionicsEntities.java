@@ -1,10 +1,7 @@
 package net.dshbwlto.createbionics.entity;
 
 import net.dshbwlto.createbionics.CreateBionics;
-import net.dshbwlto.createbionics.entity.custom.AnoleEntity;
-import net.dshbwlto.createbionics.entity.custom.OxhaulerEntity;
-import net.dshbwlto.createbionics.entity.custom.RepleteEntity;
-import net.dshbwlto.createbionics.entity.custom.StalkerEntity;
+import net.dshbwlto.createbionics.entity.custom.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -32,6 +29,10 @@ public class BionicsEntities {
     public static final Supplier<EntityType<StalkerEntity>> STALKER =
             ENTITY_TYPES.register("stalker", () -> EntityType.Builder.of(StalkerEntity::new, MobCategory.CREATURE)
                     .sized(1.5f, 1f).build("stalker"));
+
+    public static final Supplier<EntityType<OrganEntity>> ORGAN =
+            ENTITY_TYPES.register("organ", () -> EntityType.Builder.of(OrganEntity::new, MobCategory.CREATURE)
+                    .sized(7, 7f).build("organ"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
