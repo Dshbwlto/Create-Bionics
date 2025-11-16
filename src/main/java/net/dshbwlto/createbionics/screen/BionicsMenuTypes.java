@@ -18,6 +18,9 @@ public class BionicsMenuTypes {
     public static final DeferredHolder<MenuType<?>, MenuType<StalkerMenu>> STALKER_MENU =
             registerMenuType("stalker_menu", StalkerMenu::create);
 
+    public static final DeferredHolder<MenuType<?>, MenuType<StalkerMenu>> SHEET_MUSIC_MENU =
+            registerMenuType("sheet_music_menu", StalkerMenu::create);
+
     private static <T extends AbstractContainerMenu>DeferredHolder<MenuType<?>, MenuType<T>> registerMenuType(String name,
                                                                                                               IContainerFactory<T> factory) {
         return MENUS.register(name, () -> IMenuTypeExtension.create(factory));

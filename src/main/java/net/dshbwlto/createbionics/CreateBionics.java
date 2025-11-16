@@ -1,6 +1,7 @@
 package net.dshbwlto.createbionics;
 
 import net.dshbwlto.createbionics.block.BionicsBlocks;
+import net.dshbwlto.createbionics.component.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleRenderer;
 import net.dshbwlto.createbionics.entity.client.organ.OrganRenderer;
@@ -66,6 +67,8 @@ public class CreateBionics {
         BionicsEntities.register(modEventBus);
 
         BionicsMenuTypes.register(modEventBus);
+
+        BionicsDataComponentTypes.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.

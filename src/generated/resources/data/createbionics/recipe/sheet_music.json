@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "create:andesite_alloy"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "AP ",
+    " P ",
+    " PA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:sheet_music"
+  }
+}

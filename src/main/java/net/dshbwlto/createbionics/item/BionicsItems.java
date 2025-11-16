@@ -43,7 +43,7 @@ public class BionicsItems {
             () -> new CommandWhistleItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> SHEET_MUSIC = ITEMS.register("sheet_music",
-            () -> new CommandWhistleItem(new Item.Properties().stacksTo(1)));
+            () -> new SheetMusicItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> MOLTEN_ANDESITE_ALLOY_CRUCIBLE = ITEMS.register("molten_andesite_alloy_crucible",
             () -> new Item(new Item.Properties().stacksTo(1)));
