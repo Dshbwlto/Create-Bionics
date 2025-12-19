@@ -36,7 +36,7 @@ public class BionicsEventBusEvents {
         event.registerLayerDefinition(BionicsModelLayers.ORGAN, OrganModel::createBodyLayer);
         event.registerLayerDefinition(BionicsModelLayers.ORGAN_GLOW, OrganModel::createBodyLayer);
         event.registerLayerDefinition(BionicsModelLayers.ORGAN_EXHAUST, OrganModel::createBodyLayer);
-        event.registerLayerDefinition(BionicsModelLayers.ORGAN_PUFF, OrganModel::createBodyLayer);
+        event.registerLayerDefinition(BionicsModelLayers.ORGAN_EXHAUST2, OrganModel::createBodyLayer);
     }
 
     @SubscribeEvent

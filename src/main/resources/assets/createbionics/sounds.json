@@ -1,8 +1,16 @@
 {
-  "engine": {
+  "engine_start": {
     "sounds": [
       {
-        "name": "createbionics:engine",
+        "name": "createbionics:engine_start",
+        "stream": true
+      }
+    ]
+  },
+  "engine_idle": {
+    "sounds": [
+      {
+        "name": "createbionics:engine_idle",
         "stream": true
       }
     ]

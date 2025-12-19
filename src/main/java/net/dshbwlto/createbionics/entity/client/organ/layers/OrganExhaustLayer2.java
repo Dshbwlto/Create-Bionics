@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.Map;
 
-public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<OrganEntity>> {
+public class OrganExhaustLayer2 extends RenderLayer<OrganEntity, OrganModel<OrganEntity>> {
     private final OrganModel<OrganEntity> model;
     public Map<Integer, ResourceLocation> EXHAUST_MAP_1 = Map.of(
             0, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/exhaust/steam0.png"),
@@ -47,18 +47,18 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
             21, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/exhaust/steam21.png")
     );
 
-    public OrganExhaustLayer(RenderLayerParent<OrganEntity, OrganModel<OrganEntity>> renderer, EntityModelSet models) {
+    public OrganExhaustLayer2(RenderLayerParent<OrganEntity, OrganModel<OrganEntity>> renderer, EntityModelSet models) {
         super(renderer);
         this.model = new OrganModel<>(models.bakeLayer(BionicsModelLayers.ORGAN_GLOW));
     }
     @Override
     public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, OrganEntity livingEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        int integer = livingEntity.exhaust1;
+        int integer = livingEntity.exhaust2;
             this.getParentModel().copyPropertiesTo(this.model);
             this.model.prepareMobModel(livingEntity, limbSwing, limbSwingAmount, partialTicks);
             this.model.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
             if (integer < 10) {
-                VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucentCull(EXHAUST_MAP_1.get(integer)));
+                VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.itemEntityTranslucentCull(EXHAUST_MAP_1.get(integer)));
                 this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
             } else if (integer < 20) {
                 VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.itemEntityTranslucentCull(EXHAUST_MAP_2.get(integer)));

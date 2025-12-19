@@ -247,11 +247,18 @@ public class AnoleEntity extends TamableAnimal {
         } else {
             climbing = false;
         }
-        if(tickCount % 30 == 0 && !isCurrentlyGlowing() && !isSilent()) {
-            this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, BionicsSounds.ENGINE.get(), this.getSoundSource(), 0.01F + this.random.nextFloat(), 1.2F, false);
+        if(tickCount % 50 == 0 && !isCurrentlyGlowing() && !isSilent()) {
+            this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, BionicsSounds.ENGINE_IDLE.get(), this.getSoundSource(), 0.1F, 1.2F, false);
         }
 
     }
+
+    @Override
+    protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
+
+        super.dropCustomDeathLoot(level, damageSource, recentlyHit);
+    }
+
     /* RIGHT CLICKING */
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {

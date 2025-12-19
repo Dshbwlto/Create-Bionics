@@ -51,6 +51,10 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
             SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.FLOAT);
     public int fuelTime = 501;
 
+    public float fluidLevel = 0;
+
+    public float fluidLevel2 = 0;
+
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
 
@@ -61,8 +65,8 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
     public static final EntityDataAccessor<Long> LAST_POSE_CHANGE_TICK =
             SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.LONG);
 
-    private static final EntityDataAccessor<ItemStack> DYE_STACK =
-            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.ITEM_STACK);
+    private static final EntityDataAccessor<CompoundTag> TANK =
+            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.COMPOUND_TAG);
 
     private static final EntityDataAccessor<Boolean> LEGL =
             SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.BOOLEAN);
@@ -204,10 +208,19 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
             this.setupAnimationStates();
         }
 
-        if(tickCount % 30 == 0 && !isCurrentlyGlowing() && !isSilent()) {
-            this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, BionicsSounds.ENGINE.get(), this.getSoundSource(), 0.01F + this.random.nextFloat(), 1.2F, false);
+        if(tickCount % 160 == 0 && !isCurrentlyGlowing() && !isSilent()) {
+            this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, BionicsSounds.ENGINE_IDLE.get(), this.getSoundSource(), 0.01F + this.random.nextFloat(), 1.2F, false);
         }
 
+        if (isSitting()) {
+            if (fluidLevel < 1) {
+                fluidLevel = fluidLevel + 0.05f;
+            }
+        } else {
+            if (fluidLevel > 0) {
+                fluidLevel = fluidLevel - 0.05f;
+            }
+        }
     }
 
     /* RIGHT CLICKING */
@@ -222,6 +235,26 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
         Item itemForDiamond = Items.DIAMOND;
         Item itemForFuel = Items.CHARCOAL;
         int lastFill = entityData.get(FILL);
+
+        if(!isTame() && getMainHandItem().isEmpty()) {
+            if (this.level().isClientSide()) {
+                return InteractionResult.SUCCESS;
+            } else {
+                if (!EventHooks.onAnimalTame(this, player)) {
+                    super.tame(player);
+                    this.navigation.recomputePath();
+                    this.setTarget(null);
+                    this.level().broadcastEntityEvent(this, (byte) 7);
+                    this.fuelTime = 510;
+                }
+
+                return InteractionResult.SUCCESS;
+            }
+        }
+        if(isTame() && isOwnedBy(player) && itemstack.isEmpty()) {
+            toggleSitting();
+            return InteractionResult.SUCCESS;
+        }
 
         if(item == BionicsItems.SILENT_PISTON.get() && isOwnedBy(player) && !isSilent()){
             if(this.level().isClientSide()) {
@@ -266,25 +299,6 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
                     }
                 }
             }
-        }
-        if(!isTame() && getMainHandItem().isEmpty()) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.SUCCESS;
-            } else {
-                if (!EventHooks.onAnimalTame(this, player)) {
-                    super.tame(player);
-                    this.navigation.recomputePath();
-                    this.setTarget(null);
-                    this.level().broadcastEntityEvent(this, (byte) 7);
-                    this.fuelTime = 510;
-                }
-
-                return InteractionResult.SUCCESS;
-            }
-        }
-        if(isTame() && isOwnedBy(player) && itemstack.isEmpty()) {
-            toggleSitting();
-            return InteractionResult.SUCCESS;
         }
 
        return super.mobInteract(player, hand);
@@ -332,7 +346,6 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
         builder.define(VARIANT, 0);
         builder.define(FILL, 0);
         builder.define(FILL_LEVEL,0F);
-        builder.define(DYE_STACK, ItemStack.EMPTY);
 
         builder.define(LEGL, false);
         builder.define(LEGR, false);

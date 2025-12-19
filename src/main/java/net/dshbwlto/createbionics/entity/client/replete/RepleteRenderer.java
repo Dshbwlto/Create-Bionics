@@ -2,19 +2,29 @@ package net.dshbwlto.createbionics.entity.client.replete;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
 
 import net.dshbwlto.createbionics.entity.custom.RepleteEntity;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.level.material.FluidState;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Map;
 
 public class RepleteRenderer extends MobRenderer<RepleteEntity, RepleteModel<RepleteEntity>> {
+
     private static final Map<RepleteVariant, ResourceLocation> LOCATION_BY_VARIANT =
             Util.make(Maps.newEnumMap(RepleteVariant.class), map -> {
                 map.put(RepleteVariant.DEFAULT,
@@ -29,13 +39,11 @@ public class RepleteRenderer extends MobRenderer<RepleteEntity, RepleteModel<Rep
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_netherite2.png"));
                 map.put(RepleteVariant.NETHERITE3,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_netherite3.png"));
-
     });
 
     public RepleteRenderer(EntityRendererProvider.Context context) {
         super (context, new RepleteModel<>(context.bakeLayer(BionicsModelLayers.REPLETE)), 2.5f);
         this.addLayer(new RepleteGlowLayer(this, context.getModelSet()));
-        this.addLayer(new RepleteFluidLayer(this, context.getModelSet()));
     }
 
     @Override
@@ -46,5 +54,6 @@ public class RepleteRenderer extends MobRenderer<RepleteEntity, RepleteModel<Rep
     @Override
     public void render(RepleteEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+
     }
 }
