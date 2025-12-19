@@ -4,17 +4,16 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
-import net.dshbwlto.createbionics.entity.client.organ.layers.OrganExhaustLayer;
-import net.dshbwlto.createbionics.entity.client.organ.layers.OrganGlowLayer;
-import net.dshbwlto.createbionics.entity.client.organ.layers.OrganPuffLayer;
-import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
+import net.dshbwlto.createbionics.entity.client.organ.layers.*;
 import net.dshbwlto.createbionics.entity.custom.OrganEntity;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.storage.WorldData;
 
 import java.util.Map;
 
@@ -33,7 +32,7 @@ public class OrganRenderer extends MobRenderer<OrganEntity, OrganModel<OrganEnti
         super (context, new OrganModel<>(context.bakeLayer(BionicsModelLayers.ORGAN)), 4);
         this.addLayer(new OrganGlowLayer(this, context.getModelSet()));
         this.addLayer(new OrganExhaustLayer(this, context.getModelSet()));
-        this.addLayer(new OrganPuffLayer(this, context.getModelSet()));
+        this.addLayer(new OrganExhaustLayer2(this, context.getModelSet()));
     }
 
     @Override
@@ -43,6 +42,7 @@ public class OrganRenderer extends MobRenderer<OrganEntity, OrganModel<OrganEnti
 
     @Override
     public void render(OrganEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        Integer integer = entity.getTypeVariant();
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
 

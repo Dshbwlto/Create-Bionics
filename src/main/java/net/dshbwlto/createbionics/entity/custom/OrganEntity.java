@@ -2,8 +2,6 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganGlow;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
-import net.dshbwlto.createbionics.sound.BionicsSounds;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -24,7 +22,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
@@ -32,6 +29,14 @@ import org.jetbrains.annotations.Nullable;
 public class OrganEntity extends TamableAnimal {
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
+
+    public boolean canGlow = level().getDayTime() > 1200;
+
+    public int assembly = entityData.get(ASSEMBLY);
+
+    public boolean exhaustLoop() {
+        return false;
+    };
 
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
@@ -186,16 +191,34 @@ public class OrganEntity extends TamableAnimal {
         }
 
         /* STEAM EFFECTS */
-        if (puff < 21 && puff != 0) {
-            puff = puff + 1;
-        } else {
-            puff = 0;
-            randomizePuffs();
-        }
-        if (Math.random() < 0.005f && puff == 0) {
-            activatePuff();
-        }
 
+        /* exhaust */
+        if (exhaustLoop()) {
+
+            if (exhaust1 < 13) {
+                exhaust1 = exhaust1 + 1;
+            } else {
+                exhaust1 = 8;
+            }
+
+            if (exhaust2 < 4) {
+                exhaust2 = exhaust2 + 1;
+            } else {
+                exhaust2 = 2;
+            }
+        } else {
+            if (exhaust1 == 21) {
+                exhaust1 = 0;
+            } else if (exhaust1 > 0) {
+                exhaust1 = exhaust1 + 1;
+            }
+
+            if (exhaust2 == 21) {
+                exhaust2 = 0;
+            } else if (exhaust2 > 0) {
+                exhaust2 = exhaust2 + 1;
+            }
+        }
     }
 
     /* SAVE DATA */
@@ -251,89 +274,72 @@ public class OrganEntity extends TamableAnimal {
                 }
                 return InteractionResult.SUCCESS;
             }
-        }
-
-        /* SIT */
-        if (isTame() && hand == InteractionHand.MAIN_HAND && !player.isSecondaryUseActive() && itemStack.isEmpty()) {
-            toggleSitting();
-            return InteractionResult.SUCCESS;
-        }
-
-        /* REDSTONE */
-        if (item == Items.REDSTONE_BLOCK && getGlow() != OrganGlow.REDSTONE2) {
-            if (getGlow() == OrganGlow.REDSTONE1) {
-                if (this.level().isClientSide()) {
-                    return InteractionResult.CONSUME;
-                } else {
-                    if (!player.getAbilities().instabuild) {
-                        itemStack.shrink(1);
-                    }
-                    setGlow(OrganGlow.REDSTONE2);
-                    makeSound(SoundEvents.SMITHING_TABLE_USE);
-                }
-            } else {
-                if (this.level().isClientSide()) {
-                    return InteractionResult.CONSUME;
-                } else {
-                    if (!player.getAbilities().instabuild) {
-                        itemStack.shrink(1);
-                    }
-                    setGlow(OrganGlow.REDSTONE1);
-                    makeSound(SoundEvents.SMITHING_TABLE_USE);
-                }
+        } else {
+            if (hand == InteractionHand.MAIN_HAND && !player.isSecondaryUseActive() && itemStack.isEmpty()) {
+                toggleSitting();
             }
-            return InteractionResult.SUCCESS;
-        }
-        if (item == Items.BRUSH && getGlow() != OrganGlow.DEFAULT) {
-            if (getGlow() == OrganGlow.REDSTONE2) {
+            /* REDSTONE */
+            if (item == Items.BRUSH && getGlow() != OrganGlow.DEFAULT) {
+                if (getGlow() == OrganGlow.REDSTONE2) {
+                    this.spawnAtLocation(new ItemStack(Items.REDSTONE_BLOCK));
+                }
+                setGlow(OrganGlow.DEFAULT);
                 this.spawnAtLocation(new ItemStack(Items.REDSTONE_BLOCK));
-            }
-            setGlow(OrganGlow.DEFAULT);
-            this.spawnAtLocation(new ItemStack(Items.REDSTONE_BLOCK));
 
-        }
-
-        /* VARIANTS */
-        if (getVariant() == OrganVariant.DEFAULT) {
-            if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy")))) {
-                if (this.level().isClientSide()) {
-                    return InteractionResult.CONSUME;
-                } else {
-                    if (!player.getAbilities().instabuild) {
-                        itemStack.shrink(1);
-                    }
-                    setVariant(OrganVariant.ANDESITE);
-                }
-            } else if (itemStack.is(Items.COPPER_INGOT)) {
-                if (this.level().isClientSide()) {
-                    return InteractionResult.CONSUME;
-                } else {
-                    if (!player.getAbilities().instabuild) {
-                        itemStack.shrink(1);
-                    }
-                    setVariant(OrganVariant.COPPER);
-                }
             }
-        } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:wrench")))) {
-            if (!player.isSecondaryUseActive()) {
-                if (getVariant() != OrganVariant.DEFAULT) {
+
+            /* VARIANTS */
+            if (getVariant() == OrganVariant.DEFAULT) {
+                if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy")))) {
                     if (this.level().isClientSide()) {
                         return InteractionResult.CONSUME;
                     } else {
                         if (!player.getAbilities().instabuild) {
                             itemStack.shrink(1);
                         }
-                        setVariant(OrganVariant.DEFAULT);
+                        setVariant(OrganVariant.ANDESITE);
+                    }
+                } else if (itemStack.is(Items.COPPER_INGOT)) {
+                    if (this.level().isClientSide()) {
+                        return InteractionResult.CONSUME;
+                    } else {
+                        if (!player.getAbilities().instabuild) {
+                            itemStack.shrink(1);
+                        }
+                        setVariant(OrganVariant.COPPER);
                     }
                 }
-            } else {
-                remove(RemovalReason.DISCARDED);
+            } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:wrench")))) {
+                if (!player.isShiftKeyDown()) {
+                    if (getVariant() != OrganVariant.DEFAULT) {
+                        if (this.level().isClientSide()) {
+                            return InteractionResult.CONSUME;
+                        } else {
+                            if (!player.getAbilities().instabuild) {
+                                itemStack.shrink(1);
+                            }
+                            setVariant(OrganVariant.DEFAULT);
+                        }
+                    }
+                }
+            }
+
+            if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:wrench"))) && !player.isShiftKeyDown()) {
+                entityData.set(ASSEMBLY, 1);
+            }
+
+            if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:railway_casing")))) {
+                if (this.level().isClientSide()) {
+                    return InteractionResult.CONSUME;
+                } else {
+                    if (!player.getAbilities().instabuild) {
+                        itemStack.shrink(1);
+                    }
+                    entityData.set(ASSEMBLY, 0);
+                    makeSound(SoundEvents.ANVIL_PLACE);
+                }
             }
         }
-
-
-
-        /* ASSEMBLY */
 
         return super.mobInteract(player, hand);
     }
@@ -367,24 +373,13 @@ public class OrganEntity extends TamableAnimal {
 
     /* STEAM */
 
-    public int exhaust = 0;
     public int sustain = 0;
-    public int puff = 0;
+    public int exhaust1 = 0;
+    public int exhaust2 = 0;
 
-    public boolean showPuff1 = false;
-    public boolean showPuff2 = false;
-    public boolean showPuff3 = false;
-    public boolean showPuff4 = false;
+    public void startExhaust() {
+    }
 
-    public void randomizePuffs() {
-        showPuff1 = Math.random() < 0.3;
-        showPuff2 = Math.random() < 0.3;
-        showPuff3 = Math.random() < 0.3;
-        showPuff4 = Math.random() < 0.3;
-    }
-    public void activatePuff() {
-        puff = 1;
-    }
 
     /* ASSEMBLY */
 

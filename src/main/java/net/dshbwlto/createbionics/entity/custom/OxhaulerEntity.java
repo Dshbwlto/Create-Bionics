@@ -15,6 +15,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -34,6 +35,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
@@ -79,6 +81,7 @@ public class OxhaulerEntity extends AbstractHorse{
     public boolean dead() {
         return this.entityData.get(DEAD);
     };
+
 
     public int fuelTime = 1;
 
@@ -145,6 +148,21 @@ public class OxhaulerEntity extends AbstractHorse{
 
     @Override
     protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
+        if (hasBack() && random.nextFloat() < 0.02) {
+            spawnAtLocation(BionicsItems.OXHAULER_REAR);
+        }
+        if (hasFront() && random.nextFloat() < 0.02) {
+            spawnAtLocation(BionicsItems.OXHAULER_FRONT);
+        }
+        if (random.nextFloat() < 0.02) {
+            spawnAtLocation(BionicsItems.OXHAULER_MIDDLE);
+        }
+        if (hasNeck() && random.nextFloat() < 0.02) {
+            spawnAtLocation(BionicsItems.OXHAULER_HEAD);
+        }
+        if (silenced()) {
+            spawnAtLocation(BionicsItems.SILENT_PISTON);
+        }
         super.dropCustomDeathLoot(level, damageSource, recentlyHit);
     }
 
@@ -230,40 +248,6 @@ public class OxhaulerEntity extends AbstractHorse{
             this.entityData.set(IS_FUELED, false);
             this.fuelTime = 0;
             ejectPassengers();
-        };
-        if (this.getHealth() == 0 && !this.entityData.get(DEAD)) {
-            this.entityData.set(DEAD, true);
-            if (!this.hasBack()) {
-                this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_MIDDLE.get()));
-            }
-            if (this.hasBack() && !this.hasFront()) {
-                this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_MIDDLE.get()));
-                this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_REAR.get()));
-            }
-            if (this.hasFront() && !this.hasNeck()) {
-                this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_MIDDLE.get()));
-                this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_REAR.get()));
-                this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_FRONT.get()));
-            }
-            if (this.hasNeck()) {
-                this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_MIDDLE.get()));
-                this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_REAR.get()));
-                this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_FRONT.get()));
-                this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_HEAD.get()));
-            }
-            if (this.getVariant() == OxhaulerVariant.COPPER) {
-                this.spawnAtLocation(new ItemStack(Items.COPPER_INGOT));
-            }
-           if (this.getVariant() == OxhaulerVariant.NETHERITE1) {
-                this.spawnAtLocation(new ItemStack(Items.NETHERITE_INGOT));
-            }
-           if (this.getVariant() == OxhaulerVariant.NETHERITE2) {
-                this.spawnAtLocation(new ItemStack(Items.NETHERITE_INGOT));
-                this.spawnAtLocation(new ItemStack(Items.NETHERITE_INGOT));
-            }
-           if (this.entityData.get(SILENCED)) {
-               this.spawnAtLocation(new ItemStack(BionicsItems.SILENT_PISTON.get()));
-           }
         }
         if (isVehicle() && isPlough() && getPassengers() instanceof ServerPlayer serverPlayer) {
             if (HARVESTED_BLOCKS.contains(getOnPos())) {
@@ -292,8 +276,8 @@ public class OxhaulerEntity extends AbstractHorse{
         super.tick();
         if (this.level().isClientSide()) {
             this.setupAnimationStates();
-            if (tickCount % 30 == 0 && isFueled() && !this.entityData.get(SILENCED)) {
-                this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, BionicsSounds.ENGINE.get(), this.getSoundSource(), 1F + this.random.nextFloat(), 0.1F + random.nextFloat(), false);
+            if (tickCount % 50 == 0 && isFueled() && !this.entityData.get(SILENCED)) {
+                this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, BionicsSounds.ENGINE_IDLE.get(), this.getSoundSource(), 1F, 0.5F, false);
             }
         }
     }
@@ -514,6 +498,9 @@ public class OxhaulerEntity extends AbstractHorse{
             if (this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
+                if (fuelTime == 0) {
+                    playSound(BionicsSounds.ENGINE_START.get());
+                }
                 if (!player.getAbilities().instabuild) {
                     itemstack.shrink(1);
                 }
@@ -597,7 +584,7 @@ public class OxhaulerEntity extends AbstractHorse{
         super.defineSynchedData(builder);
         builder.define(LAST_POSE_CHANGE_TICK, 0L);
         builder.define(VARIANT, 0);
-        builder.define(COLOR, 0);
+        builder.define(COLOR, 5);
         builder.define(HAS_BACK, false);
         builder.define(HAS_FRONT, false);
         builder.define(HAS_NECK, false);

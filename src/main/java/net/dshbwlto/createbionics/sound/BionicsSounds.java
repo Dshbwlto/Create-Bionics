@@ -17,7 +17,8 @@ public class BionicsSounds {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS =
             DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, CreateBionics.MOD_ID);
 
-    public static final Supplier<SoundEvent> ENGINE = registerSoundEvent("engine");
+    public static final Supplier<SoundEvent> ENGINE_START = registerSoundEvent("engine_start");
+    public static final Supplier<SoundEvent> ENGINE_IDLE = registerSoundEvent("engine_idle");
     public static final Supplier<SoundEvent> THRUSTER = registerSoundEvent("thruster");
     public static final Supplier<SoundEvent> COMMAND_WHISTLE = registerSoundEvent("command_whistle");
 

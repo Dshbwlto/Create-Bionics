@@ -22,8 +22,6 @@ public class BionicsModelLayers {
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "replete"), "main");
     public static final ModelLayerLocation REPLETE_GLOW = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "replete"), "glow");
-    public static final ModelLayerLocation REPLETE_FLUID = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "replete"), "glow");
 
     public static final ModelLayerLocation STALKER = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "stalker"), "main");
@@ -34,7 +32,6 @@ public class BionicsModelLayers {
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "organ"), "glow");
     public static final ModelLayerLocation ORGAN_EXHAUST = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "organ"), "exhaust");
-    public static final ModelLayerLocation ORGAN_PUFF = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "organ"), "puff");
-
+    public static final ModelLayerLocation ORGAN_EXHAUST2 = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "organ"), "exhaust2");
 }
