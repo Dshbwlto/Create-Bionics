@@ -1,4 +1,4 @@
-// 1.21.1	2025-11-08T09:43:06.5099053	Item Models: createbionics
+// 1.21.1	2025-12-20T14:56:06.2556519	Item Models: createbionics
 5e585efc8b1fc002d811b24af5d04ecf8443f440 assets/createbionics/models/item/anole.json
 2a05d1e4e7acc64985f888741528c1faaec133b0 assets/createbionics/models/item/anole_body.json
 d7fb057e0e751ba78e328e066dfa4f863d1f4283 assets/createbionics/models/item/anole_head.json
@@ -21,6 +21,8 @@ d6712b1a732a5bb106401fcea88c89d9c6dcb4ef assets/createbionics/models/item/nether
 9b39fc282b622ac39c2fb002682881b19e99b0b3 assets/createbionics/models/item/oxhauler_leg_item.json
 0cca64c2833a8d7e8b7cc40453bfc489c277bfdb assets/createbionics/models/item/oxhauler_middle_item.json
 75e61aff4c8d5d090ef0d79cf94928821095a655 assets/createbionics/models/item/oxhauler_rear_item.json
+9d9ffa06c93b12cb93a6f0f69f5c4ce61674a4e1 assets/createbionics/models/item/replete_body_item.json
+92c52cb4366a6774b785269b5946c043da89d990 assets/createbionics/models/item/replete_leg_item.json
 31f909b4e8268042e0d35b57da8b22c6f70b27e5 assets/createbionics/models/item/rose_quartz_nugget.json
 af75a67d5e13b7542ae7a9be1099d2d872b7c5d5 assets/createbionics/models/item/sheet_music.json
 de7355ed419283f85b7c6284960c144ab0972936 assets/createbionics/models/item/silent_piston.json

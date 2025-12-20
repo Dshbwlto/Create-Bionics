@@ -1,4 +1,4 @@
-// 1.21.1	2025-11-10T15:02:39.3923879	Recipes
+// 1.21.1	2025-12-20T14:56:06.2536523	Recipes
 6a722359ef72af08b3d653bf01fcdbdf45fd1c22 data/createbionics/advancement/recipes/misc/anole.json
 784062758b0e4760b987c3665cd769b759a0bf5f data/createbionics/advancement/recipes/misc/anole_body.json
 24e06b8298188d214eacb8e1bccb0800298622c8 data/createbionics/advancement/recipes/misc/anole_head.json
@@ -13,10 +13,6 @@ a5b78e67fd479f631a1098e576211a9f3199450a data/createbionics/advancement/recipes/
 072727ee89c9d33829459d3e99844d16f48585ce data/createbionics/advancement/recipes/misc/oxhauler_leg_item.json
 f53d3fd9f9d688e830fa24044177d3f654b35519 data/createbionics/advancement/recipes/misc/oxhauler_middle_item.json
 4079a11d6a116c6a84eadc99bb6f806b473262ad data/createbionics/advancement/recipes/misc/oxhauler_rear_item.json
-5e19d91461de05123b67329ddd9577a87f5b5f99 data/createbionics/advancement/recipes/misc/scrap_andesite.json
-630d5a19611578c7b2e168a79d738feebdb67efc data/createbionics/advancement/recipes/misc/scrap_brass.json
-290900b012e23699f0133833d5a4b1d578b73e77 data/createbionics/advancement/recipes/misc/scrap_industrial_iron.json
-48de32cfa68abeb2219c6d828695a0036ae4f36b data/createbionics/advancement/recipes/misc/scrap_netherite.json
 36b19dd94c08bf6357ef91592de9067c873a7ed0 data/createbionics/advancement/recipes/misc/sheet_music.json
 8d79ca5f34cae4ef7efac0ad18e5ac308c6bbb5d data/createbionics/advancement/recipes/misc/silent_piston.json
 afafd2baab0ffc3a7f9487bcea0b2f265c55f85f data/createbionics/advancement/recipes/misc/wax_block.json
@@ -35,10 +31,6 @@ cef1fe415f8de2b52e6f7b94bde3a435d29c5dc9 data/createbionics/recipe/oxhauler_head
 7020cf37920fb2d7b8e635fe555a2d5844f362af data/createbionics/recipe/oxhauler_leg_item.json
 bf30079c3f4c3904717d507ba11bde20a8c77d33 data/createbionics/recipe/oxhauler_middle_item.json
 b18269512539380eb721150ff2377c672b35217b data/createbionics/recipe/oxhauler_rear_item.json
-e6d657b8967ea2ef67dc44afee3e951e0b29e3fb data/createbionics/recipe/scrap_andesite.json
-c80701cfd687c63685e5026e3912610eeaa83d1c data/createbionics/recipe/scrap_brass.json
-b9f90d3f31316b363b1c9e1bd2a36c480f5f5063 data/createbionics/recipe/scrap_industrial_iron.json
-7aced111432262bc0764d14e86b32d4123892a6d data/createbionics/recipe/scrap_netherite.json
 f13e55bb24b6a96f6dd4e6e0d05049c8556514fd data/createbionics/recipe/sheet_music.json
 2396329e6ab057aba202f29f69537cfb28b4a1b2 data/createbionics/recipe/silent_piston.json
 330eaa5c5d83213052fe933d6bb52e0215037070 data/createbionics/recipe/wax_block.json

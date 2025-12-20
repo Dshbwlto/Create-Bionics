@@ -43,6 +43,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(BionicsItems.STALKER_HEAD.get());
         basicItem(BionicsItems.ROSE_QUARTZ_NUGGET.get());
         basicItem(BionicsItems.MINI_ELECTRON_TUBE.get());
+        basicItem(BionicsItems.REPLETE_BODY.get());
+        basicItem(BionicsItems.REPLETE_LEG.get());
         basicItem(BionicsItems.VITTICEPS_MUSIC_DISC.get());
         basicItem(BionicsFluids.MOLTEN_ANDESITE_ALLOY_BUCKET.get());
         basicItem(BionicsFluids.MOLTEN_INDUSTRIAL_IRON_BUCKET.get());

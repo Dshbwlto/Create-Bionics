@@ -35,9 +35,8 @@ public class BionicsItems {
     public static final DeferredItem<Item> ROSE_QUARTZ_NUGGET = ITEMS.registerSimpleItem("rose_quartz_nugget");
     public static final DeferredItem<Item> MINI_ELECTRON_TUBE = ITEMS.registerSimpleItem("mini_electron_tube");
     public static final DeferredItem<Item> COMPOUND_EYE = ITEMS.registerSimpleItem("compound_eye");
-    public static final DeferredItem<Item> REPLETE_LEG = ITEMS.registerSimpleItem("replete_leg");
-    public static final DeferredItem<Item> REPLETE_REAR_LEG = ITEMS.registerSimpleItem("replete_rear_leg");
-    public static final DeferredItem<Item> REPLETE_BODY = ITEMS.registerSimpleItem("replete_body");
+    public static final DeferredItem<Item> REPLETE_LEG = ITEMS.registerSimpleItem("replete_leg_item");
+    public static final DeferredItem<Item> REPLETE_BODY = ITEMS.registerSimpleItem("replete_body_item");
 
     public static final DeferredItem<Item> COMMAND_WHISTLE = ITEMS.register("command_whistle",
             () -> new CommandWhistleItem(new Item.Properties().stacksTo(1)));
