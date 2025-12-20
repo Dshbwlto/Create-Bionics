@@ -205,7 +205,7 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
         }
 
         if(tickCount % 30 == 0 && !isCurrentlyGlowing() && !isSilent()) {
-            this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, BionicsSounds.ENGINE.get(), this.getSoundSource(), 0.01F + this.random.nextFloat(), 1.2F, false);
+            this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, BionicsSounds.ENGINE_IDLE.get(), this.getSoundSource(), 0.01F + this.random.nextFloat(), 1.2F, false);
         }
 
     }
