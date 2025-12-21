@@ -4,8 +4,6 @@ import net.dshbwlto.createbionics.entity.client.replete.RepleteVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -44,38 +42,32 @@ import org.jetbrains.annotations.Nullable;
 
 public class RepleteEntity extends TamableAnimal implements MenuProvider {
 
-    public int fuelTime = 501;
-
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
     public float fluidLevel = 0;
+
+    public int fuel() {
+        return entityData.get(FUEL);
+    }
+    public int buildProgress() {
+        return entityData.get(BUILD_PROGRESS);
+    }
+
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
 
     public static final EntityDataAccessor<Long> LAST_POSE_CHANGE_TICK =
             SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.LONG);
-
-    private static final EntityDataAccessor<ItemStack> DYE_STACK =
-            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.ITEM_STACK);
-    private static final EntityDataAccessor<Integer> VARIANT =
+    public static final EntityDataAccessor<Integer> VARIANT =
             SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> FILL =
+    public static final EntityDataAccessor<Integer> FUEL =
             SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Float> FILL_LEVEL =
+    public static final EntityDataAccessor<Float> FILL_LEVEL =
             SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<Boolean> LEGL =
-            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> LEGR =
-            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> LEG2L =
-            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> LEG2R =
-            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> LEG3L =
-            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> LEG3R =
-            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Integer> BUILD_PROGRESS =
+            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.INT);
+
 
     public RepleteEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
@@ -83,16 +75,18 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new FloatGoal(this));
+        if (entityData.get(FUEL) > 0) {
+            this.goalSelector.addGoal(0, new FloatGoal(this));
 
-        this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
+            this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
 
-        this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 1.0d, 10f, 5f));
+            this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 1.0d, 10f, 5f));
 
-        if(isTame()) {
-            this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+            if (isTame()) {
+                this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+            }
+            this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 4f));
         }
-        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 4f));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -128,11 +122,9 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
 
     public void aiStep() {
 
-        if (this.level().isClientSide) {
+        if (entityData.get(FUEL) > 0 && this.level().isClientSide) {
             for(int i = 0; i < 1; ++i) {
-                if(!isCurrentlyGlowing()) {
-                    this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX((double) 0.5F), this.getRandomY(), this.getRandomZ((double) 0.5F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
-                }
+                this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX((double) 0.5F), this.getRandomY(), this.getRandomZ((double) 0.5F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
             }
         }
         super.aiStep();
@@ -204,8 +196,8 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
             this.setupAnimationStates();
         }
 
-        if(tickCount % 30 == 0 && !isCurrentlyGlowing() && !isSilent()) {
-            this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, BionicsSounds.ENGINE_IDLE.get(), this.getSoundSource(), 0.01F + this.random.nextFloat(), 1.2F, false);
+        if(tickCount % 120 == 0 && !isCurrentlyGlowing() && !isSilent()) {
+            this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, BionicsSounds.ENGINE_IDLE.get(), this.getSoundSource(), 0.01f, 1.2F, false);
         }
 
         if (isSitting()) {
@@ -218,6 +210,9 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
             }
         }
 
+        if (entityData.get(FUEL) > 0) {
+            entityData.set(FUEL, entityData.get(FUEL) - 1);
+        }
     }
 
     /* RIGHT CLICKING */
@@ -225,13 +220,6 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         Item item = itemstack.getItem();
-
-        Item itemForNetherite = Items.NETHERITE_INGOT;
-        Item itemForRedstone = Items.REDSTONE;
-        Item itemForGold = Items.GOLD_INGOT;
-        Item itemForDiamond = Items.DIAMOND;
-        Item itemForFuel = Items.CHARCOAL;
-        int lastFill = entityData.get(FILL);
 
         if(item == BionicsItems.SILENT_PISTON.get() && isOwnedBy(player) && !isSilent()){
             if(this.level().isClientSide()) {
@@ -245,13 +233,40 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
             }
         }
         if(item == (Items.COAL) || item == (Items.CHARCOAL)){
+            if(!isTame() && getMainHandItem().isEmpty()) {
+                if (this.level().isClientSide()) {
+                    return InteractionResult.SUCCESS;
+                } else {
+                    if (!EventHooks.onAnimalTame(this, player)) {
+                        super.tame(player);
+                        this.navigation.recomputePath();
+                        this.setTarget(null);
+                        this.level().broadcastEntityEvent(this, (byte) 7);
+                        this.entityData.set(FUEL, 100);
+                    }
+
+                    return InteractionResult.SUCCESS;
+                }
+            }
             if(this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
                 if (!player.getAbilities().instabuild) {
                     itemstack.shrink(1);
                 }
-                this.fuelTime = 100000;
+                this.entityData.set(FUEL, 100);
+                makeSound(SoundEvents.FIRECHARGE_USE);
+                return InteractionResult.SUCCESS;
+            }
+        }
+        if (item == (BionicsItems.REPLETE_LEG.get()) && entityData.get(BUILD_PROGRESS) < 6) {
+            if(this.level().isClientSide()) {
+                return InteractionResult.CONSUME;
+            } else {
+                if (!player.getAbilities().instabuild) {
+                    itemstack.shrink(1);
+                }
+                entityData.set(BUILD_PROGRESS, entityData.get(BUILD_PROGRESS) + 1);
                 return InteractionResult.SUCCESS;
             }
         }
@@ -264,6 +279,7 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
                     if (!player.getAbilities().instabuild) {
                         itemstack.shrink(1);
                     }
+                    return InteractionResult.SUCCESS;
                 }
             }
             if(hasFluidHandlerInHand(player, hand)) {
@@ -274,25 +290,11 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
                     if (!player.getAbilities().instabuild) {
                         itemstack.shrink(1);
                     }
+                    return InteractionResult.SUCCESS;
                 }
             }
         }
-        if(!isTame() && getMainHandItem().isEmpty()) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.SUCCESS;
-            } else {
-                if (!EventHooks.onAnimalTame(this, player)) {
-                    super.tame(player);
-                    this.navigation.recomputePath();
-                    this.setTarget(null);
-                    this.level().broadcastEntityEvent(this, (byte) 7);
-                    this.fuelTime = 510;
-                }
-
-                return InteractionResult.SUCCESS;
-            }
-        }
-        if(isTame() && isOwnedBy(player) && itemstack.isEmpty()) {
+        if(isTame() && isOwnedBy(player) && entityData.get(FUEL) > 1) {
             toggleSitting();
             return InteractionResult.SUCCESS;
         }
@@ -340,16 +342,10 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
         super.defineSynchedData(builder);
         builder.define(LAST_POSE_CHANGE_TICK, 0L);
         builder.define(VARIANT, 0);
-        builder.define(FILL, 0);
+        builder.define(FUEL, 0);
         builder.define(FILL_LEVEL,0F);
-        builder.define(DYE_STACK, ItemStack.EMPTY);
+        builder.define(BUILD_PROGRESS, 0);
 
-        builder.define(LEGL, false);
-        builder.define(LEGR, false);
-        builder.define(LEG2L, false);
-        builder.define(LEG2R, false);
-        builder.define(LEG3L, false);
-        builder.define(LEG3R, false);
     }
 
     @Override
@@ -357,16 +353,8 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
         super.addAdditionalSaveData(compound);
         compound.putLong("LastPoseTick", this.entityData.get(LAST_POSE_CHANGE_TICK));
         compound.putInt("Variant", this.getTypeVariant());
-        compound.putInt("RefuelTime", this.fuelTime);
-
-        compound = FLUID_TANK.writeToNBT(registryAccess(), compound);
-
-        compound.putBoolean("LegL", leg_l());
-        compound.putBoolean("LegR", leg_r());
-        compound.putBoolean("Leg2L", leg2_l());
-        compound.putBoolean("Leg2R", leg2_r());
-        compound.putBoolean("Hat5", leg3_l());
-        compound.putBoolean("Leg3L", leg3_r());
+        compound.putInt("RefuelTime", this.entityData.get(FUEL));
+        compound.putInt("Build_Progress", this.entityData.get(BUILD_PROGRESS));
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
@@ -377,17 +365,7 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
         }
         this.resetLastPoseChangeTick(i);
         this.entityData.set(VARIANT, compound.getInt("Variant"));
-        if (compound.contains("RefuelTime")) {
-            this.fuelTime = compound.getInt("RefuelTime");
-        }
-        this.entityData.set(LEGL, compound.getBoolean("LegL"));
-        this.entityData.set(LEGR, compound.getBoolean("LegR"));
-        this.entityData.set(LEG2L, compound.getBoolean("Leg2L"));
-        this.entityData.set(LEG2R, compound.getBoolean("Leg2R"));
-        this.entityData.set(LEG3L, compound.getBoolean("Leg3L"));
-        this.entityData.set(LEG3R, compound.getBoolean("Leg3R"));
-
-        FLUID_TANK.readFromNBT(registryAccess(), compound);
+        entityData.set(FUEL, compound.getInt("RefuelTime"));
     }
 
     //VARIANT//
@@ -406,24 +384,6 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
 
     public void setVariant(RepleteVariant variant) {
         this.entityData.set(VARIANT, variant.getId() & 255);
-    }
-    public boolean leg_l() {
-        return this.entityData.get(LEGL);
-    }
-    public boolean leg_r() {
-        return this.entityData.get(LEGR);
-    }
-    public boolean leg2_l() {
-        return this.entityData.get(LEG2L);
-    }
-    public boolean leg2_r() {
-        return this.entityData.get(LEG2R);
-    }
-    public boolean leg3_l() {
-        return this.entityData.get(LEG3L);
-    }
-    public boolean leg3_r() {
-        return this.entityData.get(LEG3R);
     }
 
     /*FLUID*/

@@ -15,9 +15,15 @@ import net.minecraft.util.Mth;
 public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> {
     private final ModelPart root;
     private final ModelPart body;
+
     private final ModelPart tank;
-
-
+    private final ModelPart tank_single;
+    private final ModelPart tank_3;
+    private final ModelPart tank_4;
+    private final ModelPart tank_5;
+    private final ModelPart tank_bottom;
+    private final ModelPart tank_cap;
+    private final ModelPart tank_top;
 
     private final ModelPart leg_l;
     private final ModelPart leg_r;
@@ -30,7 +36,15 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
     public RepleteModel(ModelPart root) {
         this.root = root.getChild("root");
         this.body = this.root.getChild("root_util").getChild("body");
+
         this.tank = this.root.getChild("root_util").getChild("tank");
+        this.tank_single = this.root.getChild("root_util").getChild("tank").getChild("tank_single");
+        this.tank_3 = this.root.getChild("root_util").getChild("tank").getChild("tank_3");
+        this.tank_4 = this.root.getChild("root_util").getChild("tank").getChild("tank_4");
+        this.tank_5 = this.root.getChild("root_util").getChild("tank").getChild("tank_5");
+        this.tank_bottom = this.root.getChild("root_util").getChild("tank").getChild("tank_bottom");
+        this.tank_cap = this.root.getChild("root_util").getChild("tank").getChild("tank_cap");
+        this.tank_top = this.root.getChild("root_util").getChild("tank").getChild("tank_cap").getChild("tank_top");
 
         this.leg_l = this.root.getChild("root_util").getChild("body").getChild("leg_l");
         this.leg_r = this.root.getChild("root_util").getChild("body").getChild("leg_r");
@@ -395,11 +409,24 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
         this.root().getAllParts().forEach(ModelPart::resetPose);
 
         this.animateWalk(RepleteAnimations.replete_walk, limbSwing, limbSwingAmount, 2f, 2.5f);
-        this.animate(entity.idleAnimationState, RepleteAnimations.replete_idle, ageInTicks, 1f);
+        if (entity.fuel() > 0) {
+            this.animate(entity.idleAnimationState, RepleteAnimations.replete_idle, ageInTicks, 1f);
+        } else {
+            this.animate(entity.idleAnimationState, RepleteAnimations.replete_assembly, ageInTicks, 1f);
+        }
         this.animate(entity.sitDownAnimationState, RepleteAnimations.replete_sit, ageInTicks, 1.0F);
         this.animate(entity.sitPoseAnimationState, RepleteAnimations.replete_stay, ageInTicks, 1.0F);
         this.animate(entity.sitUpAnimationState, RepleteAnimations.replete_stand, ageInTicks, 1.0F);
 
+        leg_l.visible = entity.buildProgress() > 0;
+        leg_r.visible = entity.buildProgress() > 1;
+        leg2_l.visible = entity.buildProgress() > 2;
+        leg2_r.visible = entity.buildProgress() > 3;
+        leg3_l.visible = entity.buildProgress() > 4;
+        leg3_r.visible = entity.buildProgress() > 5;
+
+        tank.visible = entity.buildProgress() > 6;
+        tank_single.visible = entity.buildProgress() == 7;
     }
 
     @Override
