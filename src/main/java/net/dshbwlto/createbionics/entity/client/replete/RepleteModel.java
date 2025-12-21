@@ -225,30 +225,30 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
 
         PartDefinition cube_r30 = tank.addOrReplaceChild("cube_r30", CubeListBuilder.create().texOffs(246, 313).mirror().addBox(0.0F, -2.0F, -4.0F, 2.0F, 13.0F, 7.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-1.0F, 4.0F, 16.0F, -0.6109F, 0.0F, 0.0F));
 
-        PartDefinition tank_single = tank.addOrReplaceChild("tank_single", CubeListBuilder.create().texOffs(36, 28).addBox(15.0F, -8.0F, -16.0F, 0.0F, 8.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(47, 40).addBox(15.0F, -8.0F, -4.0F, 1.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(36, 28).addBox(16.0F, -8.0F, -16.0F, 0.0F, 8.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(36, 40).addBox(4.0F, -8.0F, -16.0F, 12.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(36, 40).addBox(4.0F, -8.0F, -15.0F, 12.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(47, 39).addBox(4.0F, -8.0F, -16.0F, 0.0F, 8.0F, 1.0F, new CubeDeformation(0.0F))
-                .texOffs(36, 40).mirror().addBox(-16.0F, -8.0F, -16.0F, 12.0F, 8.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(36, 40).mirror().addBox(-16.0F, -8.0F, -15.0F, 12.0F, 8.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(47, 39).mirror().addBox(-4.0F, -8.0F, -16.0F, 0.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(36, 28).mirror().addBox(-16.0F, -8.0F, -16.0F, 0.0F, 8.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(36, 28).mirror().addBox(-15.0F, -8.0F, -16.0F, 0.0F, 8.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(47, 40).mirror().addBox(-16.0F, -8.0F, -4.0F, 1.0F, 8.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(36, 40).mirror().addBox(-16.0F, -8.0F, 16.0F, 12.0F, 8.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(36, 40).mirror().addBox(-16.0F, -8.0F, 15.0F, 12.0F, 8.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(47, 39).mirror().addBox(-4.0F, -8.0F, 15.0F, 0.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(36, 28).mirror().addBox(-16.0F, -8.0F, 4.0F, 0.0F, 8.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(36, 28).mirror().addBox(-15.0F, -8.0F, 4.0F, 0.0F, 8.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(47, 40).mirror().addBox(-16.0F, -8.0F, 4.0F, 1.0F, 8.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(36, 40).addBox(4.0F, -8.0F, 16.0F, 12.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(36, 40).addBox(4.0F, -8.0F, 15.0F, 12.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(24, 28).addBox(16.0F, -8.0F, 4.0F, 0.0F, 8.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(36, 28).addBox(15.0F, -8.0F, 4.0F, 0.0F, 8.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(47, 40).addBox(15.0F, -8.0F, 4.0F, 1.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(47, 39).addBox(4.0F, -8.0F, 15.0F, 0.0F, 8.0F, 1.0F, new CubeDeformation(0.0F))
+        PartDefinition tank_single = tank.addOrReplaceChild("tank_single", CubeListBuilder.create().texOffs(36, 46).addBox(15.0F, -8.0F, -16.0F, 0.0F, 8.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(47, 58).addBox(15.0F, -8.0F, -4.0F, 1.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
+                .texOffs(36, 46).addBox(16.0F, -8.0F, -16.0F, 0.0F, 8.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(36, 58).addBox(4.0F, -8.0F, -16.0F, 12.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
+                .texOffs(36, 58).addBox(4.0F, -8.0F, -15.0F, 12.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
+                .texOffs(47, 57).addBox(4.0F, -8.0F, -16.0F, 0.0F, 8.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(36, 58).mirror().addBox(-16.0F, -8.0F, -16.0F, 12.0F, 8.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(36, 58).mirror().addBox(-16.0F, -8.0F, -15.0F, 12.0F, 8.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(47, 57).mirror().addBox(-4.0F, -8.0F, -16.0F, 0.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(36, 46).mirror().addBox(-16.0F, -8.0F, -16.0F, 0.0F, 8.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(36, 46).mirror().addBox(-15.0F, -8.0F, -16.0F, 0.0F, 8.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(47, 58).mirror().addBox(-16.0F, -8.0F, -4.0F, 1.0F, 8.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(36, 58).mirror().addBox(-16.0F, -8.0F, 16.0F, 12.0F, 8.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(36, 58).mirror().addBox(-16.0F, -8.0F, 15.0F, 12.0F, 8.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(47, 57).mirror().addBox(-4.0F, -8.0F, 15.0F, 0.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(36, 46).mirror().addBox(-16.0F, -8.0F, 4.0F, 0.0F, 8.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(36, 46).mirror().addBox(-15.0F, -8.0F, 4.0F, 0.0F, 8.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(47, 58).mirror().addBox(-16.0F, -8.0F, 4.0F, 1.0F, 8.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(36, 58).addBox(4.0F, -8.0F, 16.0F, 12.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
+                .texOffs(36, 58).addBox(4.0F, -8.0F, 15.0F, 12.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
+                .texOffs(24, 46).addBox(16.0F, -8.0F, 4.0F, 0.0F, 8.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(36, 46).addBox(15.0F, -8.0F, 4.0F, 0.0F, 8.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(47, 58).addBox(15.0F, -8.0F, 4.0F, 1.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
+                .texOffs(47, 57).addBox(4.0F, -8.0F, 15.0F, 0.0F, 8.0F, 1.0F, new CubeDeformation(0.0F))
                 .texOffs(82, 0).addBox(-4.0F, -8.0F, -15.5F, 8.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
                 .texOffs(82, 0).addBox(-4.0F, -8.0F, 15.5F, 8.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
                 .texOffs(82, -8).addBox(15.5F, -8.0F, -4.0F, 0.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
@@ -427,6 +427,12 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
 
         tank.visible = entity.buildProgress() > 6;
         tank_single.visible = entity.buildProgress() == 7;
+        tank_bottom.visible = entity.buildProgress() >= 8;
+        tank_top.visible = entity.buildProgress() >= 8;
+        tank_3.visible = entity.buildProgress() >= 9;
+        tank_4.visible = entity.buildProgress() >= 10;
+        tank_5.visible = entity.buildProgress() >= 11;
+        tank_cap.y = (-(entity.buildProgress() * 16) + 92);
     }
 
     @Override

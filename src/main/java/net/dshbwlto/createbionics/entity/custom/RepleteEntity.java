@@ -5,11 +5,13 @@ import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -259,7 +261,7 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
                 return InteractionResult.SUCCESS;
             }
         }
-        if (item == (BionicsItems.REPLETE_LEG.get()) && entityData.get(BUILD_PROGRESS) < 6) {
+        if (((item == (BionicsItems.REPLETE_LEG.get()) && entityData.get(BUILD_PROGRESS) < 6) || (item == (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:fluid_tank"))) && entityData.get(BUILD_PROGRESS) > 5 )) && entityData.get(BUILD_PROGRESS) < 11) {
             if(this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
@@ -267,6 +269,14 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
                     itemstack.shrink(1);
                 }
                 entityData.set(BUILD_PROGRESS, entityData.get(BUILD_PROGRESS) + 1);
+                return InteractionResult.SUCCESS;
+            }
+        }
+        if (entityData.get(BUILD_PROGRESS) > 0 && item == (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:wrench"))) && player.isShiftKeyDown()) {
+            if(this.level().isClientSide()) {
+                return InteractionResult.CONSUME;
+            } else {
+                entityData.set(BUILD_PROGRESS, entityData.get(BUILD_PROGRESS) - 1);
                 return InteractionResult.SUCCESS;
             }
         }
@@ -332,7 +342,6 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
             this.gameEvent(GameEvent.ENTITY_ACTION);
             this.resetLastPoseChangeTick(this.level().getGameTime());
         }
-
         setOrderedToSit(false);
         setInSittingPose(false);
     }
@@ -366,6 +375,7 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
         this.resetLastPoseChangeTick(i);
         this.entityData.set(VARIANT, compound.getInt("Variant"));
         entityData.set(FUEL, compound.getInt("RefuelTime"));
+        entityData.set(BUILD_PROGRESS, compound.getInt("Build_Progress"));
     }
 
     //VARIANT//
@@ -402,7 +412,7 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
 
     private final FluidTank FLUID_TANK = createFluidTank();
     private FluidTank createFluidTank() {
-        return new FluidTank(160000) {
+        return new FluidTank(32000) {
             @Override
             public boolean isFluidValid(FluidStack stack) {
                 return true;
