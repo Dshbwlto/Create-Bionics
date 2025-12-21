@@ -43,17 +43,12 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
 public class RepleteEntity extends TamableAnimal implements MenuProvider {
-    private static final EntityDataAccessor<Integer> VARIANT =
-            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> FILL =
-            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Float> FILL_LEVEL =
-            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.FLOAT);
+
     public int fuelTime = 501;
 
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
-
+    public float fluidLevel = 0;
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
@@ -63,7 +58,12 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
 
     private static final EntityDataAccessor<ItemStack> DYE_STACK =
             SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.ITEM_STACK);
-
+    private static final EntityDataAccessor<Integer> VARIANT =
+            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> FILL =
+            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Float> FILL_LEVEL =
+            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Boolean> LEGL =
             SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> LEGR =
@@ -206,6 +206,16 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
 
         if(tickCount % 30 == 0 && !isCurrentlyGlowing() && !isSilent()) {
             this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, BionicsSounds.ENGINE_IDLE.get(), this.getSoundSource(), 0.01F + this.random.nextFloat(), 1.2F, false);
+        }
+
+        if (isSitting()) {
+            if (fluidLevel < 1) {
+                fluidLevel = fluidLevel + 0.05f;
+            }
+        } else {
+            if (fluidLevel > 0) {
+                fluidLevel = fluidLevel - 0.05f;
+            }
         }
 
     }
