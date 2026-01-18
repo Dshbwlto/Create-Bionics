@@ -2,7 +2,6 @@ package net.dshbwlto.createbionics.item;
 
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.block.BionicsBlocks;
-import net.dshbwlto.createbionics.fluid.BionicsFluids;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -61,10 +60,6 @@ public class BionicsCreativeModeTabs {
                         output.accept(BionicsItems.MOLTEN_BRASS_CRUCIBLE);
                         output.accept(BionicsItems.MOLTEN_NETHERITE_CRUCIBLE);
                         output.accept(BionicsItems.NETHER_BRICK_CRUCIBLE);
-                        output.accept(BionicsFluids.MOLTEN_ANDESITE_ALLOY_BUCKET);
-                        output.accept(BionicsFluids.MOLTEN_INDUSTRIAL_IRON_BUCKET);
-                        output.accept(BionicsFluids.MOLTEN_BRASS_BUCKET);
-                        output.accept(BionicsFluids.MOLTEN_NETHERITE_BUCKET);
                         //Metal Parts
                         output.accept(BionicsBlocks.OXHAULER_HEAD);
                         output.accept(BionicsBlocks.OXHAULER_FRONT);

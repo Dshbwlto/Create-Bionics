@@ -1,7 +1,6 @@
 package net.dshbwlto.createbionics.datagen;
 
 import net.dshbwlto.createbionics.CreateBionics;
-import net.dshbwlto.createbionics.fluid.BionicsFluids;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
@@ -45,9 +44,5 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(BionicsItems.REPLETE_BODY.get());
         basicItem(BionicsItems.REPLETE_LEG.get());
         basicItem(BionicsItems.VITTICEPS_MUSIC_DISC.get());
-        basicItem(BionicsFluids.MOLTEN_ANDESITE_ALLOY_BUCKET.get());
-        basicItem(BionicsFluids.MOLTEN_INDUSTRIAL_IRON_BUCKET.get());
-        basicItem(BionicsFluids.MOLTEN_BRASS_BUCKET.get());
-        basicItem(BionicsFluids.MOLTEN_NETHERITE_BUCKET.get());
     }
 }

@@ -13,9 +13,6 @@ import net.dshbwlto.createbionics.entity.client.organ.OrganRenderer;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerRenderer;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteRenderer;
 import net.dshbwlto.createbionics.entity.client.stalker.StalkerRenderer;
-import net.dshbwlto.createbionics.fluid.BaseFluidType;
-import net.dshbwlto.createbionics.fluid.BionicsFluidTypes;
-import net.dshbwlto.createbionics.fluid.BionicsFluids;
 import net.dshbwlto.createbionics.item.BionicsCreativeModeTabs;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.screen.BionicsMenuTypes;
@@ -25,10 +22,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
-import net.neoforged.neoforge.registries.RegisterEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -56,10 +51,23 @@ public class CreateBionics {
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
 
+    public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(CreateBionics.MOD_ID)
+            .defaultCreativeTab((ResourceKey<CreativeModeTab>) null)
+            .setTooltipModifierFactory(item ->
+                    new ItemDescription.Modifier(item, FontHelper.Palette.STANDARD_CREATE)
+                            .andThen(TooltipModifier.mapNull(KineticStats.create(item)))
+            );
+
+    static {
+        REGISTRATE.setTooltipModifierFactory(item -> new ItemDescription.Modifier(item, FontHelper.Palette.STANDARD_CREATE)
+                .andThen(TooltipModifier.mapNull(KineticStats.create(item))));
+    }
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public CreateBionics(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
+
+        REGISTRATE.registerEventListeners(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
@@ -70,9 +78,6 @@ public class CreateBionics {
         BionicsCreativeModeTabs.register(modEventBus);
 
         BionicsSounds.register(modEventBus);
-
-        BionicsFluidTypes.register(modEventBus);
-        BionicsFluids.register(modEventBus);
 
         BionicsEntities.register(modEventBus);
 
@@ -138,14 +143,7 @@ public class CreateBionics {
 
         @SubscribeEvent
         public static void onClientExtensions(RegisterClientExtensionsEvent event) {
-            event.registerFluidType(((BaseFluidType) BionicsFluidTypes.MOLTEN_ANDESITE_ALLOY_FLUID_TYPE.get()).getClientFluidTypeExtensions(),
-                    BionicsFluidTypes.MOLTEN_ANDESITE_ALLOY_FLUID_TYPE.get());
-            event.registerFluidType(((BaseFluidType) BionicsFluidTypes.MOLTEN_INDUSTRIAL_IRON_FLUID_TYPE.get()).getClientFluidTypeExtensions(),
-                    BionicsFluidTypes.MOLTEN_INDUSTRIAL_IRON_FLUID_TYPE.get());
-            event.registerFluidType(((BaseFluidType) BionicsFluidTypes.MOLTEN_BRASS_FLUID_TYPE.get()).getClientFluidTypeExtensions(),
-                    BionicsFluidTypes.MOLTEN_BRASS_FLUID_TYPE.get());
-            event.registerFluidType(((BaseFluidType) BionicsFluidTypes.MOLTEN_NETHERITE_FLUID_TYPE.get()).getClientFluidTypeExtensions(),
-                    BionicsFluidTypes.MOLTEN_NETHERITE_FLUID_TYPE.get());
+
         }
     }
 }
