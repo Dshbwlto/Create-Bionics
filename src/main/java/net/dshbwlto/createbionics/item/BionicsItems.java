@@ -38,9 +38,6 @@ public class BionicsItems {
     public static final DeferredItem<Item> REPLETE_LEG = ITEMS.registerSimpleItem("replete_leg_item");
     public static final DeferredItem<Item> REPLETE_BODY = ITEMS.registerSimpleItem("replete_body_item");
 
-    public static final DeferredItem<Item> COMMAND_WHISTLE = ITEMS.register("command_whistle",
-            () -> new CommandWhistleItem(new Item.Properties().stacksTo(1)));
-
     public static final DeferredItem<Item> SHEET_MUSIC = ITEMS.register("sheet_music",
             () -> new SheetMusicItem(new Item.Properties().stacksTo(1)));
 
@@ -52,9 +49,8 @@ public class BionicsItems {
             () -> new Item(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> MOLTEN_NETHERITE_CRUCIBLE = ITEMS.register("molten_netherite_crucible",
             () -> new Item(new Item.Properties().stacksTo(1)));
-
     public static final DeferredItem<Item> SILENT_PISTON = ITEMS.register("silent_piston",
-            () -> new SilentPistonItem(new Item.Properties()));
+            () -> new Item(new Item.Properties()));
 
     public static final DeferredItem<Item> ANOLE = ITEMS.register("anole",
             () -> new AnoleItem(BionicsEntities.ANOLE.get(), 0xFFFFFF, 0xFFFFFF,

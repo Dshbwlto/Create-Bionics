@@ -23,6 +23,8 @@
   "item.createbionics.rose_quartz_nugget": "§4(SECRET) §rRose Quartz Nugget",
   "item.createbionics.compound_eye": "§4(SECRET) §rCompound Eye",
 
+  "block.createbionics.oxhauler_front.tooltip.summary": "Relay rotation in two directions _independently_.",
+
   "item.createbionics.molten_andesite_alloy_crucible": "Molten Andesite Alloy Crucible",
   "item.createbionics.molten_industrial_iron_crucible": "Molten Industrial Iron Crucible",
   "item.createbionics.molten_brass_crucible": "Molten Brass Crucible",
@@ -30,35 +32,6 @@
   "item.createbionics.nether_brick_crucible": "Nether Brick Crucible",
   "item.createbionics.vitticeps_music_disc": "Music Disc",
   "item.createbionics.vitticeps_music_disc.desc": "Dshbwlto - Vitticeps",
-
-  "tooltip.createbionics.basic.tooltip.shift": "§8Hold [§7Shift§8] for summary§r",
-  "tooltip.createbionics.basic.tooltip.space": " ",
-  "tooltip.createbionics.anoleitem.tooltip.info1": "§6An adorable, §eportable§6, §etameable§6 robot that can climb walls to follow you!§r",
-  "tooltip.createbionics.basic.tooltip.when_used": "§7When Used:§r",
-  "tooltip.createbionics.basic.tooltip.assembly": "§7Assembly:§r",
-  "tooltip.createbionics.basic.tooltip.assembly_order": "§7Assembly Order:§r",
-  "tooltip.createbionics.anoleitem.tooltip.info3": "§6Places an §eAnole§6 in the world. Click with an §eempty hand§6 to §etame§6 it, or use a §eWrench§6 to revert it to an §eitem§6.§r",
-  "tooltip.createbionics.anoleitem.tooltip.info4": "§7Customization:§r",
-  "tooltip.createbionics.anoleitem.tooltip.info5": "§6You can §ecustomize§6 your §eAnole§6! to weather it, click it with a §ewet sponge§6. You can §erevert§6 this with a §edry sponge§6. You can also give it an §eandesite§6, §ebrass§6, or §enetherite§6 skin. Just click it with the §ecorresponding ingot§6. These skins can be §eremoved§6 with a §ebrush§6.§r",
-  "tooltip.createbionics.anoleitem.tooltip.info6": "§7Fueling:§r",
-  "tooltip.createbionics.anoleitem.tooltip.info7": "§6Click your §eAnole§6 with §ecoal§6 or §echarcoal§6 to refuel it. Fueling §edoes not stack§6. You will get a §enotification§6 when your Anole needs more.§r",
-  "tooltip.createbionics.piston.tooltip.info": "§6Use this on your §eRobot§6 to §eSilence§6 its engine.§r",
-  "tooltip.createbionics.oxhauler.tooltip.info1": "§6Spawns the §eOxhauler§6, a large cow robot. It can be ridden like a horse, and disassembled by shift-clicking with a wrench.§r",
-  "tooltip.createbionics.oxhauler.tooltip.info2": "§6On spawning, the §eOxhauler§6 will appear as just a middle segment. Use the §eother parts§6 to complete construction before §efueling§6.§r",
-  "tooltip.createbionics.oxhauler.tooltip.info3": "§6Oxhauler §eRoot§6, Oxhauler §eRear§6, Oxhauler §eFront§6, Oxhauler §eHead§r",
-  "tooltip.createbionics.oxhauler.tooltip.info4": "§6Like the Anole, the §eOxhauler§6 can be §ecustomized§6. You can give it a §ecopper skin§6, as well as §etwo tiers of netherite armor§6. Two netherite upgrades makes the robot §efireproof§6. §eRemove§6 cosmetics with a §ewrench§6. Additionally, you can use the §e16 dyes§6 to change its §eflag§6.§r",
-
-
-  "tooltip.createbionics.command_whistle_item.tooltip.shift1": "§6Make a cool sound!§r",
-  "tooltip.createbionics.command_whistle_item.tooltip.shift2": "§7When Used on Anole:§r",
-  "tooltip.createbionics.command_whistle_item.tooltip.shift3": "§6Transforms your §eTamed§6 friend into a portable §eitem§6!§r",
-
-  "tooltip.createbionics.wax_cast.tooltip.1": "§6This is a wax form to §ecast§6 the corresponding part. First, you need to §eplace§6 it on the ground. Then, you pack it with §esand§6, pour in the required §emolten§6 metal, and use a §ebrush§6 to reveal your part.§r",
-  "tooltip.createbionics.wax_cast.tooltip.andesite": "§4Required metal: §eAndesite Alloy§r",
-  "tooltip.createbionics.wax_cast.tooltip.iron": "§4Required metal: §eIndustrial Iron§r",
-  "tooltip.createbionics.wax_cast.tooltip.brass": "§4Required metal: §eBrass§r",
-  "tooltip.createbionics.wax_cast.tooltip.netherite": "§4Required metal: §eNetherite§r",
-
 
   "painting.createbionics.ares.title": "Ares",
   "painting.createbionics.ares.author": "Dshbwlto",

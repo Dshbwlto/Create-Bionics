@@ -163,11 +163,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('A', Blocks.ANDESITE)
                 .unlockedBy("has_oxhauler_engine", has(BionicsItems.OXHAULER_ENGINE)).save(recipeOutput);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BionicsItems.COMMAND_WHISTLE.get())
-                .pattern("AB ")
-                .define('A', BionicsItems.ANOLE_LEG)
-                .define('B', BionicsItems.ANOLE_TAIL)
-                .unlockedBy("has_anole", has(BionicsItems.ANOLE)).save(recipeOutput);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BionicsItems.NETHER_BRICK_CRUCIBLE.get())
                 .pattern("A A")

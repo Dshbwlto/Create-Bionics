@@ -1,5 +1,10 @@
 package net.dshbwlto.createbionics;
 
+import com.simibubi.create.foundation.data.CreateRegistrate;
+import com.simibubi.create.foundation.item.ItemDescription;
+import com.simibubi.create.foundation.item.KineticStats;
+import com.simibubi.create.foundation.item.TooltipModifier;
+import net.createmod.catnip.lang.FontHelper;
 import net.dshbwlto.createbionics.block.BionicsBlocks;
 import net.dshbwlto.createbionics.component.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
@@ -16,10 +21,14 @@ import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.screen.BionicsMenuTypes;
 import net.dshbwlto.createbionics.screen.custom.StalkerScreen;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -51,6 +60,7 @@ public class CreateBionics {
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public CreateBionics(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
+
         modEventBus.addListener(this::commonSetup);
 
         BionicsItems.register(modEventBus);
@@ -107,10 +117,13 @@ public class CreateBionics {
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
+
+            LOGGER.info("HELLO FROM CLIENT SETUP");
+            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
             EntityRenderers.register(BionicsEntities.ANOLE.get(), AnoleRenderer::new);
             EntityRenderers.register(BionicsEntities.OXHAULER.get(), OxhaulerRenderer::new);
             EntityRenderers.register(BionicsEntities.REPLETE.get(), RepleteRenderer::new);
@@ -133,10 +146,6 @@ public class CreateBionics {
                     BionicsFluidTypes.MOLTEN_BRASS_FLUID_TYPE.get());
             event.registerFluidType(((BaseFluidType) BionicsFluidTypes.MOLTEN_NETHERITE_FLUID_TYPE.get()).getClientFluidTypeExtensions(),
                     BionicsFluidTypes.MOLTEN_NETHERITE_FLUID_TYPE.get());
-        }
-
-        @SubscribeEvent
-        public static void registerColoredItems(RegisterColorHandlersEvent.Item event) {
         }
     }
 }

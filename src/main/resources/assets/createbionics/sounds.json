@@ -63,6 +63,14 @@
       }
     ]
   },
+  "get_stick_bugged": {
+    "sounds": [
+      {
+        "name": "createbionics:get_stick_bugged",
+        "stream": true
+      }
+    ]
+  },
   "vitticeps": {
     "sounds": [
       {

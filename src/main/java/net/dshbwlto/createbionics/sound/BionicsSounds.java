@@ -27,6 +27,8 @@ public class BionicsSounds {
     public static final Supplier<SoundEvent> OXHAULER_BELLOW_3 = registerSoundEvent("oxhauler_bellow_3");
     public static final Supplier<SoundEvent> OXHAULER_RELEASE_1 = registerSoundEvent("oxhauler_release_1");
 
+    public static final Supplier<SoundEvent> GET_STICK_BUGGED = registerSoundEvent("get_stick_bugged");
+
     public static final Supplier<SoundEvent> VITTICEPS = registerSoundEvent("vitticeps");
     public static final ResourceKey<JukeboxSong> VITTICEPS_KEY = createSong("vitticeps");
 

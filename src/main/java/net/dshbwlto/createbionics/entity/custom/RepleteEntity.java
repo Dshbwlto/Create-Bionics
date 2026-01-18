@@ -46,6 +46,7 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
 
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
+    public int countdown = 0;
     public float fluidLevel = 0;
 
     public int fuel() {
@@ -90,6 +91,7 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
             this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 4f));
         }
     }
+
 
     public static AttributeSupplier.Builder createAttributes() {
         return Animal.createLivingAttributes()
@@ -211,9 +213,11 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
                 fluidLevel = fluidLevel - 0.05f;
             }
         }
-
         if (entityData.get(FUEL) > 0) {
             entityData.set(FUEL, entityData.get(FUEL) - 1);
+        }
+        if (countdown > 0) {
+            countdown = countdown - 1;
         }
     }
 
@@ -244,7 +248,7 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
                         this.navigation.recomputePath();
                         this.setTarget(null);
                         this.level().broadcastEntityEvent(this, (byte) 7);
-                        this.entityData.set(FUEL, 100);
+                        this.entityData.set(FUEL, 1000);
                     }
 
                     return InteractionResult.SUCCESS;
@@ -256,12 +260,12 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
                 if (!player.getAbilities().instabuild) {
                     itemstack.shrink(1);
                 }
-                this.entityData.set(FUEL, 100);
+                this.entityData.set(FUEL, 1000);
                 makeSound(SoundEvents.FIRECHARGE_USE);
                 return InteractionResult.SUCCESS;
             }
         }
-        if (((item == (BionicsItems.REPLETE_LEG.get()) && entityData.get(BUILD_PROGRESS) < 6) || (item == (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:fluid_tank"))) && entityData.get(BUILD_PROGRESS) > 5 )) && entityData.get(BUILD_PROGRESS) < 11) {
+        if (((item == (BionicsItems.REPLETE_LEG.get()) && entityData.get(BUILD_PROGRESS) < 6) || (((item == (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:fluid_tank"))) && entityData.get(BUILD_PROGRESS) > 5 )) && entityData.get(BUILD_PROGRESS) < 12)) || ((item == (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_pump"))) && entityData.get(BUILD_PROGRESS) == 6 ))) {
             if(this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
@@ -304,7 +308,7 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
                 }
             }
         }
-        if(isTame() && isOwnedBy(player) && entityData.get(FUEL) > 1) {
+        if(isTame() && isOwnedBy(player) && entityData.get(FUEL) > 0) {
             toggleSitting();
             return InteractionResult.SUCCESS;
         }
@@ -321,6 +325,10 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
         if (this.isSitting()) {
             standUp();
         } else {
+            if (random.nextFloat() > 0.995) {
+                countdown = 150;
+                this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, BionicsSounds.GET_STICK_BUGGED.get(), this.getSoundSource(), 1f, 1f, false);
+            }
             sitDown();
         }
     }
@@ -412,7 +420,7 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
 
     private final FluidTank FLUID_TANK = createFluidTank();
     private FluidTank createFluidTank() {
-        return new FluidTank(32000) {
+        return new FluidTank(160000) {
             @Override
             public boolean isFluidValid(FluidStack stack) {
                 return true;

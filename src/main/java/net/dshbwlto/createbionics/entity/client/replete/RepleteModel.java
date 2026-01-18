@@ -15,6 +15,7 @@ import net.minecraft.util.Mth;
 public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> {
     private final ModelPart root;
     private final ModelPart body;
+    private final ModelPart stand;
 
     private final ModelPart tank;
     private final ModelPart tank_single;
@@ -36,6 +37,7 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
     public RepleteModel(ModelPart root) {
         this.root = root.getChild("root");
         this.body = this.root.getChild("root_util").getChild("body");
+        this.stand = this.root.getChild("root_util").getChild("body").getChild("stand");
 
         this.tank = this.root.getChild("root_util").getChild("tank");
         this.tank_single = this.root.getChild("root_util").getChild("tank").getChild("tank_single");
@@ -409,13 +411,25 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
         this.root().getAllParts().forEach(ModelPart::resetPose);
 
         this.animateWalk(RepleteAnimations.replete_walk, limbSwing, limbSwingAmount, 2f, 2.5f);
-        if (entity.fuel() > 0) {
+        if (entity.countdown != 0) {
+            this.animate(entity.idleAnimationState, RepleteAnimations.get_stick_bugged_lol, ageInTicks, 1f);
+        } else if (entity.fuel() > 0) {
             this.animate(entity.idleAnimationState, RepleteAnimations.replete_idle, ageInTicks, 1f);
         } else {
             this.animate(entity.idleAnimationState, RepleteAnimations.replete_assembly, ageInTicks, 1f);
         }
-        this.animate(entity.sitDownAnimationState, RepleteAnimations.replete_sit, ageInTicks, 1.0F);
-        this.animate(entity.sitPoseAnimationState, RepleteAnimations.replete_stay, ageInTicks, 1.0F);
+
+        if (entity.countdown != 0) {
+            this.animate(entity.sitDownAnimationState, RepleteAnimations.replete_assembly, ageInTicks, 1.0F);
+        } else {
+            this.animate(entity.sitDownAnimationState, RepleteAnimations.replete_sit,ageInTicks, 1.0f);
+        }
+
+        if (entity.countdown != 0) {
+            this.animate(entity.sitPoseAnimationState, RepleteAnimations.replete_assembly, ageInTicks, 1.0F);
+        } else {
+            this.animate(entity.sitPoseAnimationState, RepleteAnimations.replete_stay, ageInTicks, 1.0F);
+        }
         this.animate(entity.sitUpAnimationState, RepleteAnimations.replete_stand, ageInTicks, 1.0F);
 
         leg_l.visible = entity.buildProgress() > 0;
@@ -425,14 +439,16 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
         leg3_l.visible = entity.buildProgress() > 4;
         leg3_r.visible = entity.buildProgress() > 5;
 
-        tank.visible = entity.buildProgress() > 6;
-        tank_single.visible = entity.buildProgress() == 7;
-        tank_bottom.visible = entity.buildProgress() >= 8;
-        tank_top.visible = entity.buildProgress() >= 8;
-        tank_3.visible = entity.buildProgress() >= 9;
-        tank_4.visible = entity.buildProgress() >= 10;
-        tank_5.visible = entity.buildProgress() >= 11;
-        tank_cap.y = (-(entity.buildProgress() * 16) + 92);
+        tank.visible = entity.buildProgress() > 7;
+        tank_single.visible = entity.buildProgress() == 8;
+        tank_bottom.visible = entity.buildProgress() >= 9;
+        tank_top.visible = entity.buildProgress() >= 9;
+        tank_3.visible = entity.buildProgress() >= 10;
+        tank_4.visible = entity.buildProgress() >= 11;
+        tank_5.visible = entity.buildProgress() >= 12;
+        tank_cap.y = (-(entity.buildProgress() * 16) + 108);
+        pump.visible = entity.buildProgress() > 6;
+        stand.visible = entity.fuel() == 0;
     }
 
     @Override

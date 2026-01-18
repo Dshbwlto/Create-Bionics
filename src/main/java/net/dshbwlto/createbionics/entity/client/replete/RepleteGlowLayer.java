@@ -48,7 +48,7 @@ public class RepleteGlowLayer extends RenderLayer<RepleteEntity, RepleteModel<Re
         TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(stillTexture);
         int tintColor = fluidTypeExtensions.getTintColor();
 
-        float height = (float) ((livingEntity.getFluid().getAmount()) / 1100) / 32 + 0.85f;
+        float height = (float) ((livingEntity.getFluid().getAmount()) / 1100) / 32 + 0.65f;
 
         VertexConsumer builder = buffer.getBuffer(ItemBlockRenderTypes.getRenderLayer(state));
 

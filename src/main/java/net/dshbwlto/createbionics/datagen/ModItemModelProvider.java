@@ -16,7 +16,6 @@ public class ModItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         basicItem(BionicsItems.ANOLE_BODY.get());
-        basicItem(BionicsItems.SILENT_PISTON.get());
         basicItem(BionicsItems.I2_COAL_ENGINE.get());
         basicItem(BionicsItems.SHEET_MUSIC.get());
         basicItem(BionicsItems.ANOLE_HEAD.get());

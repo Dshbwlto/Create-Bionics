@@ -21,27 +21,4 @@ public class AnoleItem extends SpawnEggItem {
     public AnoleItem(EntityType<? extends Mob> defaultType, int backgroundColor, int highlightColor, Properties properties) {
         super(defaultType, backgroundColor, highlightColor, properties);
     }
-
-    @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        if(Screen.hasShiftDown()) {
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.shift"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.space"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.info1"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.space"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.when_used"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.info3"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.space"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.info4"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.info5"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.space"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.info6"));
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.anoleitem.tooltip.info7"));
-
-        } else {
-            tooltipComponents.add(Component.translatable("tooltip.createbionics.basic.tooltip.shift"));
-        }
-
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
-    }
 }
