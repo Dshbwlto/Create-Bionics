@@ -1,0 +1,30 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": false,
+  "category": "misc",
+  "key": {
+    "S": {
+      "item": "create:sturdy_sheet"
+    },
+    "C": {
+      "item": "create:cogwheel"
+    },
+    "I": {
+      "item": "create:iron_sheet"
+    },
+    "L": {
+      "item": "create:large_cogwheel"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "SCS",
+    "ILI",
+    "SCS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:organ_foot_item"
+  },
+  "show_notification": false
+}

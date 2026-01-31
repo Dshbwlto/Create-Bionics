@@ -39,9 +39,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(BionicsItems.STALKER_TAIL.get());
         basicItem(BionicsItems.STALKER_LEG.get());
         basicItem(BionicsItems.STALKER_HEAD.get());
-        basicItem(BionicsItems.ROSE_QUARTZ_NUGGET.get());
-        basicItem(BionicsItems.MINI_ELECTRON_TUBE.get());
-        basicItem(BionicsItems.REPLETE_BODY.get());
+         basicItem(BionicsItems.REPLETE_BODY.get());
         basicItem(BionicsItems.REPLETE_LEG.get());
         basicItem(BionicsItems.VITTICEPS_MUSIC_DISC.get());
     }

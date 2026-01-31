@@ -67,9 +67,7 @@ public class StalkerEntity extends TamableAnimal implements ContainerListener, H
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
-        if (!this.isAggressive()) {
-            this.goalSelector.addGoal(2, new FloatGoal(this));
-        }
+        this.goalSelector.addGoal(2, new FloatGoal(this));
 
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, (double)2.0F, true));
 

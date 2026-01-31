@@ -32,6 +32,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('E', Items.COAL)
                 .unlockedBy("has_coal", has(Items.COAL)).save(recipeOutput);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BionicsItems.ORGAN_PISTON.get())
+                .pattern("SS")
+                .pattern("II")
+                .pattern("II")
+                .define('S', Items.OBSIDIAN)
+                .define('I', Items.IRON_INGOT)
+                .unlockedBy("has_sheet", has(Items.OBSIDIAN)).save(recipeOutput);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BionicsItems.ANOLE_BODY.get())
                 .pattern("ACA")
                 .pattern("AEA")

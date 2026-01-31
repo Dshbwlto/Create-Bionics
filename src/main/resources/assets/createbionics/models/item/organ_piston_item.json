@@ -1,0 +1,77 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Dshbwlto",
+	"textures": {
+		"0": "createbionics:item/organ/organ_piston_item"
+	},
+	"elements": [
+		{
+			"from": [3, 0, 3],
+			"to": [13, 12, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [3, 0, 3]},
+			"faces": {
+				"north": {"uv": [0, 0, 5, 6], "texture": "#0"},
+				"east": {"uv": [0, 0, 5, 6], "texture": "#0"},
+				"south": {"uv": [0, 0, 5, 6], "texture": "#0"},
+				"west": {"uv": [0, 0, 5, 6], "texture": "#0"},
+				"up": {"uv": [10, 5, 5, 0], "texture": "#0"},
+				"down": {"uv": [10, 0, 5, 5], "texture": "#0"}
+			}
+		},
+		{
+			"from": [3, 12, 3],
+			"to": [13, 16, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [3, 12, 3]},
+			"faces": {
+				"north": {"uv": [0, 6, 5, 8], "texture": "#0"},
+				"east": {"uv": [0, 6, 5, 8], "texture": "#0"},
+				"south": {"uv": [0, 6, 5, 8], "texture": "#0"},
+				"west": {"uv": [0, 6, 5, 8], "texture": "#0"},
+				"up": {"uv": [10, 5, 5, 0], "texture": "#0"},
+				"down": {"uv": [10, 0, 5, 5], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [-15, 45, 0],
+			"translation": [0, 1, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [-15, 45, 0],
+			"translation": [0, 1, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 45, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 45, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"ground": {
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"gui": {
+			"rotation": [34, 45, 0],
+			"scale": [0.5, 0.5, 0.5]
+		}
+	},
+	"groups": [
+		{
+			"name": "piston_l1",
+			"origin": [-20, 85, -77],
+			"color": 0,
+			"children": [
+				{
+					"name": "piston_2_l1",
+					"origin": [-33, 85, -78],
+					"color": 0,
+					"children": [0, 1]
+				}
+			]
+		}
+	]
+}

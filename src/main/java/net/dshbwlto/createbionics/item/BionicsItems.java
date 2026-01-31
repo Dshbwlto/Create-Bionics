@@ -4,7 +4,12 @@ import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.item.custom.*;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -17,6 +22,7 @@ public class BionicsItems {
     public static final DeferredItem<Item> ANOLE_HEAD = ITEMS.registerSimpleItem("anole_head");
     public static final DeferredItem<Item> ANOLE_LEG = ITEMS.registerSimpleItem("anole_leg");
     public static final DeferredItem<Item> ANOLE_TAIL = ITEMS.registerSimpleItem("anole_tail");
+
     public static final DeferredItem<Item> WAX_INGOT = ITEMS.registerSimpleItem("wax_ingot");
 
     public static final DeferredItem<Item> OXHAULER_HEAD = ITEMS.registerSimpleItem("oxhauler_head_item");
@@ -32,14 +38,33 @@ public class BionicsItems {
 
     public static final DeferredItem<Item> NETHER_BRICK_CRUCIBLE = ITEMS.registerSimpleItem("nether_brick_crucible");
 
-    public static final DeferredItem<Item> ROSE_QUARTZ_NUGGET = ITEMS.registerSimpleItem("rose_quartz_nugget");
-    public static final DeferredItem<Item> MINI_ELECTRON_TUBE = ITEMS.registerSimpleItem("mini_electron_tube");
-    public static final DeferredItem<Item> COMPOUND_EYE = ITEMS.registerSimpleItem("compound_eye");
     public static final DeferredItem<Item> REPLETE_LEG = ITEMS.registerSimpleItem("replete_leg_item");
     public static final DeferredItem<Item> REPLETE_BODY = ITEMS.registerSimpleItem("replete_body_item");
 
+    public static final DeferredItem<Item> ORGAN_FOOT = ITEMS.register("organ_foot_item",
+            () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> ORGAN_TAIL_BASE = ITEMS.register("organ_tail_base_item",
+            () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> ORGAN_TAIL_END = ITEMS.register("organ_tail_end_item",
+            () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> ORGAN_CHEST = ITEMS.register("organ_chest_item",
+            () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> ORGAN_PISTON = ITEMS.register("organ_piston_item",
+            () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> ORGAN_BELLOWS = ITEMS.register("organ_bellows_item",
+            () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> ORGAN_NECK = ITEMS.register("organ_neck_item",
+            () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> ORGAN_HEAD = ITEMS.register("organ_head_item",
+            () -> new OrganHeadItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> ORGAN_CHIMNEY = ITEMS.register("organ_chimney_item",
+            () -> new Item(new Item.Properties().stacksTo(1)));
+
     public static final DeferredItem<Item> SHEET_MUSIC = ITEMS.register("sheet_music",
             () -> new SheetMusicItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> ROBOT_BUILDER = ITEMS.register("robot_builder",
+            () -> new RobotBuilderItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> MOLTEN_ANDESITE_ALLOY_CRUCIBLE = ITEMS.register("molten_andesite_alloy_crucible",
             () -> new Item(new Item.Properties().stacksTo(1)));
@@ -53,20 +78,24 @@ public class BionicsItems {
             () -> new Item(new Item.Properties()));
 
     public static final DeferredItem<Item> ANOLE = ITEMS.register("anole",
-            () -> new AnoleItem(BionicsEntities.ANOLE.get(), 0xFFFFFF, 0xFFFFFF,
-                    new Item.Properties().rarity(Rarity.UNCOMMON)));
+            () -> new SpawnEggItem(BionicsEntities.ANOLE.get(), 0xFFFFFF, 0xFFFFFF,
+                    new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> OXHAULER_MIDDLE = ITEMS.register("oxhauler_middle_item",
-            () -> new OxhaulerSpawnerItem(BionicsEntities.OXHAULER.get(), 0xFFFFFF, 0xFFFFFF,
-                    new Item.Properties().rarity(Rarity.UNCOMMON)));
+            () -> new SpawnEggItem(BionicsEntities.ORGAN.get(), 0xFFFFFF, 0xFFFFFF,
+                    new Item.Properties().stacksTo(1)));
 
    public static final DeferredItem<Item> STALKER_BODY = ITEMS.register("stalker_body_item",
-            () -> new StalkerSpawnerItem(BionicsEntities.STALKER.get(), 0xFFFFFF, 0xFFFFFF,
-                    new Item.Properties().rarity(Rarity.UNCOMMON)));
+            () -> new SpawnEggItem(BionicsEntities.STALKER.get(), 0xFFFFFF, 0xFFFFFF,
+                    new Item.Properties().stacksTo(1)));
+
+   public static final DeferredItem<Item> ORGAN_MIDDLE = ITEMS.register("organ_middle_item",
+            () -> new SpawnEggItem(BionicsEntities.ORGAN.get(), 0xFFFFFF, 0xFFFFFF,
+                    new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> REPLETE_SPAWNER = ITEMS.register("replete_spawner",
             () -> new SpawnEggItem(BionicsEntities.REPLETE.get(), 0xFFFFFF, 0xFFFFFF,
-                    new Item.Properties()));
+                    new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> VITTICEPS_MUSIC_DISC = ITEMS.registerItem("vitticeps_music_disc",
             properties -> new Item(properties.jukeboxPlayable(BionicsSounds.VITTICEPS_KEY)));

@@ -1,7 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"render_type": "minecraft:cutout",
-	"texture_size": [128, 128],
+	"texture_size": [32, 32],
 	"textures": {
 		"1": "createbionics:block/oxhauler/oxhauler_front",
 		"particle": "create:item/andesite_alloy"

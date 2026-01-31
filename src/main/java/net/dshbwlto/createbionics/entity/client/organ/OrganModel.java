@@ -21,7 +21,13 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
     private final ModelPart tail1;
     private final ModelPart tail2;
     private final ModelPart leg_l;
+    private final ModelPart leg_l2;
+    private final ModelPart foot_l;
     private final ModelPart leg_r;
+    private final ModelPart leg_r2;
+    private final ModelPart foot_r;
+
+    private final ModelPart stand;
 
     private final ModelPart piston_l1;
     private final ModelPart piston_l2;
@@ -31,6 +37,8 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
     private final ModelPart piston_r2;
     private final ModelPart piston_r3;
     private final ModelPart piston_r4;
+    private final ModelPart bellows_l;
+    private final ModelPart bellows_r;
     private final ModelPart blink;
     private final ModelPart dial;
 
@@ -38,17 +46,113 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
     private final ModelPart steam_face;
     private final ModelPart steam_tail;
 
+    private final ModelPart c1;
+    private final ModelPart cs1;
+    private final ModelPart d1;
+    private final ModelPart ds1;
+    private final ModelPart e1;
+    private final ModelPart f1;
+    private final ModelPart fs1;
+    private final ModelPart g1;
+    private final ModelPart gs1;
+    private final ModelPart a1;
+    private final ModelPart as1;
+    private final ModelPart b1;
+
+    private final ModelPart c2;
+    private final ModelPart cs2;
+    private final ModelPart d2;
+    private final ModelPart ds2;
+    private final ModelPart e2;
+    private final ModelPart f2;
+    private final ModelPart fs2;
+    private final ModelPart g2;
+    private final ModelPart gs2;
+    private final ModelPart a2;
+    private final ModelPart as2;
+    private final ModelPart b2;
+
+    private final ModelPart c3;
+    private final ModelPart cs3;
+    private final ModelPart d3;
+    private final ModelPart ds3;
+    private final ModelPart e3;
+    private final ModelPart f3;
+    private final ModelPart fs3;
+    private final ModelPart g3;
+    private final ModelPart gs3;
+    private final ModelPart a3;
+    private final ModelPart as3;
+    private final ModelPart b3;
+
+    private final ModelPart c4;
+    private final ModelPart cs4;
+    private final ModelPart d4;
+    private final ModelPart ds4;
+    private final ModelPart e4;
+    private final ModelPart f4;
+    private final ModelPart fs4;
+    private final ModelPart g4;
+    private final ModelPart gs4;
+    private final ModelPart a4;
+    private final ModelPart as4;
+    private final ModelPart b4;
+
+    private final ModelPart c5;
+    private final ModelPart cs5;
+    private final ModelPart d5;
+    private final ModelPart ds5;
+    private final ModelPart e5;
+    private final ModelPart f5;
+    private final ModelPart fs5;
+    private final ModelPart g5;
+    private final ModelPart gs5;
+    private final ModelPart a5;
+    private final ModelPart as5;
+    private final ModelPart b5;
+
+    private final ModelPart c6;
+    private final ModelPart cs6;
+    private final ModelPart d6;
+    private final ModelPart ds6;
+    private final ModelPart e6;
+    private final ModelPart f6;
+    private final ModelPart fs6;
+    private final ModelPart g6;
+    private final ModelPart gs6;
+    private final ModelPart a6;
+    private final ModelPart as6;
+    private final ModelPart b6;
+
+    private final ModelPart c7;
+    private final ModelPart cs7;
+    private final ModelPart d7;
+    private final ModelPart ds7;
+    private final ModelPart e7;
+    private final ModelPart f7;
+    private final ModelPart fs7;
+    private final ModelPart g7;
+    private final ModelPart gs7;
+    private final ModelPart a7;
+    private final ModelPart as7;
+    private final ModelPart b7;
+
     public OrganModel(ModelPart root) {
         this.root = root.getChild("root");
 
         this.body = this.root.getChild("root_util").getChild("body");
         this.chest = this.root.getChild("root_util").getChild("body").getChild("chest");
+        this.stand = this.root.getChild("root_util").getChild("body").getChild("stand");
         this.neck = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("neck");
         this.head = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("neck").getChild("head");
         this.tail1 = this.root.getChild("root_util").getChild("body").getChild("tail1");
         this.tail2 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2");
         this.leg_l = this.root.getChild("root_util").getChild("leg_l");
+        this.leg_l2 = this.root.getChild("root_util").getChild("leg_l").getChild("leg_l2");
+        this.foot_l = this.root.getChild("root_util").getChild("leg_l").getChild("leg_l2").getChild("foot_l");
         this.leg_r = this.root.getChild("root_util").getChild("leg_r");
+        this.leg_r2 = this.root.getChild("root_util").getChild("leg_r").getChild("leg_r2");
+        this.foot_r = this.root.getChild("root_util").getChild("leg_r").getChild("leg_r2").getChild("foot_r");
 
         this.piston_l1 = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("piston_parent_l").getChild("piston_l1");
         this.piston_l2 = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("piston_parent_l").getChild("piston_l2");
@@ -58,6 +162,8 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         this.piston_r2 = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("piston_parent_r").getChild("piston_r2");
         this.piston_r3 = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("piston_parent_r").getChild("piston_r3");
         this.piston_r4 = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("piston_parent_r").getChild("piston_r4");
+        this.bellows_l = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("bellows_l");
+        this.bellows_r = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("bellows_r");
         this.blink = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("neck").getChild("head").getChild("blink");
         this.dial = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("dial");
 
@@ -65,6 +171,95 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         this.steam_face = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("neck").getChild("head").getChild("face").getChild("steam_face");
         this.steam_tail = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("steam_tail");
 
+        this.c1 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("c1");
+        this.cs1 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("cs1");
+        this.d1 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("d1");
+        this.ds1 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("ds1");
+        this.e1 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("e1");
+        this.f1 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("f1");
+        this.fs1 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("fs1");
+        this.g1 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("g1");
+        this.gs1 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("gs1");
+        this.a1 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("a1");
+        this.as1 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("as1");
+        this.b1 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("b1");
+
+        this.c2 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("c2");
+        this.cs2 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("cs2");
+        this.d2 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("d2");
+        this.ds2 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("ds2");
+        this.e2 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("e2");
+        this.f2 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("f2");
+        this.fs2 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("fs2");
+        this.g2 = this.root.getChild("root_util").getChild("body").getChild("whistle_back_parent").getChild("g2");
+        this.gs2 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("gs2");
+        this.a2 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("a2");
+        this.as2 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("as2");
+        this.b2 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("b2");
+
+        this.c3 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("c3");
+        this.cs3 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("cs3");
+        this.d3 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("d3");
+        this.ds3 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("ds3");
+        this.e3 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("e3");
+        this.f3 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("f3");
+        this.fs3 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("fs3");
+        this.g3 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("g3");
+        this.gs3 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("gs3");
+        this.a3 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("a3");
+        this.as3 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("as3");
+        this.b3 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("b3");
+
+        this.c4 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("c4");
+        this.cs4 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("cs4");
+        this.d4 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("d4");
+        this.ds4 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("ds4");
+        this.e4 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("e4");
+        this.f4 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("whistle_tail1_parent").getChild("f4");
+        this.fs4 = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("whistle_chest_parent").getChild("fs4");
+        this.g4 = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("whistle_chest_parent").getChild("g4");
+        this.gs4 = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("whistle_chest_parent").getChild("gs4");
+        this.a4 = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("whistle_chest_parent").getChild("a4");
+        this.as4 = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("whistle_chest_parent").getChild("as4");
+        this.b4 = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("whistle_chest_parent").getChild("b4");
+
+        this.c5 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("c5");
+        this.cs5 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("cs5");
+        this.d5 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("d5");
+        this.ds5 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("ds5");
+        this.e5 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("e5");
+        this.f5 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("f5");
+        this.fs5 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("fs5");
+        this.g5 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("g5");
+        this.gs5 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("gs5");
+        this.a5 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("a5");
+        this.as5 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("as5");
+        this.b5 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("b5");
+        this.c6 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("c6");
+        this.cs6 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("cs6");
+        this.d6 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("d6");
+        this.ds6 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("ds6");
+        this.e6 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("e6");
+        this.f6 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("f6");
+        this.fs6 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("fs6");
+        this.g6 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("g6");
+        this.gs6 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("gs6");
+        this.a6 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("a6");
+        this.as6 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("as6");
+        this.b6 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("b6");
+
+        this.c7 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("c7");
+        this.cs7 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("cs7");
+        this.d7 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("d7");
+        this.ds7 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("ds7");
+        this.e7 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("e7");
+        this.f7 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("f7");
+        this.fs7 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("fs7");
+        this.g7 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("g7");
+        this.gs7 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("gs7");
+        this.a7 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("a7");
+        this.as7 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("as7");
+        this.b7 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2").getChild("whistle_tail2_parent").getChild("b7");
     }
     public static LayerDefinition createBodyLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
@@ -91,6 +286,12 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition cube_r2 = body.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(185, 70).addBox(-5.0F, -7.0F, -1.0F, 14.0F, 7.0F, 3.0F, new CubeDeformation(0.0F))
                 .texOffs(185, 70).addBox(-5.0F, -7.0F, 57.0F, 14.0F, 7.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(18.0F, 16.0F, -24.5F, 0.0F, 0.0F, -0.48F));
+
+        PartDefinition steam_4 = body.addOrReplaceChild("steam_4", CubeListBuilder.create(), PartPose.offset(24.75F, 2.0F, 29.0F));
+
+        PartDefinition steam_hip_r1 = steam_4.addOrReplaceChild("steam_hip_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-8.0F, -16.0F, 0.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.2733F, 0.7001F, 1.0797F));
+
+        PartDefinition steam_hip_r2 = steam_4.addOrReplaceChild("steam_hip_r2", CubeListBuilder.create().texOffs(0, 0).addBox(-8.0F, -16.0F, 0.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -2.8316F, 0.8277F, -1.6515F));
 
         PartDefinition chest = body.addOrReplaceChild("chest", CubeListBuilder.create().texOffs(474, 666).mirror().addBox(-23.0F, 15.0F, -52.0F, 9.0F, 26.0F, 44.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(474, 668).mirror().addBox(-23.0F, 22.0F, -29.0F, 1.0F, 7.0F, 14.0F, new CubeDeformation(0.0F)).mirror(false)
@@ -121,6 +322,16 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition cube_r11 = chest.addOrReplaceChild("cube_r11", CubeListBuilder.create().texOffs(298, 82).addBox(-15.0F, -2.0F, -2.0F, 15.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(15.0F, 37.0F, -21.0F, 0.0F, -0.2618F, -0.1309F));
 
         PartDefinition cube_r12 = chest.addOrReplaceChild("cube_r12", CubeListBuilder.create().texOffs(296, 89).addBox(-17.0F, -2.0F, -2.0F, 17.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(15.0F, 37.0F, -11.0F, 0.0F, -0.5236F, -0.1309F));
+
+        PartDefinition steam_chest = chest.addOrReplaceChild("steam_chest", CubeListBuilder.create(), PartPose.offset(-23.0F, 26.0F, -34.0F));
+
+        PartDefinition steam_5_r1 = steam_chest.addOrReplaceChild("steam_5_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-8.0F, -16.0F, 0.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(46.0F, 4.0F, 21.0F, -2.9278F, -0.5302F, -2.6192F));
+
+        PartDefinition steam_5_r2 = steam_chest.addOrReplaceChild("steam_5_r2", CubeListBuilder.create().texOffs(0, 0).addBox(-8.0F, -16.0F, 0.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(46.0F, 4.0F, 21.0F, -2.7943F, 1.003F, -2.2136F));
+
+        PartDefinition steam_1_r1 = steam_chest.addOrReplaceChild("steam_1_r1", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-8.0F, -16.0F, 0.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -2.6014F, -0.9901F, 1.8873F));
+
+        PartDefinition steam_1_r2 = steam_chest.addOrReplaceChild("steam_1_r2", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-8.0F, -16.0F, 0.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.3255F, -0.4898F, -0.6321F));
 
         PartDefinition dial = chest.addOrReplaceChild("dial", CubeListBuilder.create(), PartPose.offset(-0.5F, 29.0F, -22.0F));
 
@@ -204,15 +415,25 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(388, 520).addBox(-6.0F, 16.0F, -52.0F, 12.0F, 12.0F, 69.0F, new CubeDeformation(0.0F))
                 .texOffs(328, 601).addBox(-2.0F, 12.0F, -52.0F, 4.0F, 4.0F, 69.0F, new CubeDeformation(0.0F))
                 .texOffs(550, 589).addBox(-2.0F, 28.0F, -52.0F, 4.0F, 8.0F, 69.0F, new CubeDeformation(0.0F))
-                .texOffs(401, 26).addBox(-9.0F, 18.0F, -52.0F, 2.0F, 2.0F, 69.0F, new CubeDeformation(0.0F))
-                .texOffs(401, 26).mirror().addBox(7.0F, 18.0F, -52.0F, 2.0F, 2.0F, 69.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -7.0F, -54.0F, -0.5672F, 0.0F, 0.0F));
+                .texOffs(422, 218).addBox(-9.0F, 18.0F, -52.0F, 2.0F, 2.0F, 69.0F, new CubeDeformation(0.0F))
+                .texOffs(422, 218).mirror().addBox(7.0F, 18.0F, -52.0F, 2.0F, 2.0F, 69.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -7.0F, -54.0F, -0.5672F, 0.0F, 0.0F));
 
-        PartDefinition cube_r14 = neck.addOrReplaceChild("cube_r14", CubeListBuilder.create().texOffs(401, 26).addBox(-1.0F, 12.0F, -46.0F, 2.0F, 2.0F, 69.0F, new CubeDeformation(0.0F))
-                .texOffs(401, 26).addBox(13.0F, 12.0F, -46.0F, 2.0F, 2.0F, 69.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-7.0F, 13.0F, -6.0F, -0.0436F, 0.0F, 0.0F));
+        PartDefinition cube_r14 = neck.addOrReplaceChild("cube_r14", CubeListBuilder.create().texOffs(422, 218).addBox(-1.0F, 12.0F, -46.0F, 2.0F, 2.0F, 69.0F, new CubeDeformation(0.0F))
+                .texOffs(422, 218).addBox(13.0F, 12.0F, -46.0F, 2.0F, 2.0F, 69.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-7.0F, 13.0F, -6.0F, -0.0436F, 0.0F, 0.0F));
 
         PartDefinition cube_r15 = neck.addOrReplaceChild("cube_r15", CubeListBuilder.create().texOffs(584, 425).addBox(-1.5F, 10.0F, -46.0F, 6.0F, 6.0F, 69.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.0F, 20.0F, -6.0F, 0.0436F, 0.0262F, -0.1309F));
 
         PartDefinition cube_r16 = neck.addOrReplaceChild("cube_r16", CubeListBuilder.create().texOffs(584, 425).addBox(-4.5F, 10.0F, -46.0F, 6.0F, 6.0F, 69.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(8.0F, 20.0F, -6.0F, 0.0436F, -0.0262F, 0.1309F));
+
+        PartDefinition steam_neck = neck.addOrReplaceChild("steam_neck", CubeListBuilder.create(), PartPose.offset(-12.0F, 26.0F, -3.0F));
+
+        PartDefinition steam_2_r1 = steam_neck.addOrReplaceChild("steam_2_r1", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-8.0F, -8.0F, 0.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, -0.7854F, -2.1817F));
+
+        PartDefinition steam_2_r2 = steam_neck.addOrReplaceChild("steam_2_r2", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-8.0F, -8.0F, 0.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 3.1416F, -0.7854F, 0.9599F));
+
+        PartDefinition steam_3_r1 = steam_neck.addOrReplaceChild("steam_3_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-8.0F, -8.0F, 0.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(26.0F, -5.0F, -19.0F, 3.1416F, 0.7854F, -1.7453F));
+
+        PartDefinition steam_3_r2 = steam_neck.addOrReplaceChild("steam_3_r2", CubeListBuilder.create().texOffs(0, 0).addBox(-8.0F, -8.0F, 0.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(26.0F, -5.0F, -19.0F, 0.0F, 0.7854F, 1.3963F));
 
         PartDefinition head = neck.addOrReplaceChild("head", CubeListBuilder.create().texOffs(150, 159).addBox(-14.0F, -6.0F, -24.0F, 28.0F, 26.0F, 24.0F, new CubeDeformation(0.0F))
                 .texOffs(259, 379).addBox(-12.0F, -12.0F, -38.0F, 24.0F, 20.0F, 36.0F, new CubeDeformation(0.0F))
@@ -299,7 +520,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition cube_r33 = jaw_front.addOrReplaceChild("cube_r33", CubeListBuilder.create().texOffs(718, 552).addBox(-12.0F, 0.0F, -26.0F, 24.0F, 11.0F, 26.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.2618F, 0.0F, 0.0F));
 
-        PartDefinition bellows_l = chest.addOrReplaceChild("bellows_l", CubeListBuilder.create().texOffs(164, 583).addBox(1.0F, 3.0F, -49.0F, 26.0F, 13.0F, 56.0F, new CubeDeformation(0.0F))
+        PartDefinition bellows_l = chest.addOrReplaceChild("bellows_l", CubeListBuilder.create().texOffs(164, 583).addBox(1.0F, 3.0F, -49.0F, 26.0F, 13.0F, 56.0F, new CubeDeformation(0.01F))
                 .texOffs(586, 502).addBox(1.0F, 3.0F, 7.0F, 26.0F, 4.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(84, 440).addBox(-4.5F, -1.0F, 14.0F, 38.0F, 4.0F, 4.0F, new CubeDeformation(0.0F))
                 .texOffs(0, 519).addBox(-4.0F, 1.0F, -45.0F, 37.0F, 3.0F, 61.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(8.0F, -30.0F, -12.0F, 0.0F, 0.0F, 0.6545F));
@@ -327,7 +548,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition cube_r39 = bellows_fabric_l1.addOrReplaceChild("cube_r39", CubeListBuilder.create().texOffs(0, 224).mirror().addBox(2.0F, -56.0F, -9.0F, 10.0F, 59.0F, 25.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(5.4008F, 0.1F, -1.8713F, 0.0F, -0.7854F, 0.0F));
 
-        PartDefinition bellows_r = chest.addOrReplaceChild("bellows_r", CubeListBuilder.create().texOffs(164, 583).addBox(-27.0F, 3.0F, -49.0F, 26.0F, 13.0F, 56.0F, new CubeDeformation(0.0F))
+        PartDefinition bellows_r = chest.addOrReplaceChild("bellows_r", CubeListBuilder.create().texOffs(164, 583).addBox(-27.0F, 3.0F, -49.0F, 26.0F, 13.0F, 56.0F, new CubeDeformation(0.01F))
                 .texOffs(586, 502).addBox(-27.0F, 3.0F, 7.0F, 26.0F, 4.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(84, 440).addBox(-33.5F, -1.0F, 14.0F, 38.0F, 4.0F, 4.0F, new CubeDeformation(0.0F))
                 .texOffs(0, 519).addBox(-33.0F, 1.0F, -45.0F, 37.0F, 3.0F, 61.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.0F, -30.0F, -12.0F, 0.0F, 0.0F, -0.6545F));
@@ -357,11 +578,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition whistle_chest_parent = chest.addOrReplaceChild("whistle_chest_parent", CubeListBuilder.create(), PartPose.offset(0.0F, -20.0F, -1.0F));
 
-        PartDefinition fs4 = whistle_chest_parent.addOrReplaceChild("fs4", CubeListBuilder.create().texOffs(649, 103).addBox(-5.0F, -30.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
-                .texOffs(619, 79).addBox(-4.0F, -28.0F, -4.0F, 8.0F, 16.0F, 8.0F, new CubeDeformation(0.0F))
+        PartDefinition fs4 = whistle_chest_parent.addOrReplaceChild("fs4", CubeListBuilder.create().texOffs(649, 113).addBox(-5.0F, -46.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(619, 73).addBox(-4.0F, -44.0F, -4.0F, 8.0F, 32.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(687, 143).addBox(-3.0F, -17.0F, -3.0F, 6.0F, 21.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.2618F, 0.0F, 0.0F));
 
-        PartDefinition fs4head = fs4.addOrReplaceChild("fs4head", CubeListBuilder.create().texOffs(619, 8).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -13.0F, 0.0F));
+        PartDefinition fs4head = fs4.addOrReplaceChild("fs4head", CubeListBuilder.create().texOffs(619, 2).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -13.0F, 0.0F));
 
         PartDefinition fs4_steam = fs4.addOrReplaceChild("fs4_steam", CubeListBuilder.create(), PartPose.offset(8.0F, -6.0F, 8.0F));
 
@@ -374,10 +595,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r4 = fs4_steam.addOrReplaceChild("WhistleLargeBase_r4", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
         PartDefinition g4 = whistle_chest_parent.addOrReplaceChild("g4", CubeListBuilder.create().texOffs(687, 143).addBox(-3.0F, -17.0F, -3.0F, 6.0F, 21.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(649, 103).addBox(-5.0F, -38.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
-                .texOffs(619, 71).addBox(-4.0F, -36.0F, -4.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -12.0F, -0.2618F, 0.0F, 0.0F));
+                .texOffs(649, 113).addBox(-5.0F, -42.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(619, 77).addBox(-4.0F, -40.0F, -4.0F, 8.0F, 28.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -12.0F, -0.2618F, 0.0F, 0.0F));
 
-        PartDefinition g4head = g4.addOrReplaceChild("g4head", CubeListBuilder.create().texOffs(619, 8).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -13.0F, 0.0F));
+        PartDefinition g4head = g4.addOrReplaceChild("g4head", CubeListBuilder.create().texOffs(619, 2).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -13.0F, 0.0F));
 
         PartDefinition g4_steam = g4.addOrReplaceChild("g4_steam", CubeListBuilder.create(), PartPose.offset(8.0F, -6.0F, 8.0F));
 
@@ -390,10 +611,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r8 = g4_steam.addOrReplaceChild("WhistleLargeBase_r8", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
         PartDefinition gs4 = whistle_chest_parent.addOrReplaceChild("gs4", CubeListBuilder.create().texOffs(687, 143).addBox(-3.0F, -17.0F, -3.0F, 6.0F, 21.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(649, 103).addBox(-5.0F, -42.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
-                .texOffs(619, 67).addBox(-4.0F, -40.0F, -4.0F, 8.0F, 28.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -24.0F, -0.2618F, 0.0F, 0.0F));
+                .texOffs(649, 113).addBox(-5.0F, -38.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(619, 81).addBox(-4.0F, -36.0F, -4.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -24.0F, -0.2618F, 0.0F, 0.0F));
 
-        PartDefinition gs4head = gs4.addOrReplaceChild("gs4head", CubeListBuilder.create().texOffs(619, 8).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -13.0F, 0.0F));
+        PartDefinition gs4head = gs4.addOrReplaceChild("gs4head", CubeListBuilder.create().texOffs(619, 2).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -13.0F, 0.0F));
 
         PartDefinition gs4_steam = gs4.addOrReplaceChild("gs4_steam", CubeListBuilder.create(), PartPose.offset(8.0F, -6.0F, 8.0F));
 
@@ -406,10 +627,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r12 = gs4_steam.addOrReplaceChild("WhistleLargeBase_r12", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
         PartDefinition a4 = whistle_chest_parent.addOrReplaceChild("a4", CubeListBuilder.create().texOffs(687, 143).addBox(-3.0F, -17.0F, -3.0F, 6.0F, 21.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(649, 103).addBox(-5.0F, -34.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
-                .texOffs(619, 75).addBox(-4.0F, -32.0F, -4.0F, 8.0F, 20.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -36.0F, -0.2618F, 0.0F, 0.0F));
+                .texOffs(649, 113).addBox(-5.0F, -34.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(619, 85).addBox(-4.0F, -32.0F, -4.0F, 8.0F, 20.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -36.0F, -0.2618F, 0.0F, 0.0F));
 
-        PartDefinition a4head = a4.addOrReplaceChild("a4head", CubeListBuilder.create().texOffs(619, 8).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -13.0F, 0.0F));
+        PartDefinition a4head = a4.addOrReplaceChild("a4head", CubeListBuilder.create().texOffs(619, 2).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -13.0F, 0.0F));
 
         PartDefinition a4_steam = a4.addOrReplaceChild("a4_steam", CubeListBuilder.create(), PartPose.offset(8.0F, -6.0F, 8.0F));
 
@@ -422,10 +643,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r16 = a4_steam.addOrReplaceChild("WhistleLargeBase_r16", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
         PartDefinition as4 = whistle_chest_parent.addOrReplaceChild("as4", CubeListBuilder.create().texOffs(687, 143).addBox(-3.0F, -17.0F, -3.0F, 6.0F, 21.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(649, 103).addBox(-5.0F, -30.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
-                .texOffs(619, 79).addBox(-4.0F, -28.0F, -4.0F, 8.0F, 16.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -48.0F, -0.2618F, 0.0F, 0.0F));
+                .texOffs(649, 113).addBox(-5.0F, -30.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(619, 89).addBox(-4.0F, -28.0F, -4.0F, 8.0F, 16.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -48.0F, -0.2618F, 0.0F, 0.0F));
 
-        PartDefinition as4head = as4.addOrReplaceChild("as4head", CubeListBuilder.create().texOffs(619, 8).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -13.0F, 0.0F));
+        PartDefinition as4head = as4.addOrReplaceChild("as4head", CubeListBuilder.create().texOffs(619, 2).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -13.0F, 0.0F));
 
         PartDefinition as4_steam = as4.addOrReplaceChild("as4_steam", CubeListBuilder.create(), PartPose.offset(8.0F, -6.0F, 8.0F));
 
@@ -438,10 +659,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r20 = as4_steam.addOrReplaceChild("WhistleLargeBase_r20", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
         PartDefinition b4 = whistle_chest_parent.addOrReplaceChild("b4", CubeListBuilder.create().texOffs(687, 143).addBox(-3.0F, -17.0F, -3.0F, 6.0F, 21.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(649, 103).addBox(-5.0F, -26.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
-                .texOffs(619, 83).addBox(-4.0F, -24.0F, -4.0F, 8.0F, 12.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -60.0F, -0.2618F, 0.0F, 0.0F));
+                .texOffs(649, 113).addBox(-5.0F, -26.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(619, 93).addBox(-4.0F, -24.0F, -4.0F, 8.0F, 12.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -60.0F, -0.2618F, 0.0F, 0.0F));
 
-        PartDefinition b4head = b4.addOrReplaceChild("b4head", CubeListBuilder.create().texOffs(619, 8).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -13.0F, 0.0F));
+        PartDefinition b4head = b4.addOrReplaceChild("b4head", CubeListBuilder.create().texOffs(619, 2).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -13.0F, 0.0F));
 
         PartDefinition b4_steam = b4.addOrReplaceChild("b4_steam", CubeListBuilder.create(), PartPose.offset(8.0F, -6.0F, 8.0F));
 
@@ -550,7 +771,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 76).mirror().addBox(5.0F, -9.0F, -3.0F, 6.0F, 12.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(723, 94).addBox(4.0F, -11.0F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(8.0F, 13.0F, -70.0F, 0.0F, 0.0F, 0.3491F));
 
-        PartDefinition c5head = c5.addOrReplaceChild("c5head", CubeListBuilder.create().texOffs(727, 11).mirror().addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
+        PartDefinition c5head = c5.addOrReplaceChild("c5head", CubeListBuilder.create().texOffs(727, 3).mirror().addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
 
         PartDefinition c5_steam = c5.addOrReplaceChild("c5_steam", CubeListBuilder.create(), PartPose.offset(13.0F, 11.0F, 8.0F));
 
@@ -562,7 +783,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 72).mirror().addBox(5.0F, -13.0F, -3.0F, 6.0F, 16.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(651, 135).addBox(1.0F, 0.0F, -2.0F, 9.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(8.0F, 13.0F, -60.0F, 0.0F, 0.0F, 0.4363F));
 
-        PartDefinition cs5head = cs5.addOrReplaceChild("cs5head", CubeListBuilder.create().texOffs(727, 11).mirror().addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
+        PartDefinition cs5head = cs5.addOrReplaceChild("cs5head", CubeListBuilder.create().texOffs(727, 3).mirror().addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
 
         PartDefinition cs5_steam = cs5.addOrReplaceChild("cs5_steam", CubeListBuilder.create(), PartPose.offset(13.0F, 11.0F, 8.0F));
 
@@ -574,7 +795,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 68).mirror().addBox(5.0F, -17.0F, -3.0F, 6.0F, 20.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(651, 135).addBox(1.0F, 0.0F, -2.0F, 9.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(8.0F, 13.0F, -50.0F, 0.0F, 0.0F, 0.5236F));
 
-        PartDefinition d5head = d5.addOrReplaceChild("d5head", CubeListBuilder.create().texOffs(727, 11).mirror().addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
+        PartDefinition d5head = d5.addOrReplaceChild("d5head", CubeListBuilder.create().texOffs(727, 3).mirror().addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
 
         PartDefinition d5_steam = d5.addOrReplaceChild("d5_steam", CubeListBuilder.create(), PartPose.offset(13.0F, 11.0F, 8.0F));
 
@@ -586,7 +807,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 64).mirror().addBox(5.0F, -21.0F, -3.0F, 6.0F, 24.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(651, 135).addBox(1.0F, 0.0F, -2.0F, 9.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(8.0F, 13.0F, -40.0F, 0.0F, 0.0F, 0.6109F));
 
-        PartDefinition ds5head = ds5.addOrReplaceChild("ds5head", CubeListBuilder.create().texOffs(727, 11).mirror().addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
+        PartDefinition ds5head = ds5.addOrReplaceChild("ds5head", CubeListBuilder.create().texOffs(727, 3).mirror().addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
 
         PartDefinition ds5_steam = ds5.addOrReplaceChild("ds5_steam", CubeListBuilder.create(), PartPose.offset(13.0F, 11.0F, 8.0F));
 
@@ -598,7 +819,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 60).mirror().addBox(5.0F, -25.0F, -3.0F, 6.0F, 28.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(651, 135).addBox(1.0F, 0.0F, -2.0F, 9.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(8.0F, 13.0F, -30.0F, 0.0F, 0.0F, 0.7854F));
 
-        PartDefinition e5head = e5.addOrReplaceChild("e5head", CubeListBuilder.create().texOffs(727, 11).mirror().addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
+        PartDefinition e5head = e5.addOrReplaceChild("e5head", CubeListBuilder.create().texOffs(727, 3).mirror().addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
 
         PartDefinition e5_steam = e5.addOrReplaceChild("e5_steam", CubeListBuilder.create(), PartPose.offset(13.0F, 11.0F, 8.0F));
 
@@ -610,7 +831,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 56).mirror().addBox(5.0F, -29.0F, -3.0F, 6.0F, 32.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(651, 135).addBox(1.0F, 0.0F, -2.0F, 9.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(8.0F, 13.0F, -20.0F, 0.0F, 0.0F, 0.8727F));
 
-        PartDefinition f5head = f5.addOrReplaceChild("f5head", CubeListBuilder.create().texOffs(727, 11).mirror().addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
+        PartDefinition f5head = f5.addOrReplaceChild("f5head", CubeListBuilder.create().texOffs(727, 3).mirror().addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
 
         PartDefinition f5_steam = f5.addOrReplaceChild("f5_steam", CubeListBuilder.create(), PartPose.offset(13.0F, 11.0F, 8.0F));
 
@@ -622,7 +843,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 52).mirror().addBox(5.0F, -33.0F, -3.0F, 6.0F, 36.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(651, 135).addBox(1.0F, 0.0F, -2.0F, 9.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(8.0F, 13.0F, -10.0F, 0.0F, 0.0F, 0.9599F));
 
-        PartDefinition fs5head = fs5.addOrReplaceChild("fs5head", CubeListBuilder.create().texOffs(727, 11).mirror().addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
+        PartDefinition fs5head = fs5.addOrReplaceChild("fs5head", CubeListBuilder.create().texOffs(727, 3).mirror().addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
 
         PartDefinition fs5_steam = fs5.addOrReplaceChild("fs5_steam", CubeListBuilder.create(), PartPose.offset(13.0F, 11.0F, 8.0F));
 
@@ -634,7 +855,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 48).mirror().addBox(5.0F, -37.0F, -3.0F, 6.0F, 40.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(651, 135).addBox(1.0F, 0.0F, -2.0F, 9.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(8.0F, 13.0F, 0.0F, 0.0F, 0.0F, 1.0472F));
 
-        PartDefinition g5head = g5.addOrReplaceChild("g5head", CubeListBuilder.create().texOffs(727, 11).mirror().addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
+        PartDefinition g5head = g5.addOrReplaceChild("g5head", CubeListBuilder.create().texOffs(727, 3).mirror().addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
 
         PartDefinition g5_steam = g5.addOrReplaceChild("g5_steam", CubeListBuilder.create(), PartPose.offset(13.0F, 11.0F, 8.0F));
 
@@ -646,7 +867,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 76).addBox(-11.0F, -9.0F, -3.0F, 6.0F, 12.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(723, 94).addBox(-12.0F, -11.0F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.0F, 13.0F, -70.0F, 0.0F, 0.0F, -0.3491F));
 
-        PartDefinition gs5head = gs5.addOrReplaceChild("gs5head", CubeListBuilder.create().texOffs(727, 11).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
+        PartDefinition gs5head = gs5.addOrReplaceChild("gs5head", CubeListBuilder.create().texOffs(727, 3).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
 
         PartDefinition gs5_steam = gs5.addOrReplaceChild("gs5_steam", CubeListBuilder.create(), PartPose.offset(-13.0F, 11.0F, 8.0F));
 
@@ -658,7 +879,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 72).addBox(-11.0F, -13.0F, -3.0F, 6.0F, 16.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(651, 135).addBox(-10.0F, 0.0F, -2.0F, 9.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.0F, 13.0F, -60.0F, 0.0F, 0.0F, -0.4363F));
 
-        PartDefinition a5head = a5.addOrReplaceChild("a5head", CubeListBuilder.create().texOffs(727, 11).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
+        PartDefinition a5head = a5.addOrReplaceChild("a5head", CubeListBuilder.create().texOffs(727, 3).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
 
         PartDefinition a5_steam = a5.addOrReplaceChild("a5_steam", CubeListBuilder.create(), PartPose.offset(-13.0F, 11.0F, 8.0F));
 
@@ -670,7 +891,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 68).addBox(-11.0F, -17.0F, -3.0F, 6.0F, 20.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(651, 135).addBox(-10.0F, 0.0F, -2.0F, 9.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.0F, 13.0F, -50.0F, 0.0F, 0.0F, -0.5236F));
 
-        PartDefinition as5head = as5.addOrReplaceChild("as5head", CubeListBuilder.create().texOffs(727, 11).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
+        PartDefinition as5head = as5.addOrReplaceChild("as5head", CubeListBuilder.create().texOffs(727, 3).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
 
         PartDefinition as5_steam = as5.addOrReplaceChild("as5_steam", CubeListBuilder.create(), PartPose.offset(-13.0F, 11.0F, 8.0F));
 
@@ -682,7 +903,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 64).addBox(-11.0F, -21.0F, -3.0F, 6.0F, 24.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(651, 135).addBox(-10.0F, 0.0F, -2.0F, 9.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.0F, 13.0F, -40.0F, 0.0F, 0.0F, -0.6109F));
 
-        PartDefinition b5head = b5.addOrReplaceChild("b5head", CubeListBuilder.create().texOffs(727, 11).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
+        PartDefinition b5head = b5.addOrReplaceChild("b5head", CubeListBuilder.create().texOffs(727, 3).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
 
         PartDefinition b5_steam = b5.addOrReplaceChild("b5_steam", CubeListBuilder.create(), PartPose.offset(-13.0F, 11.0F, 8.0F));
 
@@ -694,7 +915,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 60).addBox(-11.0F, -25.0F, -3.0F, 6.0F, 28.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(651, 135).addBox(-10.0F, 0.0F, -2.0F, 9.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.0F, 13.0F, -30.0F, 0.0F, 0.0F, -0.7854F));
 
-        PartDefinition c6head = c6.addOrReplaceChild("c6head", CubeListBuilder.create().texOffs(727, 11).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
+        PartDefinition c6head = c6.addOrReplaceChild("c6head", CubeListBuilder.create().texOffs(727, 3).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
 
         PartDefinition c6_steam = c6.addOrReplaceChild("c6_steam", CubeListBuilder.create(), PartPose.offset(-13.0F, 11.0F, 8.0F));
 
@@ -706,7 +927,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 56).addBox(-11.0F, -29.0F, -3.0F, 6.0F, 32.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(651, 135).addBox(-10.0F, 0.0F, -2.0F, 9.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.0F, 13.0F, -20.0F, 0.0F, 0.0F, -0.8727F));
 
-        PartDefinition cs6head = cs6.addOrReplaceChild("cs6head", CubeListBuilder.create().texOffs(727, 11).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
+        PartDefinition cs6head = cs6.addOrReplaceChild("cs6head", CubeListBuilder.create().texOffs(727, 3).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
 
         PartDefinition cs6_steam = cs6.addOrReplaceChild("cs6_steam", CubeListBuilder.create(), PartPose.offset(-13.0F, 11.0F, 8.0F));
 
@@ -718,7 +939,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 52).addBox(-11.0F, -33.0F, -3.0F, 6.0F, 36.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(651, 135).addBox(-10.0F, 0.0F, -2.0F, 9.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.0F, 13.0F, -10.0F, 0.0F, 0.0F, -0.9599F));
 
-        PartDefinition d6head = d6.addOrReplaceChild("d6head", CubeListBuilder.create().texOffs(727, 11).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
+        PartDefinition d6head = d6.addOrReplaceChild("d6head", CubeListBuilder.create().texOffs(727, 3).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
 
         PartDefinition d6_steam = d6.addOrReplaceChild("d6_steam", CubeListBuilder.create(), PartPose.offset(-13.0F, 11.0F, 8.0F));
 
@@ -730,7 +951,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 48).addBox(-11.0F, -37.0F, -3.0F, 6.0F, 40.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(651, 135).addBox(-10.0F, 0.0F, -2.0F, 9.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.0F, 13.0F, 0.0F, 0.0F, 0.0F, -1.0472F));
 
-        PartDefinition ds6head = ds6.addOrReplaceChild("ds6head", CubeListBuilder.create().texOffs(727, 11).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
+        PartDefinition ds6head = ds6.addOrReplaceChild("ds6head", CubeListBuilder.create().texOffs(727, 3).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
 
         PartDefinition ds6_steam = ds6.addOrReplaceChild("ds6_steam", CubeListBuilder.create(), PartPose.offset(-13.0F, 11.0F, 8.0F));
 
@@ -738,11 +959,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r56 = ds6_steam.addOrReplaceChild("WhistleLargeBase_r56", CubeListBuilder.create().texOffs(0, 33).addBox(-7.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -9.3431F, -8.0F, 0.0F, -0.7854F, -1.1345F));
 
-        PartDefinition e6 = whistle_tail2_parent.addOrReplaceChild("e6", CubeListBuilder.create().texOffs(723, 94).addBox(-4.0F, -70.0F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F))
-                .texOffs(698, 24).addBox(-3.0F, -68.0F, -3.0F, 6.0F, 64.0F, 6.0F, new CubeDeformation(0.0F))
+        PartDefinition e6 = whistle_tail2_parent.addOrReplaceChild("e6", CubeListBuilder.create().texOffs(723, 94).addBox(-4.0F, -50.0F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F))
+                .texOffs(698, 44).addBox(-3.0F, -48.0F, -3.0F, 6.0F, 44.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(656, 143).addBox(-2.0F, -10.0F, -2.0F, 4.0F, 21.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -70.0F, -0.0436F, 0.0F, 0.0F));
 
-        PartDefinition e6head = e6.addOrReplaceChild("e6head", CubeListBuilder.create().texOffs(698, 11).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
+        PartDefinition e6head = e6.addOrReplaceChild("e6head", CubeListBuilder.create().texOffs(698, 3).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
 
         PartDefinition e6_steam = e6.addOrReplaceChild("e6_steam", CubeListBuilder.create(), PartPose.offset(7.0F, 4.0F, 8.0F));
 
@@ -755,10 +976,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r60 = e6_steam.addOrReplaceChild("WhistleLargeBase_r60", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-4.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
         PartDefinition f6 = whistle_tail2_parent.addOrReplaceChild("f6", CubeListBuilder.create().texOffs(656, 143).addBox(-2.0F, -10.0F, -2.0F, 4.0F, 21.0F, 4.0F, new CubeDeformation(0.0F))
-                .texOffs(698, 32).addBox(-3.0F, -60.0F, -3.0F, 6.0F, 56.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(723, 94).addBox(-4.0F, -62.0F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -60.0F, -0.0436F, 0.0F, 0.0F));
+                .texOffs(698, 36).addBox(-3.0F, -44.0F, -3.0F, 6.0F, 40.0F, 6.0F, new CubeDeformation(0.0F))
+                .texOffs(723, 94).addBox(-4.0F, -46.0F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -60.0F, -0.0436F, 0.0F, 0.0F));
 
-        PartDefinition f6head = f6.addOrReplaceChild("f6head", CubeListBuilder.create().texOffs(698, 11).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
+        PartDefinition f6head = f6.addOrReplaceChild("f6head", CubeListBuilder.create().texOffs(698, 3).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
 
         PartDefinition f6_steam = f6.addOrReplaceChild("f6_steam", CubeListBuilder.create(), PartPose.offset(7.0F, 4.0F, 8.0F));
 
@@ -770,11 +991,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r64 = f6_steam.addOrReplaceChild("WhistleLargeBase_r64", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-4.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
-        PartDefinition fs6 = whistle_tail2_parent.addOrReplaceChild("fs6", CubeListBuilder.create().texOffs(723, 94).addBox(-4.0F, -54.0F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F))
-                .texOffs(698, 40).addBox(-3.0F, -52.0F, -3.0F, 6.0F, 48.0F, 6.0F, new CubeDeformation(0.0F))
+        PartDefinition fs6 = whistle_tail2_parent.addOrReplaceChild("fs6", CubeListBuilder.create().texOffs(723, 94).addBox(-4.0F, -42.0F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F))
+                .texOffs(698, 52).addBox(-3.0F, -40.0F, -3.0F, 6.0F, 36.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(656, 143).addBox(-2.0F, -10.0F, -2.0F, 4.0F, 21.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -50.0F, -0.0436F, 0.0F, 0.0F));
 
-        PartDefinition fs6head = fs6.addOrReplaceChild("fs6head", CubeListBuilder.create().texOffs(698, 11).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
+        PartDefinition fs6head = fs6.addOrReplaceChild("fs6head", CubeListBuilder.create().texOffs(698, 3).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
 
         PartDefinition fs6_steam = fs6.addOrReplaceChild("fs6_steam", CubeListBuilder.create(), PartPose.offset(7.0F, 4.0F, 8.0F));
 
@@ -787,10 +1008,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r68 = fs6_steam.addOrReplaceChild("WhistleLargeBase_r68", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-4.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
         PartDefinition g6 = whistle_tail2_parent.addOrReplaceChild("g6", CubeListBuilder.create().texOffs(656, 143).addBox(-2.0F, -10.0F, -2.0F, 4.0F, 21.0F, 4.0F, new CubeDeformation(0.0F))
-                .texOffs(698, 48).addBox(-3.0F, -44.0F, -3.0F, 6.0F, 40.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(723, 94).addBox(-4.0F, -46.0F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -40.0F, -0.0436F, 0.0F, 0.0F));
+                .texOffs(698, 56).addBox(-3.0F, -36.0F, -3.0F, 6.0F, 32.0F, 6.0F, new CubeDeformation(0.0F))
+                .texOffs(723, 94).addBox(-4.0F, -38.0F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -40.0F, -0.0436F, 0.0F, 0.0F));
 
-        PartDefinition g6head = g6.addOrReplaceChild("g6head", CubeListBuilder.create().texOffs(698, 11).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
+        PartDefinition g6head = g6.addOrReplaceChild("g6head", CubeListBuilder.create().texOffs(698, 3).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
 
         PartDefinition g6_steam = g6.addOrReplaceChild("g6_steam", CubeListBuilder.create(), PartPose.offset(7.0F, 4.0F, 8.0F));
 
@@ -802,11 +1023,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r72 = g6_steam.addOrReplaceChild("WhistleLargeBase_r72", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-4.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
-        PartDefinition gs6 = whistle_tail2_parent.addOrReplaceChild("gs6", CubeListBuilder.create().texOffs(723, 94).addBox(-4.0F, -38.0F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F))
-                .texOffs(698, 56).addBox(-3.0F, -36.0F, -3.0F, 6.0F, 32.0F, 6.0F, new CubeDeformation(0.0F))
+        PartDefinition gs6 = whistle_tail2_parent.addOrReplaceChild("gs6", CubeListBuilder.create().texOffs(723, 94).addBox(-4.0F, -34.0F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F))
+                .texOffs(698, 60).addBox(-3.0F, -32.0F, -3.0F, 6.0F, 28.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(656, 143).addBox(-2.0F, -10.0F, -2.0F, 4.0F, 21.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -30.0F, -0.0436F, 0.0F, 0.0F));
 
-        PartDefinition gs6head = gs6.addOrReplaceChild("gs6head", CubeListBuilder.create().texOffs(698, 11).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
+        PartDefinition gs6head = gs6.addOrReplaceChild("gs6head", CubeListBuilder.create().texOffs(698, 3).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
 
         PartDefinition gs6_steam = gs6.addOrReplaceChild("gs6_steam", CubeListBuilder.create(), PartPose.offset(7.0F, 4.0F, 8.0F));
 
@@ -822,7 +1043,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(698, 64).addBox(-3.0F, -28.0F, -3.0F, 6.0F, 24.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(723, 94).addBox(-4.0F, -30.0F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -20.0F, -0.0436F, 0.0F, 0.0F));
 
-        PartDefinition a6head = a6.addOrReplaceChild("a6head", CubeListBuilder.create().texOffs(698, 11).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
+        PartDefinition a6head = a6.addOrReplaceChild("a6head", CubeListBuilder.create().texOffs(698, 3).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
 
         PartDefinition a6_steam = a6.addOrReplaceChild("a6_steam", CubeListBuilder.create(), PartPose.offset(7.0F, 4.0F, 8.0F));
 
@@ -838,7 +1059,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(698, 68).addBox(-3.0F, -24.0F, -3.0F, 6.0F, 20.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(656, 143).addBox(-2.0F, -10.0F, -2.0F, 4.0F, 21.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -10.0F, -0.0436F, 0.0F, 0.0F));
 
-        PartDefinition as6head = as6.addOrReplaceChild("as6head", CubeListBuilder.create().texOffs(698, 11).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
+        PartDefinition as6head = as6.addOrReplaceChild("as6head", CubeListBuilder.create().texOffs(698, 3).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
 
         PartDefinition as6_steam = as6.addOrReplaceChild("as6_steam", CubeListBuilder.create(), PartPose.offset(7.0F, 4.0F, 8.0F));
 
@@ -854,7 +1075,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(698, 72).addBox(-3.0F, -20.0F, -3.0F, 6.0F, 16.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(723, 94).addBox(-4.0F, -22.0F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.0436F, 0.0F, 0.0F));
 
-        PartDefinition b6head = b6.addOrReplaceChild("b6head", CubeListBuilder.create().texOffs(698, 11).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
+        PartDefinition b6head = b6.addOrReplaceChild("b6head", CubeListBuilder.create().texOffs(698, 3).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
 
         PartDefinition b6_steam = b6.addOrReplaceChild("b6_steam", CubeListBuilder.create(), PartPose.offset(7.0F, 4.0F, 8.0F));
 
@@ -870,7 +1091,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 76).mirror().addBox(5.0F, -8.75F, -3.0F, 6.0F, 12.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(723, 94).addBox(4.0F, -10.75F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.0F, 3.0F, -50.0F, 0.0F, 0.0F, -0.2618F));
 
-        PartDefinition c7head = c7.addOrReplaceChild("c7head", CubeListBuilder.create().texOffs(727, 11).mirror().addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
+        PartDefinition c7head = c7.addOrReplaceChild("c7head", CubeListBuilder.create().texOffs(727, 3).mirror().addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
 
         PartDefinition c7_steam = c7.addOrReplaceChild("c7_steam", CubeListBuilder.create(), PartPose.offset(14.0F, 11.0F, 7.0F));
 
@@ -882,7 +1103,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 72).mirror().addBox(5.0F, -12.75F, -3.0F, 6.0F, 16.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(723, 94).addBox(4.0F, -14.75F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.0F, 3.0F, -40.0F, 0.0F, 0.0F, -0.1745F));
 
-        PartDefinition cs7head = cs7.addOrReplaceChild("cs7head", CubeListBuilder.create().texOffs(727, 11).mirror().addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
+        PartDefinition cs7head = cs7.addOrReplaceChild("cs7head", CubeListBuilder.create().texOffs(727, 3).mirror().addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
 
         PartDefinition cs7_steam = cs7.addOrReplaceChild("cs7_steam", CubeListBuilder.create(), PartPose.offset(14.0F, 11.0F, 8.0F));
 
@@ -894,7 +1115,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 68).mirror().addBox(5.0F, -16.75F, -3.0F, 6.0F, 20.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(723, 94).addBox(4.0F, -18.75F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.0F, 3.0F, -30.0F, 0.0F, 0.0F, -0.0873F));
 
-        PartDefinition d7head = d7.addOrReplaceChild("d7head", CubeListBuilder.create().texOffs(727, 11).mirror().addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
+        PartDefinition d7head = d7.addOrReplaceChild("d7head", CubeListBuilder.create().texOffs(727, 3).mirror().addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
 
         PartDefinition d7_steam = d7.addOrReplaceChild("d7_steam", CubeListBuilder.create(), PartPose.offset(14.0F, 11.0F, 8.0F));
 
@@ -906,7 +1127,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 64).mirror().addBox(5.0F, -20.75F, -3.0F, 6.0F, 24.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(723, 94).addBox(4.0F, -22.75F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(7.0F, 3.0F, -20.0F));
 
-        PartDefinition ds7head = ds7.addOrReplaceChild("ds7head", CubeListBuilder.create().texOffs(727, 11).mirror().addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
+        PartDefinition ds7head = ds7.addOrReplaceChild("ds7head", CubeListBuilder.create().texOffs(727, 3).mirror().addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
 
         PartDefinition ds7_steam = ds7.addOrReplaceChild("ds7_steam", CubeListBuilder.create(), PartPose.offset(14.0F, 11.0F, 8.0F));
 
@@ -918,7 +1139,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 60).mirror().addBox(5.0F, -24.75F, -3.0F, 6.0F, 28.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(723, 94).addBox(4.0F, -26.75F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.0F, 3.0F, -10.0F, 0.0F, 0.0F, 0.0873F));
 
-        PartDefinition e7head = e7.addOrReplaceChild("e7head", CubeListBuilder.create().texOffs(727, 11).mirror().addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
+        PartDefinition e7head = e7.addOrReplaceChild("e7head", CubeListBuilder.create().texOffs(727, 3).mirror().addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
 
         PartDefinition e7_steam = e7.addOrReplaceChild("e7_steam", CubeListBuilder.create(), PartPose.offset(14.0F, 11.0F, 8.0F));
 
@@ -930,7 +1151,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 56).mirror().addBox(5.0F, -28.75F, -3.0F, 6.0F, 32.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(723, 94).addBox(4.0F, -30.75F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.0F, 3.0F, 0.0F, 0.0F, 0.0F, 0.1745F));
 
-        PartDefinition f7head = f7.addOrReplaceChild("f7head", CubeListBuilder.create().texOffs(727, 11).mirror().addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
+        PartDefinition f7head = f7.addOrReplaceChild("f7head", CubeListBuilder.create().texOffs(727, 3).mirror().addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 2.0F, 0.0F));
 
         PartDefinition f7_steam = f7.addOrReplaceChild("f7_steam", CubeListBuilder.create(), PartPose.offset(14.0F, 11.0F, 8.0F));
 
@@ -942,7 +1163,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 56).addBox(-11.0F, -28.75F, -3.0F, 6.0F, 32.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(723, 94).mirror().addBox(-12.0F, -30.75F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-7.0F, 3.0F, 0.0F, 0.0F, 0.0F, -0.1745F));
 
-        PartDefinition fs7head = fs7.addOrReplaceChild("fs7head", CubeListBuilder.create().texOffs(727, 11).addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
+        PartDefinition fs7head = fs7.addOrReplaceChild("fs7head", CubeListBuilder.create().texOffs(727, 3).addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
 
         PartDefinition fs7_steam = fs7.addOrReplaceChild("fs7_steam", CubeListBuilder.create(), PartPose.offset(-14.0F, 11.0F, 8.0F));
 
@@ -954,7 +1175,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 60).addBox(-11.0F, -24.75F, -3.0F, 6.0F, 28.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(723, 94).mirror().addBox(-12.0F, -26.75F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-7.0F, 3.0F, -10.0F, 0.0F, 0.0F, -0.0873F));
 
-        PartDefinition g7head = g7.addOrReplaceChild("g7head", CubeListBuilder.create().texOffs(727, 11).addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
+        PartDefinition g7head = g7.addOrReplaceChild("g7head", CubeListBuilder.create().texOffs(727, 3).addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
 
         PartDefinition g7_steam = g7.addOrReplaceChild("g7_steam", CubeListBuilder.create(), PartPose.offset(-14.0F, 11.0F, 8.0F));
 
@@ -966,7 +1187,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 64).addBox(-11.0F, -20.75F, -3.0F, 6.0F, 24.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(723, 94).mirror().addBox(-12.0F, -22.75F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-7.0F, 3.0F, -20.0F));
 
-        PartDefinition gs7head = gs7.addOrReplaceChild("gs7head", CubeListBuilder.create().texOffs(727, 11).addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
+        PartDefinition gs7head = gs7.addOrReplaceChild("gs7head", CubeListBuilder.create().texOffs(727, 3).addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
 
         PartDefinition gs7_steam = gs7.addOrReplaceChild("gs7_steam", CubeListBuilder.create(), PartPose.offset(-14.0F, 11.0F, 8.0F));
 
@@ -978,7 +1199,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 68).addBox(-11.0F, -16.75F, -3.0F, 6.0F, 20.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(723, 94).mirror().addBox(-12.0F, -18.75F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-7.0F, 3.0F, -30.0F, 0.0F, 0.0F, 0.0873F));
 
-        PartDefinition a7head = a7.addOrReplaceChild("a7head", CubeListBuilder.create().texOffs(727, 11).addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
+        PartDefinition a7head = a7.addOrReplaceChild("a7head", CubeListBuilder.create().texOffs(727, 3).addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
 
         PartDefinition a7_steam = a7.addOrReplaceChild("a7_steam", CubeListBuilder.create(), PartPose.offset(-14.0F, 11.0F, 8.0F));
 
@@ -990,7 +1211,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 72).addBox(-11.0F, -12.75F, -3.0F, 6.0F, 16.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(723, 94).mirror().addBox(-12.0F, -14.75F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-7.0F, 3.0F, -40.0F, 0.0F, 0.0F, 0.1745F));
 
-        PartDefinition as7head = as7.addOrReplaceChild("as7head", CubeListBuilder.create().texOffs(727, 11).addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
+        PartDefinition as7head = as7.addOrReplaceChild("as7head", CubeListBuilder.create().texOffs(727, 3).addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
 
         PartDefinition as7_steam = as7.addOrReplaceChild("as7_steam", CubeListBuilder.create(), PartPose.offset(-14.0F, 11.0F, 8.0F));
 
@@ -1002,7 +1223,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(727, 76).addBox(-11.0F, -8.75F, -3.0F, 6.0F, 12.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(723, 94).mirror().addBox(-12.0F, -10.75F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-7.0F, 3.0F, -50.0F, 0.0F, 0.0F, 0.2618F));
 
-        PartDefinition b7head = b7.addOrReplaceChild("b7head", CubeListBuilder.create().texOffs(727, 11).addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
+        PartDefinition b7head = b7.addOrReplaceChild("b7head", CubeListBuilder.create().texOffs(727, 3).addBox(-3.0F, -6.75F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 2.0F, 0.0F));
 
         PartDefinition b7_steam = b7.addOrReplaceChild("b7_steam", CubeListBuilder.create(), PartPose.offset(-14.0F, 11.0F, 8.0F));
 
@@ -1013,10 +1234,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition whistle_tail1_parent = tail1.addOrReplaceChild("whistle_tail1_parent", CubeListBuilder.create(), PartPose.offset(-11.75F, 4.0F, 22.0F));
 
         PartDefinition c3 = whistle_tail1_parent.addOrReplaceChild("c3", CubeListBuilder.create().texOffs(682, 131).addBox(0.0F, 0.0F, -3.0F, 11.0F, 6.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(649, 103).addBox(3.0F, -17.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
-                .texOffs(656, 75).mirror().addBox(4.0F, -15.0F, -4.0F, 8.0F, 20.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(23.75F, 11.0F, -13.0F, 0.0F, 0.0F, 0.6109F));
+                .texOffs(649, 113).addBox(3.0F, -17.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(656, 85).mirror().addBox(4.0F, -15.0F, -4.0F, 8.0F, 20.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(23.75F, 11.0F, -13.0F, 0.0F, 0.0F, 0.6109F));
 
-        PartDefinition c3head = c3.addOrReplaceChild("c3head", CubeListBuilder.create().texOffs(656, 8).mirror().addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 4.0F, 0.0F));
+        PartDefinition c3head = c3.addOrReplaceChild("c3head", CubeListBuilder.create().texOffs(656, 2).mirror().addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 4.0F, 0.0F));
 
         PartDefinition c3_steam = c3.addOrReplaceChild("c3_steam", CubeListBuilder.create(), PartPose.offset(15.0F, 11.0F, 8.0F));
 
@@ -1024,11 +1245,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r114 = c3_steam.addOrReplaceChild("WhistleLargeBase_r114", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
-        PartDefinition cs3 = whistle_tail1_parent.addOrReplaceChild("cs3", CubeListBuilder.create().texOffs(649, 103).addBox(3.0F, -13.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
-                .texOffs(656, 79).mirror().addBox(4.0F, -11.0F, -4.0F, 8.0F, 16.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
+        PartDefinition cs3 = whistle_tail1_parent.addOrReplaceChild("cs3", CubeListBuilder.create().texOffs(649, 113).addBox(3.0F, -13.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(656, 89).mirror().addBox(4.0F, -11.0F, -4.0F, 8.0F, 16.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(682, 131).addBox(0.0F, 0.0F, -3.0F, 11.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(23.75F, 11.0F, -1.0F, 0.0F, 0.0F, 0.6981F));
 
-        PartDefinition cs3head = cs3.addOrReplaceChild("cs3head", CubeListBuilder.create().texOffs(656, 8).mirror().addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 4.0F, 0.0F));
+        PartDefinition cs3head = cs3.addOrReplaceChild("cs3head", CubeListBuilder.create().texOffs(656, 2).mirror().addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 4.0F, 0.0F));
 
         PartDefinition cs3_steam = cs3.addOrReplaceChild("cs3_steam", CubeListBuilder.create(), PartPose.offset(15.0F, 11.0F, 8.0F));
 
@@ -1037,10 +1258,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r116 = cs3_steam.addOrReplaceChild("WhistleLargeBase_r116", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
         PartDefinition d3 = whistle_tail1_parent.addOrReplaceChild("d3", CubeListBuilder.create().texOffs(682, 131).addBox(-11.0F, 0.0F, -3.0F, 11.0F, 6.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(649, 103).addBox(-13.0F, -17.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
-                .texOffs(656, 75).addBox(-12.0F, -15.0F, -4.0F, 8.0F, 20.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.25F, 11.0F, -13.0F, 0.0F, 0.0F, -0.6109F));
+                .texOffs(649, 113).addBox(-13.0F, -17.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(656, 85).addBox(-12.0F, -15.0F, -4.0F, 8.0F, 20.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.25F, 11.0F, -13.0F, 0.0F, 0.0F, -0.6109F));
 
-        PartDefinition d3head = d3.addOrReplaceChild("d3head", CubeListBuilder.create().texOffs(656, 8).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 4.0F, 0.0F));
+        PartDefinition d3head = d3.addOrReplaceChild("d3head", CubeListBuilder.create().texOffs(656, 2).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 4.0F, 0.0F));
 
         PartDefinition d3_steam = d3.addOrReplaceChild("d3_steam", CubeListBuilder.create(), PartPose.offset(-15.0F, 11.0F, 8.0F));
 
@@ -1049,10 +1270,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r118 = d3_steam.addOrReplaceChild("WhistleLargeBase_r118", CubeListBuilder.create().texOffs(0, 33).addBox(-7.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -9.3431F, -8.0F, 0.0F, -0.7854F, -1.1345F));
 
         PartDefinition ds3 = whistle_tail1_parent.addOrReplaceChild("ds3", CubeListBuilder.create().texOffs(682, 131).addBox(-11.0F, 0.0F, -3.0F, 11.0F, 6.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(656, 79).addBox(-12.0F, -11.0F, -4.0F, 8.0F, 16.0F, 8.0F, new CubeDeformation(0.0F))
-                .texOffs(649, 103).addBox(-13.0F, -13.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.25F, 11.0F, -1.0F, 0.0F, 0.0F, -0.6981F));
+                .texOffs(656, 89).addBox(-12.0F, -11.0F, -4.0F, 8.0F, 16.0F, 8.0F, new CubeDeformation(0.0F))
+                .texOffs(649, 113).addBox(-13.0F, -13.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.25F, 11.0F, -1.0F, 0.0F, 0.0F, -0.6981F));
 
-        PartDefinition ds3head = ds3.addOrReplaceChild("ds3head", CubeListBuilder.create().texOffs(656, 8).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 4.0F, 0.0F));
+        PartDefinition ds3head = ds3.addOrReplaceChild("ds3head", CubeListBuilder.create().texOffs(656, 2).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 4.0F, 0.0F));
 
         PartDefinition ds3_steam = ds3.addOrReplaceChild("ds3_steam", CubeListBuilder.create(), PartPose.offset(-15.0F, 11.0F, 8.0F));
 
@@ -1060,11 +1281,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r120 = ds3_steam.addOrReplaceChild("WhistleLargeBase_r120", CubeListBuilder.create().texOffs(0, 33).addBox(-7.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -9.3431F, -8.0F, 0.0F, -0.7854F, -1.1345F));
 
-        PartDefinition e3 = whistle_tail1_parent.addOrReplaceChild("e3", CubeListBuilder.create().texOffs(656, 71).mirror().addBox(5.0F, -19.0F, -4.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(649, 103).addBox(4.0F, -21.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
+        PartDefinition e3 = whistle_tail1_parent.addOrReplaceChild("e3", CubeListBuilder.create().texOffs(656, 81).mirror().addBox(5.0F, -19.0F, -4.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(649, 113).addBox(4.0F, -21.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
                 .texOffs(682, 131).addBox(1.0F, 0.0F, -3.0F, 11.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(22.75F, -5.0F, 11.0F));
 
-        PartDefinition e3head = e3.addOrReplaceChild("e3head", CubeListBuilder.create().texOffs(656, 8).mirror().addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(9.0F, 4.0F, 0.0F));
+        PartDefinition e3head = e3.addOrReplaceChild("e3head", CubeListBuilder.create().texOffs(656, 2).mirror().addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(9.0F, 4.0F, 0.0F));
 
         PartDefinition e3_steam = e3.addOrReplaceChild("e3_steam", CubeListBuilder.create(), PartPose.offset(16.0F, 11.0F, 8.0F));
 
@@ -1073,10 +1294,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r122 = e3_steam.addOrReplaceChild("WhistleLargeBase_r122", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
         PartDefinition f3 = whistle_tail1_parent.addOrReplaceChild("f3", CubeListBuilder.create().texOffs(682, 131).addBox(0.0F, 0.0F, -3.0F, 11.0F, 6.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(656, 75).mirror().addBox(4.0F, -15.0F, -4.0F, 8.0F, 20.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(649, 103).addBox(3.0F, -17.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(23.75F, -5.0F, 23.0F, 0.0F, 0.0F, 0.0873F));
+                .texOffs(656, 85).mirror().addBox(4.0F, -15.0F, -4.0F, 8.0F, 20.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(649, 113).addBox(3.0F, -17.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(23.75F, -5.0F, 23.0F, 0.0F, 0.0F, 0.0873F));
 
-        PartDefinition f3head = f3.addOrReplaceChild("f3head", CubeListBuilder.create().texOffs(656, 8).mirror().addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 4.0F, 0.0F));
+        PartDefinition f3head = f3.addOrReplaceChild("f3head", CubeListBuilder.create().texOffs(656, 2).mirror().addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 4.0F, 0.0F));
 
         PartDefinition f3_steam = f3.addOrReplaceChild("f3_steam", CubeListBuilder.create(), PartPose.offset(15.0F, 11.0F, 8.0F));
 
@@ -1085,10 +1306,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r124 = f3_steam.addOrReplaceChild("WhistleLargeBase_r124", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
         PartDefinition fs3 = whistle_tail1_parent.addOrReplaceChild("fs3", CubeListBuilder.create().texOffs(682, 131).addBox(0.0F, 0.0F, -3.0F, 11.0F, 6.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(656, 79).mirror().addBox(4.0F, -11.0F, -4.0F, 8.0F, 16.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(649, 103).addBox(3.0F, -13.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(23.75F, -5.0F, 35.0F, 0.0F, 0.0F, 0.1745F));
+                .texOffs(656, 89).mirror().addBox(4.0F, -11.0F, -4.0F, 8.0F, 16.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(649, 113).addBox(3.0F, -13.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(23.75F, -5.0F, 35.0F, 0.0F, 0.0F, 0.1745F));
 
-        PartDefinition fs3head = fs3.addOrReplaceChild("fs3head", CubeListBuilder.create().texOffs(656, 8).mirror().addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 4.0F, 0.0F));
+        PartDefinition fs3head = fs3.addOrReplaceChild("fs3head", CubeListBuilder.create().texOffs(656, 2).mirror().addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 4.0F, 0.0F));
 
         PartDefinition fs3_steam = fs3.addOrReplaceChild("fs3_steam", CubeListBuilder.create(), PartPose.offset(15.0F, 11.0F, 8.0F));
 
@@ -1097,10 +1318,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r126 = fs3_steam.addOrReplaceChild("WhistleLargeBase_r126", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
         PartDefinition g3 = whistle_tail1_parent.addOrReplaceChild("g3", CubeListBuilder.create().texOffs(682, 131).mirror().addBox(0.0F, 0.0F, -3.0F, 11.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(656, 83).mirror().addBox(4.0F, -7.0F, -4.0F, 8.0F, 12.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(649, 103).addBox(3.0F, -9.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(23.75F, -5.0F, 47.0F, 0.0F, 0.0F, 0.2618F));
+                .texOffs(656, 93).mirror().addBox(4.0F, -7.0F, -4.0F, 8.0F, 12.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(649, 113).addBox(3.0F, -9.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(23.75F, -5.0F, 47.0F, 0.0F, 0.0F, 0.2618F));
 
-        PartDefinition g3head = g3.addOrReplaceChild("g3head", CubeListBuilder.create().texOffs(656, 8).mirror().addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 4.0F, 0.0F));
+        PartDefinition g3head = g3.addOrReplaceChild("g3head", CubeListBuilder.create().texOffs(656, 2).mirror().addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 4.0F, 0.0F));
 
         PartDefinition g3_steam = g3.addOrReplaceChild("g3_steam", CubeListBuilder.create(), PartPose.offset(15.0F, 11.0F, 8.0F));
 
@@ -1109,10 +1330,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r128 = g3_steam.addOrReplaceChild("WhistleLargeBase_r128", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
         PartDefinition gs3 = whistle_tail1_parent.addOrReplaceChild("gs3", CubeListBuilder.create().texOffs(682, 131).addBox(-12.0F, 0.0F, -3.0F, 11.0F, 6.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(656, 71).addBox(-13.0F, -19.0F, -4.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F))
-                .texOffs(649, 103).addBox(-14.0F, -21.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offset(0.75F, -5.0F, 11.0F));
+                .texOffs(656, 81).addBox(-13.0F, -19.0F, -4.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F))
+                .texOffs(649, 113).addBox(-14.0F, -21.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offset(0.75F, -5.0F, 11.0F));
 
-        PartDefinition gs3head = gs3.addOrReplaceChild("gs3head", CubeListBuilder.create().texOffs(656, 8).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(-9.0F, 4.0F, 0.0F));
+        PartDefinition gs3head = gs3.addOrReplaceChild("gs3head", CubeListBuilder.create().texOffs(656, 2).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(-9.0F, 4.0F, 0.0F));
 
         PartDefinition gs3_steam = gs3.addOrReplaceChild("gs3_steam", CubeListBuilder.create(), PartPose.offset(-16.0F, 11.0F, 8.0F));
 
@@ -1121,10 +1342,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r130 = gs3_steam.addOrReplaceChild("WhistleLargeBase_r130", CubeListBuilder.create().texOffs(0, 33).addBox(-7.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -9.3431F, -8.0F, 0.0F, -0.7854F, -1.1345F));
 
         PartDefinition a3 = whistle_tail1_parent.addOrReplaceChild("a3", CubeListBuilder.create().texOffs(682, 131).addBox(-11.0F, 0.0F, -3.0F, 11.0F, 6.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(649, 103).addBox(-13.0F, -17.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
-                .texOffs(656, 75).addBox(-12.0F, -15.0F, -4.0F, 8.0F, 20.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.25F, -5.0F, 23.0F, 0.0F, 0.0F, -0.0873F));
+                .texOffs(649, 113).addBox(-13.0F, -17.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(656, 85).addBox(-12.0F, -15.0F, -4.0F, 8.0F, 20.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.25F, -5.0F, 23.0F, 0.0F, 0.0F, -0.0873F));
 
-        PartDefinition a3head = a3.addOrReplaceChild("a3head", CubeListBuilder.create().texOffs(656, 8).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 4.0F, 0.0F));
+        PartDefinition a3head = a3.addOrReplaceChild("a3head", CubeListBuilder.create().texOffs(656, 2).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 4.0F, 0.0F));
 
         PartDefinition a3_steam = a3.addOrReplaceChild("a3_steam", CubeListBuilder.create(), PartPose.offset(-15.0F, 11.0F, 8.0F));
 
@@ -1133,10 +1354,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r132 = a3_steam.addOrReplaceChild("WhistleLargeBase_r132", CubeListBuilder.create().texOffs(0, 33).addBox(-7.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -9.3431F, -8.0F, 0.0F, -0.7854F, -1.1345F));
 
         PartDefinition as3 = whistle_tail1_parent.addOrReplaceChild("as3", CubeListBuilder.create().texOffs(682, 131).addBox(-11.0F, 0.0F, -3.0F, 11.0F, 6.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(656, 79).addBox(-12.0F, -11.0F, -4.0F, 8.0F, 16.0F, 8.0F, new CubeDeformation(0.0F))
-                .texOffs(649, 103).addBox(-13.0F, -13.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.25F, -5.0F, 35.0F, 0.0F, 0.0F, -0.1745F));
+                .texOffs(656, 89).addBox(-12.0F, -11.0F, -4.0F, 8.0F, 16.0F, 8.0F, new CubeDeformation(0.0F))
+                .texOffs(649, 113).addBox(-13.0F, -13.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.25F, -5.0F, 35.0F, 0.0F, 0.0F, -0.1745F));
 
-        PartDefinition as3head = as3.addOrReplaceChild("as3head", CubeListBuilder.create().texOffs(656, 8).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 4.0F, 0.0F));
+        PartDefinition as3head = as3.addOrReplaceChild("as3head", CubeListBuilder.create().texOffs(656, 2).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 4.0F, 0.0F));
 
         PartDefinition as3_steam = as3.addOrReplaceChild("as3_steam", CubeListBuilder.create(), PartPose.offset(-15.0F, 11.0F, 8.0F));
 
@@ -1144,11 +1365,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r134 = as3_steam.addOrReplaceChild("WhistleLargeBase_r134", CubeListBuilder.create().texOffs(0, 33).addBox(-7.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -9.3431F, -8.0F, 0.0F, -0.7854F, -1.1345F));
 
-        PartDefinition b3 = whistle_tail1_parent.addOrReplaceChild("b3", CubeListBuilder.create().texOffs(656, 83).addBox(-12.0F, -7.0F, -4.0F, 8.0F, 12.0F, 8.0F, new CubeDeformation(0.0F))
-                .texOffs(649, 103).addBox(-13.0F, -9.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
+        PartDefinition b3 = whistle_tail1_parent.addOrReplaceChild("b3", CubeListBuilder.create().texOffs(656, 93).addBox(-12.0F, -7.0F, -4.0F, 8.0F, 12.0F, 8.0F, new CubeDeformation(0.0F))
+                .texOffs(649, 113).addBox(-13.0F, -9.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
                 .texOffs(682, 131).addBox(-11.0F, 0.0F, -3.0F, 11.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.25F, -5.0F, 47.0F, 0.0F, 0.0F, -0.2618F));
 
-        PartDefinition b3head = b3.addOrReplaceChild("b3head", CubeListBuilder.create().texOffs(656, 8).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 4.0F, 0.0F));
+        PartDefinition b3head = b3.addOrReplaceChild("b3head", CubeListBuilder.create().texOffs(656, 2).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 4.0F, 0.0F));
 
         PartDefinition b3_steam = b3.addOrReplaceChild("b3_steam", CubeListBuilder.create(), PartPose.offset(-15.0F, 11.0F, 8.0F));
 
@@ -1157,10 +1378,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r136 = b3_steam.addOrReplaceChild("WhistleLargeBase_r136", CubeListBuilder.create().texOffs(0, 33).addBox(-7.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -9.3431F, -8.0F, 0.0F, -0.7854F, -1.1345F));
 
         PartDefinition c4 = whistle_tail1_parent.addOrReplaceChild("c4", CubeListBuilder.create().texOffs(687, 143).addBox(-3.0F, -9.0F, -3.0F, 6.0F, 21.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(619, 43).addBox(-4.0F, -56.0F, -4.0F, 8.0F, 52.0F, 8.0F, new CubeDeformation(0.0F))
-                .texOffs(649, 103).addBox(-5.0F, -58.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.75F, -18.0F, -13.0F, 0.1309F, 0.0F, 0.0F));
+                .texOffs(619, 35).addBox(-4.0F, -74.0F, -4.0F, 8.0F, 70.0F, 8.0F, new CubeDeformation(0.0F))
+                .texOffs(649, 113).addBox(-5.0F, -76.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.75F, -18.0F, -13.0F, 0.1309F, 0.0F, 0.0F));
 
-        PartDefinition c4head = c4.addOrReplaceChild("c4head", CubeListBuilder.create().texOffs(619, 8).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
+        PartDefinition c4head = c4.addOrReplaceChild("c4head", CubeListBuilder.create().texOffs(619, 2).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
 
         PartDefinition c4_steam = c4.addOrReplaceChild("c4_steam", CubeListBuilder.create(), PartPose.offset(7.0F, 2.0F, 8.0F));
 
@@ -1173,10 +1394,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r140 = c4_steam.addOrReplaceChild("WhistleLargeBase_r140", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
         PartDefinition cs4 = whistle_tail1_parent.addOrReplaceChild("cs4", CubeListBuilder.create().texOffs(687, 143).addBox(-3.0F, -9.0F, -3.0F, 6.0F, 21.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(649, 103).addBox(-5.0F, -54.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
-                .texOffs(619, 47).addBox(-4.0F, -52.0F, -4.0F, 8.0F, 48.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.75F, -18.0F, -1.0F, 0.1309F, 0.0F, 0.0F));
+                .texOffs(649, 113).addBox(-5.0F, -72.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(619, 39).addBox(-4.0F, -70.0F, -4.0F, 8.0F, 66.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.75F, -18.0F, -1.0F, 0.1309F, 0.0F, 0.0F));
 
-        PartDefinition cs4head = cs4.addOrReplaceChild("cs4head", CubeListBuilder.create().texOffs(619, 8).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
+        PartDefinition cs4head = cs4.addOrReplaceChild("cs4head", CubeListBuilder.create().texOffs(619, 2).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
 
         PartDefinition cs4_steam = cs4.addOrReplaceChild("cs4_steam", CubeListBuilder.create(), PartPose.offset(7.0F, 2.0F, 8.0F));
 
@@ -1188,11 +1409,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r144 = cs4_steam.addOrReplaceChild("WhistleLargeBase_r144", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
-        PartDefinition d4 = whistle_tail1_parent.addOrReplaceChild("d4", CubeListBuilder.create().texOffs(619, 51).addBox(-4.0F, -48.0F, -4.0F, 8.0F, 44.0F, 8.0F, new CubeDeformation(0.0F))
+        PartDefinition d4 = whistle_tail1_parent.addOrReplaceChild("d4", CubeListBuilder.create().texOffs(619, 43).addBox(-4.0F, -66.0F, -4.0F, 8.0F, 62.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(687, 143).addBox(-3.0F, -9.0F, -3.0F, 6.0F, 21.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(649, 103).addBox(-5.0F, -50.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.75F, -18.0F, 11.0F, 0.1309F, 0.0F, 0.0F));
+                .texOffs(649, 113).addBox(-5.0F, -68.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.75F, -18.0F, 11.0F, 0.1309F, 0.0F, 0.0F));
 
-        PartDefinition d4head = d4.addOrReplaceChild("d4head", CubeListBuilder.create().texOffs(619, 8).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
+        PartDefinition d4head = d4.addOrReplaceChild("d4head", CubeListBuilder.create().texOffs(619, 2).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
 
         PartDefinition d4_steam = d4.addOrReplaceChild("d4_steam", CubeListBuilder.create(), PartPose.offset(7.0F, 2.0F, 8.0F));
 
@@ -1204,11 +1425,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r148 = d4_steam.addOrReplaceChild("WhistleLargeBase_r148", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
-        PartDefinition ds4 = whistle_tail1_parent.addOrReplaceChild("ds4", CubeListBuilder.create().texOffs(649, 103).addBox(-5.0F, -66.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
+        PartDefinition ds4 = whistle_tail1_parent.addOrReplaceChild("ds4", CubeListBuilder.create().texOffs(649, 113).addBox(-5.0F, -64.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
                 .texOffs(687, 143).addBox(-3.0F, -9.0F, -3.0F, 6.0F, 21.0F, 6.0F, new CubeDeformation(0.0F))
-                .texOffs(619, 35).addBox(-4.0F, -64.0F, -4.0F, 8.0F, 60.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.75F, -18.0F, 23.0F, 0.1309F, 0.0F, 0.0F));
+                .texOffs(619, 47).addBox(-4.0F, -62.0F, -4.0F, 8.0F, 58.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.75F, -18.0F, 23.0F, 0.1309F, 0.0F, 0.0F));
 
-        PartDefinition ds4head = ds4.addOrReplaceChild("ds4head", CubeListBuilder.create().texOffs(619, 8).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
+        PartDefinition ds4head = ds4.addOrReplaceChild("ds4head", CubeListBuilder.create().texOffs(619, 2).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
 
         PartDefinition ds4_steam = ds4.addOrReplaceChild("ds4_steam", CubeListBuilder.create(), PartPose.offset(7.0F, 2.0F, 8.0F));
 
@@ -1220,11 +1441,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r152 = ds4_steam.addOrReplaceChild("WhistleLargeBase_r152", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
-        PartDefinition e4 = whistle_tail1_parent.addOrReplaceChild("e4", CubeListBuilder.create().texOffs(649, 103).addBox(-5.0F, -74.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
-                .texOffs(619, 27).addBox(-4.0F, -72.0F, -4.0F, 8.0F, 68.0F, 8.0F, new CubeDeformation(0.0F))
+        PartDefinition e4 = whistle_tail1_parent.addOrReplaceChild("e4", CubeListBuilder.create().texOffs(649, 113).addBox(-5.0F, -60.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(619, 51).addBox(-4.0F, -58.0F, -4.0F, 8.0F, 54.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(687, 143).addBox(-3.0F, -9.0F, -3.0F, 6.0F, 21.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.75F, -18.0F, 35.0F, 0.1309F, 0.0F, 0.0F));
 
-        PartDefinition e4head = e4.addOrReplaceChild("e4head", CubeListBuilder.create().texOffs(619, 8).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
+        PartDefinition e4head = e4.addOrReplaceChild("e4head", CubeListBuilder.create().texOffs(619, 2).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
 
         PartDefinition e4_steam = e4.addOrReplaceChild("e4_steam", CubeListBuilder.create(), PartPose.offset(7.0F, 2.0F, 8.0F));
 
@@ -1236,11 +1457,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r156 = e4_steam.addOrReplaceChild("WhistleLargeBase_r156", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
-        PartDefinition f4 = whistle_tail1_parent.addOrReplaceChild("f4", CubeListBuilder.create().texOffs(649, 103).addBox(-5.0F, -78.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
-                .texOffs(619, 23).addBox(-4.0F, -76.0F, -4.0F, 8.0F, 72.0F, 8.0F, new CubeDeformation(0.0F))
+        PartDefinition f4 = whistle_tail1_parent.addOrReplaceChild("f4", CubeListBuilder.create().texOffs(649, 113).addBox(-5.0F, -56.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(619, 55).addBox(-4.0F, -54.0F, -4.0F, 8.0F, 50.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(687, 143).addBox(-3.0F, -9.0F, -3.0F, 6.0F, 21.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.75F, -18.0F, 47.0F, 0.1309F, 0.0F, 0.0F));
 
-        PartDefinition f4head = f4.addOrReplaceChild("f4head", CubeListBuilder.create().texOffs(619, 8).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
+        PartDefinition f4head = f4.addOrReplaceChild("f4head", CubeListBuilder.create().texOffs(619, 2).addBox(-4.0F, -7.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
 
         PartDefinition f4_steam = f4.addOrReplaceChild("f4_steam", CubeListBuilder.create(), PartPose.offset(7.0F, 2.0F, 8.0F));
 
@@ -1252,11 +1473,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r160 = f4_steam.addOrReplaceChild("WhistleLargeBase_r160", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
-        PartDefinition gs2 = whistle_tail1_parent.addOrReplaceChild("gs2", CubeListBuilder.create().texOffs(561, 77).addBox(-14.0F, -30.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 39).addBox(-13.0F, -28.0F, -5.0F, 10.0F, 28.0F, 10.0F, new CubeDeformation(0.0F))
+        PartDefinition gs2 = whistle_tail1_parent.addOrReplaceChild("gs2", CubeListBuilder.create().texOffs(473, 16).addBox(-14.0F, -30.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(569, 49).addBox(-13.0F, -28.0F, -5.0F, 10.0F, 28.0F, 10.0F, new CubeDeformation(0.0F))
                 .texOffs(716, 127).addBox(-12.0F, -7.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0873F));
 
-        PartDefinition gs2head = gs2.addOrReplaceChild("gs2head", CubeListBuilder.create().texOffs(569, 6).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, -1.0F, 0.0F));
+        PartDefinition gs2head = gs2.addOrReplaceChild("gs2head", CubeListBuilder.create().texOffs(569, 0).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, -1.0F, 0.0F));
 
         PartDefinition gs2_steam = gs2.addOrReplaceChild("gs2_steam", CubeListBuilder.create(), PartPose.offset(-15.25F, 6.0F, 8.0F));
 
@@ -1264,11 +1485,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r162 = gs2_steam.addOrReplaceChild("WhistleLargeBase_r162", CubeListBuilder.create().texOffs(0, 33).addBox(-7.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -9.3431F, -8.0F, 0.0F, -0.7854F, -1.1345F));
 
-        PartDefinition a2 = whistle_tail1_parent.addOrReplaceChild("a2", CubeListBuilder.create().texOffs(561, 77).addBox(2.0F, -34.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 35).mirror().addBox(3.0F, -32.0F, -5.0F, 10.0F, 32.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
+        PartDefinition a2 = whistle_tail1_parent.addOrReplaceChild("a2", CubeListBuilder.create().texOffs(473, 16).addBox(2.0F, -34.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(569, 45).mirror().addBox(3.0F, -32.0F, -5.0F, 10.0F, 32.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(716, 127).addBox(0.0F, -7.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(23.5F, 0.0F, -13.0F, 0.0F, 0.0F, -0.1745F));
 
-        PartDefinition a2head = a2.addOrReplaceChild("a2head", CubeListBuilder.create().texOffs(569, 6).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, -1.0F, 0.0F));
+        PartDefinition a2head = a2.addOrReplaceChild("a2head", CubeListBuilder.create().texOffs(569, 0).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, -1.0F, 0.0F));
 
         PartDefinition a2_steam = a2.addOrReplaceChild("a2_steam", CubeListBuilder.create(), PartPose.offset(15.25F, 6.0F, 8.0F));
 
@@ -1276,11 +1497,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r164 = a2_steam.addOrReplaceChild("WhistleLargeBase_r164", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
-        PartDefinition as2 = whistle_tail1_parent.addOrReplaceChild("as2", CubeListBuilder.create().texOffs(561, 77).addBox(2.0F, -30.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 39).mirror().addBox(3.0F, -28.0F, -5.0F, 10.0F, 28.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
+        PartDefinition as2 = whistle_tail1_parent.addOrReplaceChild("as2", CubeListBuilder.create().texOffs(473, 16).addBox(2.0F, -30.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(569, 49).mirror().addBox(3.0F, -28.0F, -5.0F, 10.0F, 28.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(716, 127).addBox(0.0F, -7.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(23.5F, 0.0F, -1.0F, 0.0F, 0.0F, -0.0873F));
 
-        PartDefinition as2head = as2.addOrReplaceChild("as2head", CubeListBuilder.create().texOffs(569, 6).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, -1.0F, 0.0F));
+        PartDefinition as2head = as2.addOrReplaceChild("as2head", CubeListBuilder.create().texOffs(569, 0).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, -1.0F, 0.0F));
 
         PartDefinition as2_steam = as2.addOrReplaceChild("as2_steam", CubeListBuilder.create(), PartPose.offset(15.25F, 6.0F, 8.0F));
 
@@ -1288,11 +1509,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r166 = as2_steam.addOrReplaceChild("WhistleLargeBase_r166", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
-        PartDefinition b2 = whistle_tail1_parent.addOrReplaceChild("b2", CubeListBuilder.create().texOffs(561, 77).addBox(-14.0F, -34.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 35).addBox(-13.0F, -32.0F, -5.0F, 10.0F, 32.0F, 10.0F, new CubeDeformation(0.0F))
+        PartDefinition b2 = whistle_tail1_parent.addOrReplaceChild("b2", CubeListBuilder.create().texOffs(473, 16).addBox(-14.0F, -34.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(569, 45).addBox(-13.0F, -32.0F, -5.0F, 10.0F, 32.0F, 10.0F, new CubeDeformation(0.0F))
                 .texOffs(716, 127).addBox(-12.0F, -7.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -13.0F, 0.0F, 0.0F, 0.1745F));
 
-        PartDefinition b2head = b2.addOrReplaceChild("b2head", CubeListBuilder.create().texOffs(569, 6).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, -1.0F, 0.0F));
+        PartDefinition b2head = b2.addOrReplaceChild("b2head", CubeListBuilder.create().texOffs(569, 0).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, -1.0F, 0.0F));
 
         PartDefinition b2_steam = b2.addOrReplaceChild("b2_steam", CubeListBuilder.create(), PartPose.offset(-15.25F, 6.0F, 8.0F));
 
@@ -1302,11 +1523,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition whistle_back_parent = body.addOrReplaceChild("whistle_back_parent", CubeListBuilder.create(), PartPose.offset(19.0F, -28.0F, -16.0F));
 
-        PartDefinition c1 = whistle_back_parent.addOrReplaceChild("c1", CubeListBuilder.create().texOffs(569, 23).mirror().addBox(-5.0F, -43.0F, -5.0F, 10.0F, 44.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(561, 77).addBox(-6.0F, -45.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+        PartDefinition c1 = whistle_back_parent.addOrReplaceChild("c1", CubeListBuilder.create().texOffs(569, 33).mirror().addBox(-5.0F, -43.0F, -5.0F, 10.0F, 44.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(473, 16).addBox(-6.0F, -45.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
                 .texOffs(716, 127).addBox(-8.0F, -6.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.1745F));
 
-        PartDefinition c1head = c1.addOrReplaceChild("c1head", CubeListBuilder.create().texOffs(569, 6).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
+        PartDefinition c1head = c1.addOrReplaceChild("c1head", CubeListBuilder.create().texOffs(569, 0).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
 
         PartDefinition c1_steam = c1.addOrReplaceChild("c1_steam", CubeListBuilder.create(), PartPose.offset(8.0F, 6.0F, 8.0F));
 
@@ -1314,11 +1535,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r170 = c1_steam.addOrReplaceChild("WhistleLargeBase_r170", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.5708F));
 
-        PartDefinition cs1 = whistle_back_parent.addOrReplaceChild("cs1", CubeListBuilder.create().texOffs(561, 77).addBox(2.0F, -31.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 31).mirror().addBox(3.0F, -29.0F, -5.0F, 10.0F, 36.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
+        PartDefinition cs1 = whistle_back_parent.addOrReplaceChild("cs1", CubeListBuilder.create().texOffs(473, 16).addBox(2.0F, -31.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(569, 41).mirror().addBox(3.0F, -29.0F, -5.0F, 10.0F, 36.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(716, 127).addBox(0.0F, 0.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.0F, -6.0F, 14.0F, 0.0F, 0.0F, 0.0873F));
 
-        PartDefinition cs1head = cs1.addOrReplaceChild("cs1head", CubeListBuilder.create().texOffs(569, 6).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 6.0F, 0.0F));
+        PartDefinition cs1head = cs1.addOrReplaceChild("cs1head", CubeListBuilder.create().texOffs(569, 0).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 6.0F, 0.0F));
 
         PartDefinition cs1_steam = cs1.addOrReplaceChild("cs1_steam", CubeListBuilder.create(), PartPose.offset(16.0F, 12.0F, 8.0F));
 
@@ -1326,11 +1547,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r172 = cs1_steam.addOrReplaceChild("WhistleLargeBase_r172", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.5708F));
 
-        PartDefinition d1 = whistle_back_parent.addOrReplaceChild("d1", CubeListBuilder.create().texOffs(561, 77).addBox(2.0F, -23.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 39).mirror().addBox(3.0F, -21.0F, -5.0F, 10.0F, 28.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
+        PartDefinition d1 = whistle_back_parent.addOrReplaceChild("d1", CubeListBuilder.create().texOffs(473, 16).addBox(2.0F, -23.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(569, 49).mirror().addBox(3.0F, -21.0F, -5.0F, 10.0F, 28.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(716, 127).addBox(0.0F, 0.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-8.0F, -6.0F, 28.0F));
 
-        PartDefinition d1head = d1.addOrReplaceChild("d1head", CubeListBuilder.create().texOffs(569, 6).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 6.0F, 0.0F));
+        PartDefinition d1head = d1.addOrReplaceChild("d1head", CubeListBuilder.create().texOffs(569, 0).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 6.0F, 0.0F));
 
         PartDefinition d1_steam = d1.addOrReplaceChild("d1_steam", CubeListBuilder.create(), PartPose.offset(16.0F, 12.0F, 8.0F));
 
@@ -1338,11 +1559,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r174 = d1_steam.addOrReplaceChild("WhistleLargeBase_r174", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.5708F));
 
-        PartDefinition ds1 = whistle_back_parent.addOrReplaceChild("ds1", CubeListBuilder.create().texOffs(561, 77).addBox(2.0F, -22.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 47).mirror().addBox(3.0F, -20.0F, -5.0F, 10.0F, 20.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
+        PartDefinition ds1 = whistle_back_parent.addOrReplaceChild("ds1", CubeListBuilder.create().texOffs(473, 16).addBox(2.0F, -22.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(569, 57).mirror().addBox(3.0F, -20.0F, -5.0F, 10.0F, 20.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(716, 127).addBox(0.0F, -7.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.0F, 1.0F, 42.0F, 0.0F, 0.0F, -0.0873F));
 
-        PartDefinition ds1head = ds1.addOrReplaceChild("ds1head", CubeListBuilder.create().texOffs(569, 6).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, -1.0F, 0.0F));
+        PartDefinition ds1head = ds1.addOrReplaceChild("ds1head", CubeListBuilder.create().texOffs(569, 0).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, -1.0F, 0.0F));
 
         PartDefinition ds1_steam = ds1.addOrReplaceChild("ds1_steam", CubeListBuilder.create(), PartPose.offset(16.0F, 5.0F, 8.0F));
 
@@ -1350,11 +1571,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r176 = ds1_steam.addOrReplaceChild("WhistleLargeBase_r176", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.5708F));
 
-        PartDefinition e1 = whistle_back_parent.addOrReplaceChild("e1", CubeListBuilder.create().texOffs(561, 77).addBox(2.0F, -7.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 55).mirror().addBox(3.0F, -5.0F, -5.0F, 10.0F, 12.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
+        PartDefinition e1 = whistle_back_parent.addOrReplaceChild("e1", CubeListBuilder.create().texOffs(473, 16).addBox(2.0F, -7.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(569, 65).mirror().addBox(3.0F, -5.0F, -5.0F, 10.0F, 12.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(716, 127).addBox(0.0F, 0.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.0F, 7.0F, 42.0F, 0.0F, 0.0F, 0.1745F));
 
-        PartDefinition e1head = e1.addOrReplaceChild("e1head", CubeListBuilder.create().texOffs(569, 6).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 6.0F, 0.0F));
+        PartDefinition e1head = e1.addOrReplaceChild("e1head", CubeListBuilder.create().texOffs(569, 0).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 6.0F, 0.0F));
 
         PartDefinition e1_steam = e1.addOrReplaceChild("e1_steam", CubeListBuilder.create(), PartPose.offset(16.0F, 12.0F, 8.0F));
 
@@ -1362,11 +1583,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r178 = e1_steam.addOrReplaceChild("WhistleLargeBase_r178", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
-        PartDefinition f1 = whistle_back_parent.addOrReplaceChild("f1", CubeListBuilder.create().texOffs(561, 77).addBox(2.0F, -11.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 51).mirror().addBox(3.0F, -9.0F, -5.0F, 10.0F, 16.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
+        PartDefinition f1 = whistle_back_parent.addOrReplaceChild("f1", CubeListBuilder.create().texOffs(473, 16).addBox(2.0F, -11.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(569, 61).mirror().addBox(3.0F, -9.0F, -5.0F, 10.0F, 16.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(716, 127).addBox(0.0F, 0.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.0F, 7.0F, 28.0F, 0.0F, 0.0F, 0.2618F));
 
-        PartDefinition f1head = f1.addOrReplaceChild("f1head", CubeListBuilder.create().texOffs(569, 6).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 6.0F, 0.0F));
+        PartDefinition f1head = f1.addOrReplaceChild("f1head", CubeListBuilder.create().texOffs(569, 0).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 6.0F, 0.0F));
 
         PartDefinition f1_steam = f1.addOrReplaceChild("f1_steam", CubeListBuilder.create(), PartPose.offset(16.0F, 12.0F, 8.0F));
 
@@ -1374,11 +1595,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r180 = f1_steam.addOrReplaceChild("WhistleLargeBase_r180", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
-        PartDefinition fs1 = whistle_back_parent.addOrReplaceChild("fs1", CubeListBuilder.create().texOffs(561, 77).addBox(2.0F, -15.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 47).mirror().addBox(3.0F, -13.0F, -5.0F, 10.0F, 20.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
+        PartDefinition fs1 = whistle_back_parent.addOrReplaceChild("fs1", CubeListBuilder.create().texOffs(473, 16).addBox(2.0F, -15.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(569, 57).mirror().addBox(3.0F, -13.0F, -5.0F, 10.0F, 20.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(716, 127).addBox(0.0F, 0.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.0F, 7.0F, 14.0F, 0.0F, 0.0F, 0.3491F));
 
-        PartDefinition fs1head = fs1.addOrReplaceChild("fs1head", CubeListBuilder.create().texOffs(569, 6).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 6.0F, 0.0F));
+        PartDefinition fs1head = fs1.addOrReplaceChild("fs1head", CubeListBuilder.create().texOffs(569, 0).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 6.0F, 0.0F));
 
         PartDefinition fs1_steam = fs1.addOrReplaceChild("fs1_steam", CubeListBuilder.create(), PartPose.offset(16.0F, 12.0F, 8.0F));
 
@@ -1386,11 +1607,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r182 = fs1_steam.addOrReplaceChild("WhistleLargeBase_r182", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
-        PartDefinition g1 = whistle_back_parent.addOrReplaceChild("g1", CubeListBuilder.create().texOffs(561, 77).addBox(2.0F, -19.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 43).mirror().addBox(3.0F, -17.0F, -5.0F, 10.0F, 24.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
+        PartDefinition g1 = whistle_back_parent.addOrReplaceChild("g1", CubeListBuilder.create().texOffs(473, 16).addBox(2.0F, -19.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(569, 53).mirror().addBox(3.0F, -17.0F, -5.0F, 10.0F, 24.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(716, 127).addBox(0.0F, 0.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.0F, 7.0F, 0.0F, 0.0F, 0.0F, 0.4363F));
 
-        PartDefinition g1head = g1.addOrReplaceChild("g1head", CubeListBuilder.create().texOffs(569, 6).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 6.0F, 0.0F));
+        PartDefinition g1head = g1.addOrReplaceChild("g1head", CubeListBuilder.create().texOffs(569, 0).mirror().addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)).mirror(false), PartPose.offset(8.0F, 6.0F, 0.0F));
 
         PartDefinition g1_steam = g1.addOrReplaceChild("g1_steam", CubeListBuilder.create(), PartPose.offset(16.0F, 12.0F, 8.0F));
 
@@ -1399,10 +1620,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r184 = g1_steam.addOrReplaceChild("WhistleLargeBase_r184", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
         PartDefinition gs1 = whistle_back_parent.addOrReplaceChild("gs1", CubeListBuilder.create().texOffs(716, 127).addBox(-4.0F, -6.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 23).addBox(-5.0F, -43.0F, -5.0F, 10.0F, 44.0F, 10.0F, new CubeDeformation(0.0F))
-                .texOffs(561, 77).addBox(-6.0F, -45.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-38.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.1745F));
+                .texOffs(569, 33).addBox(-5.0F, -43.0F, -5.0F, 10.0F, 44.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(473, 16).addBox(-6.0F, -45.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-38.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.1745F));
 
-        PartDefinition gs1head = gs1.addOrReplaceChild("gs1head", CubeListBuilder.create().texOffs(569, 6).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+        PartDefinition gs1head = gs1.addOrReplaceChild("gs1head", CubeListBuilder.create().texOffs(569, 0).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
         PartDefinition gs1_steam = gs1.addOrReplaceChild("gs1_steam", CubeListBuilder.create(), PartPose.offset(-8.0F, 6.0F, 8.0F));
 
@@ -1410,11 +1631,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r186 = gs1_steam.addOrReplaceChild("WhistleLargeBase_r186", CubeListBuilder.create().texOffs(0, 33).addBox(-7.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -9.3431F, -8.0F, 0.0F, -0.7854F, -1.1345F));
 
-        PartDefinition a1 = whistle_back_parent.addOrReplaceChild("a1", CubeListBuilder.create().texOffs(561, 77).addBox(-14.0F, -31.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 31).addBox(-13.0F, -29.0F, -5.0F, 10.0F, 36.0F, 10.0F, new CubeDeformation(0.0F))
+        PartDefinition a1 = whistle_back_parent.addOrReplaceChild("a1", CubeListBuilder.create().texOffs(473, 16).addBox(-14.0F, -31.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(569, 41).addBox(-13.0F, -29.0F, -5.0F, 10.0F, 36.0F, 10.0F, new CubeDeformation(0.0F))
                 .texOffs(716, 127).addBox(-12.0F, 0.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-30.0F, -6.0F, 14.0F, 0.0F, 0.0F, -0.0873F));
 
-        PartDefinition a1head = a1.addOrReplaceChild("a1head", CubeListBuilder.create().texOffs(569, 6).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 6.0F, 0.0F));
+        PartDefinition a1head = a1.addOrReplaceChild("a1head", CubeListBuilder.create().texOffs(569, 0).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 6.0F, 0.0F));
 
         PartDefinition a1_steam = a1.addOrReplaceChild("a1_steam", CubeListBuilder.create(), PartPose.offset(-16.0F, 12.0F, 8.0F));
 
@@ -1422,11 +1643,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r188 = a1_steam.addOrReplaceChild("WhistleLargeBase_r188", CubeListBuilder.create().texOffs(0, 33).addBox(-7.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -9.3431F, -8.0F, 0.0F, -0.7854F, -1.1345F));
 
-        PartDefinition as1 = whistle_back_parent.addOrReplaceChild("as1", CubeListBuilder.create().texOffs(561, 77).addBox(-14.0F, -23.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 39).addBox(-13.0F, -21.0F, -5.0F, 10.0F, 28.0F, 10.0F, new CubeDeformation(0.0F))
+        PartDefinition as1 = whistle_back_parent.addOrReplaceChild("as1", CubeListBuilder.create().texOffs(473, 16).addBox(-14.0F, -23.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(569, 49).addBox(-13.0F, -21.0F, -5.0F, 10.0F, 28.0F, 10.0F, new CubeDeformation(0.0F))
                 .texOffs(716, 127).addBox(-12.0F, 0.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-30.0F, -6.0F, 28.0F));
 
-        PartDefinition as1head = as1.addOrReplaceChild("as1head", CubeListBuilder.create().texOffs(569, 6).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 6.0F, 0.0F));
+        PartDefinition as1head = as1.addOrReplaceChild("as1head", CubeListBuilder.create().texOffs(569, 0).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 6.0F, 0.0F));
 
         PartDefinition as1_steam = as1.addOrReplaceChild("as1_steam", CubeListBuilder.create(), PartPose.offset(-16.0F, 12.0F, 8.0F));
 
@@ -1434,11 +1655,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r190 = as1_steam.addOrReplaceChild("WhistleLargeBase_r190", CubeListBuilder.create().texOffs(0, 33).addBox(-7.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -9.3431F, -8.0F, 0.0F, -0.7854F, -1.1345F));
 
-        PartDefinition b1 = whistle_back_parent.addOrReplaceChild("b1", CubeListBuilder.create().texOffs(561, 77).addBox(-14.0F, -22.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 47).addBox(-13.0F, -20.0F, -5.0F, 10.0F, 20.0F, 10.0F, new CubeDeformation(0.0F))
+        PartDefinition b1 = whistle_back_parent.addOrReplaceChild("b1", CubeListBuilder.create().texOffs(473, 16).addBox(-14.0F, -22.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(569, 57).addBox(-13.0F, -20.0F, -5.0F, 10.0F, 20.0F, 10.0F, new CubeDeformation(0.0F))
                 .texOffs(716, 127).addBox(-12.0F, -7.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-30.0F, 1.0F, 42.0F, 0.0F, 0.0F, 0.0873F));
 
-        PartDefinition b1head = b1.addOrReplaceChild("b1head", CubeListBuilder.create().texOffs(569, 6).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, -1.0F, 0.0F));
+        PartDefinition b1head = b1.addOrReplaceChild("b1head", CubeListBuilder.create().texOffs(569, 0).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, -1.0F, 0.0F));
 
         PartDefinition b1_steam = b1.addOrReplaceChild("b1_steam", CubeListBuilder.create(), PartPose.offset(-16.0F, 5.0F, 8.0F));
 
@@ -1446,11 +1667,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r192 = b1_steam.addOrReplaceChild("WhistleLargeBase_r192", CubeListBuilder.create().texOffs(0, 33).addBox(-7.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -9.3431F, -8.0F, 0.0F, -0.7854F, -1.1345F));
 
-        PartDefinition c2 = whistle_back_parent.addOrReplaceChild("c2", CubeListBuilder.create().texOffs(561, 77).addBox(-14.0F, -7.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 55).addBox(-13.0F, -5.0F, -5.0F, 10.0F, 12.0F, 10.0F, new CubeDeformation(0.0F))
+        PartDefinition c2 = whistle_back_parent.addOrReplaceChild("c2", CubeListBuilder.create().texOffs(473, 16).addBox(-14.0F, -7.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(569, 65).addBox(-13.0F, -5.0F, -5.0F, 10.0F, 12.0F, 10.0F, new CubeDeformation(0.0F))
                 .texOffs(716, 127).addBox(-12.0F, 0.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-43.0F, 7.0F, 42.0F, 0.0F, 0.0F, -0.1745F));
 
-        PartDefinition c2head = c2.addOrReplaceChild("c2head", CubeListBuilder.create().texOffs(569, 6).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 6.0F, 0.0F));
+        PartDefinition c2head = c2.addOrReplaceChild("c2head", CubeListBuilder.create().texOffs(569, 0).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 6.0F, 0.0F));
 
         PartDefinition c2_steam = c2.addOrReplaceChild("c2_steam", CubeListBuilder.create(), PartPose.offset(-16.0F, 12.0F, 8.0F));
 
@@ -1458,11 +1679,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r194 = c2_steam.addOrReplaceChild("WhistleLargeBase_r194", CubeListBuilder.create().texOffs(0, 33).addBox(-7.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -9.3431F, -8.0F, 0.0F, -0.7854F, -1.1345F));
 
-        PartDefinition cs2 = whistle_back_parent.addOrReplaceChild("cs2", CubeListBuilder.create().texOffs(561, 77).addBox(-14.0F, -11.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 51).addBox(-13.0F, -9.0F, -5.0F, 10.0F, 16.0F, 10.0F, new CubeDeformation(0.0F))
+        PartDefinition cs2 = whistle_back_parent.addOrReplaceChild("cs2", CubeListBuilder.create().texOffs(473, 16).addBox(-14.0F, -11.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(569, 61).addBox(-13.0F, -9.0F, -5.0F, 10.0F, 16.0F, 10.0F, new CubeDeformation(0.0F))
                 .texOffs(716, 127).addBox(-12.0F, 0.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-43.0F, 7.0F, 28.0F, 0.0F, 0.0F, -0.2618F));
 
-        PartDefinition cs2head = cs2.addOrReplaceChild("cs2head", CubeListBuilder.create().texOffs(569, 6).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 6.0F, 0.0F));
+        PartDefinition cs2head = cs2.addOrReplaceChild("cs2head", CubeListBuilder.create().texOffs(569, 0).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 6.0F, 0.0F));
 
         PartDefinition cs2_steam = cs2.addOrReplaceChild("cs2_steam", CubeListBuilder.create(), PartPose.offset(-16.0F, 12.0F, 8.0F));
 
@@ -1470,11 +1691,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r196 = cs2_steam.addOrReplaceChild("WhistleLargeBase_r196", CubeListBuilder.create().texOffs(0, 33).addBox(-7.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -9.3431F, -8.0F, 0.0F, -0.7854F, -1.1345F));
 
-        PartDefinition d2 = whistle_back_parent.addOrReplaceChild("d2", CubeListBuilder.create().texOffs(561, 77).addBox(-14.0F, -15.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 47).addBox(-13.0F, -13.0F, -5.0F, 10.0F, 20.0F, 10.0F, new CubeDeformation(0.0F))
+        PartDefinition d2 = whistle_back_parent.addOrReplaceChild("d2", CubeListBuilder.create().texOffs(473, 16).addBox(-14.0F, -15.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(569, 57).addBox(-13.0F, -13.0F, -5.0F, 10.0F, 20.0F, 10.0F, new CubeDeformation(0.0F))
                 .texOffs(716, 127).addBox(-12.0F, 0.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-43.0F, 7.0F, 14.0F, 0.0F, 0.0F, -0.3491F));
 
-        PartDefinition d2head = d2.addOrReplaceChild("d2head", CubeListBuilder.create().texOffs(569, 6).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 6.0F, 0.0F));
+        PartDefinition d2head = d2.addOrReplaceChild("d2head", CubeListBuilder.create().texOffs(569, 0).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 6.0F, 0.0F));
 
         PartDefinition d2_steam = d2.addOrReplaceChild("d2_steam", CubeListBuilder.create(), PartPose.offset(-16.0F, 12.0F, 8.0F));
 
@@ -1482,11 +1703,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r198 = d2_steam.addOrReplaceChild("WhistleLargeBase_r198", CubeListBuilder.create().texOffs(0, 33).addBox(-7.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -9.3431F, -8.0F, 0.0F, -0.7854F, -1.1345F));
 
-        PartDefinition ds2 = whistle_back_parent.addOrReplaceChild("ds2", CubeListBuilder.create().texOffs(561, 77).addBox(-14.0F, -19.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(569, 43).addBox(-13.0F, -17.0F, -5.0F, 10.0F, 24.0F, 10.0F, new CubeDeformation(0.0F))
+        PartDefinition ds2 = whistle_back_parent.addOrReplaceChild("ds2", CubeListBuilder.create().texOffs(473, 16).addBox(-14.0F, -19.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(569, 53).addBox(-13.0F, -17.0F, -5.0F, 10.0F, 24.0F, 10.0F, new CubeDeformation(0.0F))
                 .texOffs(716, 127).addBox(-12.0F, 0.0F, -4.0F, 12.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-43.0F, 7.0F, 0.0F, 0.0F, 0.0F, -0.4363F));
 
-        PartDefinition ds2head = ds2.addOrReplaceChild("ds2head", CubeListBuilder.create().texOffs(569, 6).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 6.0F, 0.0F));
+        PartDefinition ds2head = ds2.addOrReplaceChild("ds2head", CubeListBuilder.create().texOffs(569, 0).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, 6.0F, 0.0F));
 
         PartDefinition ds2_steam = ds2.addOrReplaceChild("ds2_steam", CubeListBuilder.create(), PartPose.offset(-16.0F, 12.0F, 8.0F));
 
@@ -1495,10 +1716,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r200 = ds2_steam.addOrReplaceChild("WhistleLargeBase_r200", CubeListBuilder.create().texOffs(0, 33).addBox(-7.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, -9.3431F, -8.0F, 0.0F, -0.7854F, -1.1345F));
 
         PartDefinition e2 = whistle_back_parent.addOrReplaceChild("e2", CubeListBuilder.create().texOffs(725, 143).addBox(-4.0F, -11.0F, -4.0F, 8.0F, 21.0F, 8.0F, new CubeDeformation(0.0F))
-                .texOffs(524, 55).addBox(-5.0F, -16.0F, -5.0F, 10.0F, 12.0F, 10.0F, new CubeDeformation(0.0F))
-                .texOffs(561, 77).addBox(-6.0F, -18.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offset(-19.0F, -7.0F, 0.0F));
+                .texOffs(524, 53).addBox(-5.0F, -44.0F, -5.0F, 10.0F, 40.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(473, 16).addBox(-6.0F, -46.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offset(-19.0F, -7.0F, 0.0F));
 
-        PartDefinition e2head = e2.addOrReplaceChild("e2head", CubeListBuilder.create().texOffs(524, 6).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
+        PartDefinition e2head = e2.addOrReplaceChild("e2head", CubeListBuilder.create().texOffs(524, 0).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
 
         PartDefinition e2_steam = e2.addOrReplaceChild("e2_steam", CubeListBuilder.create(), PartPose.offset(8.0F, 1.0F, 8.0F));
 
@@ -1511,10 +1732,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r204 = e2_steam.addOrReplaceChild("WhistleLargeBase_r204", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
         PartDefinition f2 = whistle_back_parent.addOrReplaceChild("f2", CubeListBuilder.create().texOffs(725, 143).addBox(-12.0F, -11.0F, 4.0F, 8.0F, 21.0F, 8.0F, new CubeDeformation(0.0F))
-                .texOffs(524, 47).addBox(-13.0F, -24.0F, 3.0F, 10.0F, 20.0F, 10.0F, new CubeDeformation(0.0F))
-                .texOffs(561, 77).addBox(-14.0F, -26.0F, 2.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offset(-11.0F, -7.0F, 6.0F));
+                .texOffs(524, 45).addBox(-13.0F, -52.0F, 3.0F, 10.0F, 48.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(473, 16).addBox(-14.0F, -54.0F, 2.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offset(-11.0F, -7.0F, 6.0F));
 
-        PartDefinition f2head = f2.addOrReplaceChild("f2head", CubeListBuilder.create().texOffs(524, 6).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, -5.0F, 8.0F));
+        PartDefinition f2head = f2.addOrReplaceChild("f2head", CubeListBuilder.create().texOffs(524, 0).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(-8.0F, -5.0F, 8.0F));
 
         PartDefinition f2_steam = f2.addOrReplaceChild("f2_steam", CubeListBuilder.create(), PartPose.offset(0.0F, 1.0F, 16.0F));
 
@@ -1527,10 +1748,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r208 = f2_steam.addOrReplaceChild("WhistleLargeBase_r208", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
         PartDefinition fs2 = whistle_back_parent.addOrReplaceChild("fs2", CubeListBuilder.create().texOffs(725, 143).addBox(-4.0F, -11.0F, -4.0F, 8.0F, 21.0F, 8.0F, new CubeDeformation(0.0F))
-                .texOffs(561, 77).addBox(-6.0F, -34.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(524, 39).addBox(-5.0F, -32.0F, -5.0F, 10.0F, 28.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offset(-19.0F, -7.0F, 28.0F));
+                .texOffs(473, 16).addBox(-6.0F, -62.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(524, 37).addBox(-5.0F, -60.0F, -5.0F, 10.0F, 56.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offset(-19.0F, -7.0F, 28.0F));
 
-        PartDefinition fs2head = fs2.addOrReplaceChild("fs2head", CubeListBuilder.create().texOffs(524, 6).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
+        PartDefinition fs2head = fs2.addOrReplaceChild("fs2head", CubeListBuilder.create().texOffs(524, 0).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
 
         PartDefinition fs2_steam = fs2.addOrReplaceChild("fs2_steam", CubeListBuilder.create(), PartPose.offset(8.0F, 1.0F, 8.0F));
 
@@ -1542,11 +1763,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r212 = fs2_steam.addOrReplaceChild("WhistleLargeBase_r212", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
-        PartDefinition g2 = whistle_back_parent.addOrReplaceChild("g2", CubeListBuilder.create().texOffs(561, 77).addBox(-6.0F, -42.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(524, 31).addBox(-5.0F, -40.0F, -5.0F, 10.0F, 36.0F, 10.0F, new CubeDeformation(0.0F))
+        PartDefinition g2 = whistle_back_parent.addOrReplaceChild("g2", CubeListBuilder.create().texOffs(473, 16).addBox(-6.0F, -70.0F, -6.0F, 12.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
+                .texOffs(524, 29).addBox(-5.0F, -68.0F, -5.0F, 10.0F, 64.0F, 10.0F, new CubeDeformation(0.0F))
                 .texOffs(725, 143).addBox(-4.0F, -11.0F, -4.0F, 8.0F, 21.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-19.0F, -7.0F, 42.0F));
 
-        PartDefinition g2head = g2.addOrReplaceChild("g2head", CubeListBuilder.create().texOffs(524, 6).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
+        PartDefinition g2head = g2.addOrReplaceChild("g2head", CubeListBuilder.create().texOffs(524, 0).addBox(-5.0F, -7.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
 
         PartDefinition g2_steam = g2.addOrReplaceChild("g2_steam", CubeListBuilder.create(), PartPose.offset(8.0F, 1.0F, 8.0F));
 
@@ -1558,7 +1779,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition WhistleLargeBase_r216 = g2_steam.addOrReplaceChild("WhistleLargeBase_r216", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
-        PartDefinition stand = body.addOrReplaceChild("stand", CubeListBuilder.create().texOffs(502, 100).addBox(-16.0F, -64.0F, -16.0F, 32.0F, 64.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 80.0F, 2.0F));
+        PartDefinition stand = body.addOrReplaceChild("stand", CubeListBuilder.create().texOffs(528, 311).addBox(-16.0F, -64.0F, -16.0F, 32.0F, 64.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 80.0F, 2.0F));
 
         PartDefinition leg_l = root_util.addOrReplaceChild("leg_l", CubeListBuilder.create().texOffs(370, 341).addBox(20.25F, -17.0F, -13.0F, 8.0F, 33.0F, 36.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -80.0F, 0.0F, -0.3491F, 0.0F, 0.0F));
 
@@ -1602,6 +1823,12 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition toe_rear_r = foot_r.addOrReplaceChild("toe_rear_r", CubeListBuilder.create().texOffs(133, 284).mirror().addBox(-4.0F, -2.0F, -2.0F, 8.0F, 9.0F, 13.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.5F, 9.5F));
 
+        PartDefinition steam_foot = leg_r2.addOrReplaceChild("steam_foot", CubeListBuilder.create(), PartPose.offset(-3.0F, 46.5F, -3.5F));
+
+        PartDefinition steam_foot_r1 = steam_foot.addOrReplaceChild("steam_foot_r1", CubeListBuilder.create().texOffs(-16, 0).addBox(-8.0F, 0.0F, 0.0F, 16.0F, 0.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.8906F, -0.422F, 2.2507F));
+
+        PartDefinition steam_foot_r2 = steam_foot.addOrReplaceChild("steam_foot_r2", CubeListBuilder.create().texOffs(-16, 0).addBox(-8.0F, 0.0F, 0.0F, 16.0F, 0.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 2.1817F, -1.0472F, -1.5708F));
+
         return LayerDefinition.create(meshdefinition, 1024, 1024);
     }
 
@@ -1621,8 +1848,120 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         blink.visible = entity.blinkCountdown > 0;
 
-        leg_l.visible = entity.assembly >= 1;
-        leg_r.visible = entity.assembly >= 2;
+        leg_l.visible = entity.getAssembly() > 0;
+        leg_r.visible = entity.getAssembly() > 1;
+        leg_l2.visible = entity.getAssembly() > 2;
+        leg_r2.visible = entity.getAssembly() > 3;
+        foot_l.visible = entity.getAssembly() > 4;
+        foot_r.visible = entity.getAssembly() > 5;
+        tail1.visible = entity.getAssembly() > 6;
+        tail2.visible = entity.getAssembly() > 7;
+        chest.visible = entity.getAssembly() > 8;
+        piston_l1.visible = entity.getAssembly() > 9;
+        piston_l2.visible = entity.getAssembly() > 10;
+        piston_l3.visible = entity.getAssembly() > 11;
+        piston_l4.visible = entity.getAssembly() > 12;
+        piston_r1.visible = entity.getAssembly() > 13;
+        piston_r2.visible = entity.getAssembly() > 14;
+        piston_r3.visible = entity.getAssembly() > 15;
+        piston_r4.visible = entity.getAssembly() > 16;
+        bellows_l.visible = entity.getAssembly() > 17;
+        bellows_r.visible = entity.getAssembly() > 18;
+        neck.visible = entity.getAssembly() > 19;
+        head.visible = entity.getAssembly() > 20;
+
+        c1.visible = entity.getAssembly() > 21;
+        cs1.visible = entity.getAssembly() > 22;
+        d1.visible = entity.getAssembly() > 23;
+        ds1.visible = entity.getAssembly() > 24;
+        e1.visible = entity.getAssembly() > 25;
+        f1.visible = entity.getAssembly() > 26;
+        fs1.visible = entity.getAssembly() > 27;
+        g1.visible = entity.getAssembly() > 28;
+        gs1.visible = entity.getAssembly() > 29;
+        a1.visible = entity.getAssembly() > 30;
+        as1.visible = entity.getAssembly() > 31;
+        b1.visible = entity.getAssembly() > 32;
+
+        c2.visible = entity.getAssembly() > 33;
+        cs2.visible = entity.getAssembly() > 34;
+        d2.visible = entity.getAssembly() > 35;
+        ds2.visible = entity.getAssembly() > 36;
+        e2.visible = entity.getAssembly() > 37;
+        f2.visible = entity.getAssembly() > 38;
+        fs2.visible = entity.getAssembly() > 39;
+        g2.visible = entity.getAssembly() > 40;
+        gs2.visible = entity.getAssembly() > 41;
+        a2.visible = entity.getAssembly() > 42;
+        as2.visible = entity.getAssembly() > 43;
+        b2.visible = entity.getAssembly() > 44;
+
+        c3.visible = entity.getAssembly() > 45;
+        cs3.visible = entity.getAssembly() > 46;
+        d3.visible = entity.getAssembly() > 47;
+        ds3.visible = entity.getAssembly() > 48;
+        e3.visible = entity.getAssembly() > 49;
+        f3.visible = entity.getAssembly() > 50;
+        fs3.visible = entity.getAssembly() > 51;
+        g3.visible = entity.getAssembly() > 52;
+        gs3.visible = entity.getAssembly() > 53;
+        a3.visible = entity.getAssembly() > 54;
+        as3.visible = entity.getAssembly() > 55;
+        b3.visible = entity.getAssembly() > 56;
+
+        c4.visible = entity.getAssembly() > 57;
+        cs4.visible = entity.getAssembly() > 58;
+        d4.visible = entity.getAssembly() > 59;
+        ds4.visible = entity.getAssembly() > 60;
+        e4.visible = entity.getAssembly() > 61;
+        f4.visible = entity.getAssembly() > 62;
+        fs4.visible = entity.getAssembly() > 63;
+        g4.visible = entity.getAssembly() > 64;
+        gs4.visible = entity.getAssembly() > 65;
+        a4.visible = entity.getAssembly() > 66;
+        as4.visible = entity.getAssembly() > 67;
+        b4.visible = entity.getAssembly() > 68;
+
+        c5.visible = entity.getAssembly() > 69;
+        cs5.visible = entity.getAssembly() > 70;
+        d5.visible = entity.getAssembly() > 71;
+        ds5.visible = entity.getAssembly() > 72;
+        e5.visible = entity.getAssembly() > 73;
+        f5.visible = entity.getAssembly() > 74;
+        fs5.visible = entity.getAssembly() > 75;
+        g5.visible = entity.getAssembly() > 76;
+        gs5.visible = entity.getAssembly() > 77;
+        a5.visible = entity.getAssembly() > 78;
+        as5.visible = entity.getAssembly() > 79;
+        b5.visible = entity.getAssembly() > 80;
+
+        c6.visible = entity.getAssembly() > 81;
+        cs6.visible = entity.getAssembly() > 82;
+        d6.visible = entity.getAssembly() > 83;
+        ds6.visible = entity.getAssembly() > 84;
+        e6.visible = entity.getAssembly() > 85;
+        f6.visible = entity.getAssembly() > 86;
+        fs6.visible = entity.getAssembly() > 87;
+        g6.visible = entity.getAssembly() > 88;
+        gs6.visible = entity.getAssembly() > 89;
+        a6.visible = entity.getAssembly() > 90;
+        as6.visible = entity.getAssembly() > 91;
+        b6.visible = entity.getAssembly() > 92;
+
+        c7.visible = entity.getAssembly() > 93;
+        cs7.visible = entity.getAssembly() > 94;
+        d7.visible = entity.getAssembly() > 95;
+        ds7.visible = entity.getAssembly() > 96;
+        e7.visible = entity.getAssembly() > 97;
+        f7.visible = entity.getAssembly() > 98;
+        fs7.visible = entity.getAssembly() > 99;
+        g7.visible = entity.getAssembly() > 100;
+        gs7.visible = entity.getAssembly() > 101;
+        a7.visible = entity.getAssembly() > 102;
+        as7.visible = entity.getAssembly() > 103;
+        b7.visible = entity.getAssembly() > 104;
+
+        stand.visible = false;
     }
 
     @Override
@@ -1635,6 +1974,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         pHeadPitch = Mth.clamp(pHeadPitch, -25.0F, 45.0F);
 
         this.head.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
+        this.neck.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
+        this.chest.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
+
+        this.tail1.yRot = pNetHeadYaw * -((float)Math.PI / 180F);
+        this.tail1.yRot = pNetHeadYaw * -((float)Math.PI / 180F);
     }
 
     @Override

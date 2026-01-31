@@ -21,6 +21,7 @@ public class BionicsCreativeModeTabs {
                     .icon(() -> new ItemStack(BionicsItems.ANOLE.get()))
                     .displayItems((itemDisplayParameters, output) -> {
                         //Spawners
+                        output.accept(BionicsItems.ROBOT_BUILDER);
                         output.accept(BionicsItems.ANOLE);
                         output.accept(BionicsItems.OXHAULER_MIDDLE);
                         output.accept(BionicsItems.REPLETE_BODY);
@@ -45,10 +46,19 @@ public class BionicsCreativeModeTabs {
                         output.accept(BionicsItems.STALKER_LEG);
                         output.accept(BionicsItems.STALKER_TAIL);
                         output.accept(BionicsItems.STALKER_HEAD);
+                        //Organ Items
+                        output.accept(BionicsItems.ORGAN_MIDDLE);
+                        output.accept(BionicsItems.ORGAN_FOOT);
+                        output.accept(BionicsItems.ORGAN_TAIL_BASE);
+                        output.accept(BionicsItems.ORGAN_TAIL_END);
+                        output.accept(BionicsItems.ORGAN_CHEST);
+                        output.accept(BionicsItems.ORGAN_PISTON);
+                        output.accept(BionicsItems.ORGAN_BELLOWS);
+                        output.accept(BionicsItems.ORGAN_NECK);
+                        output.accept(BionicsItems.ORGAN_CHIMNEY);
+                        output.accept(BionicsItems.ORGAN_HEAD);
                         //Crafting Items
                         output.accept(BionicsItems.I2_COAL_ENGINE);
-                        output.accept(BionicsItems.MINI_ELECTRON_TUBE);
-                        output.accept(BionicsItems.COMPOUND_EYE);
                         output.accept(BionicsItems.WAX_INGOT);
                         output.accept(BionicsBlocks.WAX_BLOCK);
                         output.accept(BionicsBlocks.SCRAP_ANDESITE);

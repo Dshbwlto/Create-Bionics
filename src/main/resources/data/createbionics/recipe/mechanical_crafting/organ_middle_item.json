@@ -1,0 +1,39 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": false,
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "create:railway_casing"
+    },
+    "P": {
+      "item": "create:mechanical_pump"
+    },
+    "T": {
+      "item": "create:fluid_tank"
+    },
+    "M": {
+      "item": "create:precision_mechanism"
+    },
+    "F": {
+      "item": "minecraft:netherite_block"
+    },
+    "S": {
+      "item": "create:shaft"
+    },
+    "G": {
+      "item": "create:gearbox"
+    }
+  },
+  "pattern": [
+    "CPTPC",
+    "CMFMC",
+    "SCGCS",
+    "SCSCS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:organ_middle_item"
+  },
+  "show_notification": false
+}

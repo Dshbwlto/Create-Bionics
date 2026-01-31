@@ -26,13 +26,15 @@ public class OrganRenderer extends MobRenderer<OrganEntity, OrganModel<OrganEnti
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/organ_andesite.png"));
                 map.put(OrganVariant.COPPER,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/organ_copper.png"));
+                map.put(OrganVariant.STURDY_SHEET,
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/organ_sturdy_sheet.png"));
     });
 
     public OrganRenderer(EntityRendererProvider.Context context) {
         super (context, new OrganModel<>(context.bakeLayer(BionicsModelLayers.ORGAN)), 4);
         this.addLayer(new OrganGlowLayer(this, context.getModelSet()));
-        this.addLayer(new OrganExhaustLayer(this, context.getModelSet()));
-        this.addLayer(new OrganExhaustLayer2(this, context.getModelSet()));
+        //this.addLayer(new OrganExhaustLayer(this, context.getModelSet()));
+        //this.addLayer(new OrganExhaustLayer2(this, context.getModelSet()));
     }
 
     @Override

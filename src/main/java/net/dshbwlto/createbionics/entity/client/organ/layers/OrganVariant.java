@@ -6,7 +6,8 @@ import java.util.Comparator;
 public enum OrganVariant {
     DEFAULT(0),
     ANDESITE(1),
-    COPPER(2);
+    COPPER(2),
+    STURDY_SHEET(3);
 
     private static final OrganVariant[] BY_ID = Arrays.stream(values()).sorted(
             Comparator.comparingInt(OrganVariant::getId)).toArray(OrganVariant[]::new);

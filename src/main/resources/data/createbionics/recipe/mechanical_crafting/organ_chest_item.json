@@ -1,0 +1,46 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": false,
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "create:railway_casing"
+    },
+    "P": {
+      "item": "create:fluid_pipe"
+    },
+    "E": {
+      "item": "create:steam_engine"
+    },
+    "T": {
+      "item": "create:fluid_tank"
+    },
+    "N": {
+      "item": "minecraft:netherite_block"
+    },
+    "B": {
+      "item": "create:brass_casing"
+    },
+    "G": {
+      "item": "create:gearbox"
+    },
+    "M": {
+      "item": "create:precision_mechanism"
+    },
+    "F": {
+      "item": "create:encased_fan"
+    }
+  },
+  "pattern": [
+    "CPCPC",
+    "PETEP",
+    "CENEC",
+    "BGMGB",
+    "BCFCB"
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:organ_chest_item"
+  },
+  "show_notification": false
+}

@@ -1,0 +1,31 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": false,
+  "category": "misc",
+  "key": {
+    "P": {
+      "item": "create:fluid_pipe"
+    },
+    "M": {
+      "item": "create:mechanical_pump"
+    },
+    "T": {
+      "item": "create:fluid_tank"
+    },
+    "G": {
+      "item": "create:metal_girder"
+    },
+    "R": {
+      "item": "create:railway_casing"
+    }
+  },
+  "pattern": [
+    "RPPPP",
+    "MTGGG"
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:organ_tail_end_item"
+  },
+  "show_notification": false
+}
