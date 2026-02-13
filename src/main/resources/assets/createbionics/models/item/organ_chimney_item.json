@@ -1,33 +1,34 @@
 {
 	"format_version": "1.9.0",
 	"credit": "Made by Dshbwlto",
-	"texture_size": [128, 128],
+	"texture_size": [512, 512],
 	"textures": {
-		"1": "createbionics:item/organ/organ_head_item"
+		"1": "createbionics:item/entity/organ_items",
+		"particle": "createbionics:item/entity/organ_items"
 	},
 	"elements": [
 		{
 			"from": [6, 0, 6],
 			"to": [11, 7, 10],
 			"faces": {
-				"north": {"uv": [6.875, 0.5, 6.25, 1.375], "texture": "#1"},
-				"east": {"uv": [5.75, 0.9375, 6.25, 0.0625], "texture": "#1"},
-				"south": {"uv": [6.25, 0.5, 6.875, 1.375], "texture": "#1"},
-				"west": {"uv": [5.75, 0.5, 6.25, 1.375], "texture": "#1"},
-				"up": {"uv": [6.875, 0.5, 6.25, 0], "texture": "#1"},
-				"down": {"uv": [6.875, 0, 6.25, 0.5], "texture": "#1"}
+				"north": {"uv": [2.39063, 0.25, 2.23438, 0.46875], "texture": "#1"},
+				"east": {"uv": [2.23438, 0.6875, 2.35938, 0.46875], "texture": "#1"},
+				"south": {"uv": [2.23438, 0.25, 2.39063, 0.46875], "texture": "#1"},
+				"west": {"uv": [2.10938, 0.25, 2.23438, 0.46875], "texture": "#1"},
+				"up": {"uv": [2.39063, 0.25, 2.23438, 0.125], "texture": "#1"},
+				"down": {"uv": [2.39063, 0.125, 2.23438, 0.25], "texture": "#1"}
 			}
 		},
 		{
 			"from": [6, 7, 6],
 			"to": [10, 19, 10],
 			"faces": {
-				"north": {"uv": [5.25, 0, 5.75, 1.5], "texture": "#1"},
-				"east": {"uv": [5.25, 0, 5.75, 1.5], "texture": "#1"},
-				"south": {"uv": [5.25, 0, 5.75, 1.5], "texture": "#1"},
-				"west": {"uv": [5.25, 0, 5.75, 1.5], "texture": "#1"},
-				"up": {"uv": [6.25, 0.5, 5.75, 0], "texture": "#1"},
-				"down": {"uv": [6.25, 0, 5.75, 0.5], "texture": "#1"}
+				"north": {"uv": [2.23438, 0.59375, 2.35938, 0.96875], "texture": "#1"},
+				"east": {"uv": [2.23438, 0.59375, 2.35938, 0.96875], "texture": "#1"},
+				"south": {"uv": [2.23438, 0.59375, 2.35938, 0.96875], "texture": "#1"},
+				"west": {"uv": [2.23438, 0.59375, 2.35938, 0.96875], "texture": "#1"},
+				"up": {"uv": [2.35938, 0.59375, 2.23438, 0.46875], "texture": "#1"},
+				"down": {"uv": [2.35938, 0.46875, 2.23438, 0.59375], "texture": "#1"}
 			}
 		}
 	],
@@ -45,7 +46,8 @@
 		},
 		"gui": {
 			"rotation": [30, 45, 0],
-			"translation": [0, -0.75, 0]
+			"translation": [0, -1, 0],
+			"scale": [0.8, 0.8, 0.8]
 		}
 	}
 }

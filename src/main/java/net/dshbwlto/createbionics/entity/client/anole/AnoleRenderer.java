@@ -16,7 +16,7 @@ import java.util.Map;
 public class AnoleRenderer extends MobRenderer<AnoleEntity, AnoleModel<AnoleEntity>> {
     private final Map<AnoleVariant, ResourceLocation> LOCATION_BY_VARIANT =
             Util.make(Maps.newEnumMap(AnoleVariant.class),map -> {
-                map.put(AnoleVariant.DEFAULT,
+                map.put(AnoleVariant.COPPPER,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole.png"));
                 map.put(AnoleVariant.BRASS,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_brass.png"));

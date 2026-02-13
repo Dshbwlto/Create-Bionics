@@ -21,12 +21,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(BionicsItems.ANOLE_TAIL.get());
         basicItem(BionicsItems.ANOLE_LEG.get());
         basicItem(BionicsItems.ANOLE.get());
-        basicItem(BionicsItems.WAX_INGOT.get());
-        basicItem(BionicsItems.MOLTEN_ANDESITE_ALLOY_CRUCIBLE.get());
-        basicItem(BionicsItems.MOLTEN_INDUSTRIAL_IRON_CRUCIBLE.get());
-        basicItem(BionicsItems.MOLTEN_BRASS_CRUCIBLE.get());
-        basicItem(BionicsItems.MOLTEN_NETHERITE_CRUCIBLE.get());
-        basicItem(BionicsItems.NETHER_BRICK_CRUCIBLE.get());
         basicItem(BionicsItems.OXHAULER_HEAD.get());
         basicItem(BionicsItems.OXHAULER_FRONT.get());
         basicItem(BionicsItems.OXHAULER_MIDDLE.get());
@@ -34,11 +28,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(BionicsItems.OXHAULER_ENGINE.get());
         basicItem(BionicsItems.OXHAULER_LEG.get());
         basicItem(BionicsItems.OXHAULER_MIDDLE.get());
-        basicItem(BionicsItems.STALKER_ANTENNA.get());
-        basicItem(BionicsItems.STALKER_BODY.get());
-        basicItem(BionicsItems.STALKER_TAIL.get());
-        basicItem(BionicsItems.STALKER_LEG.get());
-        basicItem(BionicsItems.STALKER_HEAD.get());
          basicItem(BionicsItems.REPLETE_BODY.get());
         basicItem(BionicsItems.REPLETE_LEG.get());
         basicItem(BionicsItems.VITTICEPS_MUSIC_DISC.get());

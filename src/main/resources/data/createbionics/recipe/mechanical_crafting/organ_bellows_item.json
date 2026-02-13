@@ -1,0 +1,36 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": false,
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "create:brass_casing"
+    },
+    "W": {
+      "tag": "minecraft:wool"
+    },
+    "L": {
+      "item": "create:large_cogwheel"
+    },
+    "B": {
+      "item": "create:brass_ingot"
+    },
+    "R": {
+      "item": "create:railway_casing"
+    },
+    "S": {
+      "item": "create:smart_fluid_pipe"
+    }
+  },
+  "pattern": [
+    "CWW ",
+    "CWWW",
+    "CLWW",
+    "BRSC"
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:organ_bellows_item"
+  },
+  "show_notification": false
+}

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public enum OrganVariant {
-    DEFAULT(0),
+    BRASS(0),
     ANDESITE(1),
     COPPER(2),
     STURDY_SHEET(3);

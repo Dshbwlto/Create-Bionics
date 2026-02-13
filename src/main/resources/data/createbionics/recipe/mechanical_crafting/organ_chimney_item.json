@@ -1,0 +1,24 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": false,
+  "category": "misc",
+  "key": {
+    "S": {
+      "item": "create:sturdy_sheet"
+    },
+    "P": {
+      "item": "create:fluid_pipe"
+    }
+  },
+  "pattern": [
+    "S ",
+    "S ",
+    "SP",
+    "SS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:organ_chimney_item"
+  },
+  "show_notification": false
+}

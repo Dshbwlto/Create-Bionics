@@ -22,7 +22,7 @@ public class OrganHeadItemRenderer extends CustomRenderedItemModelRenderer {
     protected void render(ItemStack stack, CustomRenderedItemModel model, PartialItemModelRenderer renderer, ItemDisplayContext transformType, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
             renderer.render(model.getOriginalModel(), light);
 
-        ms.translate(0, 3/256f, 10/128f);
+        //ms.translate(0, 3/256f, 10/128f);
         ms.mulPose(Axis.XP.rotationDegrees(-15));
 
             renderer.render(SNOUT.get(), light);

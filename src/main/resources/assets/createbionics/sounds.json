@@ -23,14 +23,6 @@
       }
     ]
   },
-  "command_whistle": {
-    "sounds": [
-      {
-        "name": "createbionics:command_whistle",
-        "stream": true
-      }
-    ]
-  },
   "oxhauler_bellow_1": {
     "sounds": [
       {

@@ -42,7 +42,7 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class RepleteEntity extends TamableAnimal implements MenuProvider {
+public class RepleteEntity extends AbstractRobot implements MenuProvider {
 
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
@@ -172,18 +172,6 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
         return i < (long) (this.isSitting() ? 40 : 52);
     }
 
-    public boolean isVisuallySitting() {
-        return this.getPoseTime() < 0L != this.isSitting();
-    }
-
-    private boolean isVisuallySittingDown() {
-        return this.isSitting() && this.getPoseTime() < 40L && this.getPoseTime() >= 0L;
-    }
-
-    public void resetLastPoseChangeTick(long lastPoseChangeTick) {
-        this.entityData.set(LAST_POSE_CHANGE_TICK, lastPoseChangeTick);
-    }
-
     public long getPoseTime() {
         return this.level().getGameTime() - Math.abs(this.entityData.get(LAST_POSE_CHANGE_TICK));
     }
@@ -309,66 +297,23 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
             }
         }
         if(isTame() && isOwnedBy(player) && entityData.get(FUEL) > 0) {
-            toggleSitting();
+            updateCommand(player);
             return InteractionResult.SUCCESS;
         }
 
        return super.mobInteract(player, hand);
     }
 
-    /* SITTING */
-    public boolean isSitting() {
-        return this.entityData.get(LAST_POSE_CHANGE_TICK) < 0L;
-    }
-
-    public void toggleSitting() {
-        if (this.isSitting()) {
-            standUp();
-        } else {
-            if (random.nextFloat() > 0.995) {
-                countdown = 150;
-                this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, BionicsSounds.GET_STICK_BUGGED.get(), this.getSoundSource(), 1f, 1f, false);
-            }
-            sitDown();
-        }
-    }
-
-    public void sitDown() {
-        if (!this.isSitting()) {
-            this.setPose(Pose.SITTING);
-            this.gameEvent(GameEvent.ENTITY_ACTION);
-            this.resetLastPoseChangeTick(-this.level().getGameTime());
-        }
-
-        setOrderedToSit(true);
-        setInSittingPose(true);
-    }
-
-    public void standUp() {
-        if (this.isSitting()) {
-            this.setPose(Pose.STANDING);
-            this.gameEvent(GameEvent.ENTITY_ACTION);
-            this.resetLastPoseChangeTick(this.level().getGameTime());
-        }
-        setOrderedToSit(false);
-        setInSittingPose(false);
-    }
-
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(LAST_POSE_CHANGE_TICK, 0L);
-        builder.define(VARIANT, 0);
         builder.define(FUEL, 0);
         builder.define(FILL_LEVEL,0F);
-        builder.define(BUILD_PROGRESS, 0);
-
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putLong("LastPoseTick", this.entityData.get(LAST_POSE_CHANGE_TICK));
         compound.putInt("Variant", this.getTypeVariant());
         compound.putInt("RefuelTime", this.entityData.get(FUEL));
         compound.putInt("Build_Progress", this.entityData.get(BUILD_PROGRESS));
@@ -376,11 +321,6 @@ public class RepleteEntity extends TamableAnimal implements MenuProvider {
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        long i = compound.getLong("LastPoseTick");
-        if (i < 0L) {
-            this.setPose(Pose.SITTING);
-        }
-        this.resetLastPoseChangeTick(i);
         this.entityData.set(VARIANT, compound.getInt("Variant"));
         entityData.set(FUEL, compound.getInt("RefuelTime"));
         entityData.set(BUILD_PROGRESS, compound.getInt("Build_Progress"));

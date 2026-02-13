@@ -1,0 +1,38 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": false,
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "createbionics:organ_chimney_item"
+    },
+    "T": {
+      "item": "create:transmitter"
+    },
+    "A": {
+      "item": "create:andesite_alloy_block"
+    },
+    "N": {
+      "item": "minecraft:netherite_block"
+    },
+    "E": {
+      "item": "create:electron_tube"
+    },
+    "R": {
+      "item": "create:railway_casing"
+    },
+    "S": {
+      "item": "create:sturdy_sheet"
+    }
+  },
+  "pattern": [
+    "CTAAA",
+    "CNERA",
+    "RSSSS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:organ_head_item"
+  },
+  "show_notification": false
+}

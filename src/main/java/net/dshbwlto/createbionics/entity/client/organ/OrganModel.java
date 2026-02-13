@@ -976,7 +976,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition WhistleLargeBase_r60 = e6_steam.addOrReplaceChild("WhistleLargeBase_r60", CubeListBuilder.create().texOffs(0, 33).mirror().addBox(-9.0F, -16.0F, -1.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-4.0F, -9.3431F, -8.0F, 0.0F, 0.7854F, 1.1345F));
 
         PartDefinition f6 = whistle_tail2_parent.addOrReplaceChild("f6", CubeListBuilder.create().texOffs(656, 143).addBox(-2.0F, -10.0F, -2.0F, 4.0F, 21.0F, 4.0F, new CubeDeformation(0.0F))
-                .texOffs(698, 36).addBox(-3.0F, -44.0F, -3.0F, 6.0F, 40.0F, 6.0F, new CubeDeformation(0.0F))
+                .texOffs(698, 48).addBox(-3.0F, -44.0F, -3.0F, 6.0F, 40.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(723, 94).addBox(-4.0F, -46.0F, -4.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -60.0F, -0.0436F, 0.0F, 0.0F));
 
         PartDefinition f6head = f6.addOrReplaceChild("f6head", CubeListBuilder.create().texOffs(698, 3).addBox(-3.0F, -7.0F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -5.0F, 0.0F));
@@ -1840,8 +1840,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         this.animateWalk(OrganAnimations.organ_walk, limbSwing, limbSwingAmount, 1f, 2f);
 
-        this.animate(entity.idleAnimationState, OrganAnimations.organ_idle, ageInTicks, 1f);
-
+        if (entity.getAssembly() > 20) {
+            this.animate(entity.idleAnimationState, OrganAnimations.organ_idle, ageInTicks, 1f);
+        } else {
+            this.animate(entity.idleAnimationState, OrganAnimations.organ_assembly, ageInTicks, 1f);
+        }
         this.animate(entity.sitDownAnimationState, OrganAnimations.organ_sit_l, ageInTicks, 1.0F);
         this.animate(entity.sitPoseAnimationState, OrganAnimations.organ_stay_l, ageInTicks, 1.0F);
         this.animate(entity.sitUpAnimationState, OrganAnimations.organ_stand_l, ageInTicks, 1.0F);
@@ -1961,7 +1964,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         as7.visible = entity.getAssembly() > 103;
         b7.visible = entity.getAssembly() > 104;
 
-        stand.visible = false;
+        stand.visible = entity.getAssembly() < 21;
     }
 
     @Override

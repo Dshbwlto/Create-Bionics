@@ -1,6 +1,5 @@
 package net.dshbwlto.createbionics.entity.custom;
 
-import net.dshbwlto.createbionics.entity.ai.AnimalFollowOwnerGoal;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganGlow;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
@@ -12,6 +11,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
@@ -22,6 +22,7 @@ import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -30,7 +31,7 @@ import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
 
-public class OrganEntity extends TamableAnimal {
+public class OrganEntity extends AbstractRobot {
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
 
@@ -42,19 +43,10 @@ public class OrganEntity extends TamableAnimal {
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
 
-    public static final EntityDataAccessor<Long> LAST_POSE_CHANGE_TICK =
-            SynchedEntityData.defineId(OrganEntity.class, EntityDataSerializers.LONG);
-
     public static final EntityDataAccessor<Integer> GLOW_COLOR =
             SynchedEntityData.defineId(OrganEntity.class, EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Integer> VARIANT =
-            SynchedEntityData.defineId(OrganEntity.class, EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Integer> COMMAND =
-            SynchedEntityData.defineId(OrganEntity.class, EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Integer> ASSEMBLY =
-            SynchedEntityData.defineId(OrganEntity.class, EntityDataSerializers.INT);
 
-    public OrganEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
+    public OrganEntity(EntityType<? extends AbstractRobot> entityType, Level level) {
         super(entityType, level);
     }
 
@@ -69,13 +61,18 @@ public class OrganEntity extends TamableAnimal {
     public void registerGoals() {
         this.goalSelector.addGoal(0, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(3, new AnimalFollowOwnerGoal(this, 1d, 20f, 10f, false) {
+        this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 1d, 20f, 10f) {
             @Override
-            public boolean shouldFollow() {
-                return getCommand() == 0;
+            public boolean canUse() {
+                return super.canUse() && getCommand() == 0;
             }
         });
-        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D, 50));
+        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D, 50) {
+            @Override
+            public boolean canUse() {
+                return super.canUse() && getAssembly() >= 20 && isTame();
+            }
+        });
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
     }
@@ -128,61 +125,8 @@ public class OrganEntity extends TamableAnimal {
         } else {
             this.sitDownAnimationState.stop();
             this.sitPoseAnimationState.stop();
-            this.sitUpAnimationState.animateWhen(this.inPoseTransition() && this.getPoseTime() >= 0L, this.tickCount);
+            this.sitUpAnimationState.animateWhen(this.isInPoseTransition() && this.getPoseTime() >= 0L, this.tickCount);
         }
-    }
-
-    public boolean inPoseTransition() {
-        long i = this.getPoseTime();
-        return i < (long) (this.isSitting() ? 50 : 52);
-    }
-
-    public void resetLastPoseChangeTick(long lastPoseChangeTick) {
-        this.entityData.set(LAST_POSE_CHANGE_TICK, lastPoseChangeTick);
-    }
-
-    public void resetLastPoseChangeTickToFullStand(long lastPoseChangeTick) {
-        this.resetLastPoseChangeTick(Math.max(0L, lastPoseChangeTick - 52L - 1L));
-    }
-
-    public long getPoseTime() {
-        return this.level().getGameTime() - Math.abs(this.entityData.get(LAST_POSE_CHANGE_TICK));
-    }
-
-    /* SITTING */
-
-    public boolean isVisuallySitting() {
-        return this.getPoseTime() < 0L != this.isSitting();
-    }
-
-    private boolean isVisuallySittingDown() {
-        return this.isSitting() && this.getPoseTime() < 40L && this.getPoseTime() >= 0L;
-    }
-
-    public boolean isSitting() {
-        return this.entityData.get(LAST_POSE_CHANGE_TICK) < 0L;
-    }
-
-    //player.displayClientMessage(Component.translatable("entity.createbionics.message.organ_follow"), true);
-
-    public void sitDown(Player player) {
-        if (!this.isSitting()) {
-            this.setPose(Pose.SITTING);
-            this.gameEvent(GameEvent.ENTITY_ACTION);
-            this.resetLastPoseChangeTick(-this.level().getGameTime());
-        }
-        setOrderedToSit(true);
-        setInSittingPose(true);
-    }
-
-    public void standUp(Player player) {
-        if (this.isSitting()) {
-            this.setPose(Pose.STANDING);
-            this.gameEvent(GameEvent.ENTITY_ACTION);
-            this.resetLastPoseChangeTick(this.level().getGameTime());
-        }
-        setOrderedToSit(false);
-        setInSittingPose(false);
     }
 
     @Override
@@ -237,35 +181,19 @@ public class OrganEntity extends TamableAnimal {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(LAST_POSE_CHANGE_TICK, 0L);
         builder.define(GLOW_COLOR, 0);
-        builder.define(VARIANT, 0);
-        builder.define(COMMAND, 0);
-        builder.define(ASSEMBLY, 0);
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putLong("LastPoseTick", this.entityData.get(LAST_POSE_CHANGE_TICK));
         compound.putInt("Glow_Color", this.entityData.get(GLOW_COLOR));
-        compound.putInt("Variant", this.entityData.get(VARIANT));
-        compound.putInt("Command", this.entityData.get(COMMAND));
-        compound.putInt("Assembly", this.entityData.get(ASSEMBLY));
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        long i = compound.getLong("LastPoseTick");
-        if (i < 0L) {
-            this.setPose(Pose.SITTING);
-        }
-        this.resetLastPoseChangeTick(i);
         entityData.set(GLOW_COLOR, compound.getInt("Glow_Color"));
-        entityData.set(VARIANT, compound.getInt("Variant"));
-        entityData.set(COMMAND, compound.getInt("Command"));
-        entityData.set(ASSEMBLY, compound.getInt("Assembly"));
     }
 
     /* INTERACT */
@@ -276,65 +204,76 @@ public class OrganEntity extends TamableAnimal {
 
         /* TAME */
         if (!isTame()) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                if (!EventHooks.onAnimalTame(this, player)) {
-                    super.tame(player);
-                    this.navigation.recomputePath();
-                    this.setTarget(null);
-                    this.level().broadcastEntityEvent(this, (byte) 7);
-                }
-                return InteractionResult.SUCCESS;
-            }
-        } else {
-            if (isOwnedBy(player)) {
-                if (itemStack.is(Items.COPPER_INGOT)
-                        || itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy")))
-                        || itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:brass_ingot")))
-                        || itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:sturdy_sheet")))) {
-                    dropIngot(getVariant());
-                    setTypeVariant(itemStack);
-                    if (level().isClientSide) {
-                        return InteractionResult.SUCCESS;
-                    } else {
-                        itemStack.shrink(1);
-                    }
-
-                } else if (itemStack.is(Items.REDSTONE) || itemStack.is(Items.REDSTONE_BLOCK) || itemStack.is(Items.BRUSH)) {
-                    dropRedstone(getGlow());
-                    setTypeGlow(itemStack);
-                    if (level().isClientSide) {
-                        return InteractionResult.SUCCESS;
-                    } else if (!itemStack.is(Items.BRUSH)) {
-                        itemStack.shrink(1);
-                    }
-
-                } else if (itemStack.is(BionicsItems.ROBOT_BUILDER) && getAssembly() < 105) {
-                    setAssembly(getAssembly() + 1);
-                    player.displayClientMessage(Component.translatable("entity.createbionics.all.command_" + getAssembly()), true);
-                    return InteractionResult.SUCCESS;
-
-                } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:wrench"))) && getAssembly() > 0) {
-                    setAssembly(getAssembly() - 1);
-                    player.displayClientMessage(Component.translatable("entity.createbionics.all.command_" + getAssembly()), true);
-                    return InteractionResult.SUCCESS;
-
+            if (getAssembly() > 20) {
+                if (this.level().isClientSide()) {
+                    return InteractionResult.CONSUME;
                 } else {
-                    this.setCommand(this.getCommand() + 1);
-                    if (this.getCommand() > 2) {
-                        this.setCommand(0);
-                    }
-                    player.displayClientMessage(Component.translatable("entity.createbionics.all.command_" + this.getCommand(), this.getName()), true);
-                    boolean sit = this.getCommand() == 2;
-                    if (sit) {
-                        sitDown(player);
-                    } else {
-                        standUp(player);
+                    if (!EventHooks.onAnimalTame(this, player)) {
+                        super.tame(player);
+                        this.navigation.recomputePath();
+                        this.setTarget(null);
+                        this.level().broadcastEntityEvent(this, (byte) 7);
                     }
                     return InteractionResult.SUCCESS;
                 }
             }
+            super.mobInteract(player, hand);
+        }
+        if ((itemStack.is(Items.COPPER_INGOT)
+                || itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy")))
+                || itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:brass_ingot")))
+                || itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:sturdy_sheet"))))
+                && isOwnedBy(player)) {
+            dropIngot(getVariant());
+            setTypeVariant(itemStack);
+            if (level().isClientSide) {
+                return InteractionResult.SUCCESS;
+            } else {
+                itemStack.shrink(1);
+            }
+
+        } else if (itemStack.is(Items.REDSTONE) || itemStack.is(Items.REDSTONE_BLOCK) || itemStack.is(Items.BRUSH)) {
+            dropRedstone(getGlow());
+            setTypeGlow(itemStack);
+            if (level().isClientSide) {
+                return InteractionResult.SUCCESS;
+            } else if (!itemStack.is(Items.BRUSH)) {
+                itemStack.shrink(1);
+            }
+
+        } else if ((itemStack.is(BionicsItems.ROBOT_BUILDER) || (itemStack.is(getPart()))) && getAssembly() < 105) {
+            setAssembly(getAssembly() + 1);
+            if (!itemStack.is(BionicsItems.ROBOT_BUILDER.get())) {
+                itemStack.shrink(1);
+            }
+            if (getAssembly() <= 21) {
+                playSound(SoundEvents.NETHERITE_BLOCK_PLACE);
+            } else {
+                playSound(SoundEvents.NETHERITE_BLOCK_PLACE, 1, (float) getAssembly() / 50);
+            }
+            player.displayClientMessage(Component.translatable("entity.createbionics.all.assembly", getPart().getDescription().getString()), true);
+            return InteractionResult.SUCCESS;
+
+        } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:wrench"))) && (isOwnedBy(player) || getAssembly() < 21)) {
+            if (getAssembly() > 0) {
+                setAssembly(getAssembly() - 1);
+                spawnAtLocation(new ItemStack(getPart()));
+                if (getAssembly() <= 21) {
+                    playSound(SoundEvents.NETHERITE_BLOCK_PLACE);
+                } else {
+                    playSound(SoundEvents.NETHERITE_BLOCK_PLACE, 1, (float) getAssembly() / 50);
+                }
+            } else {
+                spawnAtLocation(new ItemStack(BionicsItems.ORGAN_MIDDLE.get()));
+                remove(RemovalReason.DISCARDED);
+            }
+            return InteractionResult.SUCCESS;
+
+        } else {
+            if (getAssembly() >= 20 && isOwnedBy(player)) {
+                updateCommand(player);
+            }
+            return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);
     }
@@ -351,8 +290,8 @@ public class OrganEntity extends TamableAnimal {
                 && getVariant() != OrganVariant.ANDESITE) {
             setVariant(OrganVariant.ANDESITE);
         } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:brass_ingot")))
-                && getVariant() != OrganVariant.DEFAULT) {
-            setVariant(OrganVariant.DEFAULT);
+                && getVariant() != OrganVariant.BRASS) {
+            setVariant(OrganVariant.BRASS);
         } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:sturdy_sheet")))
                 && getVariant() != OrganVariant.STURDY_SHEET) {
             setVariant(OrganVariant.STURDY_SHEET);
@@ -368,7 +307,7 @@ public class OrganEntity extends TamableAnimal {
         }
     }
     private void dropIngot(OrganVariant variant) {
-        if (getVariant() == OrganVariant.DEFAULT) {
+        if (getVariant() == OrganVariant.BRASS) {
             spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:brass_ingot"))));
         } else if (getVariant() == OrganVariant.COPPER) {
             spawnAtLocation(new ItemStack(Items.COPPER_INGOT));
@@ -385,12 +324,11 @@ public class OrganEntity extends TamableAnimal {
             spawnAtLocation(new ItemStack(Items.REDSTONE_BLOCK));
         }
     }
-
     public int getGlowColor() {
         return this.entityData.get(GLOW_COLOR);
     }
     public int getTypeVariant() {
-        return this.entityData.get(VARIANT);
+        return entityData.get(VARIANT);
     }
     public OrganGlow getGlow() {
         return OrganGlow.byId(this.getGlowColor() & 255);
@@ -405,17 +343,6 @@ public class OrganEntity extends TamableAnimal {
         this.entityData.set(VARIANT, variant.getId() & 255);
     }
 
-    /*COMMAND*/
-
-    public int getCommand() {
-        return this.entityData.get(COMMAND);
-    }
-
-    public void setCommand(int command) {
-        this.entityData.set(COMMAND, command);
-    }
-
-
     /* STEAM */
 
     public int sustain = 0;
@@ -428,12 +355,38 @@ public class OrganEntity extends TamableAnimal {
 
     /* ASSEMBLY */
 
-    public int getAssembly() {
-        return this.entityData.get(ASSEMBLY);
+    private Item getPart () {
+        if (getAssembly() == 0 || getAssembly() == 1) {
+            return (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:railway_casing")));
+        } else if (getAssembly() == 2 || getAssembly() == 3) {
+            return (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:metal_girder")));
+        } else if (getAssembly() == 4 || getAssembly() == 5) {
+            return BionicsItems.ORGAN_FOOT.get();
+        } else if (getAssembly() == 6) {
+            return BionicsItems.ORGAN_TAIL_BASE.get();
+        } else if (getAssembly() == 7) {
+            return BionicsItems.ORGAN_TAIL_END.get();
+        } else if (getAssembly() == 8) {
+            return BionicsItems.ORGAN_CHEST.get();
+        } else if (getAssembly() == 9 ||
+                getAssembly() == 10 ||
+                getAssembly() == 11 ||
+                getAssembly() == 12 ||
+                getAssembly() == 13 ||
+                getAssembly() == 14 ||
+                getAssembly() == 15 ||
+                getAssembly() == 16) {
+            return BionicsItems.ORGAN_PISTON.get();
+        } else if (getAssembly() == 17 || getAssembly() == 18) {
+            return BionicsItems.ORGAN_BELLOWS.get();
+        } else if (getAssembly() == 19) {
+            return BionicsItems.ORGAN_NECK.get();
+        } else if (getAssembly() == 20) {
+            return BionicsItems.ORGAN_HEAD.get();
+        } else {
+            return (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:steam_whistle")));
+        }
     }
 
-    public void setAssembly(int assembly) {
-        this.entityData.set(ASSEMBLY, assembly);
-    }
 
 }

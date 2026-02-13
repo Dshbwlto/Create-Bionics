@@ -1,18 +1,15 @@
 package net.dshbwlto.createbionics.entity.custom;
 
-import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.client.stalker.StalkerVariant;
-import net.dshbwlto.createbionics.screen.custom.StalkerMenu;
-import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -20,18 +17,16 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.*;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
 
-public class StalkerEntity extends TamableAnimal implements ContainerListener, HasCustomInventoryScreen {
+public class StalkerEntity extends AbstractRobot {
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
     private static final float MOVEMENT_SPEED_WHEN_FIGHTING = 10F;
@@ -39,13 +34,6 @@ public class StalkerEntity extends TamableAnimal implements ContainerListener, H
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
-
-    private static final EntityDataAccessor<Integer> VARIANT =
-            SynchedEntityData.defineId(StalkerEntity.class, EntityDataSerializers.INT);
-
-    private static final EntityDataAccessor<Long> LAST_POSE_CHANGE_TICK =
-            SynchedEntityData.defineId(StalkerEntity.class, EntityDataSerializers.LONG);
-
     private static final EntityDataAccessor<Integer> PAGE_NUMBER =
             SynchedEntityData.defineId(StalkerEntity.class, EntityDataSerializers.INT);
 
@@ -55,13 +43,8 @@ public class StalkerEntity extends TamableAnimal implements ContainerListener, H
         return entityData.get(PAGE_NUMBER);
     }
 
-
-    private final int TIER_1_CHEST_SLOT = 2;
-    private final int TIER_2_CHEST_SLOT = 3;
-    private final int TIER_3_CHEST_SLOT = 4;
-    public StalkerEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
+    public StalkerEntity(EntityType<? extends AbstractRobot> entityType, Level level) {
         super(entityType, level);
-        this.createInventory();
     }
 
     @Override
@@ -69,9 +52,15 @@ public class StalkerEntity extends TamableAnimal implements ContainerListener, H
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(2, new FloatGoal(this));
 
-        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, (double)2.0F, true));
+        this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.5F));
+        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, (double)2.0F, true));
 
-        this.goalSelector.addGoal(5, new FollowOwnerGoal(this, 1d, 10f, 5f));
+        this.goalSelector.addGoal(5, new FollowOwnerGoal(this, 1d, 10f, 5f) {
+            @Override
+            public boolean canUse() {
+                return super.canUse() && getCommand() == 0;
+            }
+        });
 
         this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 4f));
@@ -150,65 +139,6 @@ public class StalkerEntity extends TamableAnimal implements ContainerListener, H
         return livingEntity != null && this.distanceToSqr(this.getOwner()) >= 300 && !this.isAggressive();
     }
 
-    public boolean isInPoseTransition() {
-        long i = this.getPoseTime();
-        return i < (long) (this.isSitting() ? 40 : 52);
-    }
-
-    public boolean isVisuallySitting() {
-        return this.getPoseTime() < 0L != this.isSitting();
-    }
-
-    private boolean isVisuallySittingDown() {
-        return this.isSitting() && this.getPoseTime() < 40L && this.getPoseTime() >= 0L;
-    }
-
-    public void resetLastPoseChangeTick(long pLastPoseChangeTick) {
-        this.entityData.set(LAST_POSE_CHANGE_TICK, pLastPoseChangeTick);
-    }
-
-    public long getPoseTime() {
-        return this.level().getGameTime() - Math.abs(this.entityData.get(LAST_POSE_CHANGE_TICK));
-    }
-
-    private void resetLastPoseChangeTickToFullStand(long pLastPoseChangedTick) {
-        this.resetLastPoseChangeTick(Math.max(0L, pLastPoseChangedTick - 52L - 1L));
-    }
-
-    public boolean isSitting() {
-        return this.entityData.get(LAST_POSE_CHANGE_TICK) < 0L;
-    }
-
-    public void toggleSitting() {
-        if (this.isSitting()) {
-            standUp();
-        } else {
-            sitDown();
-        }
-    }
-
-    public void sitDown() {
-        if (!this.isSitting()) {
-            this.setPose(Pose.SITTING);
-            this.gameEvent(GameEvent.ENTITY_ACTION);
-            this.resetLastPoseChangeTick(-this.level().getGameTime());
-        }
-
-        setOrderedToSit(true);
-        setInSittingPose(true);
-    }
-
-    public void standUp() {
-        if (this.isSitting()) {
-            this.setPose(Pose.STANDING);
-            this.gameEvent(GameEvent.ENTITY_ACTION);
-            this.resetLastPoseChangeTick(this.level().getGameTime());
-        }
-
-        setOrderedToSit(false);
-        setInSittingPose(false);
-    }
-
     @Override
     public void tick() {
         super.tick();
@@ -221,9 +151,6 @@ public class StalkerEntity extends TamableAnimal implements ContainerListener, H
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(LAST_POSE_CHANGE_TICK, 0L);
-        builder.define(VARIANT, 1);
-
         builder.define(PAGE_NUMBER, 1);
     }
 
@@ -231,55 +158,23 @@ public class StalkerEntity extends TamableAnimal implements ContainerListener, H
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putLong("LastPoseTick", this.entityData.get(LAST_POSE_CHANGE_TICK));
-        ListTag listtag = new ListTag();
-        for (int x = 0; x < this.inventory.getContainerSize(); x++) {
-            ItemStack itemstack = this.inventory.getItem(x);
-            if (!itemstack.isEmpty()) {
-                CompoundTag compoundtag = new CompoundTag();
-                compoundtag.putByte("Slot", (byte)(x));
-                listtag.add(itemstack.save(this.registryAccess(), compoundtag));
-            }
-        }
-        compound.put("Items", listtag);
+
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        long i = compound.getLong("LastPoseTick");
-        if (i < 0L) {
-            this.setPose(Pose.SITTING);
-        }
-        this.resetLastPoseChangeTick(i);
 
-        this.createInventory();
-        ListTag listtag = compound.getList("Items", 10);
-
-        for (int x = 0; x < listtag.size(); x++) {
-            CompoundTag compoundtag = listtag.getCompound(x);
-            int j = compoundtag.getByte("Slot") & 255;
-            if (j < this.inventory.getContainerSize()) {
-                this.inventory.setItem(j, ItemStack.parse(this.registryAccess(), compoundtag).orElse(ItemStack.EMPTY));
-            }
-        }
     }
 
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         Item item = itemstack.getItem();
-        if (isTame()) {
-
-        }
         if (!isTame()) {
             if (this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
-                if (!player.getAbilities().instabuild) {
-                    itemstack.shrink(1);
-                }
-
                 if (!EventHooks.onAnimalTame(this, player)) {
                     super.tame(player);
                     this.navigation.recomputePath();
@@ -290,85 +185,52 @@ public class StalkerEntity extends TamableAnimal implements ContainerListener, H
                 return InteractionResult.SUCCESS;
             }
         }
-        if(isTame() && hand == InteractionHand.MAIN_HAND && !player.isShiftKeyDown()) {
-            toggleSitting();
-            return InteractionResult.SUCCESS;
-        }
-        if(isTame() && hand == InteractionHand.MAIN_HAND && player.isShiftKeyDown()) {
-            openCustomInventoryScreen(player);
+        if (itemstack.is(Items.COPPER_INGOT)
+                || itemstack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy")))
+                || itemstack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:brass_ingot")))) {
+            setTypeVariant(itemstack);
+            dropIngot(getVariant());
+            if (level().isClientSide) {
+                return InteractionResult.SUCCESS;
+            } else {
+                itemstack.shrink(1);
+            }
+        } else if (hand == InteractionHand.MAIN_HAND && !player.isShiftKeyDown()) {
+            updateCommand(player);
             return InteractionResult.SUCCESS;
         }
 
         return super.mobInteract(player, hand);
     }
 
-    /* VARIANT*/
-
-    private void setTypeVariant(int typeVariant) {
-        this.entityData.set(VARIANT, typeVariant);
+    //VARIANT
+    private void setTypeVariant(ItemStack itemStack) {
+        if (itemStack.getItem() == Items.COPPER_INGOT && getVariant() != StalkerVariant.COPPER) {
+            setVariant(StalkerVariant.COPPER);
+        } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy")))
+                && getVariant() != StalkerVariant.ANDESITE) {
+            setVariant(StalkerVariant.ANDESITE);
+        } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:brass_ingot")))
+                && getVariant() != StalkerVariant.BRASS) {
+            setVariant(StalkerVariant.BRASS);
+        }
     }
-
-    private int getTypeVariant() {
-        return this.entityData.get(VARIANT);
+    private void dropIngot(StalkerVariant variant) {
+        if (getVariant() == StalkerVariant.BRASS) {
+            spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:brass_ingot"))));
+        } else if (getVariant() == StalkerVariant.COPPER) {
+            spawnAtLocation(new ItemStack(Items.COPPER_INGOT));
+        } else if (getVariant() == StalkerVariant.ANDESITE) {
+            spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy"))));
+        }
     }
-
     public StalkerVariant getVariant() {
         return StalkerVariant.byId(this.getTypeVariant() & 255);
     }
-
+    public int getTypeVariant() {
+        return entityData.get(VARIANT);
+    }
     public void setVariant(StalkerVariant variant) {
         this.entityData.set(VARIANT, variant.getId() & 255);
-    }
-
-    //VARIANT//
-
-    @Override
-    public void openCustomInventoryScreen(Player player) {
-        if (!this.level().isClientSide && (!this.isVehicle() || this.hasPassenger(player)) && this.isTame()) {
-            ServerPlayer serverPlayer = (ServerPlayer) player;
-            if (player.containerMenu != player.inventoryMenu) {
-                player.closeContainer();
-            }
-
-            serverPlayer.openMenu(new SimpleMenuProvider((ix, playerInventory, playerEntityx) ->
-                    new StalkerMenu(ix, playerInventory, this.inventory, this, 4, player), this.getDisplayName()), buf -> {
-                buf.writeUUID(getUUID());
-            });
-        }
-    }
-
-    protected void createInventory() {
-        SimpleContainer simplecontainer = this.inventory;
-        this.inventory = new SimpleContainer(this.getInventorySize());
-        if (simplecontainer != null) {
-            simplecontainer.removeListener(this);
-            int i = Math.min(simplecontainer.getContainerSize(), this.inventory.getContainerSize());
-
-            for (int j = 0; j < i; j++) {
-                ItemStack itemstack = simplecontainer.getItem(j);
-                if (!itemstack.isEmpty()) {
-                    this.inventory.setItem(j, itemstack.copy());
-                }
-            }
-        }
-
-        this.inventory.addListener(this);
-    }
-
-    public final int getInventorySize() {
-        return getInventorySize(4);
-    }
-
-    public static int getInventorySize(int columns) {
-        return columns * 3 + 5;
-    }
-
-    public boolean hasInventoryChanged(Container inventory) {
-        return this.inventory != inventory;
-    }
-
-    @Override
-    public void containerChanged(Container container) {
-
     }
 }

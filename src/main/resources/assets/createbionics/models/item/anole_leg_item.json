@@ -1,0 +1,53 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Dshbwlto",
+	"texture_size": [128, 128],
+	"textures": {
+		"1": "createbionics:item/entity/anole_items",
+		"particle": "createbionics:item/entity/anole_items"
+	},
+	"elements": [
+		{
+			"from": [6.5, 7.25, 7],
+			"to": [9.5, 8.25, 8],
+			"rotation": {"angle": 0, "axis": "y", "origin": [9.5, 7.75, 7.5]},
+			"faces": {
+				"north": {"uv": [3.625, 0.5, 4, 0.625], "texture": "#1"},
+				"east": {"uv": [3.5, 0.5, 3.625, 0.625], "texture": "#1"},
+				"south": {"uv": [4.125, 0.5, 4.5, 0.625], "texture": "#1"},
+				"west": {"uv": [4, 0.5, 4.125, 0.625], "texture": "#1"},
+				"up": {"uv": [4, 0.5, 3.625, 0.375], "texture": "#1"},
+				"down": {"uv": [4.375, 0.375, 4, 0.5], "texture": "#1"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, 0, 90],
+			"scale": [2, 2, 2]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, 0, 90],
+			"scale": [2, 2, 2]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, -90, 0],
+			"scale": [2, 2, 2]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 90, 0],
+			"scale": [2, 2, 2]
+		},
+		"ground": {
+			"translation": [0, -3, 0]
+		},
+		"gui": {
+			"rotation": [30, 135, 0],
+			"translation": [1, -0.25, 0],
+			"scale": [1.5, 1.5, 1.5]
+		},
+		"fixed": {
+			"scale": [3, 3, 3]
+		}
+	}
+}

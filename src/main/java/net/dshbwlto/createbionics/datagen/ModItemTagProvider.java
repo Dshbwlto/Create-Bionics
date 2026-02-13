@@ -23,16 +23,6 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        tag(BionicsTags.Items.MOLD_ITEMS)
-                .add(BionicsItems.MOLTEN_ANDESITE_ALLOY_CRUCIBLE.get())
-                .add(BionicsItems.MOLTEN_INDUSTRIAL_IRON_CRUCIBLE.get())
-                .add(BionicsItems.MOLTEN_BRASS_CRUCIBLE.get())
-                .add(BionicsItems.MOLTEN_INDUSTRIAL_IRON_CRUCIBLE.get())
-                .add(Items.BRUSH);
-        tag(BionicsTags.Items.BRASS_INGOT)
-               .add(Items.GOLD_INGOT);
-        tag(BionicsTags.Items.WRENCH)
-               .add(Items.GOLD_INGOT);
         tag(BionicsTags.Items.ANDESITE_ALLOY_SINGLE)
                .add(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy")))
                .add(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:wrench")))

@@ -22,7 +22,7 @@ public class OxhaulerGlowLayer extends RenderLayer<OxhaulerEntity, OxhaulerModel
     }
     @Override
     public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, OxhaulerEntity livingEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (livingEntity.isFueled()) {
+        if (livingEntity.getFuel() > 0) {
             this.getParentModel().copyPropertiesTo(this.model);
             this.model.prepareMobModel(livingEntity, limbSwing, limbSwingAmount, partialTicks);
             this.model.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);

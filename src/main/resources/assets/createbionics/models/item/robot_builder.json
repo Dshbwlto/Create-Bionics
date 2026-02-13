@@ -3,7 +3,7 @@
   "parent": "block/block",
   "textures": {
     "5": "createbionics:item/robot_builder",
-    "particle": "create:item/wrench"
+    "particle": "createbionics:item/robot_builder"
   },
   "elements": [
     {

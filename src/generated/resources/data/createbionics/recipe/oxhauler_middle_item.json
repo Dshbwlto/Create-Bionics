@@ -9,10 +9,10 @@
       "item": "minecraft:chest"
     },
     "D": {
-      "item": "createbionics:oxhauler_grate"
+      "item": "create:industrial_iron_block"
     },
     "F": {
-      "item": "createbionics:oxhauler_furnace"
+      "item": "minecraft:blast_furnace"
     },
     "G": {
       "item": "create:brass_block"

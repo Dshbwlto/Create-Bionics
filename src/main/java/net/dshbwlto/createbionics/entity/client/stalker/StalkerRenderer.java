@@ -18,20 +18,13 @@ import java.util.Map;
 public class StalkerRenderer extends MobRenderer<StalkerEntity, StalkerModel<StalkerEntity>> {
     private static final Map<StalkerVariant, ResourceLocation> LOCATION_BY_VARIANT =
             Util.make(Maps.newEnumMap(StalkerVariant.class), map -> {
-                map.put(StalkerVariant.DEFAULT,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/stalker/stalker.png"));
                 map.put(StalkerVariant.COPPER,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/stalker/stalker_copper.png"));
-                map.put(StalkerVariant.NETHERITE1_COPPER,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/stalker/stalker_netherite1_copper.png"));
-                map.put(StalkerVariant.NETHERITE1,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/stalker/stalkere_netherite1.png"));
-                map.put(StalkerVariant.NETHERITE2,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/stalker/stalker_netherite2.png"));
-                map.put(StalkerVariant.NETHERITE3,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/stalker/stalker_netherite3.png"));
-
-    });
+                map.put(StalkerVariant.BRASS,
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/stalker/stalker_brass.png"));
+                map.put(StalkerVariant.ANDESITE,
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/stalker/stalker_andesite.png"));
+            });
 
     public StalkerRenderer(EntityRendererProvider.Context context) {
         super (context, new StalkerModel<>(context.bakeLayer(BionicsModelLayers.STALKER)), 0.75f);

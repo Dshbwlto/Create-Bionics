@@ -23,7 +23,6 @@ public class BionicsCreativeModeTabs {
                         //Spawners
                         output.accept(BionicsItems.ROBOT_BUILDER);
                         output.accept(BionicsItems.ANOLE);
-                        output.accept(BionicsItems.OXHAULER_MIDDLE);
                         output.accept(BionicsItems.REPLETE_BODY);
                         //Anole Items
                         output.accept(BionicsItems.ANOLE_BODY);
@@ -31,20 +30,20 @@ public class BionicsCreativeModeTabs {
                         output.accept(BionicsItems.ANOLE_TAIL);
                         output.accept(BionicsItems.ANOLE_LEG);
                         //Oxhauler Items
-                        output.accept(BionicsItems.OXHAULER_HEAD);
-                        output.accept(BionicsItems.OXHAULER_FRONT);
                         output.accept(BionicsItems.OXHAULER_MIDDLE);
                         output.accept(BionicsItems.OXHAULER_REAR);
-                        output.accept(BionicsItems.OXHAULER_ENGINE);
+                        output.accept(BionicsItems.OXHAULER_FRONT);
                         output.accept(BionicsItems.OXHAULER_LEG);
+                        output.accept(BionicsItems.OXHAULER_HEAD);
+                        output.accept(BionicsItems.OXHAULER_ENGINE);
                         //Replete Items
                         output.accept(BionicsItems.REPLETE_BODY);
                         output.accept(BionicsItems.REPLETE_LEG);
                         //Stalker Items
-                        output.accept(BionicsItems.STALKER_ANTENNA);
                         output.accept(BionicsItems.STALKER_BODY);
                         output.accept(BionicsItems.STALKER_LEG);
                         output.accept(BionicsItems.STALKER_TAIL);
+                        output.accept(BionicsItems.STALKER_ANTENNA);
                         output.accept(BionicsItems.STALKER_HEAD);
                         //Organ Items
                         output.accept(BionicsItems.ORGAN_MIDDLE);
@@ -59,31 +58,7 @@ public class BionicsCreativeModeTabs {
                         output.accept(BionicsItems.ORGAN_HEAD);
                         //Crafting Items
                         output.accept(BionicsItems.I2_COAL_ENGINE);
-                        output.accept(BionicsItems.WAX_INGOT);
-                        output.accept(BionicsBlocks.WAX_BLOCK);
-                        output.accept(BionicsBlocks.SCRAP_ANDESITE);
-                        output.accept(BionicsBlocks.SCRAP_BRASS);
-                        output.accept(BionicsBlocks.SCRAP_INDUSTRIAL_IRON);
-                        output.accept(BionicsBlocks.SCRAP_NETHERITE);
-                        output.accept(BionicsItems.MOLTEN_ANDESITE_ALLOY_CRUCIBLE);
-                        output.accept(BionicsItems.MOLTEN_INDUSTRIAL_IRON_CRUCIBLE);
-                        output.accept(BionicsItems.MOLTEN_BRASS_CRUCIBLE);
-                        output.accept(BionicsItems.MOLTEN_NETHERITE_CRUCIBLE);
-                        output.accept(BionicsItems.NETHER_BRICK_CRUCIBLE);
-                        //Metal Parts
-                        output.accept(BionicsBlocks.OXHAULER_HEAD);
-                        output.accept(BionicsBlocks.OXHAULER_FRONT);
-                        output.accept(BionicsBlocks.OXHAULER_REAR);
-                        output.accept(BionicsBlocks.OXHAULER_FURNACE);
-                        output.accept(BionicsBlocks.OXHAULER_GRATE);
-                        output.accept(BionicsBlocks.OXHAULER_ENGINE);
-                        //Wax Parts
-                        output.accept(BionicsBlocks.OXHAULER_HEAD_WAX);
-                        output.accept(BionicsBlocks.OXHAULER_FRONT_WAX);
-                        output.accept(BionicsBlocks.OXHAULER_REAR_WAX);
-                        output.accept(BionicsBlocks.OXHAULER_FURNACE_WAX);
-                        output.accept(BionicsBlocks.OXHAULER_GRATE_WAX);
-                        output.accept(BionicsBlocks.OXHAULER_ENGINE_WAX);
+
                         //Music
                         output.accept(BionicsItems.VITTICEPS_MUSIC_DISC);
                     }).build());

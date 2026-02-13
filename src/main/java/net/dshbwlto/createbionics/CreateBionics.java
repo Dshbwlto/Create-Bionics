@@ -11,7 +11,7 @@ import net.dshbwlto.createbionics.entity.client.stalker.StalkerRenderer;
 import net.dshbwlto.createbionics.item.BionicsCreativeModeTabs;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.screen.BionicsMenuTypes;
-import net.dshbwlto.createbionics.screen.custom.StalkerScreen;
+import net.dshbwlto.createbionics.screen.custom.OxhaulerScreen;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -123,7 +123,7 @@ public class CreateBionics {
 
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {
-            event.register(BionicsMenuTypes.STALKER_MENU.get(), StalkerScreen::new);
+            event.register(BionicsMenuTypes.OXHAULER_MENU.get(), OxhaulerScreen::new);
         }
 
         @SubscribeEvent

@@ -4,6 +4,7 @@ import net.dshbwlto.createbionics.Util.BionicsTags;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerColor;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
+import net.dshbwlto.createbionics.screen.custom.OxhaulerMenu;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
@@ -12,6 +13,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -21,6 +23,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -34,16 +37,18 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class OxhaulerEntity extends AbstractHorse{
     public final AnimationState idleAnimationState = new AnimationState();
@@ -52,38 +57,67 @@ public class OxhaulerEntity extends AbstractHorse{
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> COLOR =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.INT);
+    public void setColor(Item item) {
+        if (item == Items.WHITE_DYE) {
+            entityData.set(COLOR, 0);
+        } else if (item == Items.LIGHT_GRAY_DYE) {
+            entityData.set(COLOR, 1);
+        } else if (item == Items.GRAY_DYE) {
+            entityData.set(COLOR, 2);
+        } else if (item == Items.BLACK_DYE) {
+            entityData.set(COLOR, 3);
+        } else if (item == Items.BROWN_DYE) {
+            entityData.set(COLOR, 4);
+        } else if (item == Items.RED_DYE) {
+            entityData.set(COLOR, 5);
+        } else if (item == Items.ORANGE_DYE) {
+            entityData.set(COLOR, 6);
+        } else if (item == Items.YELLOW_DYE) {
+            entityData.set(COLOR, 7);
+        } else if (item == Items.LIME_DYE) {
+            entityData.set(COLOR, 8);
+        } else if (item == Items.GREEN_DYE) {
+            entityData.set(COLOR, 9);
+        } else if (item == Items.CYAN_DYE) {
+            entityData.set(COLOR, 10);
+        } else if (item == Items.LIGHT_BLUE_DYE) {
+            entityData.set(COLOR, 11);
+        } else if (item == Items.BLUE_DYE) {
+            entityData.set(COLOR, 12);
+        } else if (item == Items.PURPLE_DYE) {
+            entityData.set(COLOR, 13);
+        } else if (item == Items.MAGENTA_DYE) {
+            entityData.set(COLOR, 14);
+        } else if (item == Items.PINK_DYE) {
+            entityData.set(COLOR, 15);
+        }
+    }
 
     public static final EntityDataAccessor<Long> LAST_POSE_CHANGE_TICK =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.LONG);
-    private static final EntityDataAccessor<Boolean> HAS_BACK =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> HAS_FRONT =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> HAS_NECK =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> IS_FUELED =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> FIRST_FUEL =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> SILENCED =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> DEAD =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-
     private static final EntityDataAccessor<Boolean> HARVESTER =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> PLOUGH =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
 
-    public boolean silenced() {
-        return this.entityData.get(SILENCED);
-    };
-    public boolean dead() {
-        return this.entityData.get(DEAD);
-    };
+    private static final EntityDataAccessor<Integer> FUEL =
+            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.INT);
 
+    public int getFuel() {
+        return entityData.get(FUEL);
+    }
+    public void setFuel(int fuel) {
+        entityData.set(FUEL, fuel);
+    }
 
-    public int fuelTime = 1;
+    public static final EntityDataAccessor<Integer> ASSEMBLY =
+            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.INT);
+    public int getAssembly() {
+        return this.entityData.get(ASSEMBLY);
+    }
+    public void setAssembly(int assembly) {
+        this.entityData.set(ASSEMBLY, assembly);
+    }
 
     public float lastHealth = 0;
     public float currentHealth = 0;
@@ -100,14 +134,7 @@ public class OxhaulerEntity extends AbstractHorse{
 
     public OxhaulerEntity(EntityType<? extends AbstractHorse> entityType, Level level) {
         super(entityType, level);
-    }
-
-    @Override
-    protected void registerGoals() {
-        if (isFueled()) {
-            this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, Player.class, 4f));
-            this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
-        }
+        this.createInventory();
     }
 
     @Override
@@ -121,8 +148,12 @@ public class OxhaulerEntity extends AbstractHorse{
     }
 
     @Override
+    protected void registerGoals() {
+    }
+
+    @Override
     protected @Nullable SoundEvent getAmbientSound() {
-        if (isFueled()) {
+        if (getFuel() > 0) {
             if (tickCount % 2 == 0) {
                 if (tickCount % 4 == 0) {
                     return BionicsSounds.OXHAULER_BELLOW_1.get();
@@ -148,21 +179,6 @@ public class OxhaulerEntity extends AbstractHorse{
 
     @Override
     protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
-        if (hasBack() && random.nextFloat() < 0.02) {
-            spawnAtLocation(BionicsItems.OXHAULER_REAR);
-        }
-        if (hasFront() && random.nextFloat() < 0.02) {
-            spawnAtLocation(BionicsItems.OXHAULER_FRONT);
-        }
-        if (random.nextFloat() < 0.02) {
-            spawnAtLocation(BionicsItems.OXHAULER_MIDDLE);
-        }
-        if (hasNeck() && random.nextFloat() < 0.02) {
-            spawnAtLocation(BionicsItems.OXHAULER_HEAD);
-        }
-        if (silenced()) {
-            spawnAtLocation(BionicsItems.SILENT_PISTON);
-        }
         super.dropCustomDeathLoot(level, damageSource, recentlyHit);
     }
 
@@ -188,82 +204,68 @@ public class OxhaulerEntity extends AbstractHorse{
     @Override
     public void aiStep() {
         if (this.level().isClientSide) {
-                for (int i = 0; i < 1; ++i) {
-                    if (isFueled() && !(getVariant() == OxhaulerVariant.NETHERITE2)) {
-                        if (this.isVehicle()) {
-                            Particle particle1 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.1D, 0.0D);
-                            Particle particle2 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.075D, 0.0D);
-                            Particle particle3 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
-                            Particle particle4 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
-                            Particle particle5 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
-                            Particle particle6 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
-                            Particle particle7 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
-                            if (particle1 != null) {
-                                particle1.scale(1f + random.nextFloat());
-                                particle1.setLifetime(2);
-                                particle2.scale(1f + random.nextFloat());
-                                particle2.setLifetime(2);
-                                particle3.scale(1f + random.nextFloat());
-                                particle3.setLifetime(2);
-                                particle4.scale(1f + random.nextFloat());
-                                particle4.setLifetime(2);
-                                particle5.scale(1f + random.nextFloat());
-                                particle5.setLifetime(2);
-                                particle6.scale(1f + random.nextFloat());
-                                particle6.setLifetime(2);
-                                particle7.scale(1f + random.nextFloat());
-                                particle7.setLifetime(2);
-                            }
-                        } else {
-                            this.level().addParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
-                            this.level().addParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
-                            this.level().addParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
+            for (int i = 0; i < 1; ++i) {
+                if (!(getVariant() == OxhaulerVariant.NETHERITE2) && getFuel() > 0) {
+                    if (this.isVehicle()) {
+                        Particle particle1 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.1D, 0.0D);
+                        Particle particle2 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.075D, 0.0D);
+                        Particle particle3 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
+                        Particle particle4 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
+                        Particle particle5 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
+                        Particle particle6 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
+                        Particle particle7 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
+                        if (particle1 != null) {
+                            particle1.scale(1f + random.nextFloat());
+                            particle1.setLifetime(2);
+                            particle2.scale(1f + random.nextFloat());
+                            particle2.setLifetime(2);
+                            particle3.scale(1f + random.nextFloat());
+                            particle3.setLifetime(2);
+                            particle4.scale(1f + random.nextFloat());
+                            particle4.setLifetime(2);
+                            particle5.scale(1f + random.nextFloat());
+                            particle5.setLifetime(2);
+                            particle6.scale(1f + random.nextFloat());
+                            particle6.setLifetime(2);
+                            particle7.scale(1f + random.nextFloat());
+                            particle7.setLifetime(2);
                         }
-                        this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX((double) 0.5F), this.getRandomY(), this.getRandomZ((double) 0.5F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
+                    } else {
+                        this.level().addParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
+                        this.level().addParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
+                        this.level().addParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
                     }
+                    this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX((double) 0.5F), this.getRandomY(), this.getRandomZ((double) 0.5F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
                 }
-            }
-        if (this.isVehicle() && !this.isPassenger()) {
-            if (!this.level().isClientSide && this.isAlive() && --this.fuelTime == 0) {
-                this.ejectPassengers();
-                this.setGlowingTag(true);
-                this.entityData.set(IS_FUELED, false);
             }
         }
-        if (isInWater()) {
-            if (entityData.get(IS_FUELED)) {
-                this.level().addParticle(ParticleTypes.LAVA, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
-                this.level().addParticle(ParticleTypes.LAVA, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
-                this.level().addParticle(ParticleTypes.LAVA, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
-                this.level().addParticle(ParticleTypes.LAVA, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
-                if (this.entityData.get(HARVESTER)) {
-                    this.spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_harvester"))));
-                    entityData.set(HARVESTER, false);
-                }
-                if (this.entityData.get(PLOUGH)) {
-                    this.spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_plough"))));
-                    entityData.set(PLOUGH, false);
-                }
-            }
-            this.entityData.set(IS_FUELED, false);
-            this.fuelTime = 0;
-            ejectPassengers();
-        }
-        if (isVehicle() && isPlough() && getPassengers() instanceof ServerPlayer serverPlayer) {
-            if (HARVESTED_BLOCKS.contains(getOnPos())) {
-                return;
-            }
+        if (isHarvester()) {
+            boolean flag = false;
+            AABB aabb = this.getBoundingBox().inflate(1.2);
 
-            for(BlockPos pos : getBlocksToBeDestroyed(2, getOnPos(), serverPlayer)) {
-                if (!getBlockStateOn().is(Blocks.DIRT) || !getBlockStateOn().is(Blocks.GRASS_BLOCK) || !getBlockStateOn().is(Blocks.DIRT_PATH)) {
-                    continue;
+            for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+                BlockState blockstate = this.level().getBlockState(blockpos);
+                Block block = blockstate.getBlock();
+                if (block instanceof CropBlock && ((CropBlock) block).isMaxAge(blockstate)) {
+                    flag = this.level().destroyBlock(blockpos, true, this) || flag;
+                    flag = this.level().setBlock(blockpos, block.defaultBlockState(), 1) || flag;
                 }
-
-                HARVESTED_BLOCKS.add(pos);
-                serverPlayer.gameMode.destroyBlock(pos);
-                HARVESTED_BLOCKS.remove(pos);
             }
         }
+        if (isPlough()) {
+            boolean flag = false;
+            AABB aabb = this.getBoundingBox().inflate(0.2);
+
+            for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+                BlockState blockstate = this.level().getBlockState(blockpos);
+                Block block = blockstate.getBlock();
+                if (block.equals(Blocks.DIRT) || block.equals(Blocks.GRASS_BLOCK) || block.equals(Blocks.DIRT_PATH) || block.equals(Blocks.COARSE_DIRT)) {
+                    level().setBlock(blockpos, Blocks.FARMLAND.defaultBlockState(), 11);
+                    playSound(SoundEvents.HOE_TILL);
+                }
+            }
+        }
+
         super.aiStep();
     }
 
@@ -274,26 +276,21 @@ public class OxhaulerEntity extends AbstractHorse{
     @Override
     public void tick() {
         super.tick();
+
+        if (isInWater() && getFuel() > 0 && getVariant() != OxhaulerVariant.NETHERITE2) {
+            setFuel(0);
+            playSound(SoundEvents.FIRE_EXTINGUISH);
+            ejectPassengers();
+        }
+        if (getFuel() > 0 && isVehicle()) {
+            setFuel(getFuel() - 1);
+        }
+
         if (this.level().isClientSide()) {
             this.setupAnimationStates();
-            if (tickCount % 50 == 0 && isFueled() && !this.entityData.get(SILENCED)) {
-                this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, BionicsSounds.ENGINE_IDLE.get(), this.getSoundSource(), 1F, 0.5F, false);
-            }
         }
     }
 
-    private static final Set<BlockPos> HARVESTED_BLOCKS = new HashSet<>();
-
-    public static List<BlockPos> getBlocksToBeDestroyed(int range, BlockPos initialBlockPos, ServerPlayer serverPlayer) {
-        List<BlockPos> positions = new ArrayList<>();
-
-        for(int x = -range; x <= range; x++) {
-            for(int y = -range; y <= range; y++) {
-                positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY(), initialBlockPos.getZ() + y));
-            }
-        }
-        return positions;
-    }
 
     @Override
     public boolean canUseSlot(EquipmentSlot slot) {
@@ -302,279 +299,62 @@ public class OxhaulerEntity extends AbstractHorse{
 
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
-        ItemStack itemstack = player.getItemInHand(hand);
-        Item item = itemstack.getItem();
-
-        Item itemForNetherite = Items.NETHERITE_INGOT;
-        Item itemForBrass = Items.GOLD_INGOT;
-        Item itemForCopper = Items.COPPER_INGOT;
-
-        if (itemstack.isEmpty() && isFueled() && !player.isShiftKeyDown()) {
-            doPlayerRide(player);
-        }
-        if (itemstack.isEmpty() && player.isShiftKeyDown()) {
-            this.openCustomInventoryScreen(player);
-        }
-
-        if (itemstack.isEmpty() && player.isShiftKeyDown()) {
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
-        }
-        if (item == itemForNetherite && isFueled()) {
-            if (getVariant() == OxhaulerVariant.NETHERITE1) {
-                if (this.level().isClientSide()) {
-                    return InteractionResult.CONSUME;
-                } else {
-                    if (!player.getAbilities().instabuild) {
-                        itemstack.shrink(1);
-                    }
-                    setVariant(OxhaulerVariant.NETHERITE2);
-                    makeSound(SoundEvents.SMITHING_TABLE_USE);
-                }
-            } else {
-                if (getVariant() == OxhaulerVariant.DEFAULT) {
-                    if (this.level().isClientSide()) {
-                        return InteractionResult.CONSUME;
-                    } else {
-                        if (!player.getAbilities().instabuild) {
-                            itemstack.shrink(1);
-                        }
-                        setVariant(OxhaulerVariant.NETHERITE1);
-                        makeSound(SoundEvents.SMITHING_TABLE_USE);
-                    }
-                }
-            }
-            return InteractionResult.SUCCESS;
-        }
-        if (item == itemForCopper) {
-            if (getVariant() == OxhaulerVariant.DEFAULT) {
-                if (this.level().isClientSide()) {
-                    return InteractionResult.CONSUME;
-                } else {
-                    if (!player.getAbilities().instabuild) {
-                        itemstack.shrink(1);
-                    }
-                    setVariant(OxhaulerVariant.COPPER);
-                    makeSound(SoundEvents.SMITHING_TABLE_USE);
-                }
-                return InteractionResult.SUCCESS;
-            }
-        }
-        if (itemstack.is(BionicsTags.Items.BRASS_INGOT) && this.getHealth() < this.getMaxHealth() && isFueled()) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL) && !isInWater()) {
             if (this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
-                if (!player.getAbilities().instabuild) {
-                    itemstack.shrink(1);
-                }
-                heal(10);
-                makeSound(SoundEvents.SMITHING_TABLE_USE);
-            }
-            return InteractionResult.SUCCESS;
-        }
-        if (itemstack.is(BionicsTags.Items.WRENCH) && getVariant() == OxhaulerVariant.NETHERITE1 && !player.isShiftKeyDown() && !entityData.get(HARVESTER) && !entityData.get(PLOUGH)) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.SUCCESS;
-            } else {
-                setVariant(OxhaulerVariant.DEFAULT);
-                makeSound(SoundEvents.GRINDSTONE_USE);
-                this.spawnAtLocation(new ItemStack(Items.NETHERITE_INGOT));
-            }
-        }
-        if (itemstack.is(BionicsTags.Items.WRENCH) && getVariant() == OxhaulerVariant.NETHERITE2 && !player.isShiftKeyDown() && !entityData.get(HARVESTER) && !entityData.get(PLOUGH)) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.SUCCESS;
-            } else {
-                setVariant(OxhaulerVariant.DEFAULT);
-                makeSound(SoundEvents.GRINDSTONE_USE);
-                this.spawnAtLocation(new ItemStack(Items.NETHERITE_INGOT));
-                this.spawnAtLocation(new ItemStack(Items.NETHERITE_INGOT));
-            }
-        }
-        if (itemstack.is(BionicsTags.Items.WRENCH) && getVariant() == OxhaulerVariant.COPPER && !player.isShiftKeyDown() && !entityData.get(HARVESTER) && !entityData.get(PLOUGH)) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.SUCCESS;
-            } else {
-                setVariant(OxhaulerVariant.DEFAULT);
-                makeSound(SoundEvents.GRINDSTONE_USE);
-                this.spawnAtLocation(new ItemStack(Items.COPPER_INGOT));
-            }
-        }
-        if (itemstack.is(BionicsTags.Items.WRENCH) && player.isShiftKeyDown()) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.SUCCESS;
-            } else {
-                setRemoved(RemovalReason.DISCARDED);
-                makeSound(SoundEvents.COPPER_BREAK);
-                if (!this.hasBack()) {
-                    this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_MIDDLE.get()));
-                }
-                if (this.hasBack() && !this.hasFront()) {
-                    this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_MIDDLE.get()));
-                    this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_REAR.get()));
-                }
-                if (this.hasFront() && !this.hasNeck()) {
-                    this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_MIDDLE.get()));
-                    this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_REAR.get()));
-                    this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_FRONT.get()));
-                }
-                if (this.hasNeck()) {
-                    this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_MIDDLE.get()));
-                    this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_REAR.get()));
-                    this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_FRONT.get()));
-                    this.spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_HEAD.get()));
-                }
-            }
-        }
-        if (itemstack.is(BionicsTags.Items.WRENCH) && entityData.get(HARVESTER) && !entityData.get(PLOUGH)) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.SUCCESS;
-            } else {
-                entityData.set(HARVESTER, false);
-                makeSound(SoundEvents.COPPER_BREAK);
-                this.spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_harvester"))));
-            }
-        }
-        if (itemstack.is(BionicsTags.Items.WRENCH) && entityData.get(PLOUGH) && !entityData.get(HARVESTER)) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.SUCCESS;
-            } else {
-                entityData.set(PLOUGH, false);
-                makeSound(SoundEvents.COPPER_BREAK);
-                this.spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_plough"))));
-            }
-        }
-        if (item == BionicsItems.OXHAULER_REAR.get() && !hasBack()) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                if (!player.getAbilities().instabuild) {
-                    itemstack.shrink(1);
-                }
-                this.entityData.set(HAS_BACK, true);
-                makeSound(SoundEvents.SMITHING_TABLE_USE);
-            }
-        }
-        if (item == BionicsItems.OXHAULER_FRONT.get() && hasBack() && !hasFront()) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                if (!player.getAbilities().instabuild) {
-                    itemstack.shrink(1);
-                }
-                this.entityData.set(HAS_FRONT, true);
-                makeSound(SoundEvents.SMITHING_TABLE_USE);
-            }
-        }
-        if (item == BionicsItems.OXHAULER_HEAD.get() && hasBack() && hasFront() && !hasNeck()) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                if (!player.getAbilities().instabuild) {
-                    itemstack.shrink(1);
-                }
-                this.entityData.set(HAS_NECK, true);
-                makeSound(SoundEvents.SMITHING_TABLE_USE);
-
-            }
-        }
-        if (item == BionicsItems.SILENT_PISTON.get()) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                if (!this.entityData.get(SILENCED)) {
-                    if (!player.getAbilities().instabuild) {
-                        itemstack.shrink(1);
-                    }
-                    this.entityData.set(SILENCED, true);
-                } else {
-                    if (!player.getAbilities().instabuild) {
-                        itemstack.grow(1);
-                    }
-                    this.entityData.set(SILENCED, false);
-                }
-            }
-        }
-        if ((item == Items.COAL || item == Items.CHARCOAL) && hasNeck() && !isInWater()) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                if (fuelTime == 0) {
+                if (getFuel() == 0) {
                     playSound(BionicsSounds.ENGINE_START.get());
                 }
                 if (!player.getAbilities().instabuild) {
-                    itemstack.shrink(1);
+                    itemStack.shrink(1);
                 }
-                this.entityData.set(IS_FUELED, true);
-                this.fuelTime = 100000;
+                setFuel(10000);
                 makeSound(SoundEvents.FIRECHARGE_USE);
-                if (!entityData.get(FIRST_FUEL)) {
-                    this.entityData.set(FIRST_FUEL, true);
-                }
-                this.setGlowingTag(false);
             }
-        }
-        if (item == Items.WHITE_DYE) {
-            setColor(OxhaulerColor.WHITE);
-        }
-        if (item == Items.LIGHT_GRAY_DYE) {
-            setColor(OxhaulerColor.LIGHT_GRAY);
-        }
-        if (item == Items.GRAY_DYE) {
-            setColor(OxhaulerColor.GRAY);
-        }
-        if (item == Items.BLACK_DYE) {
-            setColor(OxhaulerColor.BLACK);
-        }
-        if (item == Items.BROWN_DYE) {
-            setColor(OxhaulerColor.BROWN);
-        }
-        if (item == Items.RED_DYE) {
-            setColor(OxhaulerColor.RED);
-        }
-        if (item == Items.ORANGE_DYE) {
-            setColor(OxhaulerColor.ORANGE);
-        }
-        if (item == Items.YELLOW_DYE) {
-            setColor(OxhaulerColor.YELLOW);
-        }
-        if (item == Items.LIME_DYE) {
-            setColor(OxhaulerColor.LIME);
-        }
-        if (item == Items.GREEN_DYE) {
-            setColor(OxhaulerColor.GREEN);
-        }
-        if (item == Items.CYAN_DYE) {
-            setColor(OxhaulerColor.CYAN);
-        }
-        if (item == Items.LIGHT_BLUE_DYE) {
-            setColor(OxhaulerColor.LIGHT_BLUE);
-        }
-        if (item == Items.BLUE_DYE) {
-            setColor(OxhaulerColor.BLUE);
-        }
-        if (item == Items.MAGENTA_DYE) {
-            setColor(OxhaulerColor.MAGENTA);
-        }
-        if (item == Items.PURPLE_DYE) {
-            setColor(OxhaulerColor.PURPLE);
-        }
-        if (item == Items.PINK_DYE) {
-            setColor(OxhaulerColor.PINK);
-        }
-
-        if(itemstack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_harvester"))) && !entityData.get(PLOUGH) && isFueled()) {
+        } else if(itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_harvester"))) && !isPlough() && !isHarvester()) {
             if (this.level().isClientSide) {
                 return InteractionResult.CONSUME;
             }
-            itemstack.shrink(1);
+            itemStack.shrink(1);
             this.entityData.set(HARVESTER, true);
-        }
-        if(itemstack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_plough"))) && !entityData.get(HARVESTER) && isFueled()) {
+        } else if(itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_plough"))) && !isPlough() && !isHarvester()) {
             if (this.level().isClientSide) {
                 return InteractionResult.CONSUME;
             }
-            itemstack.shrink(1);
+            itemStack.shrink(1);
             this.entityData.set(PLOUGH, true);
+        } else if ((itemStack.is(BionicsItems.ROBOT_BUILDER) || itemStack.is(getPart())) && getAssembly() < 7) {
+            setAssembly(getAssembly() + 1);
+            if (!itemStack.is(BionicsItems.ROBOT_BUILDER.get())) {
+                itemStack.shrink(1);
+            }
+            playSound(SoundEvents.NETHERITE_BLOCK_PLACE);
+            player.displayClientMessage(Component.translatable("entity.createbionics.all.assembly", getPart().getDescription().getString()), true);
+            return InteractionResult.SUCCESS;
+        } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:wrench")))) {
+            if (isPlough()) {
+                entityData.set(PLOUGH, false);
+                spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_plough"))));
+            } else if (isHarvester()) {
+                entityData.set(HARVESTER, false);
+                spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_harvester"))));
+            } else if (getAssembly() > 0) {
+                setAssembly(getAssembly() - 1);
+                spawnAtLocation(new ItemStack(getPart()));
+                playSound(SoundEvents.NETHERITE_BLOCK_PLACE);
+            } else {
+                spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_MIDDLE.get()));
+                remove(RemovalReason.DISCARDED);
+            }
+        } else if (itemStack.is(Tags.Items.DYES)) {
+            setColor(itemStack.getItem());
+            itemStack.shrink(1);
+        } else if (player.isShiftKeyDown() ){
+            openCustomInventoryScreen(player);
+        } else if(getFuel() > 0){
+            doPlayerRide(player);
         }
         return InteractionResult.SUCCESS;
     }
@@ -585,16 +365,12 @@ public class OxhaulerEntity extends AbstractHorse{
         builder.define(LAST_POSE_CHANGE_TICK, 0L);
         builder.define(VARIANT, 0);
         builder.define(COLOR, 5);
-        builder.define(HAS_BACK, false);
-        builder.define(HAS_FRONT, false);
-        builder.define(HAS_NECK, false);
-        builder.define(IS_FUELED, false);
-        builder.define(FIRST_FUEL, false);
-        builder.define(SILENCED, false);
-        builder.define(DEAD, false);
+        builder.define(ASSEMBLY, 0);
 
         builder.define(HARVESTER, false);
         builder.define(PLOUGH, false);
+
+        builder.define(FUEL, 0);
 
     }
 
@@ -605,24 +381,15 @@ public class OxhaulerEntity extends AbstractHorse{
         compound.putLong("LastPoseTick", this.entityData.get(LAST_POSE_CHANGE_TICK));
         compound.putInt("Variant", this.getTypeVariant());
         compound.putInt("Color", this.getTypeColor());
-
-        compound.putBoolean("HasBack", hasBack());
-        compound.putBoolean("HasFront", hasFront());
-        compound.putBoolean("HasNeck", hasNeck());
-        compound.putBoolean("IsFueled", isFueled());
-        compound.putBoolean("FirstFuel", firstFuel());
-        compound.putBoolean("Silenced", silenced());
-        compound.putBoolean("Dead", dead());
+        compound.putInt("Assembly", this.getAssembly());
 
         compound.putBoolean("Harvester", isHarvester());
         compound.putBoolean("Plough", isPlough());
 
-        compound.putInt("RefuelTime", this.fuelTime);
-        compound.putFloat("LastHealth", this.lastHealth);
-        compound.putFloat("CurrentHealth", this.currentHealth);
+        compound.putInt("Fuel", getFuel());
 
         ListTag listtag = new ListTag();
-        for (int x = 0; x < this.inventory.getContainerSize(); x++) {
+        for (int x = 0; x < 27; x++) {
             ItemStack itemstack = this.inventory.getItem(x);
             if (!itemstack.isEmpty()) {
                 CompoundTag compoundtag = new CompoundTag();
@@ -643,28 +410,22 @@ public class OxhaulerEntity extends AbstractHorse{
         }
         this.entityData.set(VARIANT, compound.getInt("Variant"));
         this.entityData.set(COLOR, compound.getInt("Color"));
-        this.entityData.set(HAS_BACK, compound.getBoolean("HasBack"));
-        this.entityData.set(HAS_FRONT, compound.getBoolean("HasFront"));
-        this.entityData.set(HAS_NECK, compound.getBoolean("HasNeck"));
-        this.entityData.set(IS_FUELED, compound.getBoolean("IsFueled"));
-        this.entityData.set(FIRST_FUEL, compound.getBoolean("FirstFuel"));
-        this.entityData.set(SILENCED, compound.getBoolean("Silenced"));
+        this.entityData.set(ASSEMBLY, compound.getInt("Assembly"));
 
         this.entityData.set(HARVESTER, compound.getBoolean("Harvester"));
         this.entityData.set(PLOUGH, compound.getBoolean("Plough"));
 
-        this.entityData.set(DEAD, compound.getBoolean("Dead"));
-        if (compound.contains("RefuelTime")) {
-            this.fuelTime = compound.getInt("RefuelTime");
-        }
-        if (compound.contains("LastHealth")) {
-            this.lastHealth = compound.getFloat("LastHealth");
-        }
-        if (compound.contains("CurrentHealth")) {
-            this.currentHealth = compound.getFloat("CurrentHealth");
-        }
+        this.entityData.set(FUEL, compound.getInt("Fuel"));
+
         this.createInventory();
         ListTag listtag = compound.getList("Items", 10);
+        for (int x = 0; x < listtag.size(); x++) {
+            CompoundTag compoundtag = listtag.getCompound(x);
+            int j = compoundtag.getByte("Slot") & 255;
+            if (j < this.inventory.getContainerSize()) {
+                this.inventory.setItem(j, ItemStack.parse(this.registryAccess(), compoundtag).orElse(ItemStack.EMPTY));
+            }
+        }
     }
 
 
@@ -703,33 +464,72 @@ public class OxhaulerEntity extends AbstractHorse{
         this.entityData.set(COLOR, color.getId() & 255);
     }
 
-    public boolean hasBack() {
-        return this.entityData.get(HAS_BACK);
-    }
-
-    public boolean hasFront() {
-        return this.entityData.get(HAS_FRONT);
-    }
-
-    public boolean hasNeck() {
-        return this.entityData.get(HAS_NECK);
-    }
-
-    public boolean isFueled() {
-        return this.entityData.get(IS_FUELED);
-    }
-
-    public boolean firstFuel() {
-        return this.entityData.get(FIRST_FUEL);
-    }
-
     public boolean isHarvester() {
         return this.entityData.get(HARVESTER);
     }
     public boolean isPlough() {
         return this.entityData.get(PLOUGH);
     }
+    public boolean firstFuel() {
+        return this.entityData.get(PLOUGH);
+    }
+
+    //ASSEMBLY//
+    private Item getPart() {
+        if (getAssembly() == 0) {
+            return BionicsItems.OXHAULER_REAR.get();
+        } else if (getAssembly() == 1) {
+            return BionicsItems.OXHAULER_FRONT.get();
+        } else if (getAssembly() >= 2 && getAssembly() <= 5) {
+            return BionicsItems.OXHAULER_LEG.get();
+        } else {
+            return BionicsItems.OXHAULER_HEAD.get();
+        }
+    }
 
     //INVENTORY//
+
+    @Override
+    public void containerChanged(Container container) {
+
+    }
+
+    @Override
+    public void openCustomInventoryScreen(Player player) {
+        if (!this.level().isClientSide && (!this.isVehicle() || this.hasPassenger(player))) {
+            ServerPlayer serverPlayer = (ServerPlayer) player;
+            if (player.containerMenu != player.inventoryMenu) {
+                player.closeContainer();
+            }
+
+            serverPlayer.openMenu(new SimpleMenuProvider((ix, playerInventory, playerEntityx) ->
+                    new OxhaulerMenu(ix, playerInventory, this.inventory, this), this.getDisplayName()), buf -> {
+                buf.writeUUID(getUUID());
+            });
+        }
+    }
+
+    @Override
+    protected void createInventory() {
+        SimpleContainer simplecontainer = this.inventory;
+        this.inventory = new SimpleContainer(this.getInventorySize());
+        if (simplecontainer != null) {
+            simplecontainer.removeListener(this);
+
+            for (int j = 0; j < 27; j++) {
+                ItemStack itemstack = simplecontainer.getItem(j);
+                if (!itemstack.isEmpty()) {
+                    this.inventory.setItem(j, itemstack.copy());
+                }
+            }
+        }
+
+        this.inventory.addListener(this);
+    }
+
+    public boolean hasInventoryChanged(Container inventory) {
+        return this.inventory != inventory;
+    }
+
 }
 

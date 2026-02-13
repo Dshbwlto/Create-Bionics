@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "createbionics:item/oxhauler_leg_item"
-  }
-}

@@ -1,0 +1,24 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Dshbwlto",
+	"texture_size": [256, 256],
+	"textures": {
+		"0": "createbionics:item/entity/oxhauler_items",
+		"particle": "createbionics:item/entity/oxhauler_items"
+	},
+	"elements": [
+		{
+			"from": [-8, 6.9, -0.575],
+			"to": [-1, 11.9, 4.425],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [11.0625, 1.5625, 11.5, 1.875], "texture": "#0"},
+				"east": {"uv": [10.75, 1.5625, 11.0625, 1.875], "texture": "#0"},
+				"south": {"uv": [11.8125, 1.5625, 12.25, 1.875], "texture": "#0"},
+				"west": {"uv": [11.5, 1.5625, 11.8125, 1.875], "texture": "#0"},
+				"up": {"uv": [11.5, 1.5625, 11.0625, 1.25], "texture": "#0"},
+				"down": {"uv": [11.9375, 1.25, 11.5, 1.5625], "texture": "#0"}
+			}
+		}
+	]
+}

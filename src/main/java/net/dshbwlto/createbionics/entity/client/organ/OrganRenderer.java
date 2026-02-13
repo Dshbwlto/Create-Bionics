@@ -20,7 +20,7 @@ import java.util.Map;
 public class OrganRenderer extends MobRenderer<OrganEntity, OrganModel<OrganEntity>> {
     private final Map<OrganVariant, ResourceLocation> LOCATION_BY_VARIANT =
             Util.make(Maps.newEnumMap(OrganVariant.class),map -> {
-                map.put(OrganVariant.DEFAULT,
+                map.put(OrganVariant.BRASS,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/organ_brass.png"));
                 map.put(OrganVariant.ANDESITE,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/organ_andesite.png"));

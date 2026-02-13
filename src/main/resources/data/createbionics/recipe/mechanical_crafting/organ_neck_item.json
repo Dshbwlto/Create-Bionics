@@ -1,0 +1,36 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": false,
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "create:railway_casing"
+    },
+    "P": {
+      "item": "create:fluid_pipe"
+    },
+    "S": {
+      "item": "create:shaft"
+    },
+    "N": {
+      "item": "minecraft:netherite_block"
+    },
+    "B": {
+      "item": "create:brass_ingot"
+    },
+    "K": {
+      "item": "create:sturdy_sheet"
+    }
+
+  },
+  "pattern": [
+    "CCCCC",
+    "PSNSP",
+    "BKBKB"
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:organ_neck_item"
+  },
+  "show_notification": false
+}

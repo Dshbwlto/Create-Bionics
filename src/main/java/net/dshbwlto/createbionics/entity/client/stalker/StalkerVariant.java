@@ -4,12 +4,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public enum StalkerVariant {
-    DEFAULT(0),
-    COPPER(1),
-    NETHERITE1_COPPER(2),
-    NETHERITE1(3),
-    NETHERITE2(4),
-    NETHERITE3(5);
+    COPPER(0),
+    BRASS(1),
+    ANDESITE(2);
 
     private static final StalkerVariant[] BY_ID = Arrays.stream(values()).sorted(
             Comparator.comparingInt(StalkerVariant::getId)).toArray(StalkerVariant[]::new);

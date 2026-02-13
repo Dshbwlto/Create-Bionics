@@ -103,65 +103,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('D', BionicsItems.ANOLE_TAIL)
                 .unlockedBy("has_anole_body", has(BionicsItems.ANOLE_BODY)).save(recipeOutput);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BionicsItems.OXHAULER_ENGINE.get())
-                .pattern("EAE")
-                .pattern("EBE")
-                .pattern("ECE")
-                .define('A', Blocks.ANDESITE)
-                .define('B', BionicsBlocks.OXHAULER_ENGINE)
-                .define('C', Blocks.COPPER_BLOCK)
-                .define('E', BionicsItems.I2_COAL_ENGINE)
-                .unlockedBy("has_engine_block", has(BionicsBlocks.OXHAULER_ENGINE)).save(recipeOutput);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BionicsItems.OXHAULER_REAR.get())
-                .pattern("GEG")
-                .pattern("CBC")
-                .pattern("LDL")
-                .define('E', BionicsItems.OXHAULER_ENGINE)
-                .define('G', Blocks.GOLD_BLOCK)
-                .define('C', Blocks.CHEST)
-                .define('B', BionicsBlocks.OXHAULER_REAR)
-                .define('L', BionicsItems.OXHAULER_LEG)
-                .define('D', Items.DIAMOND)
-                .unlockedBy("has_rear", has(BionicsBlocks.OXHAULER_REAR)).save(recipeOutput);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BionicsItems.OXHAULER_MIDDLE.get())
-                .pattern("GSG")
-                .pattern("DFC")
-                .pattern("AAC")
-                .define('S', Blocks.RED_CARPET)
-                .define('G', Blocks.GOLD_BLOCK)
-                .define('C', Blocks.CHEST)
-                .define('F', BionicsBlocks.OXHAULER_FURNACE)
-                .define('D', BionicsBlocks.OXHAULER_GRATE)
-                .define('A', Blocks.ANDESITE)
-                .unlockedBy("has_furnace", has(BionicsBlocks.OXHAULER_FURNACE)).save(recipeOutput);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BionicsItems.OXHAULER_FRONT.get())
-                .pattern("NGT")
-                .pattern("CFC")
-                .pattern("LDL")
-                .define('N', Blocks.FURNACE)
-                .define('G', Blocks.GOLD_BLOCK)
-                .define('T', Blocks.CRAFTING_TABLE)
-                .define('C', Blocks.CHEST)
-                .define('F', BionicsBlocks.OXHAULER_FRONT)
-                .define('L', BionicsItems.OXHAULER_LEG)
-                .define('D', Items.DIAMOND)
-                .unlockedBy("has_front", has(BionicsBlocks.OXHAULER_FRONT)).save(recipeOutput);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BionicsItems.OXHAULER_HEAD.get())
-                .pattern("GCG")
-                .pattern("RHR")
-                .pattern("SPS")
-                .define('G', Items.GOLD_INGOT)
-                .define('C', Items.LIGHTNING_ROD)
-                .define('R', Items.REDSTONE)
-                .define('H', BionicsBlocks.OXHAULER_HEAD)
-                .define('S', Items.STICK)
-                .define('P', Blocks.CARVED_PUMPKIN)
-                .unlockedBy("has_oxhauler_head", has(BionicsBlocks.OXHAULER_HEAD)).save(recipeOutput);
-
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BionicsItems.OXHAULER_LEG.get())
                 .pattern("GDG")
                 .pattern("AG ")
@@ -171,25 +112,5 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('A', Blocks.ANDESITE)
                 .unlockedBy("has_oxhauler_engine", has(BionicsItems.OXHAULER_ENGINE)).save(recipeOutput);
 
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BionicsItems.NETHER_BRICK_CRUCIBLE.get())
-                .pattern("A A")
-                .pattern(" A ")
-                .define('A', BionicsItems.NETHER_BRICK_CRUCIBLE)
-                .unlockedBy("has_nether_brick", has(Items.NETHER_BRICK)).save(recipeOutput);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BionicsItems.WAX_INGOT.get())
-                .pattern(" A ")
-                .pattern("BBB")
-                .define('A', Items.GREEN_DYE)
-                .define('B', Items.HONEYCOMB)
-                .unlockedBy("has_honeycomb", has(Items.HONEYCOMB)).save(recipeOutput);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BionicsBlocks.WAX_BLOCK.get())
-                .pattern("AAA")
-                .pattern("AAA")
-                .pattern("AAA")
-                .define('A', BionicsItems.WAX_INGOT)
-                .unlockedBy("has_honeycomb", has(Items.HONEYCOMB)).save(recipeOutput);
     }
 }
