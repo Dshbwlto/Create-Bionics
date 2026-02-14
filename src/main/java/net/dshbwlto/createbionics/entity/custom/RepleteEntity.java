@@ -215,17 +215,6 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
         ItemStack itemstack = player.getItemInHand(hand);
         Item item = itemstack.getItem();
 
-        if(item == BionicsItems.SILENT_PISTON.get() && isOwnedBy(player) && !isSilent()){
-            if(this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                if (!player.getAbilities().instabuild) {
-                    itemstack.shrink(1);
-                }
-                setSilent(true);
-                return InteractionResult.SUCCESS;
-            }
-        }
         if(item == (Items.COAL) || item == (Items.CHARCOAL)){
             if(!isTame() && getMainHandItem().isEmpty()) {
                 if (this.level().isClientSide()) {

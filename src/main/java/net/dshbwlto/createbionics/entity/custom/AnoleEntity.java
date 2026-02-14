@@ -46,6 +46,8 @@ public class AnoleEntity extends AbstractRobot {
     }
     public boolean climbing = false;
 
+    int maxHealth = 5;
+
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
 
@@ -240,16 +242,22 @@ public class AnoleEntity extends AbstractRobot {
                    || itemStack.is(Items.NETHERITE_INGOT)
                    || itemStack.is(Items.SPONGE)
                    || itemStack.is(Items.WET_SPONGE)) {
-               if (!itemStack.is(Items.SPONGE) && !itemStack.is(Items.WET_SPONGE)) {
-                   dropIngot(getVariant());
-               }
-               setTypeVariant(itemStack);
-               if (level().isClientSide) {
-                   return InteractionResult.SUCCESS;
-               } else if (!itemStack.is(Items.SPONGE) && !itemStack.is(Items.WET_SPONGE)){
-                   itemStack.shrink(1);
-               }
-           } else if (itemStack.is(Items.REDSTONE)
+                if (player.isShiftKeyDown()) {
+                    if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy"))) && getHealth() < maxHealth) {
+                        heal(1);
+                    }
+                } else {
+                    setTypeVariant(itemStack);
+                    if (!itemStack.is(Items.SPONGE) && !itemStack.is(Items.WET_SPONGE)) {
+                        dropIngot(getVariant());
+                    }
+                }
+                if (level().isClientSide) {
+                    return InteractionResult.SUCCESS;
+                } else if (!itemStack.is(Items.SPONGE) && !itemStack.is(Items.WET_SPONGE)) {
+                    itemStack.shrink(1);
+                }
+            } else if (itemStack.is(Items.REDSTONE)
                    || itemStack.is(Items.GOLD_INGOT)
                    || itemStack.is(Items.DIAMOND)
                    || itemStack.is(Items.BRUSH)) {
@@ -258,10 +266,16 @@ public class AnoleEntity extends AbstractRobot {
                if (!itemStack.is(Items.BRUSH)) {
                    itemStack.shrink(1);
                }
-           } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create_wrench")))) {
-                dropIngot(getVariant());
+           } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:wrench")))) {
+                if (getVariant() != AnoleVariant.COPPPER
+                && getVariant() != AnoleVariant.EXPOSED
+                && getVariant() != AnoleVariant.WEATHERED
+                && getVariant() != AnoleVariant.OXIDIZED) {
+                    dropIngot(getVariant());
+                }
                 dropMaterial(getMarkings());
                 spawnAtLocation(BionicsItems.ANOLE);
+                remove(RemovalReason.DISCARDED);
            } else {
                updateCommand(player);
                return InteractionResult.SUCCESS;

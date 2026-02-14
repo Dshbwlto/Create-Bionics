@@ -1,6 +1,5 @@
 package net.dshbwlto.createbionics;
 
-import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.item.ItemDescription;
 import com.simibubi.create.foundation.item.KineticStats;
 import com.simibubi.create.foundation.item.TooltipModifier;
@@ -13,8 +12,8 @@ import net.dshbwlto.createbionics.entity.client.organ.OrganRenderer;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerRenderer;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteRenderer;
 import net.dshbwlto.createbionics.entity.client.stalker.StalkerRenderer;
-import net.dshbwlto.createbionics.item.BionicsCreativeModeTabs;
 import net.dshbwlto.createbionics.item.BionicsItems;
+import net.dshbwlto.createbionics.registry.custom.BionicsRegistrate;
 import net.dshbwlto.createbionics.screen.BionicsMenuTypes;
 import net.dshbwlto.createbionics.screen.custom.OxhaulerScreen;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
@@ -57,27 +56,51 @@ public class CreateBionics {
     public static final String MOD_ID = "createbionics";
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
-    public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(CreateBionics.MOD_ID);
+    public static final BionicsRegistrate REGISTRATE = (BionicsRegistrate) BionicsRegistrate.create(CreateBionics.MOD_ID)
+            .defaultCreativeTab((ResourceKey<CreativeModeTab>) null)
+            .setTooltipModifierFactory(item ->
+                    new ItemDescription.Modifier(item, FontHelper.Palette.STANDARD_CREATE)
+                            .andThen(TooltipModifier.mapNull(KineticStats.create(item))));
 
     static {
         REGISTRATE.setTooltipModifierFactory(item -> new ItemDescription.Modifier(item, FontHelper.Palette.STANDARD_CREATE)
                 .andThen(TooltipModifier.mapNull(KineticStats.create(item))));
     }
 
+    private static final ItemLike[] excludedItemsList = new ItemLike[]{
+            BionicsItems.REPLETE_LEG,
+            BionicsItems.REPLETE_BODY,
+            BionicsItems.OXHAULER_ENGINE,
+    };
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
+
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN_TAB = CREATIVE_MODE_TABS.register(MOD_ID, () -> CreativeModeTab.builder()
+            .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
+            .icon(() -> BionicsItems.ANOLE.get().asItem().getDefaultInstance())
+            .title(Component.translatable("itemGroup.createbionics.create_bionics_tab"))
+            .displayItems((itemDisplayParameters, output) -> REGISTRATE.getAll(Registries.ITEM).forEach((item -> {
+                for (ItemLike excluded : excludedItemsList) {
+                    if (item.is(excluded.asItem())) {
+                        output.accept(item.get(), CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY);
+                        return;
+                    }
+                }
+                output.accept(item.get());
+            })))
+            .build());
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public CreateBionics(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
 
         REGISTRATE.registerEventListeners(modEventBus);
+        CREATIVE_MODE_TABS.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
-        BionicsItems.register(modEventBus);
+        BionicsItems.register();
 
-        BionicsBlocks.register(modEventBus);
-
-        BionicsCreativeModeTabs.register(modEventBus);
+        BionicsBlocks.register();
 
         BionicsSounds.register(modEventBus);
 
@@ -115,9 +138,11 @@ public class CreateBionics {
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
 
     }
-
     public static ResourceLocation asResource(String path) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    }
+    public static BionicsRegistrate registrate() {
+        return REGISTRATE;
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

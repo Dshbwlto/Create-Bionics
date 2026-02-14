@@ -76,10 +76,10 @@ public class OxhaulerMenu extends AbstractContainerMenu {
         //Crafting Grid//
         for(int i = 0; i < 3; ++i) {
             for(int j = 0; j < 3; ++j) {
-                this.addSlot(new Slot(this.craftSlots, j + i * 3, 42 + j * 18, 0 + i * 18));
+                this.addSlot(new Slot(this.craftSlots, j + i * 3, 42 + j * 18, i * 18));
             }
         }
-        this.addSlot(new ResultSlot(inventory.player, this.craftSlots, this.resultSlots, 0, 104, 18));
+        this.addSlot(new ResultSlot(inventory.player, this.craftSlots, this.resultSlots, 0, 110, 18));
 
     }
 

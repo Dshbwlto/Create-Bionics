@@ -1,5 +1,6 @@
 package net.dshbwlto.createbionics.entity.custom;
 
+import com.simibubi.create.AllSoundEvents;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganGlow;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
@@ -44,6 +45,9 @@ public class OrganEntity extends AbstractRobot {
     public final AnimationState sitUpAnimationState = new AnimationState();
 
     public static final EntityDataAccessor<Integer> GLOW_COLOR =
+            SynchedEntityData.defineId(OrganEntity.class, EntityDataSerializers.INT);
+
+    public static final EntityDataAccessor<Integer> SIT_ORIENTATION =
             SynchedEntityData.defineId(OrganEntity.class, EntityDataSerializers.INT);
 
     public OrganEntity(EntityType<? extends AbstractRobot> entityType, Level level) {
@@ -182,18 +186,21 @@ public class OrganEntity extends AbstractRobot {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(GLOW_COLOR, 0);
+        builder.define(SIT_ORIENTATION, 0);
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("Glow_Color", this.entityData.get(GLOW_COLOR));
+        compound.putInt("Sit_Orientation", this.entityData.get(SIT_ORIENTATION));
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         entityData.set(GLOW_COLOR, compound.getInt("Glow_Color"));
+        entityData.set(SIT_ORIENTATION, compound.getInt("Sit_Orientation"));
     }
 
     /* INTERACT */
@@ -271,7 +278,19 @@ public class OrganEntity extends AbstractRobot {
 
         } else {
             if (getAssembly() >= 20 && isOwnedBy(player)) {
-                updateCommand(player);
+                if (player.isShiftKeyDown() && getCommand() == 2) {
+                    changeSitOrientation();
+                    AllSoundEvents.CONFIRM.play(getCommandSenderWorld(), player, this.blockPosition());
+                    if (getSitOrientation() == 0) {
+                        player.displayClientMessage(Component.translatable("entity.createbionics.organ.left", this.getName().getString()), true);
+                    } else  if (getSitOrientation() == 1){
+                        player.displayClientMessage(Component.translatable("entity.createbionics.organ.right", this.getName().getString()), true);
+                    } else {
+                        player.displayClientMessage(Component.translatable("entity.createbionics.organ.center", this.getName().getString()), true);
+                    }
+                } else {
+                    updateCommand(player);
+                }
             }
             return InteractionResult.SUCCESS;
         }
@@ -388,5 +407,19 @@ public class OrganEntity extends AbstractRobot {
         }
     }
 
+    //SITTING//
+
+    public int getSitOrientation() {
+        return entityData.get(SIT_ORIENTATION);
+    }
+    public void changeSitOrientation() {
+        if (getSitOrientation() == 0) {
+            entityData.set(SIT_ORIENTATION, 1);
+        } else if (getSitOrientation() == 1){
+            entityData.set(SIT_ORIENTATION, 2);
+        } else {
+            entityData.set(SIT_ORIENTATION, 0);
+        }
+    }
 
 }

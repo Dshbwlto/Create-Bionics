@@ -1,5 +1,8 @@
 {
   "values":[
-    "createbionics:ares"
+    "createbionics:ares",
+    "createbionics:anole",
+    "createbionics:oxhauler",
+    "createbionics:organ"
   ]
 }

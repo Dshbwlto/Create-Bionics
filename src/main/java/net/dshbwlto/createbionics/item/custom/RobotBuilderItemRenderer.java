@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class RobotBuilderItemRenderer extends CustomRenderedItemModelRenderer {
 
-    protected static final PartialModel GEAR = PartialModel.of(CreateBionics.asResource("item/robot_builder_gear"));
+    protected static final PartialModel GEAR = PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_large"));
 
     @Override
     protected void render(ItemStack stack, CustomRenderedItemModel model, PartialItemModelRenderer renderer, ItemDisplayContext transformType, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
