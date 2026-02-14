@@ -512,7 +512,7 @@ public class OxhaulerEntity extends AbstractHorse{
     @Override
     protected void createInventory() {
         SimpleContainer simplecontainer = this.inventory;
-        this.inventory = new SimpleContainer(this.getInventorySize());
+        this.inventory = new SimpleContainer(27);
         if (simplecontainer != null) {
             simplecontainer.removeListener(this);
 

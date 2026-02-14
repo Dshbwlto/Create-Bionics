@@ -117,6 +117,7 @@
   "entity.createbionics.all.command_2": "%s is staying",
 
   "entity.createbionics.all.assembly": "Next Part: %s",
+  "entity.createbionics.all.page_progress": "%s/%s",
 
   "itemGroup.createbionics.create_bionics_tab": "Create Bionics"
 }
