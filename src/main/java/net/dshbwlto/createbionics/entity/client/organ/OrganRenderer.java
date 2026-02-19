@@ -49,7 +49,6 @@ public class OrganRenderer extends MobRenderer<OrganEntity, OrganModel<OrganEnti
         return LOCATION_BY_VARIANT.get(entity.getVariant());
     }
 
-    protected static final PartialModel WHISTLE_BASE_MIDDLE_LARGE = PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_large"));
     protected static final PartialModel WHISTLE_MIDDLE_LARGE = PartialModel.of(CreateBionics.asResource("item/whistle_middle_large"));
 
     @Override
@@ -58,19 +57,18 @@ public class OrganRenderer extends MobRenderer<OrganEntity, OrganModel<OrganEnti
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
 
         for (int i = 0; i < 4; ++i) {
-            CachedBuffers.partial(WHISTLE_BASE_MIDDLE_LARGE, entity.getBlockStateOn())
+            CachedBuffers.partial(WHISTLE_MIDDLE_LARGE, entity.getBlockStateOn())
                     .rotateYDegrees(-entityYaw)
                     .translate(-1 / 2f, 7, 1/2f - (7/8f * i))
                     .light(packedLight)
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
 
-            CachedBuffers.partial(WHISTLE_MIDDLE_LARGE, entity.getBlockStateOn())
-                    .rotateYDegrees(-entityYaw)
-                    .translate(-1 / 2f, 7.5f, 1/2f - (7/8f * i))
-                    .light(packedLight)
-                    .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
-
         }
+        CachedBuffers.partial(WHISTLE_MIDDLE_LARGE, entity.getBlockStateOn())
+                .rotateYDegrees(-entityYaw)
+                .translate(-1 / 2f, 7, 1/2f - (7/8f))
+                .light(packedLight)
+                .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
     }
 
     @Override
