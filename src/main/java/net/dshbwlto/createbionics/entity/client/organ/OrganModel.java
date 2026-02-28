@@ -581,9 +581,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         float ySwing = (float) Math.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 16) / 16 ;
         float ySwing2 = (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 16) - 2) / 16 ;
+        float bodyYOffset = (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / 2;
 
         tail1.yRot = ySwing;
         tail2.yRot = ySwing2;
+        body.y = bodyYOffset - 80;
     }
 
     @Override

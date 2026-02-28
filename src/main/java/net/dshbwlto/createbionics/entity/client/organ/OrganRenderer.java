@@ -25,6 +25,22 @@ import net.neoforged.neoforge.client.entity.animation.AnimationKeyframeTarget;
 import java.util.Map;
 
 public class OrganRenderer extends MobRenderer<OrganEntity, OrganModel<OrganEntity>> {
+
+    private static final PartialModel WHISTLE_BASE_MIDDLE_LARGE = PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_large"));
+    private static final PartialModel WHISTLE_BASE_MIDDLE_MEDIUM = PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium"));
+    private static final PartialModel WHISTLE_BASE_MIDDLE_SMALL = PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small"));
+    private static final PartialModel WHISTLE_BASE_SIDE_LARGE = PartialModel.of(CreateBionics.asResource("item/whistle_base_side_large"));
+    private static final PartialModel WHISTLE_BASE_SIDE_MEDIUM = PartialModel.of(CreateBionics.asResource("item/whistle_base_side_medium"));
+    private static final PartialModel WHISTLE_BASE_SIDE_SMALL = PartialModel.of(CreateBionics.asResource("item/whistle_base_side_small"));
+    private static final PartialModel WHISTLE_MIDDLE_LARGE = PartialModel.of(CreateBionics.asResource("item/whistle_middle_large"));
+    private static final PartialModel WHISTLE_MIDDLE_MEDIUM = PartialModel.of(CreateBionics.asResource("item/whistle_middle_medium"));
+    private static final PartialModel WHISTLE_MIDDLE_SMALL = PartialModel.of(CreateBionics.asResource("item/whistle_middle_small"));
+    private static final PartialModel WHISTLE_END_LARGE = PartialModel.of(CreateBionics.asResource("item/whistle_end_large"));
+    private static final PartialModel WHISTLE_END_MEDIUM = PartialModel.of(CreateBionics.asResource("item/whistle_end_medium"));
+    private static final PartialModel WHISTLE_END_SMALL = PartialModel.of(CreateBionics.asResource("item/whistle_end_small"));
+    private static final PartialModel WHISTLE_FACE_MIDDLE_LARGE = PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_large"));
+    private static final PartialModel WHISTLE_FACE_MIDDLE_MEDIUM = PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_medium"));
+
     private final Map<OrganVariant, ResourceLocation> LOCATION_BY_VARIANT =
             Util.make(Maps.newEnumMap(OrganVariant.class),map -> {
                 map.put(OrganVariant.BRASS,
@@ -49,26 +65,164 @@ public class OrganRenderer extends MobRenderer<OrganEntity, OrganModel<OrganEnti
         return LOCATION_BY_VARIANT.get(entity.getVariant());
     }
 
-    protected static final PartialModel WHISTLE_MIDDLE_LARGE = PartialModel.of(CreateBionics.asResource("item/whistle_middle_large"));
+    public void renderWhistles(OrganEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight,
+                               int count, int size, int height, float separation, float xPos, float yPos, float zPos, float angle) {
+        float bodyYOffset = (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32;
 
-    @Override
-    public void render(OrganEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        Integer integer = entity.getTypeVariant();
-        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+        PartialModel base_middle = size == 1 ? WHISTLE_BASE_MIDDLE_SMALL
+                : size == 2 ? WHISTLE_BASE_MIDDLE_MEDIUM
+                : WHISTLE_BASE_MIDDLE_LARGE;
 
-        for (int i = 0; i < 4; ++i) {
-            CachedBuffers.partial(WHISTLE_MIDDLE_LARGE, entity.getBlockStateOn())
+        PartialModel base_side = size == 1 ? WHISTLE_BASE_SIDE_SMALL
+                : size == 2 ? WHISTLE_BASE_SIDE_MEDIUM
+                : WHISTLE_BASE_SIDE_LARGE;
+
+        PartialModel base = xPos < 0 ? base_side : xPos == 0 ? base_middle : base_side;
+
+        PartialModel extension = size == 1 ? WHISTLE_MIDDLE_SMALL
+                : size == 2 ? WHISTLE_MIDDLE_MEDIUM
+                : WHISTLE_MIDDLE_LARGE;
+
+        PartialModel end = size == 1 ? WHISTLE_BASE_MIDDLE_SMALL
+                : size == 2 ? WHISTLE_END_MEDIUM
+                : WHISTLE_END_LARGE;
+
+        for ( int i = 0; i < count; i++) {
+            CachedBuffers.partial(base, entity.getBlockStateOn())
                     .rotateYDegrees(-entityYaw)
-                    .translate(-1 / 2f, 7, 1/2f - (7/8f * i))
+                    .translate(xPos, 7 + bodyYOffset + yPos, zPos + 0.5 - separation * i)
+                    .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
+                    .rotate(Direction.Axis.Z, angle == 0 ? 0 : i * 0.1f + angle)
+                    .light(packedLight)
+                    .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
+            CachedBuffers.partial(end, entity.getBlockStateOn())
+                    .rotateYDegrees(-entityYaw)
+                    .translate(xPos, 7 + bodyYOffset + yPos, zPos + 0.5 - separation * i)
+                    .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
+                    .rotate(Direction.Axis.Z, angle == 0 ? 0 : i * 0.1f + angle)
+                    .translate(0, xPos == 0 ? i * 0.5 - 1 + height : i * 0.5 + 0.5 + height, 0)
                     .light(packedLight)
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
 
+            for (int j = 0; j < i + height; j ++) {
+                CachedBuffers.partial(extension, entity.getBlockStateOn())
+                        .rotateYDegrees(-entityYaw)
+                        .translate(xPos, 7 + bodyYOffset + yPos, zPos + 0.5 - separation * i)
+                        .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? -i * 0.1f - angle : i * 0.1f + angle)
+                        .translate(0, j * 0.5f + 1, 0)
+                        .light(packedLight)
+                        .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
+            }
         }
-        CachedBuffers.partial(WHISTLE_MIDDLE_LARGE, entity.getBlockStateOn())
-                .rotateYDegrees(-entityYaw)
-                .translate(-1 / 2f, 7, 1/2f - (7/8f))
-                .light(packedLight)
-                .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
+    }
+
+    public void renderWhistlesTail1(OrganEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight,
+                               int count, int size, int height, float separation, float xPos, float yPos, float zPos, float angle) {
+        float ySwing = (float) Math.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / -16) * 3.55f;
+        float bodyYOffset = (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32;
+
+        PartialModel base_middle = size == 1 ? WHISTLE_BASE_MIDDLE_SMALL
+                : size == 2 ? WHISTLE_BASE_MIDDLE_MEDIUM
+                : WHISTLE_BASE_MIDDLE_LARGE;
+
+        PartialModel base_side = size == 1 ? WHISTLE_BASE_SIDE_SMALL
+                : size == 2 ? WHISTLE_BASE_SIDE_MEDIUM
+                : WHISTLE_BASE_SIDE_LARGE;
+
+        PartialModel base = xPos < 0 ? base_side : xPos == 0 ? base_middle : base_side;
+
+        PartialModel extension = size == 1 ? WHISTLE_MIDDLE_SMALL
+                : size == 2 ? WHISTLE_MIDDLE_MEDIUM
+                : WHISTLE_MIDDLE_LARGE;
+
+        PartialModel end = size == 1 ? WHISTLE_BASE_MIDDLE_SMALL
+                : size == 2 ? WHISTLE_END_MEDIUM
+                : WHISTLE_END_LARGE;
+
+        for (int i = 0; i < count; i++) {
+            CachedBuffers.partial(base, entity.getBlockStateOn())
+                    .rotateYDegrees(-entityYaw)
+                    .translate(0, 0, -2 - 1 / 8f)
+                    .rotateYDegrees(ySwing)
+                    .translate(xPos, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
+                    .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? i * 0.1f + angle : -i * 0.1f - angle)
+                    .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
+                    .light(packedLight)
+                    .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
+
+            CachedBuffers.partial(end, entity.getBlockStateOn())
+                    .rotateYDegrees(-entityYaw)
+                    .translate(0, 0, -2 - 1 / 8f)
+                    .rotateYDegrees(ySwing)
+                    .translate(xPos, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
+                    .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? i * 0.1f + angle : -i * 0.1f - angle)
+                    .translate(0, (height/2f) + (i/4f) + 1, 0)
+                    .light(packedLight)
+                    .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
+            CachedBuffers.partial(extension, entity.getBlockStateOn())
+                    .rotateYDegrees(-entityYaw)
+                    .translate(0, 0, -2 - 1 / 8f)
+                    .rotateYDegrees(ySwing)
+                    .translate(xPos, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
+                    .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? i * 0.1f + angle : -i * 0.1f - angle)
+                    .translate(0, (height/2f) + (i/4f) + 0.5, 0)
+                    .scale(0.999f)
+                    .light(packedLight)
+                    .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
+
+            for (int j = 0; j < i / 2 + height; j++) {
+                CachedBuffers.partial(extension, entity.getBlockStateOn())
+                        .rotateYDegrees(-entityYaw)
+                        .translate(0, 0, -2 - 1 / 8f)
+                        .rotateYDegrees(ySwing)
+                        .translate(xPos, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
+                        .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? i * 0.1f + angle : -i * 0.1f - angle)
+                        .translate(0, j * 0.5f + 1, 0)
+                        .light(packedLight)
+                        .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
+            }
+        }
+    }
+
+        @Override
+    public void render(OrganEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+
+        //back middle
+        renderWhistles(entity, entityYaw, partialTicks, poseStack, buffer, packedLight,
+                4, 3, 4, 7/8f, 0, 0, 0.5f, 0);
+
+        //back right
+        renderWhistles(entity, entityYaw, partialTicks, poseStack, buffer, packedLight,
+                4, 3, 1, -7/8f, -1.2f, -0.65f, -2 - 1/8f, -0.1f);
+        renderWhistles(entity, entityYaw, partialTicks, poseStack, buffer, packedLight,
+                4, 3, 1, -7/8f, -1.6f, -1.45f, -17/8f, 0.3f);
+
+        //back left
+        renderWhistles(entity, entityYaw, partialTicks, poseStack, buffer, packedLight,
+                4, 3, 1, -7/8f, 1.2f, -0.65f, -2 - 1/8f, -0.1f);
+        renderWhistles(entity, entityYaw, partialTicks, poseStack, buffer, packedLight,
+                4, 3, 1, -7/8f, 1.6f, -1.45f, -17/8f, 0.3f);
+
+        //tail 1 middle
+        renderWhistlesTail1(entity, entityYaw, partialTicks, poseStack, buffer, packedLight,
+                6, 2, 6, -12/16f, 0, -1.2f, -4 - 7/16f, 0);
+
+        //tail 1 left
+        renderWhistlesTail1(entity, entityYaw, partialTicks, poseStack, buffer, packedLight,
+                4, 2, 1, -12/16f, 1.25f, -2.6f, -4 - 4/16f, -0.261799f);
+        renderWhistlesTail1(entity, entityYaw, partialTicks, poseStack, buffer, packedLight,
+                2, 3, 3, -12/16f, 1.1f, -2.3f, -1 - 4/16f, 0.0872665f);
+        renderWhistlesTail1(entity, entityYaw, partialTicks, poseStack, buffer, packedLight,
+                2, 2, 1, -12/16f, 1.1f, -3.2f, -1 - 2/16f, -0.349066f);
+
+        //tail 1 right
+        renderWhistlesTail1(entity, entityYaw, partialTicks, poseStack, buffer, packedLight,
+                4, 2, 1, -12/16f, -1.25f, -2.6f, -4 - 4/16f, -0.261799f);
+        renderWhistlesTail1(entity, entityYaw, partialTicks, poseStack, buffer, packedLight,
+                2, 3, 3, -12/16f, -1.1f, -2.3f, -1 - 4/16f, 0.0872665f);
+        renderWhistlesTail1(entity, entityYaw, partialTicks, poseStack, buffer, packedLight,
+                2, 2, 1, -12/16f, -1.1f, -3.2f, -1 - 2/16f, -0.349066f);
     }
 
     @Override

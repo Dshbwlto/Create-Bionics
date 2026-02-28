@@ -432,22 +432,22 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
         }
         this.animate(entity.sitUpAnimationState, RepleteAnimations.replete_stand, ageInTicks, 1.0F);
 
-        leg_l.visible = entity.buildProgress() > 0;
-        leg_r.visible = entity.buildProgress() > 1;
-        leg2_l.visible = entity.buildProgress() > 2;
-        leg2_r.visible = entity.buildProgress() > 3;
-        leg3_l.visible = entity.buildProgress() > 4;
-        leg3_r.visible = entity.buildProgress() > 5;
+        leg_l.visible = entity.getAssembly() > 0;
+        leg_r.visible = entity.getAssembly() > 1;
+        leg2_l.visible = entity.getAssembly() > 2;
+        leg2_r.visible = entity.getAssembly() > 3;
+        leg3_l.visible = entity.getAssembly() > 4;
+        leg3_r.visible = entity.getAssembly() > 5;
 
-        tank.visible = entity.buildProgress() > 7;
-        tank_single.visible = entity.buildProgress() == 8;
-        tank_bottom.visible = entity.buildProgress() >= 9;
-        tank_top.visible = entity.buildProgress() >= 9;
-        tank_3.visible = entity.buildProgress() >= 10;
-        tank_4.visible = entity.buildProgress() >= 11;
-        tank_5.visible = entity.buildProgress() >= 12;
-        tank_cap.y = (-(entity.buildProgress() * 16) + 108);
-        pump.visible = entity.buildProgress() > 6;
+        tank.visible = entity.getAssembly() > 7;
+        tank_single.visible = entity.getAssembly() == 8;
+        tank_bottom.visible = entity.getAssembly() >= 9;
+        tank_top.visible = entity.getAssembly() >= 9;
+        tank_3.visible = entity.getAssembly() >= 10;
+        tank_4.visible = entity.getAssembly() >= 11;
+        tank_5.visible = entity.getAssembly() >= 12;
+        tank_cap.y = (-(entity.getAssembly() * 16) + 108);
+        pump.visible = entity.getAssembly() > 6;
         stand.visible = entity.fuel() == 0;
     }
 

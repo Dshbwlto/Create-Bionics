@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -31,7 +32,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidActionResult;
@@ -49,28 +49,19 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
     public int countdown = 0;
     public float fluidLevel = 0;
 
+
     public int fuel() {
         return entityData.get(FUEL);
-    }
-    public int buildProgress() {
-        return entityData.get(BUILD_PROGRESS);
     }
 
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
 
-    public static final EntityDataAccessor<Long> LAST_POSE_CHANGE_TICK =
-            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.LONG);
-    public static final EntityDataAccessor<Integer> VARIANT =
-            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> FUEL =
             SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Float> FILL_LEVEL =
             SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.FLOAT);
-    public static final EntityDataAccessor<Integer> BUILD_PROGRESS =
-            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.INT);
-
 
     public RepleteEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
@@ -242,22 +233,22 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
                 return InteractionResult.SUCCESS;
             }
         }
-        if (((item == (BionicsItems.REPLETE_LEG.get()) && entityData.get(BUILD_PROGRESS) < 6) || (((item == (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:fluid_tank"))) && entityData.get(BUILD_PROGRESS) > 5 )) && entityData.get(BUILD_PROGRESS) < 12)) || ((item == (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_pump"))) && entityData.get(BUILD_PROGRESS) == 6 ))) {
+        if (((item == (BionicsItems.REPLETE_LEG.get()) && getAssembly() < 6) || (((item == (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:fluid_tank"))) && getAssembly() > 5)) && getAssembly() < 12)) || ((item == (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_pump"))) && getAssembly() == 6 ))) {
             if(this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
                 if (!player.getAbilities().instabuild) {
                     itemstack.shrink(1);
                 }
-                entityData.set(BUILD_PROGRESS, entityData.get(BUILD_PROGRESS) + 1);
+                setAssembly(getAssembly() + 1);
                 return InteractionResult.SUCCESS;
             }
         }
-        if (entityData.get(BUILD_PROGRESS) > 0 && item == (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:wrench"))) && player.isShiftKeyDown()) {
+        if (getAssembly() > 0 && item == (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:wrench"))) && player.isShiftKeyDown()) {
             if(this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
-                entityData.set(BUILD_PROGRESS, entityData.get(BUILD_PROGRESS) - 1);
+                setAssembly(getAssembly() - 1);
                 return InteractionResult.SUCCESS;
             }
         }
@@ -305,14 +296,30 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
         super.addAdditionalSaveData(compound);
         compound.putInt("Variant", this.getTypeVariant());
         compound.putInt("RefuelTime", this.entityData.get(FUEL));
-        compound.putInt("Build_Progress", this.entityData.get(BUILD_PROGRESS));
+        ListTag listtag = new ListTag();
+        for (int x = 0; x < 1; x++) {
+            ItemStack itemstack = this.getFluid().getFluidType().getBucket(getFluid());
+            if (!itemstack.isEmpty()) {
+                CompoundTag compoundtag = new CompoundTag();
+                compoundtag.putByte("Slot", (byte)(x));
+                listtag.add(itemstack.save(this.registryAccess(), compoundtag));
+            }
+        }
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.entityData.set(VARIANT, compound.getInt("Variant"));
         entityData.set(FUEL, compound.getInt("RefuelTime"));
-        entityData.set(BUILD_PROGRESS, compound.getInt("Build_Progress"));
+
+        ListTag listtag = compound.getList("Items", 10);
+        for (int x = 0; x < listtag.size(); x++) {
+            CompoundTag compoundtag = listtag.getCompound(x);
+            int j = compoundtag.getByte("Slot") & 255;
+            if (j < 1) {
+                this.FLUID_TANK.setFluid(FluidStack.parseOptional(this.registryAccess(), compoundtag));
+            }
+        }
     }
 
     //VARIANT//

@@ -1,0 +1,24 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Dshbwlto",
+	"texture_size": [1024, 1024],
+	"textures": {
+		"1": "createbionics:item/entity/organ_items",
+		"particle": "createbionics:item/entity/organ_items"	},
+	"elements": [
+		{
+			"name": "Whistle Large Base",
+			"from": [-5.5, 0, -5.5],
+			"to": [5.5, 7, 5.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [-1, 0, 0]},
+			"faces": {
+				"north": {"uv": [8.5, 0.15625, 8.34375, 0.26563], "texture": "#1"},
+				"east": {"uv": [8.65625, 0.15625, 8.5, 0.26563], "texture": "#1"},
+				"south": {"uv": [8.8125, 0.15625, 8.65625, 0.26563], "texture": "#1"},
+				"west": {"uv": [8.34375, 0.15625, 8.1875, 0.26563], "texture": "#1"},
+				"up": {"uv": [8.35938, 0.15625, 8.53125, 0], "texture": "#1"},
+				"down": {"uv": [8.53125, 0, 8.70313, 0.15625], "texture": "#1"}
+			}
+		}
+	]
+}

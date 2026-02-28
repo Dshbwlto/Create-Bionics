@@ -1,0 +1,38 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Dshbwlto",
+	"texture_size": [1024, 1024],
+	"textures": {
+		"0": "createbionics:item/entity/organ_items",
+		"particle": "createbionics:item/entity/organ_items"
+	},
+	"elements": [
+		{
+			"from": [-4, 4, -4],
+			"to": [8, 12, 4],
+			"rotation": {"angle": 0, "axis": "y", "origin": [-27, 108, -24]},
+			"faces": {
+				"north": {"uv": [11.3125, 2.10938, 11.5, 2.23438], "texture": "#0"},
+				"east": {"uv": [11.1875, 2.10938, 11.3125, 2.23438], "texture": "#0"},
+				"south": {"uv": [11.625, 2.10938, 11.8125, 2.23438], "texture": "#0"},
+				"west": {"uv": [11.5, 2.10938, 11.625, 2.23438], "texture": "#0"},
+				"up": {"uv": [11.5, 2.10938, 11.3125, 1.98438], "texture": "#0"},
+				"down": {"uv": [11.6875, 1.98438, 11.5, 2.10938], "texture": "#0"}
+			}
+		},
+		{
+			"name": "Whistle Large Base",
+			"from": [-5, 7, -5],
+			"to": [5, 16, 5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [-35, 103, -16]},
+			"faces": {
+				"north": {"uv": [9.20313, 1.21875, 9.04688, 1.35938], "texture": "#0"},
+				"east": {"uv": [9.35938, 1.21875, 9.20313, 1.35938], "texture": "#0"},
+				"south": {"uv": [9.51563, 1.21875, 9.35938, 1.35938], "texture": "#0"},
+				"west": {"uv": [9.04688, 1.21875, 8.89063, 1.35938], "texture": "#0"},
+				"up": {"uv": [9.04688, 1.21875, 9.20313, 1.0625], "texture": "#0"},
+				"down": {"uv": [9.20313, 1.0625, 9.35938, 1.21875], "texture": "#0"}
+			}
+		}
+	]
+}
