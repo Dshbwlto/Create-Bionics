@@ -3,8 +3,8 @@
 	"credit": "Made by Dshbwlto",
 	"texture_size": [512, 512],
 	"textures": {
-		"1": "createbionics:item/entity/organ_items",
-		"particle": "createbionics:item/entity/organ_items"
+		"1": "createbionics:item/entity/organ_items_1",
+		"particle": "createbionics:item/entity/organ_items_1"
 	},
 	"elements": [
 		{

@@ -2,8 +2,8 @@
 	"format_version": "1.9.0",
 	"credit": "Made by Dshbwlto",
 	"textures": {
-		"1": "createbionics:item/entity/organ_items",
-		"particle": "createbionics:item/entity/organ_items"
+		"1": "createbionics:item/entity/organ_items_1",
+		"particle": "createbionics:item/entity/organ_items_1"
 	},
 	"elements": [
 		{
