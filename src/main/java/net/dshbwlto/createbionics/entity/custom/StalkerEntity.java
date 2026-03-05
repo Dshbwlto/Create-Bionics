@@ -1,7 +1,7 @@
 package net.dshbwlto.createbionics.entity.custom;
 
+import com.simibubi.create.AllItems;
 import net.dshbwlto.createbionics.entity.client.stalker.StalkerVariant;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -186,10 +186,10 @@ public class StalkerEntity extends AbstractRobot {
             }
         }
         if (itemstack.is(Items.COPPER_INGOT)
-                || itemstack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy")))
-                || itemstack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:brass_ingot")))) {
-            setTypeVariant(itemstack);
+                || itemstack.is(AllItems.ANDESITE_ALLOY)
+                || itemstack.is(AllItems.BRASS_INGOT)) {
             dropIngot(getVariant());
+            setTypeVariant(itemstack);
             if (level().isClientSide) {
                 return InteractionResult.SUCCESS;
             } else {
@@ -207,21 +207,21 @@ public class StalkerEntity extends AbstractRobot {
     private void setTypeVariant(ItemStack itemStack) {
         if (itemStack.getItem() == Items.COPPER_INGOT && getVariant() != StalkerVariant.COPPER) {
             setVariant(StalkerVariant.COPPER);
-        } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy")))
+        } else if (itemStack.is(AllItems.ANDESITE_ALLOY)
                 && getVariant() != StalkerVariant.ANDESITE) {
             setVariant(StalkerVariant.ANDESITE);
-        } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:brass_ingot")))
+        } else if (itemStack.is(AllItems.BRASS_INGOT)
                 && getVariant() != StalkerVariant.BRASS) {
             setVariant(StalkerVariant.BRASS);
         }
     }
     private void dropIngot(StalkerVariant variant) {
         if (getVariant() == StalkerVariant.BRASS) {
-            spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:brass_ingot"))));
+            spawnAtLocation(new ItemStack(AllItems.BRASS_INGOT.asItem()));
         } else if (getVariant() == StalkerVariant.COPPER) {
             spawnAtLocation(new ItemStack(Items.COPPER_INGOT));
         } else if (getVariant() == StalkerVariant.ANDESITE) {
-            spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy"))));
+            spawnAtLocation(new ItemStack(AllItems.ANDESITE_ALLOY.asItem()));
         }
     }
     public StalkerVariant getVariant() {

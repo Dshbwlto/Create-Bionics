@@ -1,11 +1,12 @@
 package net.dshbwlto.createbionics.entity.custom;
 
+import com.simibubi.create.AllBlocks;
+import com.simibubi.create.AllItems;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
@@ -233,7 +234,8 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
                 return InteractionResult.SUCCESS;
             }
         }
-        if (((item == (BionicsItems.REPLETE_LEG.get()) && getAssembly() < 6) || (((item == (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:fluid_tank"))) && getAssembly() > 5)) && getAssembly() < 12)) || ((item == (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_pump"))) && getAssembly() == 6 ))) {
+        if (((item == (BionicsItems.REPLETE_LEG.get()) && getAssembly() < 6) || (((item == (AllBlocks.FLUID_TANK.asItem()) && getAssembly() > 5)) && getAssembly() < 12))
+                || ((item == (AllBlocks.MECHANICAL_PUMP.asItem()) && getAssembly() == 6 ))) {
             if(this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
@@ -244,7 +246,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
                 return InteractionResult.SUCCESS;
             }
         }
-        if (getAssembly() > 0 && item == (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:wrench"))) && player.isShiftKeyDown()) {
+        if (getAssembly() > 0 && item == (AllItems.WRENCH.asItem()) && player.isShiftKeyDown()) {
             if(this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {

@@ -4,10 +4,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public enum OxhaulerVariant {
-    DEFAULT(0),
+    BRASS(0),
     COPPER(1),
-    NETHERITE1(2),
-    NETHERITE2(3);
+    ANDESITE(2);
 
     private static final OxhaulerVariant[] BY_ID = Arrays.stream(values()).sorted(
             Comparator.comparingInt(OxhaulerVariant::getId)).toArray(OxhaulerVariant[]::new);

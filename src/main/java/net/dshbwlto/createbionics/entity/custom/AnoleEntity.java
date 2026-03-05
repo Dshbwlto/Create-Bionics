@@ -1,5 +1,6 @@
 package net.dshbwlto.createbionics.entity.custom;
 
+import com.simibubi.create.AllItems;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleMarkings;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleVariant;
@@ -7,7 +8,6 @@ import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -237,13 +237,13 @@ public class AnoleEntity extends AbstractRobot {
 
        if (isTame() && isOwnedBy(player)) {
             if (itemStack.is(Items.COPPER_INGOT)
-                   || itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy")))
-                   || itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:brass_ingot")))
+                   || itemStack.is(AllItems.ANDESITE_ALLOY)
+                   || itemStack.is(AllItems.BRASS_INGOT)
                    || itemStack.is(Items.NETHERITE_INGOT)
                    || itemStack.is(Items.SPONGE)
                    || itemStack.is(Items.WET_SPONGE)) {
                 if (player.isShiftKeyDown()) {
-                    if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy"))) && getHealth() < maxHealth) {
+                    if (itemStack.is(AllItems.ANDESITE_ALLOY) && getHealth() < maxHealth) {
                         heal(1);
                     }
                 } else {
@@ -266,7 +266,7 @@ public class AnoleEntity extends AbstractRobot {
                if (!itemStack.is(Items.BRUSH)) {
                    itemStack.shrink(1);
                }
-           } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:wrench")))) {
+           } else if (itemStack.is(AllItems.WRENCH)) {
                 if (getVariant() != AnoleVariant.COPPPER
                 && getVariant() != AnoleVariant.EXPOSED
                 && getVariant() != AnoleVariant.WEATHERED
@@ -345,10 +345,10 @@ public class AnoleEntity extends AbstractRobot {
                 getVariant() != AnoleVariant.WEATHERED &&
                 getVariant() != AnoleVariant.OXIDIZED) {
             setVariant(AnoleVariant.COPPPER);
-        } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy")))
+        } else if (itemStack.is(AllItems.ANDESITE_ALLOY)
                 && getVariant() != AnoleVariant.ANDESITE) {
             setVariant(AnoleVariant.ANDESITE);
-        } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:brass_ingot")))
+        } else if (itemStack.is(AllItems.BRASS_INGOT)
                 && getVariant() != AnoleVariant.BRASS) {
             setVariant(AnoleVariant.BRASS);
         } else if (itemStack.is(Items.NETHERITE_INGOT)
@@ -384,14 +384,14 @@ public class AnoleEntity extends AbstractRobot {
 
     private void dropIngot(AnoleVariant variant) {
         if (getVariant() == AnoleVariant.BRASS) {
-            spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:brass_ingot"))));
+            spawnAtLocation(new ItemStack(AllItems.BRASS_INGOT.asItem()));
         } else if (getVariant() == AnoleVariant.COPPPER
                 || getVariant() == AnoleVariant.EXPOSED
                 || getVariant() == AnoleVariant.WEATHERED
                 || getVariant() == AnoleVariant.OXIDIZED) {
             spawnAtLocation(new ItemStack(Items.COPPER_INGOT));
         } else if (getVariant() == AnoleVariant.ANDESITE) {
-            spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy"))));
+            spawnAtLocation(new ItemStack(AllItems.ANDESITE_ALLOY.asItem()));
         } else if (getVariant() == AnoleVariant.NETHERITE) {
             spawnAtLocation(new ItemStack(Items.NETHERITE_INGOT));
         }

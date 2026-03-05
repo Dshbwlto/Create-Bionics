@@ -1,5 +1,7 @@
 package net.dshbwlto.createbionics.entity.custom;
 
+import com.simibubi.create.AllBlocks;
+import com.simibubi.create.AllItems;
 import net.dshbwlto.createbionics.Util.BionicsTags;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerColor;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerVariant;
@@ -10,7 +12,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
@@ -139,7 +140,7 @@ public class OxhaulerEntity extends AbstractHorse{
 
     @Override
     public boolean fireImmune() {
-        return getVariant() == OxhaulerVariant.NETHERITE2;
+        return true;
     }
 
     @Override
@@ -205,38 +206,36 @@ public class OxhaulerEntity extends AbstractHorse{
     public void aiStep() {
         if (this.level().isClientSide) {
             for (int i = 0; i < 1; ++i) {
-                if (!(getVariant() == OxhaulerVariant.NETHERITE2) && getFuel() > 0) {
-                    if (this.isVehicle()) {
-                        Particle particle1 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.1D, 0.0D);
-                        Particle particle2 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.075D, 0.0D);
-                        Particle particle3 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
-                        Particle particle4 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
-                        Particle particle5 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
-                        Particle particle6 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
-                        Particle particle7 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
-                        if (particle1 != null) {
-                            particle1.scale(1f + random.nextFloat());
-                            particle1.setLifetime(2);
-                            particle2.scale(1f + random.nextFloat());
-                            particle2.setLifetime(2);
-                            particle3.scale(1f + random.nextFloat());
-                            particle3.setLifetime(2);
-                            particle4.scale(1f + random.nextFloat());
-                            particle4.setLifetime(2);
-                            particle5.scale(1f + random.nextFloat());
-                            particle5.setLifetime(2);
-                            particle6.scale(1f + random.nextFloat());
-                            particle6.setLifetime(2);
-                            particle7.scale(1f + random.nextFloat());
-                            particle7.setLifetime(2);
-                        }
-                    } else {
-                        this.level().addParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
-                        this.level().addParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
-                        this.level().addParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
+                if (this.isVehicle()) {
+                    Particle particle1 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.1D, 0.0D);
+                    Particle particle2 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.075D, 0.0D);
+                    Particle particle3 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
+                    Particle particle4 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
+                    Particle particle5 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
+                    Particle particle6 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
+                    Particle particle7 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
+                    if (particle1 != null) {
+                        particle1.scale(1f + random.nextFloat());
+                        particle1.setLifetime(2);
+                        particle2.scale(1f + random.nextFloat());
+                        particle2.setLifetime(2);
+                        particle3.scale(1f + random.nextFloat());
+                        particle3.setLifetime(2);
+                        particle4.scale(1f + random.nextFloat());
+                        particle4.setLifetime(2);
+                        particle5.scale(1f + random.nextFloat());
+                        particle5.setLifetime(2);
+                        particle6.scale(1f + random.nextFloat());
+                        particle6.setLifetime(2);
+                        particle7.scale(1f + random.nextFloat());
+                        particle7.setLifetime(2);
                     }
-                    this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX((double) 0.5F), this.getRandomY(), this.getRandomZ((double) 0.5F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
+                } else {
+                    this.level().addParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
+                    this.level().addParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
+                    this.level().addParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
                 }
+                this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX((double) 0.5F), this.getRandomY(), this.getRandomZ((double) 0.5F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
             }
         }
         if (isHarvester()) {
@@ -277,7 +276,7 @@ public class OxhaulerEntity extends AbstractHorse{
     public void tick() {
         super.tick();
 
-        if (isInWater() && getFuel() > 0 && getVariant() != OxhaulerVariant.NETHERITE2) {
+        if (isInWater() && getFuel() > 0) {
             setFuel(0);
             playSound(SoundEvents.FIRE_EXTINGUISH);
             ejectPassengers();
@@ -313,13 +312,13 @@ public class OxhaulerEntity extends AbstractHorse{
                 setFuel(10000);
                 makeSound(SoundEvents.FIRECHARGE_USE);
             }
-        } else if(itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_harvester"))) && !isPlough() && !isHarvester()) {
+        } else if(itemStack.is(AllBlocks.MECHANICAL_HARVESTER.asItem()) && !isPlough() && !isHarvester()) {
             if (this.level().isClientSide) {
                 return InteractionResult.CONSUME;
             }
             itemStack.shrink(1);
             this.entityData.set(HARVESTER, true);
-        } else if(itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_plough"))) && !isPlough() && !isHarvester()) {
+        } else if(itemStack.is(AllBlocks.MECHANICAL_PLOUGH.asItem()) && !isPlough() && !isHarvester()) {
             if (this.level().isClientSide) {
                 return InteractionResult.CONSUME;
             }
@@ -333,13 +332,13 @@ public class OxhaulerEntity extends AbstractHorse{
             playSound(SoundEvents.NETHERITE_BLOCK_PLACE);
             player.displayClientMessage(Component.translatable("entity.createbionics.all.assembly", getPart().getDescription().getString()), true);
             return InteractionResult.SUCCESS;
-        } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:wrench")))) {
+        } else if (itemStack.is(AllItems.WRENCH)) {
             if (isPlough()) {
                 entityData.set(PLOUGH, false);
-                spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_plough"))));
+                spawnAtLocation(new ItemStack(AllBlocks.MECHANICAL_PLOUGH));
             } else if (isHarvester()) {
                 entityData.set(HARVESTER, false);
-                spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:mechanical_harvester"))));
+                spawnAtLocation(new ItemStack(AllBlocks.MECHANICAL_HARVESTER));
             } else if (getAssembly() > 0) {
                 setAssembly(getAssembly() - 1);
                 spawnAtLocation(new ItemStack(getPart()));

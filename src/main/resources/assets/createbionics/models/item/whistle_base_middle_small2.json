@@ -1,5 +1,5 @@
 {
-  "parent": "createbionics:item/whistle_base_middle_small",
+  "parent": "createbionics:item/whistle_base_middle_small1",
   "textures": {
     "0": "createbionics:item/entity/organ_items_2",
     "particle": "createbionics:item/entity/organ_items_2"

@@ -1,5 +1,7 @@
 package net.dshbwlto.createbionics.entity.custom;
 
+import com.simibubi.create.AllBlocks;
+import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganGlow;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
@@ -227,9 +229,9 @@ public class OrganEntity extends AbstractRobot {
             super.mobInteract(player, hand);
         }
         if ((itemStack.is(Items.COPPER_INGOT)
-                || itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy")))
-                || itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:brass_ingot")))
-                || itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:sturdy_sheet"))))
+                || itemStack.is(AllItems.ANDESITE_ALLOY)
+                || itemStack.is(AllItems.BRASS_INGOT)
+                || itemStack.is(AllItems.STURDY_SHEET))
                 && isOwnedBy(player)) {
             dropIngot(getVariant());
             setTypeVariant(itemStack);
@@ -261,7 +263,7 @@ public class OrganEntity extends AbstractRobot {
             player.displayClientMessage(Component.translatable("entity.createbionics.all.assembly", getPart().getDescription().getString()), true);
             return InteractionResult.SUCCESS;
 
-        } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:wrench"))) && (isOwnedBy(player) || getAssembly() < 21)) {
+        } else if (itemStack.is(AllItems.WRENCH) && (isOwnedBy(player) || getAssembly() < 21)) {
             if (getAssembly() > 0) {
                 setAssembly(getAssembly() - 1);
                 spawnAtLocation(new ItemStack(getPart()));
@@ -305,13 +307,13 @@ public class OrganEntity extends AbstractRobot {
     private void setTypeVariant(ItemStack itemStack) {
         if (itemStack.getItem() == Items.COPPER_INGOT && getVariant() != OrganVariant.COPPER) {
             setVariant(OrganVariant.COPPER);
-        } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy")))
+        } else if (itemStack.is(AllItems.ANDESITE_ALLOY)
                 && getVariant() != OrganVariant.ANDESITE) {
             setVariant(OrganVariant.ANDESITE);
-        } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:brass_ingot")))
+        } else if (itemStack.is(AllItems.BRASS_INGOT)
                 && getVariant() != OrganVariant.BRASS) {
             setVariant(OrganVariant.BRASS);
-        } else if (itemStack.is(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:sturdy_sheet")))
+        } else if (itemStack.is(AllItems.STURDY_SHEET)
                 && getVariant() != OrganVariant.STURDY_SHEET) {
             setVariant(OrganVariant.STURDY_SHEET);
         }
@@ -327,13 +329,13 @@ public class OrganEntity extends AbstractRobot {
     }
     private void dropIngot(OrganVariant variant) {
         if (getVariant() == OrganVariant.BRASS) {
-            spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:brass_ingot"))));
+            spawnAtLocation(new ItemStack(AllItems.BRASS_INGOT.asItem()));
         } else if (getVariant() == OrganVariant.COPPER) {
             spawnAtLocation(new ItemStack(Items.COPPER_INGOT));
         } else if (getVariant() == OrganVariant.ANDESITE) {
-            spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:andesite_alloy"))));
+            spawnAtLocation(new ItemStack(AllItems.ANDESITE_ALLOY.asItem()));
         } else if (getVariant() == OrganVariant.STURDY_SHEET) {
-            spawnAtLocation(new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:sturdy_sheet"))));
+            spawnAtLocation(new ItemStack(AllItems.STURDY_SHEET.asItem()));
         }
     }
     private void dropRedstone(OrganGlow glow) {
@@ -376,9 +378,9 @@ public class OrganEntity extends AbstractRobot {
 
     private Item getPart () {
         if (getAssembly() == 0 || getAssembly() == 1) {
-            return (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:railway_casing")));
+            return (AllBlocks.RAILWAY_CASING.asItem());
         } else if (getAssembly() == 2 || getAssembly() == 3) {
-            return (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:metal_girder")));
+            return (AllBlocks.METAL_GIRDER.asItem());
         } else if (getAssembly() == 4 || getAssembly() == 5) {
             return BionicsItems.ORGAN_FOOT.get();
         } else if (getAssembly() == 6) {
@@ -403,7 +405,7 @@ public class OrganEntity extends AbstractRobot {
         } else if (getAssembly() == 20) {
             return BionicsItems.ORGAN_HEAD.get();
         } else {
-            return (BuiltInRegistries.ITEM.get(ResourceLocation.parse("create:steam_whistle")));
+            return (AllBlocks.STEAM_WHISTLE.asItem());
         }
     }
 

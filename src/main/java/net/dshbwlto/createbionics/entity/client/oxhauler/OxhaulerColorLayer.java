@@ -23,7 +23,7 @@ public class OxhaulerColorLayer extends RenderLayer<OxhaulerEntity, OxhaulerMode
             2, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/color/oxhauler_gray.png"),
             3, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/color/oxhauler_black.png"),
             4, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/color/oxhauler_brown.png"),
-            5, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/color/oxhauler.png"),
+            5, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/color/oxhauler_brass.png"),
             6, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/color/oxhauler_orange.png"),
             7, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/color/oxhauler_yellow.png"),
             8, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/color/oxhauler_lime.png"),

@@ -2,6 +2,7 @@ package net.dshbwlto.createbionics.entity.client.organ;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.simibubi.create.Create;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.math.AngleHelper;
@@ -62,44 +63,27 @@ public class OrganRenderer extends MobRenderer<OrganEntity, OrganModel<OrganEnti
         }
     }
 
-    private PartialModel WHISTLE_BASE_MIDDLE_LARGE(OrganEntity entity) {
-        return PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_large2"));
-    }
-    private static final PartialModel WHISTLE_BASE_MIDDLE_MEDIUM = PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium1"));
-    private static final PartialModel WHISTLE_BASE_MIDDLE_SMALL = PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small1"));
-    private static final PartialModel WHISTLE_BASE_SIDE_LARGE = PartialModel.of(CreateBionics.asResource("item/whistle_base_side_large1"));
-    private static final PartialModel WHISTLE_BASE_SIDE_MEDIUM = PartialModel.of(CreateBionics.asResource("item/whistle_base_side_medium1"));
-    private static final PartialModel WHISTLE_BASE_SIDE_SMALL = PartialModel.of(CreateBionics.asResource("item/whistle_base_side_small1"));
-    private static final PartialModel WHISTLE_MIDDLE_LARGE = PartialModel.of(CreateBionics.asResource("item/whistle_middle_large1"));
-    private static final PartialModel WHISTLE_MIDDLE_MEDIUM = PartialModel.of(CreateBionics.asResource("item/whistle_middle_medium1"));
-    private static final PartialModel WHISTLE_MIDDLE_SMALL = PartialModel.of(CreateBionics.asResource("item/whistle_middle_small1"));
-    private static final PartialModel WHISTLE_END_LARGE = PartialModel.of(CreateBionics.asResource("item/whistle_end_large1"));
-    private static final PartialModel WHISTLE_END_MEDIUM = PartialModel.of(CreateBionics.asResource("item/whistle_end_medium1"));
-    private static final PartialModel WHISTLE_END_SMALL = PartialModel.of(CreateBionics.asResource("item/whistle_end_small1"));
-    private static final PartialModel WHISTLE_FACE_MIDDLE_LARGE = PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_large1"));
-    private static final PartialModel WHISTLE_FACE_MIDDLE_MEDIUM = PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_medium1"));
-
     public void renderWhistles(OrganEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight,
                                int count, int size, int height, float separation, float xPos, float yPos, float zPos, float angle) {
         float bodyYOffset = (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32;
 
-        PartialModel base_middle = size == 1 ? WHISTLE_BASE_MIDDLE_SMALL
-                : size == 2 ? WHISTLE_BASE_MIDDLE_MEDIUM
-                : WHISTLE_BASE_MIDDLE_LARGE(entity);
+        PartialModel base_middle = size == 1 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small").withSuffix(variant(entity)))
+                : size == 2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium").withSuffix(variant(entity)))
+                : PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_large").withSuffix(variant(entity)));
 
-        PartialModel base_side = size == 1 ? WHISTLE_BASE_SIDE_SMALL
-                : size == 2 ? WHISTLE_BASE_SIDE_MEDIUM
-                : WHISTLE_BASE_SIDE_LARGE;
+        PartialModel base_side = size == 1 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_small").withSuffix(variant(entity)))
+                : size == 2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_medium").withSuffix(variant(entity)))
+                : PartialModel.of(CreateBionics.asResource("item/whistle_base_side_large").withSuffix(variant(entity)));
 
         PartialModel base = xPos < 0 ? base_side : xPos == 0 ? base_middle : base_side;
 
-        PartialModel extension = size == 1 ? WHISTLE_MIDDLE_SMALL
-                : size == 2 ? WHISTLE_MIDDLE_MEDIUM
-                : WHISTLE_MIDDLE_LARGE;
+        PartialModel extension = size == 1 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_small").withSuffix(variant(entity)))
+                : size == 2 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_medium").withSuffix(variant(entity)))
+                : PartialModel.of(CreateBionics.asResource("item/whistle_middle_large").withSuffix(variant(entity)));
 
-        PartialModel end = size == 1 ? WHISTLE_BASE_MIDDLE_SMALL
-                : size == 2 ? WHISTLE_END_MEDIUM
-                : WHISTLE_END_LARGE;
+        PartialModel end = size == 1 ? PartialModel.of(CreateBionics.asResource("item/whistle_end_small").withSuffix(variant(entity)))
+                : size == 2 ? PartialModel.of(CreateBionics.asResource("item/whistle_end_medium").withSuffix(variant(entity)))
+                : PartialModel.of(CreateBionics.asResource("item/whistle_end_large").withSuffix(variant(entity)));
 
         for ( int i = 0; i < count; i++) {
             CachedBuffers.partial(base, entity.getBlockStateOn())
@@ -135,23 +119,23 @@ public class OrganRenderer extends MobRenderer<OrganEntity, OrganModel<OrganEnti
         float ySwing = (float) Math.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / -16) * 3.55f;
         float bodyYOffset = (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32;
 
-        PartialModel base_middle = size == 1 ? WHISTLE_BASE_MIDDLE_SMALL
-                : size == 2 ? WHISTLE_BASE_MIDDLE_MEDIUM
-                : WHISTLE_BASE_MIDDLE_LARGE(entity);
+        PartialModel base_middle = size == 1 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small").withSuffix(variant(entity)))
+                : size == 2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium").withSuffix(variant(entity)))
+                : PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_large").withSuffix(variant(entity)));
 
-        PartialModel base_side = size == 1 ? WHISTLE_BASE_SIDE_SMALL
-                : size == 2 ? WHISTLE_BASE_SIDE_MEDIUM
-                : WHISTLE_BASE_SIDE_LARGE;
+        PartialModel base_side = size == 1 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_small").withSuffix(variant(entity)))
+                : size == 2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_medium").withSuffix(variant(entity)))
+                : PartialModel.of(CreateBionics.asResource("item/whistle_base_side_large").withSuffix(variant(entity)));
 
         PartialModel base = xPos < 0 ? base_side : xPos == 0 ? base_middle : base_side;
 
-        PartialModel extension = size == 1 ? WHISTLE_MIDDLE_SMALL
-                : size == 2 ? WHISTLE_MIDDLE_MEDIUM
-                : WHISTLE_MIDDLE_LARGE;
+        PartialModel extension = size == 1 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_small").withSuffix(variant(entity)))
+                : size == 2 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_medium").withSuffix(variant(entity)))
+                : PartialModel.of(CreateBionics.asResource("item/whistle_middle_large").withSuffix(variant(entity)));
 
-        PartialModel end = size == 1 ? WHISTLE_BASE_MIDDLE_SMALL
-                : size == 2 ? WHISTLE_END_MEDIUM
-                : WHISTLE_END_LARGE;
+        PartialModel end = size == 1 ? PartialModel.of(CreateBionics.asResource("item/whistle_end_small").withSuffix(variant(entity)))
+                : size == 2 ? PartialModel.of(CreateBionics.asResource("item/whistle_end_medium").withSuffix(variant(entity)))
+                : PartialModel.of(CreateBionics.asResource("item/whistle_end_large").withSuffix(variant(entity)));
 
         for (int i = 0; i < count; i++) {
             CachedBuffers.partial(base, entity.getBlockStateOn())
@@ -204,23 +188,23 @@ public class OrganRenderer extends MobRenderer<OrganEntity, OrganModel<OrganEnti
         float ySwing2 = (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / -16) + 2) * 3.55f;
         float bodyYOffset = (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32;
 
-        PartialModel base_middle = size == 1 ? WHISTLE_BASE_MIDDLE_SMALL
-                : size == 2 ? WHISTLE_BASE_MIDDLE_MEDIUM
-                : WHISTLE_BASE_MIDDLE_LARGE(entity);
+        PartialModel base_middle = size == 1 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small").withSuffix(variant(entity)))
+                : size == 2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium").withSuffix(variant(entity)))
+                : PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_large").withSuffix(variant(entity)));
 
-        PartialModel base_side = size == 1 ? WHISTLE_BASE_SIDE_SMALL
-                : size == 2 ? WHISTLE_BASE_SIDE_MEDIUM
-                : WHISTLE_BASE_SIDE_LARGE;
+        PartialModel base_side = size == 1 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_small").withSuffix(variant(entity)))
+                : size == 2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_medium").withSuffix(variant(entity)))
+                : PartialModel.of(CreateBionics.asResource("item/whistle_base_side_large").withSuffix(variant(entity)));
 
         PartialModel base = xPos < 0 ? base_side : xPos == 0 ? base_middle : base_side;
 
-        PartialModel extension = size == 1 ? WHISTLE_MIDDLE_SMALL
-                : size == 2 ? WHISTLE_MIDDLE_MEDIUM
-                : WHISTLE_MIDDLE_LARGE;
+        PartialModel extension = size == 1 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_small").withSuffix(variant(entity)))
+                : size == 2 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_medium").withSuffix(variant(entity)))
+                : PartialModel.of(CreateBionics.asResource("item/whistle_middle_large").withSuffix(variant(entity)));
 
-        PartialModel end = size == 1 ? WHISTLE_BASE_MIDDLE_SMALL
-                : size == 2 ? WHISTLE_END_MEDIUM
-                : WHISTLE_END_LARGE;
+        PartialModel end = size == 1 ? PartialModel.of(CreateBionics.asResource("item/whistle_end_small").withSuffix(variant(entity)))
+                : size == 2 ? PartialModel.of(CreateBionics.asResource("item/whistle_end_medium").withSuffix(variant(entity)))
+                : PartialModel.of(CreateBionics.asResource("item/whistle_end_large").withSuffix(variant(entity)));
 
         for (int i = 0; i < count; i++) {
             CachedBuffers.partial(base, entity.getBlockStateOn())
@@ -281,7 +265,7 @@ public class OrganRenderer extends MobRenderer<OrganEntity, OrganModel<OrganEnti
         //tail 2 middle
         renderWhistlesTail2(entity, entityYaw, partialTicks, poseStack, buffer, packedLight,
                 8, 1, 10, 10/16f, 0, -1.3f, -0.5f, 0);
-    }
+        }
 
     @Override
     public boolean shouldRender(OrganEntity livingEntity, Frustum camera, double camX, double camY, double camZ) {

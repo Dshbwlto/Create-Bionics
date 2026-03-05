@@ -228,13 +228,13 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
 
         PartDefinition cube_r16 = head.addOrReplaceChild("cube_r16", CubeListBuilder.create().texOffs(172, 10).addBox(-5.0F, 0.0F, -2.0F, 7.0F, 5.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-9.0F, -3.0F, -1.0F, 0.0F, -0.1745F, 0.2182F));
 
-        PartDefinition rope = head.addOrReplaceChild("rope", CubeListBuilder.create().texOffs(32, 115).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.5F, 13.5F, -3.75F));
+        PartDefinition rope = head.addOrReplaceChild("rope", CubeListBuilder.create().texOffs(112, 34).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.5F, 13.5F, -3.75F));
 
-        PartDefinition arm_l = front_master.addOrReplaceChild("arm_l", CubeListBuilder.create().texOffs(164, 126).addBox(-1.0F, -4.0F, -3.5F, 5.0F, 9.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.0F, 4.0F, -6.75F, 0.2618F, 0.0F, 0.0F));
+        PartDefinition arm_l = front_master.addOrReplaceChild("arm_l", CubeListBuilder.create().texOffs(0, 160).addBox(-1.0F, -4.0F, -3.5F, 5.0F, 9.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.0F, 4.0F, -6.75F, 0.2618F, 0.0F, 0.0F));
 
-        PartDefinition bone5 = arm_l.addOrReplaceChild("bone5", CubeListBuilder.create().texOffs(56, 179).addBox(-1.0F, 0.0F, -4.0F, 4.0F, 7.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, 5.0F, 1.0F, -0.3927F, 0.0F, 0.0F));
+        PartDefinition bone5 = arm_l.addOrReplaceChild("bone5", CubeListBuilder.create().texOffs(30, 177).addBox(-1.0F, 0.0F, -4.0F, 4.0F, 7.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, 5.0F, 1.0F, -0.3927F, 0.0F, 0.0F));
 
-        PartDefinition bone6 = bone5.addOrReplaceChild("bone6", CubeListBuilder.create().texOffs(184, 76).addBox(-1.0F, -2.3617F, -2.1471F, 3.0F, 11.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, 7.0F, -2.5F, 0.1745F, 0.0F, 0.0F));
+        PartDefinition bone6 = bone5.addOrReplaceChild("bone6", CubeListBuilder.create().texOffs(184, 62).addBox(-1.0F, -2.3617F, -2.1471F, 3.0F, 11.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, 7.0F, -2.5F, 0.1745F, 0.0F, 0.0F));
 
         PartDefinition arm_r = front_master.addOrReplaceChild("arm_r", CubeListBuilder.create().texOffs(0, 160).addBox(-4.0F, -4.0F, -3.5F, 5.0F, 9.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-6.0F, 4.0F, -6.75F, 0.2618F, 0.0F, 0.0F));
 
