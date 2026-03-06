@@ -38,6 +38,8 @@ public class OrganEntity extends AbstractRobot {
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
 
+    public int sitYOffset;
+
     public boolean exhaustLoop() {
         return false;
     }
@@ -298,6 +300,8 @@ public class OrganEntity extends AbstractRobot {
         }
         return super.mobInteract(player, hand);
     }
+
+
 
     /* VARIANTS */
 

@@ -384,7 +384,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition cube_r43 = bellows_top_r.addOrReplaceChild("cube_r43", CubeListBuilder.create().texOffs(139, 334).addBox(0.0F, 0.0F, -12.0F, 12.0F, 3.0F, 26.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.5F, -2.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
 
         PartDefinition bellows_fabric_r = bellows_r.addOrReplaceChild("bellows_fabric_r", CubeListBuilder.create().texOffs(0, 320).addBox(-18.5F, -58.8F, 14.45F, 0.0F, 59.0F, 61.0F, new CubeDeformation(0.0F))
-                .texOffs(0, 320).mirror().addBox(16.5F, -58.8F, 14.45F, 0.0F, 59.0F, 61.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-13.5F, 0.8F, -59.45F));
+                .texOffs(0, 320).mirror().addBox(16.5F, -58.8F, 14.45F, 0.0F, 59.0F, 61.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-13.4F, 0.8F, -59.45F));
 
         PartDefinition bellows_fabric_r1 = bellows_fabric_r.addOrReplaceChild("bellows_fabric_r1", CubeListBuilder.create().texOffs(14, 136).addBox(-13.1789F, -55.9F, -6.8211F, 21.0F, 59.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offset(1.75F, -2.9F, 14.2F));
 
@@ -540,12 +540,23 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
     public void setupAnim(OrganEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.root().getAllParts().forEach(ModelPart::resetPose);
 
-        this.applyHeadRotation(netHeadYaw, headPitch);
+        netHeadYaw = Mth.clamp(netHeadYaw, -30.0F, 30.0F);
+        this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
+        this.neck.yRot = netHeadYaw * ((float)Math.PI / 180F);
+        this.chest.yRot = netHeadYaw * ((float)Math.PI / 180F);
+
+        float ySwing = entity.getAssembly() >= 21 ? (float) Math.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 16) / 16 : 0;
+        float ySwing2 = entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 16) - 2) / 16 : 0;
+        float bodyYOffset = entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / 2 : 0;
+
+        tail1.yRot = ySwing - netHeadYaw * ((float)Math.PI / 180F);
+        tail2.yRot = ySwing2 - netHeadYaw * ((float)Math.PI / 180F);
+        body.y = bodyYOffset - 80;
 
         this.animateWalk(OrganAnimations.organ_walk, limbSwing, limbSwingAmount, 1f, 2f);
 
         if (entity.getAssembly() > 20) {
-            this.animate(entity.idleAnimationState, OrganAnimations.organ_idle, ageInTicks, 1f);
+            this.animate(entity.idleAnimationState, OrganAnimations.organ_playing, ageInTicks, 1f);
         } else {
             this.animate(entity.idleAnimationState, OrganAnimations.organ_assembly, ageInTicks, 1f);
         }
@@ -578,31 +589,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         head.visible = entity.getAssembly() > 20;
 
         stand.visible = entity.getAssembly() < 21;
-
-        float ySwing = (float) Math.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 16) / 16 ;
-        float ySwing2 = (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 16) - 2) / 16 ;
-        float bodyYOffset = (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / 2;
-
-        tail1.yRot = ySwing;
-        tail2.yRot = ySwing2;
-        body.y = bodyYOffset - 80;
     }
 
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
         root.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
-    }
-
-    private void applyHeadRotation(float pNetHeadYaw, float pHeadPitch) {
-        pNetHeadYaw = Mth.clamp(pNetHeadYaw, -30.0F, 30.0F);
-        pHeadPitch = Mth.clamp(pHeadPitch, -25.0F, 45.0F);
-
-        this.head.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
-        this.neck.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
-        this.chest.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
-
-        this.tail1.yRot = pNetHeadYaw * -((float)Math.PI / 180F);
-        this.tail1.yRot = pNetHeadYaw * -((float)Math.PI / 180F);
     }
 
     @Override
