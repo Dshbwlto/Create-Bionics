@@ -8,6 +8,7 @@ import net.dshbwlto.createbionics.entity.client.organ.OrganModel;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerModel;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteModel;
 import net.dshbwlto.createbionics.entity.client.stalker.StalkerModel;
+import net.dshbwlto.createbionics.entity.client.stalker_captain.StalkerCaptainModel;
 import net.dshbwlto.createbionics.entity.custom.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -32,6 +33,7 @@ public class BionicsEventBusEvents {
         event.registerLayerDefinition(BionicsModelLayers.REPLETE_GLOW, RepleteModel::createBodyLayer);
 
         event.registerLayerDefinition(BionicsModelLayers.STALKER, StalkerModel::createBodyLayer);
+        event.registerLayerDefinition(BionicsModelLayers.STALKER_CAPTAIN, StalkerCaptainModel::createBodyLayer);
 
         event.registerLayerDefinition(BionicsModelLayers.ORGAN, OrganModel::createBodyLayer);
         event.registerLayerDefinition(BionicsModelLayers.ORGAN_GLOW, OrganModel::createBodyLayer);
@@ -50,6 +52,7 @@ public class BionicsEventBusEvents {
         event.put(BionicsEntities.OXHAULER.get(), OxhaulerEntity.createAttributes().build());
         event.put(BionicsEntities.REPLETE.get(), RepleteEntity.createAttributes().build());
         event.put(BionicsEntities.STALKER.get(), StalkerEntity.createAttributes().build());
+        event.put(BionicsEntities.STALKER_CAPTAIN.get(), StalkerCaptainEntity.createAttributes().build());
         event.put(BionicsEntities.ORGAN.get(), OrganEntity.createAttributes().build());
     }
 

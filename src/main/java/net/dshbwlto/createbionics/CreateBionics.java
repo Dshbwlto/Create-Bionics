@@ -12,6 +12,7 @@ import net.dshbwlto.createbionics.entity.client.organ.OrganRenderer;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerRenderer;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteRenderer;
 import net.dshbwlto.createbionics.entity.client.stalker.StalkerRenderer;
+import net.dshbwlto.createbionics.entity.client.stalker_captain.StalkerCaptainRenderer;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.registry.custom.BionicsRegistrate;
 import net.dshbwlto.createbionics.screen.BionicsMenuTypes;
@@ -164,6 +165,7 @@ public class CreateBionics {
             EntityRenderers.register(BionicsEntities.OXHAULER.get(), OxhaulerRenderer::new);
             EntityRenderers.register(BionicsEntities.REPLETE.get(), RepleteRenderer::new);
             EntityRenderers.register(BionicsEntities.STALKER.get(), StalkerRenderer::new);
+            EntityRenderers.register(BionicsEntities.STALKER_CAPTAIN.get(), StalkerCaptainRenderer::new);
             EntityRenderers.register(BionicsEntities.ORGAN.get(), OrganRenderer::new);
         }
 

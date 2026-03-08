@@ -3,19 +3,23 @@ package net.dshbwlto.createbionics.entity.custom;
 import com.simibubi.create.AllItems;
 import net.dshbwlto.createbionics.entity.client.stalker.StalkerVariant;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.*;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.AnimationState;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -26,7 +30,7 @@ import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
 
-public class StalkerEntity extends AbstractRobot {
+public class StalkerCaptainEntity extends StalkerEntity {
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
     private static final float MOVEMENT_SPEED_WHEN_FIGHTING = 10F;
@@ -34,10 +38,16 @@ public class StalkerEntity extends AbstractRobot {
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
+    private static final EntityDataAccessor<Integer> PAGE_NUMBER =
+            SynchedEntityData.defineId(StalkerCaptainEntity.class, EntityDataSerializers.INT);
 
     protected SimpleContainer inventory;
 
-    public StalkerEntity(EntityType<? extends AbstractRobot> entityType, Level level) {
+    private int PageNumber() {
+        return entityData.get(PAGE_NUMBER);
+    }
+
+    public StalkerCaptainEntity(EntityType<? extends AbstractRobot> entityType, Level level) {
         super(entityType, level);
     }
 
@@ -151,12 +161,14 @@ public class StalkerEntity extends AbstractRobot {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
+        builder.define(PAGE_NUMBER, 1);
     }
 
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
+
     }
 
     @Override

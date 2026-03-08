@@ -30,6 +30,10 @@ public class BionicsEntities {
             ENTITY_TYPES.register("stalker", () -> EntityType.Builder.of(StalkerEntity::new, MobCategory.CREATURE)
                     .sized(1.5f, 1f).build("stalker"));
 
+    public static final Supplier<EntityType<StalkerCaptainEntity>> STALKER_CAPTAIN =
+            ENTITY_TYPES.register("stalker_captain", () -> EntityType.Builder.of(StalkerCaptainEntity::new, MobCategory.CREATURE)
+                    .sized(1.5f, 1f).build("stalker_captain"));
+
     public static final Supplier<EntityType<OrganEntity>> ORGAN =
             ENTITY_TYPES.register("organ", () -> EntityType.Builder.of(OrganEntity::new, MobCategory.CREATURE)
                     .sized(7, 7f).build("organ"));

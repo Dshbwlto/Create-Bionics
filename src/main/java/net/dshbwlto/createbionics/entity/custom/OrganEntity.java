@@ -3,6 +3,8 @@ package net.dshbwlto.createbionics.entity.custom;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
+import com.simibubi.create.content.kinetics.steamEngine.SteamJetParticleData;
+import net.createmod.catnip.animation.AnimationTickHolder;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganGlow;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
@@ -38,12 +40,6 @@ public class OrganEntity extends AbstractRobot {
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
 
-    public int sitYOffset;
-
-    public boolean exhaustLoop() {
-        return false;
-    }
-
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
@@ -53,6 +49,9 @@ public class OrganEntity extends AbstractRobot {
 
     public static final EntityDataAccessor<Integer> SIT_ORIENTATION =
             SynchedEntityData.defineId(OrganEntity.class, EntityDataSerializers.INT);
+
+    public static final EntityDataAccessor<Float> SIT_Y_OFFSET =
+            SynchedEntityData.defineId(OrganEntity.class, EntityDataSerializers.FLOAT);
 
     public OrganEntity(EntityType<? extends AbstractRobot> entityType, Level level) {
         super(entityType, level);
@@ -145,6 +144,16 @@ public class OrganEntity extends AbstractRobot {
             this.setUpAnimationStates();
         }
 
+        if (getCommand() == 2) {
+            if (getSitYOffset() < 47) {
+                setSitYOffset(getSitYOffset() + 1.2f);
+            }
+        } else {
+            if (getSitYOffset() > 0) {
+                setSitYOffset(getSitYOffset() - 1.2f);
+            }
+        }
+
         /* BLINKING */
         if (Math.random() < 0.01f) {
             blinkCountdown = 6;
@@ -155,33 +164,9 @@ public class OrganEntity extends AbstractRobot {
 
         /* STEAM EFFECTS */
 
+
         /* exhaust */
-        if (exhaustLoop()) {
 
-            if (exhaust1 < 13) {
-                exhaust1 = exhaust1 + 1;
-            } else {
-                exhaust1 = 8;
-            }
-
-            if (exhaust2 < 4) {
-                exhaust2 = exhaust2 + 1;
-            } else {
-                exhaust2 = 2;
-            }
-        } else {
-            if (exhaust1 == 21) {
-                exhaust1 = 0;
-            } else if (exhaust1 > 0) {
-                exhaust1 = exhaust1 + 1;
-            }
-
-            if (exhaust2 == 21) {
-                exhaust2 = 0;
-            } else if (exhaust2 > 0) {
-                exhaust2 = exhaust2 + 1;
-            }
-        }
     }
 
     /* SAVE DATA */
@@ -191,6 +176,7 @@ public class OrganEntity extends AbstractRobot {
         super.defineSynchedData(builder);
         builder.define(GLOW_COLOR, 0);
         builder.define(SIT_ORIENTATION, 0);
+        builder.define(SIT_Y_OFFSET, 0f);
     }
 
     @Override
@@ -198,6 +184,7 @@ public class OrganEntity extends AbstractRobot {
         super.addAdditionalSaveData(compound);
         compound.putInt("Glow_Color", this.entityData.get(GLOW_COLOR));
         compound.putInt("Sit_Orientation", this.entityData.get(SIT_ORIENTATION));
+        compound.putFloat("Sit_Y_Offset", this.entityData.get(SIT_Y_OFFSET));
     }
 
     @Override
@@ -205,6 +192,7 @@ public class OrganEntity extends AbstractRobot {
         super.readAdditionalSaveData(compound);
         entityData.set(GLOW_COLOR, compound.getInt("Glow_Color"));
         entityData.set(SIT_ORIENTATION, compound.getInt("Sit_Orientation"));
+        entityData.set(SIT_Y_OFFSET, compound.getFloat("Sit_Y_Offset"));
     }
 
     /* INTERACT */
@@ -293,15 +281,15 @@ public class OrganEntity extends AbstractRobot {
                         player.displayClientMessage(Component.translatable("entity.createbionics.organ.center", this.getName().getString()), true);
                     }
                 } else {
-                    updateCommand(player);
+                    if (getSitYOffset() < 1 || getSitYOffset() > 45) {
+                        updateCommand(player);
+                    }
                 }
             }
             return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);
     }
-
-
 
     /* VARIANTS */
 
@@ -370,14 +358,6 @@ public class OrganEntity extends AbstractRobot {
 
     /* STEAM */
 
-    public int sustain = 0;
-    public int exhaust1 = 0;
-    public int exhaust2 = 0;
-
-    public void startExhaust() {
-    }
-
-
     /* ASSEMBLY */
 
     private Item getPart () {
@@ -428,4 +408,10 @@ public class OrganEntity extends AbstractRobot {
         }
     }
 
+    public float getSitYOffset() {
+        return entityData.get(SIT_Y_OFFSET);
+    }
+    public void setSitYOffset(float offset) {
+        entityData.set(SIT_Y_OFFSET, offset);
+    }
 }

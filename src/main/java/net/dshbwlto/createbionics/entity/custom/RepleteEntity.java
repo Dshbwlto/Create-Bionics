@@ -2,18 +2,17 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
+import net.createmod.catnip.animation.LerpedFloat;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -48,8 +47,16 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
     public int countdown = 0;
-    public float fluidLevel = 0;
+    public float sitOffset = 0;
+    public LerpedFloat fluidLevel;
 
+    public LerpedFloat getFluidLevel() {
+        return fluidLevel;
+    }
+
+    public void setFluidLevel(LerpedFloat fluidLevel) {
+        this.fluidLevel = fluidLevel;
+    }
 
     public int fuel() {
         return entityData.get(FUEL);
@@ -61,8 +68,6 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
 
     public static final EntityDataAccessor<Integer> FUEL =
             SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Float> FILL_LEVEL =
-            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.FLOAT);
 
     public RepleteEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
@@ -185,12 +190,12 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
         }
 
         if (isSitting()) {
-            if (fluidLevel < 1) {
-                fluidLevel = fluidLevel + 0.05f;
+            if (sitOffset < 1) {
+                sitOffset = sitOffset + 0.05f;
             }
         } else {
-            if (fluidLevel > 0) {
-                fluidLevel = fluidLevel - 0.05f;
+            if (sitOffset > 0) {
+                sitOffset = sitOffset - 0.05f;
             }
         }
         if (entityData.get(FUEL) > 0) {
@@ -257,6 +262,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
         if(itemstack.getCapability(Capabilities.FluidHandler.ITEM, null) != null) {
             if(hasFluidStackInHand(player, hand)) {
                 transferFluidToTank(player, hand);
+                sitOffset = sitOffset + 1;
                 if(this.level().isClientSide()) {
                     return InteractionResult.SUCCESS;
                 } else {
@@ -268,6 +274,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
             }
             if(hasFluidHandlerInHand(player, hand)) {
                 transferFluidFromTankToPlayer(player, hand);
+                sitOffset = sitOffset - 1;
                 if(this.level().isClientSide()) {
                     return InteractionResult.SUCCESS;
                 } else {
@@ -282,46 +289,30 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
             updateCommand(player);
             return InteractionResult.SUCCESS;
         }
-
-       return super.mobInteract(player, hand);
+        player.displayClientMessage(Component.literal("fill" + getTank(null).getFluidInTank(0).getAmount()/1000), true);
+        return super.mobInteract(player, hand);
     }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(FUEL, 0);
-        builder.define(FILL_LEVEL,0F);
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
+        compound.put("tank.inventory", itemHandler.serializeNBT(level().registryAccess()));
+        compound = FLUID_TANK.writeToNBT(level().registryAccess(), compound);
         super.addAdditionalSaveData(compound);
-        compound.putInt("Variant", this.getTypeVariant());
-        compound.putInt("RefuelTime", this.entityData.get(FUEL));
-        ListTag listtag = new ListTag();
-        for (int x = 0; x < 1; x++) {
-            ItemStack itemstack = this.getFluid().getFluidType().getBucket(getFluid());
-            if (!itemstack.isEmpty()) {
-                CompoundTag compoundtag = new CompoundTag();
-                compoundtag.putByte("Slot", (byte)(x));
-                listtag.add(itemstack.save(this.registryAccess(), compoundtag));
-            }
-        }
     }
 
+    @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        this.entityData.set(VARIANT, compound.getInt("Variant"));
-        entityData.set(FUEL, compound.getInt("RefuelTime"));
+        itemHandler.deserializeNBT(level().registryAccess(), compound.getCompound("tank.inventory"));
+        FLUID_TANK.readFromNBT(level().registryAccess(), compound);
 
-        ListTag listtag = compound.getList("Items", 10);
-        for (int x = 0; x < listtag.size(); x++) {
-            CompoundTag compoundtag = listtag.getCompound(x);
-            int j = compoundtag.getByte("Slot") & 255;
-            if (j < 1) {
-                this.FLUID_TANK.setFluid(FluidStack.parseOptional(this.registryAccess(), compoundtag));
-            }
-        }
+
     }
 
     //VARIANT//
@@ -356,7 +347,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
         }
     };
 
-    private final FluidTank FLUID_TANK = createFluidTank();
+    public final FluidTank FLUID_TANK = createFluidTank();
     private FluidTank createFluidTank() {
         return new FluidTank(160000) {
             @Override
@@ -376,11 +367,6 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
     @Override
     public Component getDisplayName() {
         return Component.literal("Replete");
-    }
-
-    @Nullable
-    public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory) {
-        return null;
     }
 
     private boolean hasFluidStackInHand(Player player, InteractionHand hand) {

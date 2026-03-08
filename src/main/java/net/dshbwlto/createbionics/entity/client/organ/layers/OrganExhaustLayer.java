@@ -71,7 +71,7 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
 
     public void renderWhistles(OrganEntity entity, float netHeadYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight,
                                int count, int size, int height, float separation, float xPos, float yPos, float zPos, float angle) {
-        float bodyYOffset = entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0;
+        float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - entity.getSitYOffset()/16;
 
         PartialModel base_middle = size == 1 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small").withSuffix(variant(entity)))
                 : size == 2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium").withSuffix(variant(entity)))
@@ -123,8 +123,8 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
     public void renderWhistlesTail1(OrganEntity entity, float netHeadYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight,
                                     int count, int size, int height, float separation, float xPos, float yPos, float zPos, float angle) {
         float ySwing = entity.getAssembly() >= 21 ? (float) Math.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / -16) * 3.55f : 0;
-        float bodyYOffset = entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0;
-        netHeadYaw = Mth.clamp(netHeadYaw, -30.0F, 30.0F);
+        float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - entity.getSitYOffset()/16;
+        netHeadYaw = Mth.clamp(netHeadYaw, -60.0F, 60.0F / 2);
 
         PartialModel base_middle = size == 1 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small").withSuffix(variant(entity)))
                 : size == 2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium").withSuffix(variant(entity)))
@@ -191,8 +191,8 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
 
     public void renderWhistlesChest(OrganEntity entity, float netHeadYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight,
                                     int count, int size, int height, float separation, float xPos, float yPos, float zPos, float angle) {
-        float bodyYOffset = entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0;
-        netHeadYaw = Mth.clamp(netHeadYaw, -30.0F, 30.0F);
+        float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - entity.getSitYOffset()/16;
+        netHeadYaw = Mth.clamp(netHeadYaw, -60.0F, 60.0F / 2);
 
         PartialModel base_middle = size == 1 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small").withSuffix(variant(entity)))
                 : size == 2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium").withSuffix(variant(entity)))
@@ -261,8 +261,8 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                                     int count, int size, int height, float separation, float xPos, float yPos, float zPos, float angle) {
         float ySwing = entity.getAssembly() >= 21 ? (float) Math.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / -16) * 3.55f : 0;
         float ySwing2 = entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / -16) + 2) * 3.55f : 0;
-        float bodyYOffset = entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0;
-        netHeadYaw = Mth.clamp(netHeadYaw, -30.0F, 30.0F);
+        float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - entity.getSitYOffset()/16;
+        netHeadYaw = Mth.clamp(netHeadYaw, -60.0F, 60.0F) / 2;
 
         PartialModel base_middle = size == 1 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small").withSuffix(variant(entity)))
                 : size == 2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium").withSuffix(variant(entity)))
@@ -337,7 +337,7 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
 
     @Override
     public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, OrganEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        int integer = entity.exhaust1;
+        int integer = 0;
             this.getParentModel().copyPropertiesTo(this.model);
             this.model.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTicks);
             this.model.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
