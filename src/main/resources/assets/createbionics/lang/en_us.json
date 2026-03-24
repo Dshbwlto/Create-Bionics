@@ -10,23 +10,32 @@
   "item.createbionics.anole": "Anole",
 
   "item.createbionics.oxhauler_head_item": "Oxhauler Head",
-  "item.createbionics.oxhauler_head_item.tooltip.summary": "The _Eighth_ and _final_ part of the _Oxhauler_ build sequence.",
+  "item.createbionics.oxhauler_head_item.tooltip.summary": "The _Seventh_ and _final_ part of the _Oxhauler_ build sequence.",
   "item.createbionics.oxhauler_head_item.tooltip.condition1": "When used on an incomplete Oxhauler",
   "item.createbionics.oxhauler_head_item.tooltip.behaviour1": "Advances the construction sequence by _one_.",
   "item.createbionics.oxhauler_front_item": "Oxhauler Front",
-  "item.createbionics.oxhauler_front_item.tooltip.summary": "The _Second_ part of the _Oxhauler_ build sequence.",
+  "item.createbionics.oxhauler_front_item.tooltip.summary": "The _First_ part of the _Oxhauler_ build sequence.",
   "item.createbionics.oxhauler_front_item.tooltip.condition1": "When used on an incomplete Oxhauler",
   "item.createbionics.oxhauler_front_item.tooltip.behaviour1": "Advances the construction sequence by _one_.",
   "item.createbionics.oxhauler_middle_item": "Oxhauler Middle",
   "item.createbionics.oxhauler_rear_item": "Oxhauler Rear",
-  "item.createbionics.oxhauler_rear_item.tooltip.summary": "The _Third_ part of the _Oxhauler_ build sequence.",
+  "item.createbionics.oxhauler_rear_item.tooltip.summary": "The _Second_ part of the _Oxhauler_ build sequence.",
   "item.createbionics.oxhauler_rear_item.tooltip.condition1": "When used on an incomplete Oxhauler",
   "item.createbionics.oxhauler_rear_item.tooltip.behaviour1": "Advances the construction sequence by _one_.",
   "item.createbionics.oxhauler_engine_item": "Oxhauler Engine",
   "item.createbionics.oxhauler_leg_item": "Oxhauler Leg",
-  "item.createbionics.oxhauler_leg_item.tooltip.summary": "The _Fourth_ through _Seventh_ part of the _Oxhauler_ build sequence.",
+  "item.createbionics.oxhauler_leg_item.tooltip.summary": "The _Third_ through _Sixth_ part of the _Oxhauler_ build sequence.",
   "item.createbionics.oxhauler_leg_item.tooltip.condition1": "When used on an incomplete Oxhauler",
   "item.createbionics.oxhauler_leg_item.tooltip.behaviour1": "Advances the construction sequence by _one_.",
+
+  "item.createbionics.replete_leg_item": "Replete Leg",
+  "item.createbionics.replete_leg_item.tooltip.summary": "The _First_ through _Sixth_ part of the _Replete_ build sequence.",
+  "item.createbionics.replete_leg_item.tooltip.condition1": "When used on an incomplete Replete",
+  "item.createbionics.replete_leg_item.tooltip.behaviour1": "Advances the construction sequence by _one_.",
+  "item.createbionics.replete_body_item": "Replete Body",
+
+  "item.createbionics.waltz_2_music_disc": "Music Disc",
+  "item.createbionics.waltz_2_music_disc.desc": "Dmitri Shostakovich - Waltz No. 2",
 
   "item.createbionics.organ_middle_item": "Organ Middle",
   "item.createbionics.organ_foot_item": "Organ Foot",
@@ -49,9 +58,6 @@
 
   "block.createbionics.oxhauler_front.tooltip.summary": "Relay rotation in two directions _independently_.",
 
-  "item.createbionics.vitticeps_music_disc": "Music Disc",
-  "item.createbionics.vitticeps_music_disc.desc": "Dshbwlto - Vitticeps",
-
   "painting.createbionics.ares.title": "Ares",
   "painting.createbionics.ares.author": "Dshbwlto",
   "painting.createbionics.anole.title": "Anole",
@@ -63,16 +69,13 @@
 
   "entity.createbionics.anole": "Anole",
   "entity.createbionics.oxhauler": "Oxhauler",
+  "entity.createbionics.replete": "Replete",
   "entity.createbionics.stalker": "Stalker",
   "entity.createbionics.organ": "Organ",
 
   "entity.createbionics.all.command_0": "%s is following",
   "entity.createbionics.all.command_1": "%s is wandering",
   "entity.createbionics.all.command_2": "%s is staying",
-  "entity.createbionics.organ.left": "Changed %s's sit orientation: Left",
-  "entity.createbionics.organ.right": "Changed %s's sit orientation: Right",
-  "entity.createbionics.organ.center": "Changed %s's sit orientation: Center",
-
 
   "entity.createbionics.all.assembly": "Next Part: %s",
   "entity.createbionics.all.page_progress": "%s/%s",

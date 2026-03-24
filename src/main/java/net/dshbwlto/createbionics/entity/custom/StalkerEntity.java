@@ -2,6 +2,8 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllItems;
 import net.dshbwlto.createbionics.entity.client.stalker.StalkerVariant;
+import net.dshbwlto.createbionics.item.BionicsItems;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -10,7 +12,9 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.*;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -21,7 +25,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
@@ -45,8 +51,8 @@ public class StalkerEntity extends AbstractRobot {
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(2, new FloatGoal(this));
-        this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.5F));
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, (double)2.0F, true));
+        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, (double)2.0F, true));
+        this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.5F));
         this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1d, 10f, 5f) {
             @Override
             public boolean canUse() {
@@ -70,12 +76,8 @@ public class StalkerEntity extends AbstractRobot {
 
     private void updateSpeed() {
         if (this.isAggressive()) {
-            if (isInLiquid()) {
-                this.setSpeed(Math.max(this.getSpeed() / 400.0F, 0.08F));
-            } else {
                 this.setDeltaMovement(this.getDeltaMovement().add(0.0, 0.005, 0.0));
                 this.setSpeed(Math.max(this.getSpeed() / 2.0F, 0.08F));
-            }
         } else {
             this.setSpeed(Math.max(this.getSpeed() / 2.0F, 0.06F));
         }
@@ -87,15 +89,20 @@ public class StalkerEntity extends AbstractRobot {
     }
 
     @Override
-    public void sinkInFluid(FluidType type) {
+    protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
+        super.dropCustomDeathLoot(level, damageSource, recentlyHit);
+        if (random.nextFloat() < 0.2) {
+            spawnAtLocation(new ItemStack((ItemLike) BionicsItems.STALKER_BODY));
+        }
     }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Animal.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 60D)
                 .add(Attributes.MOVEMENT_SPEED, 0.35f)
-                .add(Attributes.ATTACK_DAMAGE, 5f)
-                .add(Attributes.FOLLOW_RANGE, 24D);
+                .add(Attributes.ATTACK_DAMAGE, 7)
+                .add(Attributes.FOLLOW_RANGE, 24D)
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.8);
     }
 
     @Override
@@ -142,6 +149,12 @@ public class StalkerEntity extends AbstractRobot {
     @Override
     public void tick() {
         super.tick();
+        playSoundScape(2, 2);
+        if(this.horizontalCollision) {
+            Vec3 initialVec = this.getDeltaMovement();
+            Vec3 climbVec = new Vec3(initialVec.x, 0.2D, initialVec.z);
+            this.setDeltaMovement(climbVec.scale(0.96D));
+        }
         this.updateSpeed();
         if (this.level().isClientSide()) {
             this.setupAnimationStates();
@@ -183,7 +196,12 @@ public class StalkerEntity extends AbstractRobot {
                 return InteractionResult.SUCCESS;
             }
         }
-        if (itemstack.is(Items.COPPER_INGOT)
+        if (itemstack.is (Items.COPPER_INGOT) && getHealth() != getMaxHealth()) {
+            itemstack.shrink(1);
+            heal(100);
+            playSound(SoundEvents.SMITHING_TABLE_USE);
+            return InteractionResult.CONSUME;
+        } else if ((itemstack.is(Items.COPPER_INGOT))
                 || itemstack.is(AllItems.ANDESITE_ALLOY)
                 || itemstack.is(AllItems.BRASS_INGOT)) {
             dropIngot(getVariant());

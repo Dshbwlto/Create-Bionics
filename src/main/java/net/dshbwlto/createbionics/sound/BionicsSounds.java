@@ -29,8 +29,8 @@ public class BionicsSounds {
 
     public static final Supplier<SoundEvent> GET_STICK_BUGGED = registerSoundEvent("get_stick_bugged");
 
-    public static final Supplier<SoundEvent> VITTICEPS = registerSoundEvent("vitticeps");
-    public static final ResourceKey<JukeboxSong> VITTICEPS_KEY = createSong("vitticeps");
+    public static final Supplier<SoundEvent> WALTZ_2 = registerSoundEvent("waltz_2");
+    public static final ResourceKey<JukeboxSong> WALTZ_2_KEY = createSong("waltz_2");
 
     private static ResourceKey<JukeboxSong> createSong(String name) {
         return ResourceKey.create(Registries.JUKEBOX_SONG, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, name));

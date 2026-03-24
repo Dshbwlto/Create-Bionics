@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FluidState;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
@@ -60,6 +61,8 @@ public class RepleteRenderer extends MobRenderer<RepleteEntity, RepleteModel<Rep
         if (fluidStack.isEmpty())
             return;
 
+        Level level = entity.level();
+
         BlockPos pos = entity.getOnPos();
 
         IClientFluidTypeExtensions fluidTypeExtensions = IClientFluidTypeExtensions.of(fluidStack.getFluid());
@@ -68,7 +71,7 @@ public class RepleteRenderer extends MobRenderer<RepleteEntity, RepleteModel<Rep
         FluidState state = fluidStack.getFluid().defaultFluidState();
 
         TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(stillTexture);
-        int tintColor = fluidTypeExtensions.getTintColor(state, null, pos);
+        int tintColor = fluidTypeExtensions.getTintColor(state, level, pos);
 
         float height = (((float) entity.getTank(null).getFluidInTank(0).getAmount() / entity.getTank(null).getTankCapacity(0)) * 0.625f) + 0.25f;
 
@@ -78,29 +81,6 @@ public class RepleteRenderer extends MobRenderer<RepleteEntity, RepleteModel<Rep
         drawQuad(builder, poseStack, 0.1f, 0, 0.1f, 0.9f, 0.9f, 0.9f, sprite.getU0(), sprite.getV0(), sprite.getU1(), sprite.getV1(), packedLight, tintColor);
         drawQuad(builder, poseStack, 0.1f, 0, 0.1f, 0.9f, 0.9f, 0.1f, sprite.getU0(), sprite.getV0(), sprite.getU1(), sprite.getV1(), packedLight, tintColor);
 
-        poseStack.pushPose();
-        poseStack.mulPose(Axis.XP.rotationDegrees(180));
-        poseStack.translate(0, -0.9f, -1f);
-        drawQuad(builder, poseStack, 0.1f, height, 0.1f, 0.9f, height, 0.9f, sprite.getU0(), sprite.getV0(), sprite.getU1(), sprite.getV1(), packedLight, tintColor);
-        poseStack.popPose();
-
-        poseStack.pushPose();
-        poseStack.mulPose(Axis.YP.rotationDegrees(180));
-        poseStack.translate(-1f, 0, -1.8f);
-        drawQuad(builder, poseStack, 0.1f, 0, 0.9f, 0.9f, height, 0.9f, sprite.getU0(), sprite.getV0(), sprite.getU1(), sprite.getV1(), packedLight, tintColor);
-        poseStack.popPose();
-
-        poseStack.pushPose();
-        poseStack.mulPose(Axis.YP.rotationDegrees(90));
-        poseStack.translate(-1f, 0, 0);
-        drawQuad(builder, poseStack, 0.1f, 0, 0.1f, 0.9f, height, 0.1f, sprite.getU0(), sprite.getV0(), sprite.getU1(), sprite.getV1(), packedLight, tintColor);
-        poseStack.popPose();
-
-        poseStack.pushPose();
-        poseStack.mulPose(Axis.YN.rotationDegrees(90));
-        poseStack.translate(0, 0, -1f);
-        drawQuad(builder, poseStack, 0.1f, 0, 0.1f, 0.9f, height, 0.1f, sprite.getU0(), sprite.getV0(), sprite.getU1(), sprite.getV1(), packedLight, tintColor);
-        poseStack.popPose();
     }
     private static void drawVertex(VertexConsumer builder, PoseStack poseStack, float x, float y, float z, float u, float v, int packedLight, int color) {
         builder.addVertex(poseStack.last().pose(), x, y, z)

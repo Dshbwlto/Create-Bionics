@@ -119,7 +119,9 @@ public class StalkerModel <T extends StalkerEntity> extends HierarchicalModel <T
         this.root().getAllParts().forEach(ModelPart::resetPose);
 
         this.applyHeadRotation(netHeadYaw, headPitch);
-        if (entity.isAggressive()) {
+        if (entity.isInFluidType()) {
+            this.animateWalk(StalkerAnimations.stalker_swim, limbSwing, limbSwingAmount, 1f, 2f);
+        } else if (entity.isAggressive()) {
             this.animateWalk(StalkerAnimations.stalker_run, limbSwing, limbSwingAmount, 1f, 2f);
         } else {
             this.animateWalk(StalkerAnimations.stalker_walk, limbSwing, limbSwingAmount, 2f, 2f);

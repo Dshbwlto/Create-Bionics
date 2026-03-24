@@ -42,31 +42,5 @@ public class RepleteGlowLayer extends RenderLayer<RepleteEntity, RepleteModel<Re
         this.model.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucentEmissive(ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_glow.png")));
         this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
-
-        LerpedFloat fluidLevel = livingEntity.fluidLevel;
-        if (fluidLevel == null)
-            return;
-
-        float capHeight = 1 / 4f;
-        float tankHullWidth = 1 / 16f + 1 / 128f;
-        float minPuddleHeight = 1 / 16f;
-        float totalHeight = 5 - 2 * capHeight - minPuddleHeight;
-
-        float level = fluidLevel.getValue(partialTicks);
-        if (level < 1 / (512f * totalHeight))
-            return;
-        float clampedLevel = Mth.clamp(level * totalHeight, 0, totalHeight);
-
-        FluidTank tank = livingEntity.FLUID_TANK;
-        FluidStack fluidStack = tank.getFluid();
-
-        if (fluidStack.isEmpty())
-            return;
-
-        poseStack.pushPose();
-        poseStack.translate(0, 0, 0);
-        NeoForgeCatnipServices.FLUID_RENDERER.renderFluidBox(fluidStack, 0, 0, 0, 100, 100, 100, buffer,
-                poseStack, packedLight, false, true);
-        poseStack.popPose();
     }
 }

@@ -4,7 +4,8 @@
 	"texture_size": [1024, 1024],
 	"textures": {
 		"0": "createbionics:item/entity/organ_items_1",
-		"particle": "createbionics:item/entity/organ_items_1"
+		"1": "createbionics:item/entity/organ_items_1",
+		"particle": "organ_brass"
 	},
 	"elements": [
 		{
@@ -12,12 +13,12 @@
 			"to": [2, 14, 2],
 			"rotation": {"angle": 0, "axis": "y", "origin": [-8, 115, -24]},
 			"faces": {
-				"north": {"uv": [10.3125, 2.29688, 10.375, 2.625], "texture": "#0"},
-				"east": {"uv": [10.25, 2.29688, 10.3125, 2.625], "texture": "#0"},
-				"south": {"uv": [10.4375, 2.29688, 10.5, 2.625], "texture": "#0"},
-				"west": {"uv": [10.375, 2.29688, 10.4375, 2.625], "texture": "#0"},
-				"up": {"uv": [10.375, 2.29688, 10.3125, 2.23438], "texture": "#0"},
-				"down": {"uv": [10.4375, 2.23438, 10.375, 2.29688], "texture": "#0"}
+				"north": {"uv": [10.3125, 2.29688, 10.375, 2.625], "texture": "#1"},
+				"east": {"uv": [10.25, 2.29688, 10.3125, 2.625], "texture": "#1"},
+				"south": {"uv": [10.4375, 2.29688, 10.5, 2.625], "texture": "#1"},
+				"west": {"uv": [10.375, 2.29688, 10.4375, 2.625], "texture": "#1"},
+				"up": {"uv": [10.375, 2.29688, 10.3125, 2.23438], "texture": "#1"},
+				"down": {"uv": [10.4375, 2.23438, 10.375, 2.29688], "texture": "#1"}
 			}
 		},
 		{

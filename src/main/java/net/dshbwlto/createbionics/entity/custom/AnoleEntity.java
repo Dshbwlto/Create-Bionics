@@ -198,9 +198,7 @@ public class AnoleEntity extends AbstractRobot {
         if (this.level().isClientSide()) {
             this.setupAnimationStates();
         }
-        if(tickCount % 50 == 0 && !isCurrentlyGlowing() && !isSilent()) {
-            this.level().playLocalSound(this.getX() + (double) 0.5F, this.getY() + (double) 0.5F, this.getZ() + (double) 0.5F, BionicsSounds.ENGINE_IDLE.get(), this.getSoundSource(), 0.1F, 1.2F, false);
-        }
+        playSoundScape(1, 1);
         if(this.horizontalCollision) {
             Vec3 initialVec = this.getDeltaMovement();
             Vec3 climbVec = new Vec3(initialVec.x, 0.2D, initialVec.z);
@@ -247,10 +245,10 @@ public class AnoleEntity extends AbstractRobot {
                         heal(1);
                     }
                 } else {
-                    setTypeVariant(itemStack);
                     if (!itemStack.is(Items.SPONGE) && !itemStack.is(Items.WET_SPONGE)) {
                         dropIngot(getVariant());
                     }
+                    setTypeVariant(itemStack);
                 }
                 if (level().isClientSide) {
                     return InteractionResult.SUCCESS;

@@ -36,7 +36,7 @@ public class BionicsEntities {
 
     public static final Supplier<EntityType<OrganEntity>> ORGAN =
             ENTITY_TYPES.register("organ", () -> EntityType.Builder.of(OrganEntity::new, MobCategory.CREATURE)
-                    .sized(7, 7f).build("organ"));
+                    .sized(5, 6f).build("organ"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

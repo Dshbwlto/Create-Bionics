@@ -26,6 +26,7 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
     private final ModelPart plough;
     private final ModelPart bolts_front;
     private final ModelPart bolts_rear;
+    private final ModelPart dial;
 
     public OxhaulerModel(ModelPart root) {
         this.root = root.getChild("root");
@@ -41,6 +42,7 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
         this.plough = this.root.getChild("plough");
         this.bolts_front = this.root.getChild("body").getChild("bolts_front");
         this.bolts_rear = this.root.getChild("body").getChild("bolts_rear");
+        this.dial = this.root.getChild("body").getChild("front_master").getChild("front").getChild("neck_master").getChild("neck").getChild("dial");
    }
 
     public static LayerDefinition createBodyLayer() {
@@ -203,12 +205,15 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
 
         PartDefinition cube_r11 = pistons.addOrReplaceChild("cube_r11", CubeListBuilder.create().texOffs(107, 117).addBox(0.0F, -2.0F, -11.0F, 2.0F, 2.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.0F, 0.0F, 0.0F, 0.0F, -0.1309F, 0.0F));
 
-        PartDefinition neck = neck_master.addOrReplaceChild("neck", CubeListBuilder.create().texOffs(116, 64).addBox(-5.0F, -2.5F, -11.0F, 10.0F, 3.0F, 11.0F, new CubeDeformation(0.0F))
+        PartDefinition neck = neck_master.addOrReplaceChild("neck", CubeListBuilder.create().texOffs(117, 65).addBox(-5.0F, -2.5F, -11.0F, 10.0F, 3.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(117, 78).addBox(-5.0F, -2.0F, -11.0F, 10.0F, 0.0F, 10.0F, new CubeDeformation(0.0F))
                 .texOffs(108, 117).addBox(4.0F, 1.0F, -11.5F, 1.0F, 3.0F, 11.0F, new CubeDeformation(0.0F))
                 .texOffs(108, 117).addBox(-5.0F, 1.0F, -11.5F, 1.0F, 3.0F, 11.0F, new CubeDeformation(0.0F))
                 .texOffs(90, 151).addBox(-5.0F, -2.5F, -18.5F, 1.0F, 7.0F, 7.0F, new CubeDeformation(0.0F))
                 .texOffs(90, 151).addBox(4.0F, -2.5F, -18.5F, 1.0F, 7.0F, 7.0F, new CubeDeformation(0.0F))
                 .texOffs(126, 106).addBox(-3.99F, -2.0F, -11.5F, 8.0F, 8.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -5.0F, -1.0F, 0.3927F, 0.0F, 0.0F));
+
+        PartDefinition dial = neck.addOrReplaceChild("dial", CubeListBuilder.create().texOffs(119, 82).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 1.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(2.0F, -2.25F, -8.0F));
 
         PartDefinition head = neck.addOrReplaceChild("head", CubeListBuilder.create().texOffs(180, 93).addBox(-4.0F, -3.0F, -3.0F, 2.0F, 6.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(152, 177).addBox(-9.0F, -3.0F, -3.0F, 4.0F, 6.0F, 6.0F, new CubeDeformation(0.0F))
@@ -216,7 +221,9 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
                 .texOffs(176, 142).addBox(5.0F, -3.0F, -3.0F, 4.0F, 6.0F, 6.0F, new CubeDeformation(0.0F))
                 .texOffs(158, 32).mirror().addBox(-3.0F, -3.5F, -4.5F, 6.0F, 10.0F, 7.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(30, 144).addBox(-2.0F, 9.5F, -3.75F, 4.0F, 4.0F, 1.0F, new CubeDeformation(0.0F))
-                .texOffs(24, 144).addBox(-1.0F, 10.5F, -3.75F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, -15.0F, -0.48F, 0.0F, 0.0F));
+                .texOffs(24, 144).addBox(-1.0F, 10.5F, -3.75F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(27, 148).addBox(-1.0F, 10.5F, -3.75F, 2.0F, 0.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(25, 147).addBox(-1.0F, 12.5F, -3.75F, 2.0F, 0.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, -15.0F, -0.48F, 0.0F, 0.0F));
 
         PartDefinition cube_r12 = head.addOrReplaceChild("cube_r12", CubeListBuilder.create().texOffs(0, 176).addBox(-3.0F, 0.0F, 0.0F, 5.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, 6.5F, -4.5F, 0.3491F, 0.0F, 0.0F));
 
@@ -350,6 +357,7 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
         bolts_front.visible = entity.isHarvester();
         bolts_rear.visible = entity.isPlough();
 
+        dial.yRot = (float) entity.getFuel() / 10000 * (Mth.PI / 2) - Mth.PI / 2;
         roller.xRot = ScrollValueHandler.getScroll(AnimationTickHolder.getPartialTicks()) / 20;
     }
     private void applyHeadRotation(float pNetHeadYaw, float pHeadPitch) {

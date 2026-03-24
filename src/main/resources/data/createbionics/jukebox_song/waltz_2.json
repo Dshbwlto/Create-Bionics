@@ -1,0 +1,8 @@
+{
+  "comparator_output": 15,
+  "description": {
+    "translate": "item.createbionics.waltz_2_music_disc.desc"
+  },
+  "length_in_seconds": 227.0,
+  "sound_event": "createbionics:waltz_2"
+}

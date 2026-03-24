@@ -33,12 +33,13 @@ public class BionicsEventBusEvents {
         event.registerLayerDefinition(BionicsModelLayers.REPLETE_GLOW, RepleteModel::createBodyLayer);
 
         event.registerLayerDefinition(BionicsModelLayers.STALKER, StalkerModel::createBodyLayer);
+        event.registerLayerDefinition(BionicsModelLayers.STALKER_GLOW, StalkerModel::createBodyLayer);
         event.registerLayerDefinition(BionicsModelLayers.STALKER_CAPTAIN, StalkerCaptainModel::createBodyLayer);
+        event.registerLayerDefinition(BionicsModelLayers.STALKER_CAPTAIN_GLOW, StalkerCaptainModel::createBodyLayer);
 
         event.registerLayerDefinition(BionicsModelLayers.ORGAN, OrganModel::createBodyLayer);
         event.registerLayerDefinition(BionicsModelLayers.ORGAN_GLOW, OrganModel::createBodyLayer);
         event.registerLayerDefinition(BionicsModelLayers.ORGAN_EXHAUST, OrganModel::createBodyLayer);
-        event.registerLayerDefinition(BionicsModelLayers.ORGAN_EXHAUST2, OrganModel::createBodyLayer);
     }
 
     @SubscribeEvent

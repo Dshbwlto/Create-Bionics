@@ -14,21 +14,8 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        basicItem(BionicsItems.ANOLE_BODY.get());
         basicItem(BionicsItems.I2_COAL_ENGINE.get());
-        basicItem(BionicsItems.ANOLE_HEAD.get());
-        basicItem(BionicsItems.ANOLE_TAIL.get());
-        basicItem(BionicsItems.ANOLE_LEG.get());
         basicItem(BionicsItems.ANOLE.get());
-        basicItem(BionicsItems.OXHAULER_HEAD.get());
-        basicItem(BionicsItems.OXHAULER_FRONT.get());
-        basicItem(BionicsItems.OXHAULER_MIDDLE.get());
-        basicItem(BionicsItems.OXHAULER_REAR.get());
-        basicItem(BionicsItems.OXHAULER_ENGINE.get());
-        basicItem(BionicsItems.OXHAULER_LEG.get());
-        basicItem(BionicsItems.OXHAULER_MIDDLE.get());
-         basicItem(BionicsItems.REPLETE_BODY.get());
-        basicItem(BionicsItems.REPLETE_LEG.get());
-        basicItem(BionicsItems.VITTICEPS_MUSIC_DISC.get());
+        basicItem(BionicsItems.WALTZ_2_MUSIC_DISC.get());
     }
 }

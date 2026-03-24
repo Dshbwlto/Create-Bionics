@@ -83,9 +83,9 @@ public class StalkerCaptainModel<T extends StalkerCaptainEntity> extends Hierarc
 
         PartDefinition cube_r5 = upper_body.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(52, 6).addBox(-3.5F, -1.0F, -5.0F, 8.0F, 11.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, -1.9F, -10.0F, 0.3927F, 0.0F, 0.0F));
 
-        PartDefinition select = upper_body.addOrReplaceChild("select", CubeListBuilder.create().texOffs(-6, 106).addBox(-2.5F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.5F, -3.2F, -5.25F));
+        PartDefinition select = upper_body.addOrReplaceChild("select", CubeListBuilder.create().texOffs(-6, 106).addBox(-3.0F, 0.0F, -3.0F, 6.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -3.2F, -5.4F));
 
-        PartDefinition icon = upper_body.addOrReplaceChild("icon", CubeListBuilder.create().texOffs(-16, 112).addBox(-8.0F, 0.0F, -7.15F, 16.0F, 0.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -3.2F, -5.5F));
+        PartDefinition icon = upper_body.addOrReplaceChild("icon", CubeListBuilder.create().texOffs(-16, 112).addBox(-8.0F, 0.0F, -7.9F, 16.0F, 0.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -3.2F, -5.5F));
 
         PartDefinition antenna_l = upper_body.addOrReplaceChild("antenna_l", CubeListBuilder.create().texOffs(10, 63).addBox(-0.5F, -7.0F, -0.5F, 1.0F, 8.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.0F, -2.5F, -9.5F, -0.7418F, 0.1309F, 0.2182F));
 
@@ -111,7 +111,7 @@ public class StalkerCaptainModel<T extends StalkerCaptainEntity> extends Hierarc
 
         PartDefinition arm_r2 = arm_r.addOrReplaceChild("arm_r2", CubeListBuilder.create().texOffs(3, 25).addBox(-1.0F, 1.5F, -2.0F, 2.0F, 8.0F, 4.0F, new CubeDeformation(0.0F))
                 .texOffs(79, 29).addBox(-2.5F, 2.5F, -1.0F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
-                .texOffs(0, -5).addBox(-2.0F, 1.5F, -2.0F, 0.0F, 8.0F, 5.0F, new CubeDeformation(0.0F))
+                .texOffs(0, -5).mirror().addBox(-2.0F, 1.5F, -2.0F, 0.0F, 8.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(40, 46).addBox(-0.5F, 9.5F, -2.0F, 1.0F, 1.0F, 5.0F, new CubeDeformation(0.0F))
                 .texOffs(48, 44).addBox(-0.5F, 4.5F, -3.0F, 1.0F, 6.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.5F, 7.5F, 0.0F, -1.0472F, 0.0F, 0.0F));
 
@@ -140,7 +140,9 @@ public class StalkerCaptainModel<T extends StalkerCaptainEntity> extends Hierarc
         this.root().getAllParts().forEach(ModelPart::resetPose);
 
         this.applyHeadRotation(netHeadYaw, headPitch);
-        if (entity.isAggressive()) {
+        if (entity.isInFluidType()) {
+            this.animateWalk(StalkerCaptainAnimations.stalker_captain_swim, limbSwing, limbSwingAmount, 1f, 2f);
+        } else if (entity.isAggressive()) {
             this.animateWalk(StalkerCaptainAnimations.stalker_captain_run, limbSwing, limbSwingAmount, 1f, 2f);
         } else {
             this.animateWalk(StalkerCaptainAnimations.stalker_captain_walk, limbSwing, limbSwingAmount, 2f, 2f);
@@ -160,10 +162,10 @@ public class StalkerCaptainModel<T extends StalkerCaptainEntity> extends Hierarc
         pNetHeadYaw = Mth.clamp(pNetHeadYaw, -30.0F, 30.0F);
         pHeadPitch = Mth.clamp(pHeadPitch, -25.0F, 45.0F);
 
-        this.head.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
-        this.neck.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
-        this.head.xRot = pHeadPitch * ((float)Math.PI / 180F);
-        this.neck.xRot = pHeadPitch * ((float)Math.PI / 180F);
+        this.head.yRot = (pNetHeadYaw * ((float)Math.PI / 180F)) / 2;
+        this.neck.yRot = (pNetHeadYaw * ((float)Math.PI / 180F)) / 2;
+        this.head.xRot = (pHeadPitch * ((float)Math.PI / 180F)) / 2;
+        this.neck.xRot = (pHeadPitch * ((float)Math.PI / 180F)) / 2;
     }
 
     @Override

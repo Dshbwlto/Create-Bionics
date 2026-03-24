@@ -23,7 +23,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class BionicsItems {
     public static final BionicsRegistrate REGISTRATE = CreateBionics.registrate();
-
     static {
         REGISTRATE.setTooltipModifierFactory(item ->
                 new ItemDescription.Modifier(item, FontHelper.Palette.STANDARD_CREATE)
@@ -31,17 +30,20 @@ public class BionicsItems {
         );
     }
 
-
     public static final ItemEntry<RobotBuilderItem> ROBOT_BUILDER = REGISTRATE.item("robot_builder", RobotBuilderItem::new)
             .properties(properties -> properties.stacksTo(1)).register();
-
-    public static final ItemEntry<SpawnEggItem> ANOLE = REGISTRATE.item("anole",
+    public static final ItemEntry<SpawnEggItem> ANOLE = REGISTRATE.item("anole_item",
             properties -> new SpawnEggItem(BionicsEntities.ANOLE.get(), 0xFFFFFF, 0xFFFFFF, properties.stacksTo(1))).register();
-    public static final ItemEntry<Item> ANOLE_BODY = REGISTRATE.item("anole_body_item", Item::new).register();
-    public static final ItemEntry<Item> ANOLE_HEAD = REGISTRATE.item("anole_head_item", Item::new).register();
-    public static final ItemEntry<Item> ANOLE_LEG = REGISTRATE.item("anole_leg_item", Item::new).register();
-    public static final ItemEntry<Item> ANOLE_TAIL = REGISTRATE.item("anole_tail_item", Item::new).register();
-    public static final ItemEntry<Item> I2_COAL_ENGINE = REGISTRATE.item("i2_coal_engine", Item::new).register();
+    public static final ItemEntry<Item> ANOLE_BODY = REGISTRATE.item("anole_body_item",
+            Item::new).properties(properties -> properties.stacksTo(1)) .register();
+    public static final ItemEntry<Item> ANOLE_HEAD = REGISTRATE.item("anole_head_item",
+            Item::new).properties(properties -> properties.stacksTo(1)) .register();
+    public static final ItemEntry<Item> ANOLE_LEG = REGISTRATE.item("anole_leg_item",
+            Item::new).properties(properties -> properties.stacksTo(1)) .register();
+    public static final ItemEntry<Item> ANOLE_TAIL = REGISTRATE.item("anole_tail_item",
+            Item::new).properties(properties -> properties.stacksTo(1)) .register();
+    public static final ItemEntry<Item> I2_COAL_ENGINE = REGISTRATE.item("i2_coal_engine",
+            Item::new).properties(properties -> properties.stacksTo(1)) .register();
 
     public static final ItemEntry<SpawnEggItem> OXHAULER_MIDDLE = REGISTRATE.item("oxhauler_middle_item",
             properties -> new SpawnEggItem(BionicsEntities.OXHAULER.get(), 0xFFFFFF, 0xFFFFFF, properties.stacksTo(1))).register();
@@ -56,8 +58,8 @@ public class BionicsItems {
     public static final ItemEntry<OxhaulerHeadItem> OXHAULER_HEAD = REGISTRATE.item("oxhauler_head_item",
             OxhaulerHeadItem::new).properties(properties -> properties.stacksTo(1)).register();
 
-    public static final ItemEntry<SpawnEggItem> REPLETE_BODY = REGISTRATE.item("replete_body_item",
-            properties -> new SpawnEggItem(BionicsEntities.REPLETE.get(), 0xFFFFFF, 0xFFFFFF, properties.stacksTo(1))).register();
+    public static final ItemEntry<RepleteBodyItem> REPLETE_BODY = REGISTRATE.item("replete_body_item",
+            properties -> new RepleteBodyItem(BionicsEntities.REPLETE.get(), 0xFFFFFF, 0xFFFFFF, properties.stacksTo(1))).register();
     public static final ItemEntry<Item> REPLETE_LEG = REGISTRATE.item("replete_leg_item",
             Item::new).properties(properties -> properties.stacksTo(16)).register();
 
@@ -93,8 +95,8 @@ public class BionicsItems {
     public static final ItemEntry<Item> ORGAN_CHIMNEY = REGISTRATE.item("organ_chimney_item", Item::new)
             .properties(properties -> properties.stacksTo(1)).register();
 
-    public static final ItemEntry<Item> VITTICEPS_MUSIC_DISC = REGISTRATE.item("vitticeps_music_disc", Item::new)
-            .properties(properties -> properties.jukeboxPlayable(BionicsSounds.VITTICEPS_KEY)).register();
+    public static final ItemEntry<Item> WALTZ_2_MUSIC_DISC = REGISTRATE.item("waltz_2_music_disc", Item::new)
+            .properties(properties -> properties.jukeboxPlayable(BionicsSounds.WALTZ_2_KEY)).register();
 
     public static void register() {}
 }

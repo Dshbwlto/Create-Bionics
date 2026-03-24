@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
+import net.dshbwlto.createbionics.entity.client.stalker.StalkerGlowLayer;
 import net.dshbwlto.createbionics.entity.client.stalker.StalkerModel;
 import net.dshbwlto.createbionics.entity.client.stalker.StalkerVariant;
 import net.dshbwlto.createbionics.entity.custom.StalkerCaptainEntity;
@@ -31,6 +32,7 @@ public class StalkerCaptainRenderer extends MobRenderer<StalkerCaptainEntity, St
 
     public StalkerCaptainRenderer(EntityRendererProvider.Context context) {
         super (context, new StalkerCaptainModel<>(context.bakeLayer(BionicsModelLayers.STALKER_CAPTAIN)), 0.75f);
+        this.addLayer(new StalkerCaptainGlowLayer(this, context.getModelSet()));
     }
 
     @Override

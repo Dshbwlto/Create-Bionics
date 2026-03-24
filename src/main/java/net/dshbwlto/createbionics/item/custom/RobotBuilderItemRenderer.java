@@ -81,6 +81,21 @@ public class RobotBuilderItemRenderer extends CustomRenderedItemModelRenderer {
     private final PartialModel WHISTLE_FACE_MIDDLE_LARGE4 = PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_large4"));
     private final PartialModel WHISTLE_FACE_MIDDLE_MEDIUM4 = PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_medium4"));
 
+    private final PartialModel WHISTLE_BASE_MIDDLE_LARGE5 = PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_large5"));
+    private final PartialModel WHISTLE_BASE_MIDDLE_MEDIUM5 = PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium5"));
+    private final PartialModel WHISTLE_BASE_MIDDLE_SMALL5 = PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small5"));
+    private final PartialModel WHISTLE_BASE_SIDE_LARGE5 = PartialModel.of(CreateBionics.asResource("item/whistle_base_side_large5"));
+    private final PartialModel WHISTLE_BASE_SIDE_MEDIUM5 = PartialModel.of(CreateBionics.asResource("item/whistle_base_side_medium5"));
+    private final PartialModel WHISTLE_BASE_SIDE_SMALL5 = PartialModel.of(CreateBionics.asResource("item/whistle_base_side_small5"));
+    private final PartialModel WHISTLE_MIDDLE_LARGE5 = PartialModel.of(CreateBionics.asResource("item/whistle_middle_large5"));
+    private final PartialModel WHISTLE_MIDDLE_MEDIUM5 = PartialModel.of(CreateBionics.asResource("item/whistle_middle_medium5"));
+    private final PartialModel WHISTLE_MIDDLE_SMALL5 = PartialModel.of(CreateBionics.asResource("item/whistle_middle_small5"));
+    private final PartialModel WHISTLE_END_LARGE5 = PartialModel.of(CreateBionics.asResource("item/whistle_end_large5"));
+    private final PartialModel WHISTLE_END_MEDIUM5 = PartialModel.of(CreateBionics.asResource("item/whistle_end_medium5"));
+    private final PartialModel WHISTLE_END_SMALL5 = PartialModel.of(CreateBionics.asResource("item/whistle_end_small5"));
+    private final PartialModel WHISTLE_FACE_MIDDLE_LARGE5 = PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_large5"));
+    private final PartialModel WHISTLE_FACE_MIDDLE_MEDIUM5 = PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_medium5"));
+
     @Override
     protected void render(ItemStack stack, CustomRenderedItemModel model, PartialItemModelRenderer renderer, ItemDisplayContext transformType, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
             renderer.render(model.getOriginalModel(), light);

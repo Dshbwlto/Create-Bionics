@@ -3,6 +3,7 @@ package net.dshbwlto.createbionics.entity.client.organ;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.Create;
+import com.simibubi.create.foundation.sound.SoundScapes;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.math.AngleHelper;
@@ -53,8 +54,7 @@ public class OrganRenderer extends MobRenderer<OrganEntity, OrganModel<OrganEnti
     @Override
     public void render(OrganEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
-
-        }
+    }
 
     @Override
     public boolean shouldRender(OrganEntity livingEntity, Frustum camera, double camX, double camY, double camZ) {

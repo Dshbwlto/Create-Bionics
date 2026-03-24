@@ -63,10 +63,10 @@
       }
     ]
   },
-  "vitticeps": {
+  "waltz_2": {
     "sounds": [
       {
-        "name": "createbionics:vitticeps",
+        "name": "createbionics:waltz_2",
         "stream": true
       }
     ]

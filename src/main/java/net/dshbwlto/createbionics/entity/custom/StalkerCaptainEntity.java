@@ -1,19 +1,18 @@
 package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllItems;
+import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.stalker.StalkerVariant;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.AnimationState;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -33,7 +32,6 @@ import org.jetbrains.annotations.Nullable;
 public class StalkerCaptainEntity extends StalkerEntity {
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
-    private static final float MOVEMENT_SPEED_WHEN_FIGHTING = 10F;
 
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
@@ -43,10 +41,6 @@ public class StalkerCaptainEntity extends StalkerEntity {
 
     protected SimpleContainer inventory;
 
-    private int PageNumber() {
-        return entityData.get(PAGE_NUMBER);
-    }
-
     public StalkerCaptainEntity(EntityType<? extends AbstractRobot> entityType, Level level) {
         super(entityType, level);
     }
@@ -55,8 +49,8 @@ public class StalkerCaptainEntity extends StalkerEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(2, new FloatGoal(this));
-        this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.5F));
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, (double)2.0F, true));
+        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 2.0F, true));
+        this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.5F));
         this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1d, 10f, 5f) {
             @Override
             public boolean canUse() {
@@ -70,7 +64,7 @@ public class StalkerCaptainEntity extends StalkerEntity {
 
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
-        this.targetSelector.addGoal(3, (new HurtByTargetGoal(this, new Class[0])).setAlertOthers(new Class[0]));
+        this.targetSelector.addGoal(3, (new HurtByTargetGoal(this)).setAlertOthers());
     }
 
     @Override
@@ -104,8 +98,9 @@ public class StalkerCaptainEntity extends StalkerEntity {
         return Animal.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 60D)
                 .add(Attributes.MOVEMENT_SPEED, 0.35f)
-                .add(Attributes.ATTACK_DAMAGE, 5f)
-                .add(Attributes.FOLLOW_RANGE, 24D);
+                .add(Attributes.ATTACK_DAMAGE, 16)
+                .add(Attributes.FOLLOW_RANGE, 24D)
+                .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.8);
     }
 
     @Override
@@ -121,7 +116,7 @@ public class StalkerCaptainEntity extends StalkerEntity {
     /* ANIMATIONS */
     private void setupAnimationStates() {
         if (this.idleAnimationTimeout <= 0) {
-            this.idleAnimationTimeout = 60;
+            this.idleAnimationTimeout = 80;
             this.idleAnimationState.start(this.tickCount);
         } else {
             --this.idleAnimationTimeout;
@@ -152,6 +147,7 @@ public class StalkerCaptainEntity extends StalkerEntity {
     @Override
     public void tick() {
         super.tick();
+        playSoundScape(2, 2);
         this.updateSpeed();
         if (this.level().isClientSide()) {
             this.setupAnimationStates();
@@ -195,7 +191,12 @@ public class StalkerCaptainEntity extends StalkerEntity {
                 return InteractionResult.SUCCESS;
             }
         }
-        if (itemstack.is(Items.COPPER_INGOT)
+        if (itemstack.is (AllItems.BRASS_INGOT) && getHealth() != getMaxHealth()) {
+                itemstack.shrink(1);
+                heal(15);
+                playSound(SoundEvents.SMITHING_TABLE_USE);
+                itemstack.shrink(1);
+        } else if (itemstack.is(Items.COPPER_INGOT)
                 || itemstack.is(AllItems.ANDESITE_ALLOY)
                 || itemstack.is(AllItems.BRASS_INGOT)) {
             dropIngot(getVariant());

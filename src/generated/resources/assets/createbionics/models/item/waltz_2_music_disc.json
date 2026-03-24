@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "createbionics:item/replete_body_item"
+    "layer0": "createbionics:item/waltz_2_music_disc"
   }
 }
