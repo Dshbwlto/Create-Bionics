@@ -7,7 +7,7 @@
   "item.createbionics.anole_head_item": "Anole Head",
   "item.createbionics.anole_leg_item": "Anole Leg",
   "item.createbionics.anole_tail_item": "Anole Tail",
-  "item.createbionics.anole": "Anole",
+  "item.createbionics.anole_item": "Anole",
 
   "item.createbionics.oxhauler_head_item": "Oxhauler Head",
   "item.createbionics.oxhauler_head_item.tooltip.summary": "The _Seventh_ and _final_ part of the _Oxhauler_ build sequence.",
@@ -80,5 +80,5 @@
   "entity.createbionics.all.assembly": "Next Part: %s",
   "entity.createbionics.all.page_progress": "%s/%s",
 
-  "itemGroup.createbionics.create_bionics_tab": "Create Bionics"
+  "itemGroup.createbionics.create_bionics_tab": "Create: Bionics"
 }

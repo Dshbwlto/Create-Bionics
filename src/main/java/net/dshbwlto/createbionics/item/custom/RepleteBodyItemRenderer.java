@@ -23,13 +23,9 @@ public class RepleteBodyItemRenderer extends CustomRenderedItemModelRenderer {
     private static final PartialModel CARAPACE_REAR_R = PartialModel.of(CreateBionics.asResource("item/replete_body_item_carapace_rear_r"));
     private static final PartialModel JOINTS = PartialModel.of(CreateBionics.asResource("item/replete_body_joints"));
 
-    //Idk why but the organ whistle parts only work if they're defined here first.
-    //W Mojang and their highly skilled software developers.
-
     @Override
     protected void render(ItemStack stack, CustomRenderedItemModel model, PartialItemModelRenderer renderer, ItemDisplayContext transformType, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
         renderer.render(model.getOriginalModel(), light);
-        float xOffset = -1 / 16f;
 
         ms.translate(0, 0, 2);
         renderer.render(REAR.get(), light);

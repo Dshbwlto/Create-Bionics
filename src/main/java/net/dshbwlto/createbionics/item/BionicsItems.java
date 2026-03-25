@@ -32,8 +32,8 @@ public class BionicsItems {
 
     public static final ItemEntry<RobotBuilderItem> ROBOT_BUILDER = REGISTRATE.item("robot_builder", RobotBuilderItem::new)
             .properties(properties -> properties.stacksTo(1)).register();
-    public static final ItemEntry<SpawnEggItem> ANOLE = REGISTRATE.item("anole_item",
-            properties -> new SpawnEggItem(BionicsEntities.ANOLE.get(), 0xFFFFFF, 0xFFFFFF, properties.stacksTo(1))).register();
+    public static final ItemEntry<AnoleItem> ANOLE = REGISTRATE.item("anole_item",
+            properties -> new AnoleItem(BionicsEntities.ANOLE.get(), 0xFFFFFF, 0xFFFFFF, properties.stacksTo(1))).register();
     public static final ItemEntry<Item> ANOLE_BODY = REGISTRATE.item("anole_body_item",
             Item::new).properties(properties -> properties.stacksTo(1)) .register();
     public static final ItemEntry<Item> ANOLE_HEAD = REGISTRATE.item("anole_head_item",

@@ -69,10 +69,23 @@ public class CreateBionics {
     }
 
     private static final ItemLike[] excludedItemsList = new ItemLike[]{
-            BionicsItems.REPLETE_LEG,
-            BionicsItems.REPLETE_BODY,
-            BionicsItems.OXHAULER_ENGINE,
+            BionicsItems.STALKER_BODY,
+            BionicsItems.STALKER_ANTENNA,
+            BionicsItems.STALKER_HEAD,
+            BionicsItems.STALKER_LEG,
+            BionicsItems.STALKER_TAIL,
+            BionicsItems.ORGAN_HEAD,
+            BionicsItems.ORGAN_CHIMNEY,
+            BionicsItems.ORGAN_NECK,
+            BionicsItems.ORGAN_CHEST,
+            BionicsItems.ORGAN_PISTON,
+            BionicsItems.ORGAN_BELLOWS,
+            BionicsItems.ORGAN_MIDDLE,
+            BionicsItems.ORGAN_FOOT,
+            BionicsItems.ORGAN_TAIL_BASE,
+            BionicsItems.ORGAN_TAIL_END,
     };
+
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN_TAB = CREATIVE_MODE_TABS.register(MOD_ID, () -> CreativeModeTab.builder()
@@ -82,7 +95,6 @@ public class CreateBionics {
             .displayItems((itemDisplayParameters, output) -> REGISTRATE.getAll(Registries.ITEM).forEach((item -> {
                 for (ItemLike excluded : excludedItemsList) {
                     if (item.is(excluded.asItem())) {
-                        output.accept(item.get(), CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY);
                         return;
                     }
                 }
