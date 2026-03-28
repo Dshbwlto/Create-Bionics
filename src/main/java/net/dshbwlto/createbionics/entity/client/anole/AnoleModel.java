@@ -66,11 +66,11 @@ public class AnoleModel<T extends AnoleEntity> extends HierarchicalModel<T>
 
         PartDefinition upper_body = lower_body.addOrReplaceChild("upper_body", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -0.25F, -0.5F, 0.2618F, 0.0F, 0.0F));
 
-        PartDefinition cube_r5 = upper_body.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(26, 6).addBox(-1.0F, 0.0F, 0.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -1.0F, -3.0F, 0.2182F, 0.0F, 0.0F));
+        PartDefinition cube_r5 = upper_body.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(26, 6).addBox(-1.0F, 0.0F, 0.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -1.0F, -3.0F, 0.3927F, 0.0F, 0.0F));
 
-        PartDefinition cube_r6 = upper_body.addOrReplaceChild("cube_r6", CubeListBuilder.create().texOffs(24, 10).addBox(0.0F, 0.0F, -1.001F, 1.0F, 1.0F, 3.002F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, -1.0F, -2.0F, 0.0F, 0.0F, 0.5236F));
+        PartDefinition cube_r6 = upper_body.addOrReplaceChild("cube_r6", CubeListBuilder.create().texOffs(24, 10).addBox(0.0F, 0.0F, -1.001F, 1.0F, 1.0F, 3.002F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, -1.0F, -2.0F, 0.0F, 0.0F, 0.7854F));
 
-        PartDefinition cube_r7 = upper_body.addOrReplaceChild("cube_r7", CubeListBuilder.create().texOffs(20, 22).addBox(-1.0F, 0.0F, -1.001F, 1.0F, 1.0F, 3.002F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, -1.0F, -2.0F, 0.0F, 0.0F, -0.5236F));
+        PartDefinition cube_r7 = upper_body.addOrReplaceChild("cube_r7", CubeListBuilder.create().texOffs(20, 22).addBox(-1.0F, 0.0F, -1.001F, 1.0F, 1.0F, 3.002F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, -1.0F, -2.0F, 0.0F, 0.0F, -0.7854F));
 
         PartDefinition neck = upper_body.addOrReplaceChild("neck", CubeListBuilder.create().texOffs(20, 26).addBox(-0.5F, -0.75F, -2.0F, 1.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.5F, -2.5F, -0.2618F, 0.0F, 0.0F));
 
@@ -145,16 +145,9 @@ public class AnoleModel<T extends AnoleEntity> extends HierarchicalModel<T>
                 this.animate(entity.idleAnimationState, AnoleAnimations.anole_idle, ageInTicks, 1f);
             }
         }
-
-        if(entity.isCurrentlyGlowing()) {
-            this.animate(entity.sitDownAnimationState, AnoleAnimations.anole_die, ageInTicks, 1.0F);
-            this.animate(entity.sitPoseAnimationState, AnoleAnimations.anole_dead, ageInTicks, 1.0F);
-            this.animate(entity.sitUpAnimationState, AnoleAnimations.anole_revive, ageInTicks, 1.0F);
-        } else {
-            this.animate(entity.sitDownAnimationState, AnoleAnimations.anole_sit, ageInTicks, 1.0F);
-            this.animate(entity.sitPoseAnimationState, AnoleAnimations.anole_stay, ageInTicks, 1.0F);
-            this.animate(entity.sitUpAnimationState, AnoleAnimations.anole_stand, ageInTicks, 1.0F);
-        }
+        this.animate(entity.sitDownAnimationState, AnoleAnimations.anole_sit, ageInTicks, 1.0F);
+        this.animate(entity.sitPoseAnimationState, AnoleAnimations.anole_stay, ageInTicks, 1.0F);
+        this.animate(entity.sitUpAnimationState, AnoleAnimations.anole_stand, ageInTicks, 1.0F);
 
         hat1.visible = entity.hat1();
         hat2.visible = entity.hat2();

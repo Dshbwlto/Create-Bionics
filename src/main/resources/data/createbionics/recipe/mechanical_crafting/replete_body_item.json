@@ -1,0 +1,43 @@
+{
+  "type": "create:mechanical_crafting",
+  "accept_mirrored": false,
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "minecraft:copper_block"
+    },
+    "P": {
+      "item": "create:fluid_pipe"
+    },
+    "E": {
+      "item": "create:encased_chain_drive"
+    },
+    "G": {
+      "item": "create:framed_glass"
+    },
+    "A": {
+      "item": "create:andesite_alloy_block"
+    },
+    "B": {
+      "item": "create:blaze_burner"
+    },
+    "Q": {
+      "item": "create:small_rose_quartz_tiles"
+    },
+    "I": {
+      "item": "create:industrial_iron_block"
+    }
+  },
+  "pattern": [
+    "CPC",
+    "EGE",
+    "EAE",
+    "EBE",
+    "QIQ"
+  ],
+  "result": {
+    "count": 1,
+    "id": "createbionics:replete_body_item"
+  },
+  "show_notification": false
+}

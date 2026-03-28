@@ -64,7 +64,7 @@ public class RepleteRenderer extends MobRenderer<RepleteEntity, RepleteModel<Rep
         if (fluidStack.isEmpty())
             return;
 
-        float height = (entity.getFluid().getAmount() / 160000f) * 4.5f;
+        float height = (150000 / 160000f) * 4.5f;
 
         poseStack.pushPose();
         poseStack.mulPose(Axis.YN.rotation(entityYaw * (Mth.PI / 180)));

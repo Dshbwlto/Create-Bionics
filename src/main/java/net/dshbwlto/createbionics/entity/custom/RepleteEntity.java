@@ -20,6 +20,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -79,6 +80,9 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
     public final AnimationState sitUpAnimationState = new AnimationState();
 
     public static final EntityDataAccessor<Integer> FUEL =
+            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.INT);
+
+    public static final EntityDataAccessor<Integer> FILL =
             SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.INT);
 
     public RepleteEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
@@ -289,10 +293,11 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
             return InteractionResult.CONSUME;
         } else {
             if (getAssembly() == 12 && getFuel() > 0) {
-                //updateCommand(player);
+                updateCommand(player);
                 return InteractionResult.SUCCESS;
             }
         }
+        player.displayClientMessage(Component.literal("" + startFillLevel()), true);
         return super.mobInteract(player, hand);
     }
 
@@ -300,22 +305,25 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(FUEL, 0);
+        builder.define(FILL, 0);
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
-        compound.putInt("Fuel", this.entityData.get(FUEL));
-        compound = FLUID_TANK.writeToNBT(level().registryAccess(), compound);
-        compound.put("tank.inventory", itemHandler.serializeNBT(level().registryAccess()));
         super.addAdditionalSaveData(compound);
+        compound.putInt("Fuel", this.entityData.get(FUEL));
+        compound.putInt("Fill", getFluid().getAmount());
+        FLUID_TANK.writeToNBT(level().registryAccess(), compound);
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         entityData.set(FUEL, compound.getInt("Fuel"));
-        itemHandler.deserializeNBT(level().registryAccess(), compound.getCompound("tank.inventory"));
+        entityData.set(FILL, compound.getInt("Fill"));
         FLUID_TANK.readFromNBT(level().registryAccess(), compound);
+        int fillLevel = FLUID_TANK.getFluidAmount();
+        sendSystemMessage(Component.literal("Fluid: " + FLUID_TANK.getFluidInTank(1)));
     }
 
     //VARIANT//
@@ -351,6 +359,10 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
     }
 
     /*FLUID*/
+
+    public float startFillLevel() {
+        return entityData.get(FILL);
+    }
 
     public final ItemStackHandler itemHandler = new ItemStackHandler(2) {
         @Override
