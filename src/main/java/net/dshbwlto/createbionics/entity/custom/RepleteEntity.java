@@ -1,12 +1,22 @@
 package net.dshbwlto.createbionics.entity.custom;
 
+import com.simibubi.create.AllBlockEntityTypes;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
+import com.simibubi.create.api.connectivity.ConnectivityHandler;
+import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
+import com.simibubi.create.content.kinetics.belt.behaviour.BeltProcessingBehaviour;
+import com.simibubi.create.foundation.advancement.AllAdvancements;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
+import com.simibubi.create.foundation.fluid.SmartFluidTank;
 import net.createmod.catnip.animation.LerpedFloat;
+import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -35,22 +45,27 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class RepleteEntity extends AbstractRobot implements MenuProvider {
+import java.util.List;
 
+public class RepleteEntity extends AbstractRobot implements MenuProvider{
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
     public int countdown = 0;
     public float sitOffset = 0;
     public LerpedFloat gauge = LerpedFloat.linear();
+
+    SmartFluidTankBehaviour tank;
 
     public int getFuel() {
         return entityData.get(FUEL);
@@ -231,10 +246,10 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
                     return InteractionResult.SUCCESS;
                 }
             }
-        } else if (hasFluidHandlerInHand(player, hand)) {
+        }
+        if (hasFluidHandlerInHand(player, hand)) {
             transferFluidFromTankToPlayer(player, hand);
             sitOffset = sitOffset - 1;
-            playSound(AllSoundEvents.CONFIRM.getMainEvent());
             if (this.level().isClientSide()) {
                 return InteractionResult.SUCCESS;
             } else {
@@ -243,13 +258,14 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
                 }
                 return InteractionResult.SUCCESS;
             }
-        } else if ((itemStack.is(BionicsItems.ROBOT_BUILDER) || itemStack.is(getPart())) && getAssembly() < 12) {
+        }
+        if ((itemStack.is(BionicsItems.ROBOT_BUILDER) || itemStack.is(getPart())) && getAssembly() < 12) {
             setAssembly(getAssembly() + 1);
             if (!itemStack.is(BionicsItems.ROBOT_BUILDER.get())) {
                 itemStack.shrink(1);
             }
             playSound(SoundEvents.NETHERITE_BLOCK_PLACE);
-            if (getAssembly() <= 12) {
+            if (getAssembly() < 12) {
                 player.displayClientMessage(Component.translatable("entity.createbionics.all.assembly", getPart().getDescription().getString()), true);
             }
             return InteractionResult.CONSUME;
@@ -273,7 +289,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
             return InteractionResult.CONSUME;
         } else {
             if (getAssembly() == 12 && getFuel() > 0) {
-                updateCommand(player);
+                //updateCommand(player);
                 return InteractionResult.SUCCESS;
             }
         }
@@ -289,8 +305,8 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         compound.putInt("Fuel", this.entityData.get(FUEL));
-        compound.put("tank.inventory", itemHandler.serializeNBT(level().registryAccess()));
         compound = FLUID_TANK.writeToNBT(level().registryAccess(), compound);
+        compound.put("tank.inventory", itemHandler.serializeNBT(level().registryAccess()));
         super.addAdditionalSaveData(compound);
     }
 
@@ -336,19 +352,14 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
 
     /*FLUID*/
 
-    @Override
-    public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-        return null;
-    }
-
-    private final ItemStackHandler itemHandler = new ItemStackHandler(1) {
+    public final ItemStackHandler itemHandler = new ItemStackHandler(2) {
         @Override
         public int getSlotLimit(int slot) {
             return slot == 1 ? 1 : super.getSlotLimit(slot);
         }
     };
 
-    public final FluidTank FLUID_TANK = createFluidTank();
+    private final FluidTank FLUID_TANK = createFluidTank();
     private FluidTank createFluidTank() {
         return new FluidTank(160000) {
             @Override
@@ -357,6 +368,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
             }
         };
     }
+
     public FluidStack getFluid() {
         return FLUID_TANK.getFluid();
     }
@@ -367,7 +379,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
 
     @Override
     public Component getDisplayName() {
-        return Component.literal("Replete");
+        return Component.literal("Tank");
     }
 
     private boolean hasFluidStackInHand(Player player, InteractionHand hand) {
@@ -381,8 +393,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
         ItemStack itemStack = player.getItemInHand(hand);
         FluidActionResult result = FluidUtil.tryFillContainer(itemStack, this.FLUID_TANK, Integer.MAX_VALUE, player, true);
         if (result.result != ItemStack.EMPTY) {
-            player.addItem(result.result);
-        }
+            player.addItem(result.result);}
     }
 
     public void transferFluidToTank(Player player, InteractionHand hand) {
@@ -414,5 +425,10 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider {
                 && (itemStack.getCapability(Capabilities.FluidHandler.ITEM, null).getFluidInTank(0).isEmpty() ||
                 FluidUtil.tryFluidTransfer(itemStack.getCapability(Capabilities.FluidHandler.ITEM, null),
                         FLUID_TANK, Integer.MAX_VALUE, false) != FluidStack.EMPTY);
+    }
+
+    @Override
+    public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
+        return null;
     }
 }

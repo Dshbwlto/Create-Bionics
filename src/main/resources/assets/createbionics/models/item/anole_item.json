@@ -13,6 +13,12 @@
     },
     "fixed": {
       "parent": "createbionics:item/anole_item_gui"
+    },
+    "firstperson_righthand": {
+      "parent": "createbionics:item/anole_item_gui"
+    },
+    "firstperson_lefthand": {
+      "parent": "createbionics:item/anole_item_gui"
     }
   }
 }

@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.createmod.catnip.platform.NeoForgeCatnipServices;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
 
@@ -17,6 +18,7 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
@@ -58,42 +60,17 @@ public class RepleteRenderer extends MobRenderer<RepleteEntity, RepleteModel<Rep
     public void render(RepleteEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
         FluidStack fluidStack = entity.getFluid();
+
         if (fluidStack.isEmpty())
             return;
 
-        Level level = entity.level();
+        float height = (entity.getFluid().getAmount() / 160000f) * 4.5f;
 
-        BlockPos pos = entity.getOnPos();
-
-        IClientFluidTypeExtensions fluidTypeExtensions = IClientFluidTypeExtensions.of(fluidStack.getFluid());
-        ResourceLocation stillTexture = fluidTypeExtensions.getStillTexture(fluidStack);
-
-        FluidState state = fluidStack.getFluid().defaultFluidState();
-
-        TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(stillTexture);
-        int tintColor = fluidTypeExtensions.getTintColor(state, level, pos);
-
-        float height = (((float) entity.getTank(null).getFluidInTank(0).getAmount() / entity.getTank(null).getTankCapacity(0)) * 0.625f) + 0.25f;
-
-        VertexConsumer builder = buffer.getBuffer(ItemBlockRenderTypes.getRenderLayer(state));
-
-        // Top Texture
-        drawQuad(builder, poseStack, 0.1f, 0, 0.1f, 0.9f, 0.9f, 0.9f, sprite.getU0(), sprite.getV0(), sprite.getU1(), sprite.getV1(), packedLight, tintColor);
-        drawQuad(builder, poseStack, 0.1f, 0, 0.1f, 0.9f, 0.9f, 0.1f, sprite.getU0(), sprite.getV0(), sprite.getU1(), sprite.getV1(), packedLight, tintColor);
-
-    }
-    private static void drawVertex(VertexConsumer builder, PoseStack poseStack, float x, float y, float z, float u, float v, int packedLight, int color) {
-        builder.addVertex(poseStack.last().pose(), x, y, z)
-                .setColor(color)
-                .setUv(u, v)
-                .setLight(packedLight)
-                .setNormal(1, 0, 0);
-    }
-
-    private static void drawQuad(VertexConsumer builder, PoseStack poseStack, float x0, float y0, float z0, float x1, float y1, float z1, float u0, float v0, float u1, float v1, int packedLight, int color) {
-        drawVertex(builder, poseStack, x0, y0, z0, u0, v0, packedLight, color);
-        drawVertex(builder, poseStack, x0, y1, z1, u0, v1, packedLight, color);
-        drawVertex(builder, poseStack, x1, y1, z1, u1, v1, packedLight, color);
-        drawVertex(builder, poseStack, x1, y0, z0, u1, v0, packedLight, color);
+        poseStack.pushPose();
+        poseStack.mulPose(Axis.YN.rotation(entityYaw * (Mth.PI / 180)));
+        poseStack.translate(0, 38/16f, -7/8f);
+        NeoForgeCatnipServices.FLUID_RENDERER.renderFluidBox(fluidStack, -15/16f, 0, -15/16f, 15/16f, height, 15/16f, buffer,
+                poseStack, packedLight, false, true);
+        poseStack.popPose();
     }
 }
