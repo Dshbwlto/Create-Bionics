@@ -69,7 +69,7 @@ public class OxhaulerMenu extends AbstractContainerMenu {
         //Container//
         for (int j = 0; j < 3; ++j) {
             for (int k = 0; k < 9; ++k) {
-                this.addSlot(new Slot(horseContainer, k + j * 9, -16 + k * 18, 57 + j * 18));
+                this.addSlot(new Slot(horseContainer, (k + j * 9), -16 + k * 18, 57 + j * 18));
             }
         }
 

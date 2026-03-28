@@ -23,7 +23,7 @@ public class OxhaulerColorLayer extends RenderLayer<OxhaulerEntity, OxhaulerMode
             2, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/color/oxhauler_gray.png"),
             3, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/color/oxhauler_black.png"),
             4, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/color/oxhauler_brown.png"),
-            5, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/color/oxhauler_brass.png"),
+            5, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/color/oxhauler_red.png"),
             6, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/color/oxhauler_orange.png"),
             7, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/color/oxhauler_yellow.png"),
             8, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/color/oxhauler_lime.png"),
@@ -45,18 +45,16 @@ public class OxhaulerColorLayer extends RenderLayer<OxhaulerEntity, OxhaulerMode
 
     @Override
     public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, OxhaulerEntity livingEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (!(livingEntity.getTypeColor() == 5)) {
-            Integer integer = livingEntity.getTypeColor();
-            this.getParentModel().copyPropertiesTo(this.model);
-            this.model.prepareMobModel(livingEntity, limbSwing, limbSwingAmount, partialTicks);
-            this.model.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-            if (livingEntity.getTypeColor() < 10) {
-                VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(COLOR_MAP_1.get(integer)));
-                this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
-            } else {
-                VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(COLOR_MAP_2.get(integer)));
-                this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
-            }
+        Integer integer = livingEntity.getTypeColor();
+        this.getParentModel().copyPropertiesTo(this.model);
+        this.model.prepareMobModel(livingEntity, limbSwing, limbSwingAmount, partialTicks);
+        this.model.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+        if (livingEntity.getTypeColor() < 10) {
+            VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(COLOR_MAP_1.get(integer)));
+            this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
+        } else {
+            VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(COLOR_MAP_2.get(integer)));
+            this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
         }
     }
 }

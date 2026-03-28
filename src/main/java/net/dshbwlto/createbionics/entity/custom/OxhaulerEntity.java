@@ -58,6 +58,7 @@ public class OxhaulerEntity extends AbstractHorse{
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> COLOR =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.INT);
+
     public void setColor(Item item) {
         if (item == Items.WHITE_DYE) {
             entityData.set(COLOR, 0);
@@ -312,13 +313,13 @@ public class OxhaulerEntity extends AbstractHorse{
                 setFuel(10000);
                 makeSound(SoundEvents.FIRECHARGE_USE);
             }
-        } else if(itemStack.is(AllBlocks.MECHANICAL_HARVESTER.asItem()) && !isPlough() && !isHarvester()) {
+        } else if (itemStack.is(AllBlocks.MECHANICAL_HARVESTER.asItem()) && !isPlough() && !isHarvester()) {
             if (this.level().isClientSide) {
                 return InteractionResult.CONSUME;
             }
             itemStack.shrink(1);
             this.entityData.set(HARVESTER, true);
-        } else if(itemStack.is(AllBlocks.MECHANICAL_PLOUGH.asItem()) && !isPlough() && !isHarvester()) {
+        } else if (itemStack.is(AllBlocks.MECHANICAL_PLOUGH.asItem()) && !isPlough() && !isHarvester()) {
             if (this.level().isClientSide) {
                 return InteractionResult.CONSUME;
             }
@@ -350,7 +351,7 @@ public class OxhaulerEntity extends AbstractHorse{
         } else if (itemStack.is(Tags.Items.DYES)) {
             setColor(itemStack.getItem());
             itemStack.shrink(1);
-        } else if (player.isShiftKeyDown() ){
+        }else if (player.isShiftKeyDown() ){
             openCustomInventoryScreen(player);
         } else if(getFuel() > 0){
             doPlayerRide(player);
@@ -384,11 +385,10 @@ public class OxhaulerEntity extends AbstractHorse{
 
         compound.putBoolean("Harvester", isHarvester());
         compound.putBoolean("Plough", isPlough());
-
         compound.putInt("Fuel", getFuel());
 
         ListTag listtag = new ListTag();
-        for (int x = 0; x < 27; x++) {
+        for (int x = 0; x <= 100; x++) {
             ItemStack itemstack = this.inventory.getItem(x);
             if (!itemstack.isEmpty()) {
                 CompoundTag compoundtag = new CompoundTag();
@@ -511,11 +511,11 @@ public class OxhaulerEntity extends AbstractHorse{
     @Override
     protected void createInventory() {
         SimpleContainer simplecontainer = this.inventory;
-        this.inventory = new SimpleContainer(27);
+        this.inventory = new SimpleContainer(100);
         if (simplecontainer != null) {
             simplecontainer.removeListener(this);
 
-            for (int j = 0; j < 27; j++) {
+            for (int j = 0; j < 100; j++) {
                 ItemStack itemstack = simplecontainer.getItem(j);
                 if (!itemstack.isEmpty()) {
                     this.inventory.setItem(j, itemstack.copy());
