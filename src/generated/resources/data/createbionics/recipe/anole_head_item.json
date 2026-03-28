@@ -5,20 +5,23 @@
     "A": {
       "item": "minecraft:copper_ingot"
     },
-    "B": {
+    "C": {
       "item": "create:andesite_alloy"
     },
-    "C": {
-      "item": "minecraft:iron_ingot"
+    "D": {
+      "item": "minecraft:flint"
+    },
+    "E": {
+      "item": "create:transmitter"
     }
   },
   "pattern": [
-    " A ",
-    "  A",
-    "BBC"
+    " DA",
+    "AED",
+    "CA "
   ],
   "result": {
     "count": 1,
-    "id": "createbionics:anole_leg"
+    "id": "createbionics:anole_head_item"
   }
 }

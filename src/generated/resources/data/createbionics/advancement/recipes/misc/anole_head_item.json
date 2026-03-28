@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_oxhauler_head": {
+    "has_copper": {
       "conditions": {
         "items": [
           {
-            "items": "createbionics:oxhauler_head"
+            "items": "minecraft:copper_ingot"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "createbionics:oxhauler_head_item"
+        "recipe": "createbionics:anole_head_item"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_oxhauler_head"
+      "has_engine"
     ]
   ],
   "rewards": {
     "recipes": [
-      "createbionics:oxhauler_head_item"
+      "createbionics:anole_head_item"
     ]
   }
 }

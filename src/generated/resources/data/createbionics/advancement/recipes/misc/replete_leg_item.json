@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_anole_body": {
+    "has_copper": {
       "conditions": {
         "items": [
           {
-            "items": "createbionics:anole_body"
+            "items": "minecraft:copper_ingot"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "createbionics:anole"
+        "recipe": "createbionics:replete_leg_item"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_anole_body"
+      "has_copper"
     ]
   ],
   "rewards": {
     "recipes": [
-      "createbionics:anole"
+      "createbionics:replete_leg_item"
     ]
   }
 }

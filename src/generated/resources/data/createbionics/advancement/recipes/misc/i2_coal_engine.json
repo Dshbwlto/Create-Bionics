@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_coal": {
+    "has_copper": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:coal"
+            "items": "minecraft:copper_ingot"
           }
         ]
       },

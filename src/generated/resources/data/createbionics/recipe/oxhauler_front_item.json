@@ -17,15 +17,12 @@
     "L": {
       "item": "createbionics:oxhauler_leg_item"
     },
-    "N": {
-      "item": "minecraft:furnace"
-    },
     "T": {
       "item": "minecraft:crafting_table"
     }
   },
   "pattern": [
-    "NGT",
+    "GTG",
     "CFC",
     "LDL"
   ],

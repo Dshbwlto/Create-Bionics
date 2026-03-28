@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_rear": {
+    "has_brass": {
       "conditions": {
         "items": [
           {
-            "items": "createbionics:oxhauler_rear"
+            "items": "create:brass_ingot"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_rear"
+      "has_brass"
     ]
   ],
   "rewards": {

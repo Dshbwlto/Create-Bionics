@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_engine": {
+    "has_copper": {
       "conditions": {
         "items": [
           {
-            "items": "createbionics:i2_coal_engine"
+            "items": "minecraft:copper_ingot"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "createbionics:anole_head"
+        "recipe": "createbionics:anole_item"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_engine"
+      "has_anole_body"
     ]
   ],
   "rewards": {
     "recipes": [
-      "createbionics:anole_head"
+      "createbionics:anole_item"
     ]
   }
 }

@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_honeycomb": {
+    "has_copper": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:honeycomb"
+            "items": "minecraft:copper_ingot"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "createbionics:wax_block"
+        "recipe": "createbionics:anole_tail_item"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_honeycomb"
+      "has_engine"
     ]
   ],
   "rewards": {
     "recipes": [
-      "createbionics:wax_block"
+      "createbionics:anole_tail_item"
     ]
   }
 }
