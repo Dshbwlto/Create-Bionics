@@ -314,6 +314,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
         builder.define(FUEL, 0);
         builder.define(TANK_FLUID, FluidStack.EMPTY);
         super.defineSynchedData(builder);
+
     }
 
     @Override
