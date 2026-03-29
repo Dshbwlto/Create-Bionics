@@ -59,7 +59,7 @@ public class RepleteRenderer extends MobRenderer<RepleteEntity, RepleteModel<Rep
     @Override
     public void render(RepleteEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
-        FluidStack fluidStack = entity.getFluid();
+        FluidStack fluidStack = FluidStack.EMPTY;
 
         if (fluidStack.isEmpty())
             return;

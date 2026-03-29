@@ -511,7 +511,7 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
         tank_5_b.visible = false;
 
         dial_fuel.yRot = (float) entity.getFuel() / 10000 * (Mth.PI / 2) - Mth.PI / 2;
-        dial_fluid.yRot = entity.startFillLevel() * (Mth.PI / 2) - Mth.PI / 2;
+        //dial_fluid.yRot = entity.getSynchedFluid().getAmount() * (Mth.PI / 2) - Mth.PI / 2;
         gear.zRot = entity.getFuel() == 0 ? 0 : (AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 100;
     }
 
