@@ -1,28 +1,4 @@
 {
-  "engine_start": {
-    "sounds": [
-      {
-        "name": "createbionics:engine_start",
-        "stream": true
-      }
-    ]
-  },
-  "engine_idle": {
-    "sounds": [
-      {
-        "name": "createbionics:engine_idle",
-        "stream": true
-      }
-    ]
-  },
-  "thruster": {
-    "sounds": [
-      {
-        "name": "createbionics:thruster",
-        "stream": true
-      }
-    ]
-  },
   "oxhauler_bellow_1": {
     "sounds": [
       {
@@ -59,6 +35,70 @@
     "sounds": [
       {
         "name": "createbionics:get_stick_bugged",
+        "stream": true
+      }
+    ]
+  },
+  "replete_damage_1": {
+    "sounds": [
+      {
+        "name": "createbionics:replete_damage_1",
+        "stream": true
+      }
+    ]
+  },
+  "replete_damage_2": {
+    "sounds": [
+      {
+        "name": "createbionics:replete_damage_2",
+        "stream": true
+      }
+    ]
+  },
+  "replete_damage_3": {
+    "sounds": [
+      {
+        "name": "createbionics:replete_damage_3",
+        "stream": true
+      }
+    ]
+  },
+  "replete_idle_1": {
+    "sounds": [
+      {
+        "name": "createbionics:replete_idle_1",
+        "stream": true
+      }
+    ]
+  },
+  "replete_idle_2": {
+    "sounds": [
+      {
+        "name": "createbionics:replete_idle_2",
+        "stream": true
+      }
+    ]
+  },
+  "replete_idle_3": {
+    "sounds": [
+      {
+        "name": "createbionics:replete_idle_3",
+        "stream": true
+      }
+    ]
+  },
+  "replete_idle_4": {
+    "sounds": [
+      {
+        "name": "createbionics:replete_idle_4",
+        "stream": true
+      }
+    ]
+  },
+  "replete_idle_5": {
+    "sounds": [
+      {
+        "name": "createbionics:replete_idle_5",
         "stream": true
       }
     ]

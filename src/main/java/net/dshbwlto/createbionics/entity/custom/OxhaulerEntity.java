@@ -303,9 +303,6 @@ public class OxhaulerEntity extends AbstractHorse{
             if (this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
-                if (getFuel() == 0) {
-                    playSound(BionicsSounds.ENGINE_START.get());
-                }
                 if (!player.getAbilities().instabuild) {
                     itemStack.shrink(1);
                 }

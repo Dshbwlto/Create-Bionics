@@ -17,15 +17,19 @@ public class BionicsSounds {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS =
             DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, CreateBionics.MOD_ID);
 
-    public static final Supplier<SoundEvent> ENGINE_START = registerSoundEvent("engine_start");
-    public static final Supplier<SoundEvent> ENGINE_IDLE = registerSoundEvent("engine_idle");
-    public static final Supplier<SoundEvent> THRUSTER = registerSoundEvent("thruster");
-    public static final Supplier<SoundEvent> COMMAND_WHISTLE = registerSoundEvent("command_whistle");
-
     public static final Supplier<SoundEvent> OXHAULER_BELLOW_1 = registerSoundEvent("oxhauler_bellow_1");
     public static final Supplier<SoundEvent> OXHAULER_BELLOW_2 = registerSoundEvent("oxhauler_bellow_2");
     public static final Supplier<SoundEvent> OXHAULER_BELLOW_3 = registerSoundEvent("oxhauler_bellow_3");
     public static final Supplier<SoundEvent> OXHAULER_RELEASE_1 = registerSoundEvent("oxhauler_release_1");
+
+    public static final Supplier<SoundEvent> REPLETE_DAMAGE_1 = registerSoundEvent("replete_damage_1");
+    public static final Supplier<SoundEvent> REPLETE_DAMAGE_2 = registerSoundEvent("replete_damage_2");
+    public static final Supplier<SoundEvent> REPLETE_DAMAGE_3 = registerSoundEvent("replete_damage_3");
+    public static final Supplier<SoundEvent> REPLETE_IDLE_1 = registerSoundEvent("replete_idle_1");
+    public static final Supplier<SoundEvent> REPLETE_IDLE_2 = registerSoundEvent("replete_idle_2");
+    public static final Supplier<SoundEvent> REPLETE_IDLE_3 = registerSoundEvent("replete_idle_3");
+    public static final Supplier<SoundEvent> REPLETE_IDLE_4 = registerSoundEvent("replete_idle_4");
+    public static final Supplier<SoundEvent> REPLETE_IDLE_5 = registerSoundEvent("replete_idle_5");
 
     public static final Supplier<SoundEvent> GET_STICK_BUGGED = registerSoundEvent("get_stick_bugged");
 

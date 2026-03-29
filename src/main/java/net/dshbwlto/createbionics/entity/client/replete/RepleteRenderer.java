@@ -59,17 +59,19 @@ public class RepleteRenderer extends MobRenderer<RepleteEntity, RepleteModel<Rep
     @Override
     public void render(RepleteEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
-        FluidStack fluidStack = FluidStack.EMPTY;
+        FluidStack fluidStack = entity.getSynchedFluid();
 
         if (fluidStack.isEmpty())
             return;
-
-        float height = (150000 / 160000f) * 4.5f;
+        if (entity.getHealth() == 0) {
+            return;
+        }
+        float height = (fluidStack.getAmount() / 160000f) * -4.5f;
 
         poseStack.pushPose();
         poseStack.mulPose(Axis.YN.rotation(entityYaw * (Mth.PI / 180)));
-        poseStack.translate(0, 38/16f, -7/8f);
-        NeoForgeCatnipServices.FLUID_RENDERER.renderFluidBox(fluidStack, -15/16f, 0, -15/16f, 15/16f, height, 15/16f, buffer,
+        poseStack.translate(0, 38/16f - height - entity.sitOffset, -7/8f);
+        NeoForgeCatnipServices.FLUID_RENDERER.renderFluidBox(fluidStack, -15/16f, height, -15/16f, 15/16f, 0, 15/16f, buffer,
                 poseStack, packedLight, false, true);
         poseStack.popPose();
     }
