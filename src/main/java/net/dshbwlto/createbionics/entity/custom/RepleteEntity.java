@@ -1,32 +1,16 @@
 package net.dshbwlto.createbionics.entity.custom;
 
-import com.simibubi.create.AllBlockEntityTypes;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
-import com.simibubi.create.AllSoundEvents;
-import com.simibubi.create.api.connectivity.ConnectivityHandler;
-import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
-import com.simibubi.create.content.kinetics.belt.behaviour.BeltProcessingBehaviour;
-import com.simibubi.create.foundation.advancement.AllAdvancements;
-import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
-import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
-import com.simibubi.create.foundation.fluid.SmartFluidTank;
-import net.createmod.catnip.animation.LerpedFloat;
 import net.dshbwlto.createbionics.Util.BionicsEntityDataSerializers;
-import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
@@ -47,22 +31,18 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.Objects;
 
 public class RepleteEntity extends AbstractRobot implements MenuProvider{
     public final AnimationState idleAnimationState = new AnimationState();
@@ -79,12 +59,25 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
         entityData.set(FUEL, fuel);
     }
 
+    public boolean getWindow() {
+        return entityData.get(WINDOW);
+    }
+    public void toggleWindow() {
+        if (getWindow()) {
+            entityData.set(WINDOW, false);
+        } else {
+            entityData.set(WINDOW, true);
+        }
+    }
+
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
 
     public static final EntityDataAccessor<Integer> FUEL =
             SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Boolean> WINDOW =
+            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.BOOLEAN);
 
     public RepleteEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
@@ -94,7 +87,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
-        this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 1.0d, 10f, 5f) {
+        this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 1.0d, 20, 10f) {
             @Override
             public boolean canUse() {
                 return super.canUse() && getCommand() == 0 && getAssembly() == 12 && getFuel() > 0;
@@ -108,6 +101,13 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
         });
     }
 
+    @Override
+    public boolean shouldTryTeleportToOwner() {
+        if (isTame()) {
+            return distanceTo(Objects.requireNonNull(getOwner())) > 30;
+        }
+        return super.shouldTryTeleportToOwner();
+    }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Animal.createLivingAttributes()
@@ -135,27 +135,35 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
 
     @Override
     protected @Nullable SoundEvent getHurtSound(DamageSource damageSource) {
-        if (random.nextFloat() > 0.6) {
-            return BionicsSounds.REPLETE_DAMAGE_1.get();
-        } else if (random.nextFloat() > 0.3) {
-            return BionicsSounds.REPLETE_DAMAGE_2.get();
+        if (getFuel() > 0) {
+            if (random.nextFloat() > 0.6) {
+                return BionicsSounds.REPLETE_DAMAGE_1.get();
+            } else if (random.nextFloat() > 0.3) {
+                return BionicsSounds.REPLETE_DAMAGE_2.get();
+            } else {
+                return BionicsSounds.REPLETE_DAMAGE_3.get();
+            }
         } else {
-            return BionicsSounds.REPLETE_DAMAGE_3.get();
+            return SoundEvents.COPPER_BREAK;
         }
     }
 
     @Override
     protected @Nullable SoundEvent getAmbientSound() {
-        if (random.nextFloat() > 0.2) {
-            return BionicsSounds.REPLETE_IDLE_1.get();
-        } else if (random.nextFloat() > 0.4) {
-            return BionicsSounds.REPLETE_IDLE_2.get();
-        } else if (random.nextFloat() > 0.6) {
-            return BionicsSounds.REPLETE_IDLE_3.get();
-        } else if (random.nextFloat() > 0.8) {
-            return BionicsSounds.REPLETE_IDLE_4.get();
+        if (getFuel() > 0) {
+            if (random.nextFloat() > 0.2) {
+                return BionicsSounds.REPLETE_IDLE_1.get();
+            } else if (random.nextFloat() > 0.4) {
+                return BionicsSounds.REPLETE_IDLE_2.get();
+            } else if (random.nextFloat() > 0.6) {
+                return BionicsSounds.REPLETE_IDLE_3.get();
+            } else if (random.nextFloat() > 0.8) {
+                return BionicsSounds.REPLETE_IDLE_4.get();
+            } else {
+                return BionicsSounds.REPLETE_IDLE_5.get();
+            }
         } else {
-            return BionicsSounds.REPLETE_IDLE_5.get();
+            return null;
         }
     }
 
@@ -174,10 +182,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
 
     @Override
     public boolean fireImmune() {
-        if(getVariant() == RepleteVariant.NETHERITE3) {
-            return true;
-        }
-        return super.fireImmune();
+        return true;
     }
 
     /* ANIMATIONS */
@@ -265,7 +270,24 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
         }
         if(itemStack.getCapability(Capabilities.FluidHandler.ITEM, null) != null) {
             if (hasFluidStackInHand(player, hand) && getFluid().getAmount() < 160000) {
-                transferFluidToTank(player, hand);
+                if (getAssembly() == 12) {
+                    transferFluidToTank(player, hand);
+                    if (this.level().isClientSide()) {
+                        return InteractionResult.SUCCESS;
+                    } else {
+                        if (!player.getAbilities().instabuild) {
+                            itemStack.shrink(1);
+                        }
+                        return InteractionResult.SUCCESS;
+                    }
+                } else {
+                    player.displayClientMessage(Component.translatable("entity.createbionics.all.construction_warning"), true);
+                }
+            }
+        }
+        if (hasFluidHandlerInHand(player, hand) && getFluid().getAmount() > 0 && getAssembly() == 12) {
+            if (getAssembly() == 12) {
+                transferFluidFromTankToPlayer(player, hand);
                 if (this.level().isClientSide()) {
                     return InteractionResult.SUCCESS;
                 } else {
@@ -274,17 +296,8 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
                     }
                     return InteractionResult.SUCCESS;
                 }
-            }
-        }
-        if (hasFluidHandlerInHand(player, hand) && getFluid().getAmount() > 0) {
-            transferFluidFromTankToPlayer(player, hand);
-            if (this.level().isClientSide()) {
-                return InteractionResult.SUCCESS;
             } else {
-                if (!player.getAbilities().instabuild) {
-                    itemStack.shrink(1);
-                }
-                return InteractionResult.SUCCESS;
+                player.displayClientMessage(Component.translatable("entity.createbionics.all.construction_warning"), true);
             }
         }
         if ((itemStack.is(BionicsItems.ROBOT_BUILDER) || itemStack.is(getPart())) && getAssembly() < 12) {
@@ -308,20 +321,16 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
             heal(10);
             makeSound(SoundEvents.SMITHING_TABLE_USE);
             return InteractionResult.CONSUME;
-        } else if (itemStack.is(AllItems.WRENCH)) {
-            if (getFluid().isEmpty()) {
-                player.displayClientMessage(Component.translatable("a"), true);
-            }
-            if (getAssembly() > 0) {
-                setAssembly(getAssembly() - 1);
-                spawnAtLocation(new ItemStack(getPart()));
-                setFuel(0);
+        } else if (itemStack.is(Items.COPPER_INGOT)
+                || itemStack.is(AllItems.BRASS_INGOT)
+                || itemStack.is(AllItems.ANDESITE_ALLOY)) {
+            dropIngot();
+            setTypeVariant(itemStack);
+            if (level().isClientSide) {
+                return InteractionResult.SUCCESS;
             } else {
-                spawnAtLocation(new ItemStack((ItemLike) BionicsItems.REPLETE_BODY));
-                remove(RemovalReason.DISCARDED);
+                itemStack.shrink(1);
             }
-            playSound(SoundEvents.NETHERITE_BLOCK_PLACE);
-            return InteractionResult.SUCCESS;
         } else if ((itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL)) && getAssembly() == 12) {
             setFuel(getFuel() + 10000);
             if (getFuel() > 10000) {
@@ -329,8 +338,30 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
             }
             itemStack.shrink(1);
             return InteractionResult.CONSUME;
+        } else if (itemStack.is(AllItems.WRENCH)) {
+            if (!player.isShiftKeyDown()) {
+                toggleWindow();
+            } else {
+                if (!level().isClientSide) {
+                    if (getFluid().isEmpty() && getFluid().getAmount() == 0) {
+                        if (getAssembly() > 0) {
+                            spawnAtLocation(new ItemStack(getPart()));
+                            setAssembly(getAssembly() - 1);
+                        } else {
+                            spawnAtLocation(BionicsItems.REPLETE_BODY);
+                            if (getVariant() != RepleteVariant.BRASS) {
+                                dropIngot();
+                            }
+                            remove(RemovalReason.DISCARDED);
+                        }
+                    } else {
+                        player.displayClientMessage(Component.translatable("entity.createbionics.all.empty_warning"), true);
+                    }
+                }
+            }
+            return InteractionResult.SUCCESS;
         } else {
-            if (getAssembly() == 12 && getFuel() > 0) {
+            if (getFuel() > 0) {
                 updateCommand(player);
                 return InteractionResult.SUCCESS;
             }
@@ -343,13 +374,14 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
         super.defineSynchedData(builder);
         builder.define(FUEL, 0);
         builder.define(TANK_FLUID, FluidStack.EMPTY);
-
+        builder.define(WINDOW, false);
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("Fuel", this.entityData.get(FUEL));
+        compound.putBoolean("Window", this.entityData.get(WINDOW));
         FLUID_TANK.writeToNBT(level().registryAccess(), compound);
     }
 
@@ -357,12 +389,32 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         entityData.set(FUEL, compound.getInt("Fuel"));
+        entityData.set(WINDOW, compound.getBoolean("Window"));
         FLUID_TANK.readFromNBT(level().registryAccess(), compound);
         entityData.set(TANK_FLUID, FLUID_TANK.getFluid().copy());
     }
 
     //VARIANT//
-
+    private void setTypeVariant(ItemStack itemStack) {
+        if (itemStack.getItem() == Items.COPPER_INGOT && getVariant() != RepleteVariant.COPPER) {
+            setVariant(RepleteVariant.COPPER);
+        } else if (itemStack.is(AllItems.ANDESITE_ALLOY)
+                && getVariant() != RepleteVariant.ANDESITE) {
+            setVariant(RepleteVariant.ANDESITE);
+        } else if (itemStack.is(AllItems.BRASS_INGOT)
+                && getVariant() != RepleteVariant.BRASS) {
+            setVariant(RepleteVariant.BRASS);
+        }
+    }
+    private void dropIngot() {
+        if (getVariant() == RepleteVariant.BRASS) {
+            spawnAtLocation(new ItemStack(AllItems.BRASS_INGOT.asItem()));
+        } else if (getVariant() == RepleteVariant.COPPER) {
+            spawnAtLocation(new ItemStack(Items.COPPER_INGOT));
+        } else if (getVariant() == RepleteVariant.ANDESITE) {
+            spawnAtLocation(new ItemStack(AllItems.ANDESITE_ALLOY.asItem()));
+        }
+    }
     private void setTypeVariant(int typeVariant) {
         this.entityData.set(VARIANT, typeVariant);
     }
@@ -449,7 +501,9 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
         FluidActionResult result = FluidUtil.tryFillContainer(itemStack, this.FLUID_TANK, Integer.MAX_VALUE, player, true);
         if (result.result != ItemStack.EMPTY) {
             if (!player.getAbilities().instabuild) {
-                player.addItem(result.result);}
+                player.getItemInHand(hand).shrink(1);
+                player.addItem(result.result);
+            }
         }
     }
 
@@ -458,6 +512,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
         FluidActionResult result = FluidUtil.tryEmptyContainer(itemStack, this.FLUID_TANK, Integer.MAX_VALUE, player, true);
         if(result.result != ItemStack.EMPTY) {
             if (!player.getAbilities().instabuild) {
+                player.getItemInHand(hand).shrink(1);
                 player.addItem(result.result);
             }
         }

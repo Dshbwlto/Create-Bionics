@@ -32,19 +32,13 @@ public class RepleteRenderer extends MobRenderer<RepleteEntity, RepleteModel<Rep
 
     private static final Map<RepleteVariant, ResourceLocation> LOCATION_BY_VARIANT =
             Util.make(Maps.newEnumMap(RepleteVariant.class), map -> {
-                map.put(RepleteVariant.DEFAULT,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete.png"));
+                map.put(RepleteVariant.COPPER,
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_copper.png"));
                 map.put(RepleteVariant.BRASS,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_brass.png"));
-                map.put(RepleteVariant.NETHERITE1_COPPER,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_netherite1_copper.png"));
-                map.put(RepleteVariant.NETHERITE1_BRASS,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_netherite1_brass.png"));
-                map.put(RepleteVariant.NETHERITE2,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_netherite2.png"));
-                map.put(RepleteVariant.NETHERITE3,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_netherite3.png"));
-    });
+                map.put(RepleteVariant.ANDESITE,
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_andesite.png"));
+            });
 
     public RepleteRenderer(EntityRendererProvider.Context context) {
         super (context, new RepleteModel<>(context.bakeLayer(BionicsModelLayers.REPLETE)), 2.5f);

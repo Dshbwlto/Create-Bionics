@@ -80,6 +80,8 @@
   "entity.createbionics.all.command_0": "%s is following",
   "entity.createbionics.all.command_1": "%s is wandering",
   "entity.createbionics.all.command_2": "%s is staying",
+  "entity.createbionics.all.empty_warning": "Remove contents before deconstructing.",
+  "entity.createbionics.all.construction_warning": "Finish construction before filling or emptying.",
 
   "entity.createbionics.all.assembly": "Next Part: %s",
   "entity.createbionics.all.page_progress": "%s/%s",

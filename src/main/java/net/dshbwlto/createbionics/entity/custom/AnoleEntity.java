@@ -27,16 +27,22 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Ocelot;
+import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.EventHooks;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
+@EventBusSubscriber
 public class AnoleEntity extends AbstractRobot {
     public int getFuel() {
         return entityData.get(FUEL_TIME);
@@ -97,6 +103,13 @@ public class AnoleEntity extends AbstractRobot {
 
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 4f));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+    }
+
+    @SubscribeEvent
+    public static void scareEntity(EntityJoinLevelEvent event) {
+        if (event.getEntity() instanceof Spider spider) {
+            spider.goalSelector.addGoal(1, new AvoidEntityGoal(spider, AnoleEntity.class, 6.0F, (double)1.0F, 1.2));;
+        }
     }
 
     protected PathNavigation createNavigation(Level level) {

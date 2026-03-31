@@ -267,14 +267,13 @@ public class OrganEntity extends AbstractRobot {
                 || itemStack.is(AllItems.BRASS_INGOT)
                 || itemStack.is(AllItems.STURDY_SHEET))
                 && isOwnedBy(player)) {
-            dropIngot(getVariant());
+            dropIngot();
             setTypeVariant(itemStack);
             if (level().isClientSide) {
                 return InteractionResult.SUCCESS;
             } else {
                 itemStack.shrink(1);
             }
-
         } else if (itemStack.is(Items.REDSTONE) || itemStack.is(Items.REDSTONE_BLOCK) || itemStack.is(Items.BRUSH)) {
             dropRedstone(getGlow());
             setTypeGlow(itemStack);
@@ -356,7 +355,7 @@ public class OrganEntity extends AbstractRobot {
             setGlow(OrganGlow.REDSTONE2);
         }
     }
-    private void dropIngot(OrganVariant variant) {
+    private void dropIngot() {
         if (getVariant() == OrganVariant.BRASS) {
             spawnAtLocation(new ItemStack(AllItems.BRASS_INGOT.asItem()));
         } else if (getVariant() == OrganVariant.COPPER) {
