@@ -739,8 +739,8 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         stand.visible = entity.getAssembly() < 21;
 
         float animationTick = (AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 10;
-        float oscillation = Mth.sin(animationTick + 1.1f);
-        float oscillation2 = Mth.sin(animationTick + 0.1f) / 4;
+        float oscillation = Mth.sin(animationTick + Mth.PI / 2);
+        float oscillation2 = Mth.sin((Mth.cos(animationTick + Mth.PI * 3/2))) / 1.68f;
 
         crank.xRot = animationTick;
         shaft.zRot = animationTick;
