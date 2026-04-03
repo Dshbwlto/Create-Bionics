@@ -32,13 +32,19 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.block.AbstractBannerBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Map;
 
@@ -57,11 +63,13 @@ public class OxhaulerRenderer extends MobRenderer<OxhaulerEntity, OxhaulerModel<
     private static final String POLE = "pole";
     private static final String BAR = "bar";
     private final ModelPart flag;
+    private final BannerBlockEntity banner;
 
     public OxhaulerRenderer(EntityRendererProvider.Context context) {
         super(context, new OxhaulerModel<>(context.bakeLayer(BionicsModelLayers.OXHAULER)), 1.6f);
         this.addLayer(new OxhaulerGlowLayer(this, context.getModelSet()));
         this.addLayer(new OxhaulerColorLayer(this, context.getModelSet()));
+        this.banner = new BannerBlockEntity(BlockPos.ZERO, Blocks.WHITE_BANNER.defaultBlockState());
 
         ModelPart modelpart = context.bakeLayer(ModelLayers.BANNER);
         this.flag = modelpart.getChild("flag");
@@ -88,18 +96,26 @@ public class OxhaulerRenderer extends MobRenderer<OxhaulerEntity, OxhaulerModel<
                 .light(15728880)
                 .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
 
-        if (entity.getInventory().getItem(1).getItem() instanceof BannerItem bannerItem) {
+        ItemStack stack = entity.getInventory().getItem(0);
+        Item item = stack.getItem();
 
-            poseStack.pushPose();
-            poseStack.scale(0.6666667F, -0.6666667F, -0.6666667F);
-            VertexConsumer vertexconsumer = ModelBakery.BANNER_BASE.buffer(buffer, RenderType::entitySolid);
-            BlockPos blockpos = entity.getOnPos();
-            float f2 = ((float) Math.floorMod((long) (blockpos.getX() * 7L + blockpos.getY() * 9L + blockpos.getZ() * 13L), 100L) + AnimationTickHolder.getPartialTicks()) / 100.0F;
-            this.flag.xRot = (-0.0125F + 0.01F * Mth.cos(((float) Math.PI * 2F) * f2)) * (float) Math.PI;
-            this.flag.y = -32.0F;
-            //renderPatterns(poseStack, buffer, packedLight, packedLight, this.flag, ModelBakery.BANNER_BASE, true, (color), (pattern));
-            poseStack.popPose();
-            poseStack.popPose();
+        if (item instanceof BlockItem) {
+            Block block = ((BlockItem) item).getBlock();
+            BannerBlockEntity blockentity;
+            if (block instanceof AbstractBannerBlock) {
+                this.banner.fromItem(stack, ((AbstractBannerBlock) block).getColor());
+                blockentity = this.banner;
+
+                poseStack.pushPose();
+                poseStack.scale(0.6666667F, -0.6666667F, -0.6666667F);
+                BlockPos blockpos = entity.getOnPos();
+                float f2 = ((float) Math.floorMod((blockpos.getX() * 7L + blockpos.getY() * 9L + blockpos.getZ() * 13L), 100L) + AnimationTickHolder.getPartialTicks()) / 100.0F;
+                this.flag.xRot = (-0.0125F + 0.01F * Mth.cos(((float) Math.PI * 2F) * f2)) * (float) Math.PI;
+                this.flag.y = -32.0F;
+                renderPatterns(poseStack, buffer, packedLight, packedLight, this.flag, ModelBakery.BANNER_BASE, true, blockentity.getBaseColor(), blockentity.getPatterns());
+                poseStack.popPose();
+                poseStack.popPose();
+            }
         }
     }
 
