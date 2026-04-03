@@ -17,6 +17,9 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
     private final ModelPart back_master;
     private final ModelPart front_master;
     private final ModelPart neck_master;
+    private final ModelPart neck;
+    private final ModelPart pistons;
+    private final ModelPart head;
     private final ModelPart leg_l;
     private final ModelPart leg_r;
     private final ModelPart arm_l;
@@ -27,6 +30,13 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
     private final ModelPart bolts_front;
     private final ModelPart bolts_rear;
     private final ModelPart dial;
+    private final ModelPart stand;
+    private final ModelPart piston1;
+    private final ModelPart piston2;
+    private final ModelPart piston3;
+    private final ModelPart piston4;
+    private final ModelPart piston5;
+    private final ModelPart piston6;
 
     public OxhaulerModel(ModelPart root) {
         this.root = root.getChild("root");
@@ -37,13 +47,23 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
         this.arm_r = this.root.getChild("body").getChild("front_master").getChild("arm_r");
         this.front_master = this.root.getChild("body").getChild("front_master");
         this.neck_master = this.root.getChild("body").getChild("front_master").getChild("front").getChild("neck_master");
+        this.neck = this.root.getChild("body").getChild("front_master").getChild("front").getChild("neck_master").getChild("neck");
+        this.pistons = this.root.getChild("body").getChild("front_master").getChild("front").getChild("neck_master").getChild("pistons");
+        this.head = this.root.getChild("body").getChild("front_master").getChild("front").getChild("neck_master").getChild("neck").getChild("head");
         this.combine = this.root.getChild("combine");
         this.roller = this.root.getChild("combine").getChild("roller");
         this.plough = this.root.getChild("plough");
         this.bolts_front = this.root.getChild("body").getChild("bolts_front");
         this.bolts_rear = this.root.getChild("body").getChild("bolts_rear");
         this.dial = this.root.getChild("body").getChild("front_master").getChild("front").getChild("neck_master").getChild("neck").getChild("dial");
-   }
+        this.stand = this.root.getChild("body").getChild("stand");
+        this.piston1 = this.root.getChild("body").getChild("back_master").getChild("back").getChild("piston1").getChild("bone7");
+        this.piston2 = this.root.getChild("body").getChild("back_master").getChild("back").getChild("piston2").getChild("bone8");
+        this.piston3 = this.root.getChild("body").getChild("back_master").getChild("back").getChild("piston3").getChild("bone9");
+        this.piston4 = this.root.getChild("body").getChild("back_master").getChild("back").getChild("piston4").getChild("bone10");
+        this.piston5 = this.root.getChild("body").getChild("back_master").getChild("back").getChild("piston5").getChild("bone11");
+        this.piston6 = this.root.getChild("body").getChild("back_master").getChild("back").getChild("piston6").getChild("bone12");
+    }
 
     public static LayerDefinition createBodyLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
@@ -51,23 +71,23 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
 
         PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-        PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(184, 30).addBox(-11.5F, 4.0F, -6.5F, 3.0F, 14.0F, 2.0F, new CubeDeformation(0.0F))
-                .texOffs(184, 46).addBox(-11.5F, 4.0F, 4.5F, 3.0F, 14.0F, 2.0F, new CubeDeformation(0.0F))
-                .texOffs(24, 167).addBox(-11.5F, 17.0F, -4.5F, 3.0F, 1.0F, 9.0F, new CubeDeformation(0.0F))
-                .texOffs(168, 0).addBox(-11.5F, 4.0F, -4.5F, 3.0F, 1.0F, 9.0F, new CubeDeformation(0.0F))
-                .texOffs(48, 167).addBox(10.5F, -2.5F, 8.0F, 2.0F, 22.0F, 2.0F, new CubeDeformation(0.0F))
-                .texOffs(48, 167).addBox(10.5F, -2.5F, -10.0F, 2.0F, 22.0F, 2.0F, new CubeDeformation(0.0F))
-                .texOffs(48, 167).addBox(-12.5F, -2.5F, 8.0F, 2.0F, 22.0F, 2.0F, new CubeDeformation(0.0F))
-                .texOffs(48, 167).addBox(-12.5F, -2.5F, -10.0F, 2.0F, 22.0F, 2.0F, new CubeDeformation(0.0F))
-                .texOffs(60, 81).addBox(-9.5F, 3.5F, -7.0F, 12.0F, 14.0F, 14.0F, new CubeDeformation(0.0F))
-                .texOffs(0, 0).addBox(-10.5F, -3.0F, -11.0F, 21.0F, 23.0F, 22.0F, new CubeDeformation(0.0F))
-                .texOffs(86, 24).addBox(-6.5F, -4.0F, -7.0F, 13.0F, 1.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -30.0F, 0.0F));
+        PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(184, 30).addBox(-11.5F, -2.0F, -6.5F, 3.0F, 14.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(184, 46).addBox(-11.5F, -2.0F, 4.5F, 3.0F, 14.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(24, 167).addBox(-11.5F, 11.0F, -4.5F, 3.0F, 1.0F, 9.0F, new CubeDeformation(0.0F))
+                .texOffs(168, 0).addBox(-11.5F, -2.0F, -4.5F, 3.0F, 1.0F, 9.0F, new CubeDeformation(0.0F))
+                .texOffs(48, 167).addBox(10.5F, -8.5F, 8.0F, 2.0F, 22.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(48, 167).addBox(10.5F, -8.5F, -10.0F, 2.0F, 22.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(48, 167).addBox(-12.5F, -8.5F, 8.0F, 2.0F, 22.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(48, 167).addBox(-12.5F, -8.5F, -10.0F, 2.0F, 22.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(60, 81).addBox(-9.5F, -2.5F, -7.0F, 12.0F, 14.0F, 14.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 0).addBox(-10.5F, -9.0F, -11.0F, 21.0F, 23.0F, 22.0F, new CubeDeformation(0.0F))
+                .texOffs(86, 24).addBox(-6.5F, -10.0F, -7.0F, 13.0F, 1.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -24.0F, 0.0F));
 
-        PartDefinition cube_r1 = body.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(109, 135).addBox(0.0F, -4.0F, 0.0F, 1.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, -5.9F, -8.6F, -0.3927F, 0.0F, 0.0F));
+        PartDefinition cube_r1 = body.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(109, 135).addBox(0.0F, -4.0F, 0.0F, 1.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, -11.9F, -8.6F, -0.3927F, 0.0F, 0.0F));
 
-        PartDefinition cube_r2 = body.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(106, 134).addBox(-1.0F, -4.0F, 0.0F, 3.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, -2.0F, -8.0F, 0.1745F, 0.0F, 0.0F));
+        PartDefinition cube_r2 = body.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(106, 134).addBox(-1.0F, -4.0F, 0.0F, 3.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, -8.0F, -8.0F, 0.1745F, 0.0F, 0.0F));
 
-        PartDefinition back_master = body.addOrReplaceChild("back_master", CubeListBuilder.create(), PartPose.offset(0.0F, 5.0F, 9.0F));
+        PartDefinition back_master = body.addOrReplaceChild("back_master", CubeListBuilder.create(), PartPose.offset(0.0F, -1.0F, 9.0F));
 
         PartDefinition back = back_master.addOrReplaceChild("back", CubeListBuilder.create().texOffs(68, 45).addBox(-4.0F, -6.0F, 3.25F, 8.0F, 20.0F, 16.0F, new CubeDeformation(0.0F))
                 .texOffs(105, 114).addBox(10.0F, -7.0F, 3.0F, 1.0F, 2.0F, 14.0F, new CubeDeformation(0.0F))
@@ -112,15 +132,6 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
                 .texOffs(0, 10).addBox(-5.0F, -4.0F, -9.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
                 .texOffs(0, 0).addBox(-5.5F, -4.45F, -9.5F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-        PartDefinition piston6 = back.addOrReplaceChild("piston6", CubeListBuilder.create(), PartPose.offsetAndRotation(1.5F, -11.35F, 14.0F, 0.0F, 0.0F, 0.7854F));
-
-        PartDefinition bone12 = piston6.addOrReplaceChild("bone12", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-1.5F, -3.0F, -1.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(0, 0).mirror().addBox(-1.5F, -4.45F, -1.5F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(0, 10).mirror().addBox(-1.0F, -4.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(0, 0).mirror().addBox(2.5F, -3.0F, -9.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(0, 10).mirror().addBox(3.0F, -4.0F, -9.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(0, 0).mirror().addBox(2.5F, -4.45F, -9.5F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
-
         PartDefinition piston2 = back.addOrReplaceChild("piston2", CubeListBuilder.create(), PartPose.offsetAndRotation(-1.5F, -11.35F, 10.0F, 0.0F, 0.0F, -0.7854F));
 
         PartDefinition bone8 = piston2.addOrReplaceChild("bone8", CubeListBuilder.create().texOffs(0, 0).addBox(-1.5F, -3.0F, -1.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
@@ -129,15 +140,6 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
                 .texOffs(0, 0).addBox(-5.5F, -3.0F, 2.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
                 .texOffs(0, 10).addBox(-5.0F, -4.0F, 3.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
                 .texOffs(0, 0).addBox(-5.5F, -4.45F, 2.5F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition piston5 = back.addOrReplaceChild("piston5", CubeListBuilder.create(), PartPose.offsetAndRotation(1.5F, -11.35F, 10.0F, 0.0F, 0.0F, 0.7854F));
-
-        PartDefinition bone11 = piston5.addOrReplaceChild("bone11", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-1.5F, -3.0F, -1.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(0, 0).mirror().addBox(-1.5F, -4.45F, -1.5F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(0, 10).mirror().addBox(-1.0F, -4.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(0, 0).mirror().addBox(2.5F, -3.0F, 2.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(0, 10).mirror().addBox(3.0F, -4.0F, 3.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(0, 0).mirror().addBox(2.5F, -4.45F, 2.5F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
 
         PartDefinition piston3 = back.addOrReplaceChild("piston3", CubeListBuilder.create(), PartPose.offsetAndRotation(-1.5F, -11.35F, 6.0F, 0.0F, 0.0F, -0.7854F));
 
@@ -157,6 +159,24 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
                 .texOffs(0, 0).mirror().addBox(2.5F, -4.45F, 2.5F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(0, 10).mirror().addBox(3.0F, -4.0F, 3.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
 
+        PartDefinition piston5 = back.addOrReplaceChild("piston5", CubeListBuilder.create(), PartPose.offsetAndRotation(1.5F, -11.35F, 10.0F, 0.0F, 0.0F, 0.7854F));
+
+        PartDefinition bone11 = piston5.addOrReplaceChild("bone11", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-1.5F, -3.0F, -1.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(0, 0).mirror().addBox(-1.5F, -4.45F, -1.5F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(0, 10).mirror().addBox(-1.0F, -4.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(0, 0).mirror().addBox(2.5F, -3.0F, 2.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(0, 10).mirror().addBox(3.0F, -4.0F, 3.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(0, 0).mirror().addBox(2.5F, -4.45F, 2.5F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+        PartDefinition piston6 = back.addOrReplaceChild("piston6", CubeListBuilder.create(), PartPose.offsetAndRotation(1.5F, -11.35F, 14.0F, 0.0F, 0.0F, 0.7854F));
+
+        PartDefinition bone12 = piston6.addOrReplaceChild("bone12", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-1.5F, -3.0F, -1.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(0, 0).mirror().addBox(-1.5F, -4.45F, -1.5F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(0, 10).mirror().addBox(-1.0F, -4.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(0, 0).mirror().addBox(2.5F, -3.0F, -9.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(0, 10).mirror().addBox(3.0F, -4.0F, -9.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(0, 0).mirror().addBox(2.5F, -4.45F, -9.5F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
+
         PartDefinition leg_r = back_master.addOrReplaceChild("leg_r", CubeListBuilder.create().texOffs(106, 143).addBox(-4.0F, -4.0F, -4.5F, 5.0F, 16.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-6.0F, 5.0F, 8.5F, 0.1745F, 0.0F, 0.0F));
 
         PartDefinition bone3 = leg_r.addOrReplaceChild("bone3", CubeListBuilder.create().texOffs(74, 179).addBox(-1.5F, -1.0F, -4.0F, 3.0F, 11.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.5F, 11.0F, 3.5F, -0.1745F, 0.0F, 0.0F));
@@ -166,12 +186,12 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
         PartDefinition bone4 = leg_l.addOrReplaceChild("bone4", CubeListBuilder.create().texOffs(88, 179).addBox(-1.5F, -1.0F, -4.0F, 3.0F, 11.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.5F, 11.0F, 3.5F, -0.1745F, 0.0F, 0.0F));
 
         PartDefinition bolts_front = body.addOrReplaceChild("bolts_front", CubeListBuilder.create().texOffs(107, 171).addBox(14.0F, -1.5F, -1.5F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
-                .texOffs(107, 171).mirror().addBox(-14.0F, -1.5F, -1.5F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-2.5F, 3.0F, -9.0F));
+                .texOffs(107, 171).mirror().addBox(-14.0F, -1.5F, -1.5F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-2.5F, -3.0F, -9.0F));
 
         PartDefinition bolts_rear = body.addOrReplaceChild("bolts_rear", CubeListBuilder.create().texOffs(107, 171).addBox(14.0F, -3.0F, 6.0F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
-                .texOffs(107, 171).mirror().addBox(-14.0F, -3.0F, 6.0F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-2.5F, 4.0F, 1.5F));
+                .texOffs(107, 171).mirror().addBox(-14.0F, -3.0F, 6.0F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-2.5F, -2.0F, 1.5F));
 
-        PartDefinition front_master = body.addOrReplaceChild("front_master", CubeListBuilder.create(), PartPose.offset(0.0F, 6.0F, -10.75F));
+        PartDefinition front_master = body.addOrReplaceChild("front_master", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, -10.75F));
 
         PartDefinition front = front_master.addOrReplaceChild("front", CubeListBuilder.create().texOffs(0, 68).addBox(-8.0F, -8.0F, -15.0F, 16.0F, 12.0F, 14.0F, new CubeDeformation(0.0F))
                 .texOffs(86, 0).addBox(-5.0F, 4.0F, -14.0F, 10.0F, 9.0F, 15.0F, new CubeDeformation(0.0F))
@@ -250,12 +270,12 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
         PartDefinition bone2 = bone.addOrReplaceChild("bone2", CubeListBuilder.create().texOffs(184, 62).addBox(-2.0F, -2.3617F, -2.1471F, 3.0F, 11.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, 7.0F, -2.5F, 0.1745F, 0.0F, 0.0F));
 
         PartDefinition lever_l = body.addOrReplaceChild("lever_l", CubeListBuilder.create().texOffs(50, 168).addBox(-0.5F, -12.0F, -0.5F, 1.0F, 12.0F, 1.0F, new CubeDeformation(0.0F))
-                .texOffs(50, 168).addBox(-0.5F, -10.0F, 0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(3.0F, -3.0F, -7.5F));
+                .texOffs(50, 168).addBox(-0.5F, -10.0F, 0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(3.0F, -9.0F, -7.5F));
 
         PartDefinition cube_r17 = lever_l.addOrReplaceChild("cube_r17", CubeListBuilder.create().texOffs(66, 68).addBox(0.0F, -3.5F, -0.5F, 0.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -9.7F, 1.0F, -0.3054F, 0.0F, 0.0F));
 
         PartDefinition lever_r = body.addOrReplaceChild("lever_r", CubeListBuilder.create().texOffs(50, 168).addBox(-0.5F, -12.0F, -0.5F, 1.0F, 12.0F, 1.0F, new CubeDeformation(0.0F))
-                .texOffs(50, 168).addBox(-0.5F, -10.0F, 0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-3.0F, -3.0F, -7.5F));
+                .texOffs(50, 168).addBox(-0.5F, -10.0F, 0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-3.0F, -9.0F, -7.5F));
 
         PartDefinition cube_r18 = lever_r.addOrReplaceChild("cube_r18", CubeListBuilder.create().texOffs(66, 68).addBox(0.0F, -3.5F, -0.5F, 0.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -9.7F, 1.0F, -0.3054F, 0.0F, 0.0F));
 
@@ -264,13 +284,13 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
                 .texOffs(60, 68).addBox(-0.5F, -5.0F, -2.0F, 2.0F, 10.0F, 1.0F, new CubeDeformation(0.0F))
                 .texOffs(60, 68).addBox(-0.5F, -5.0F, -8.0F, 2.0F, 10.0F, 1.0F, new CubeDeformation(0.0F))
                 .texOffs(60, 68).addBox(-0.5F, -5.0F, -4.0F, 2.0F, 10.0F, 1.0F, new CubeDeformation(0.0F))
-                .texOffs(60, 68).addBox(-0.5F, -5.0F, -6.0F, 2.0F, 10.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-11.5F, 11.0F, 4.5F));
+                .texOffs(60, 68).addBox(-0.5F, -5.0F, -6.0F, 2.0F, 10.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-11.5F, 5.0F, 4.5F));
 
         PartDefinition chest_middle_top = body.addOrReplaceChild("chest_middle_top", CubeListBuilder.create().texOffs(0, 94).addBox(-4.0F, -2.0F, -6.5F, 6.0F, 10.0F, 15.0F, new CubeDeformation(0.0F))
-                .texOffs(190, 115).addBox(2.0F, 0.0F, 0.0F, 1.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(10.0F, 0.5F, -1.0F, 0.0F, 0.0F, -0.3054F));
+                .texOffs(190, 115).addBox(2.0F, 0.0F, 0.0F, 1.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(10.0F, -5.5F, -1.0F, 0.0F, 0.0F, -0.3054F));
 
         PartDefinition chest_middle_bottom = body.addOrReplaceChild("chest_middle_bottom", CubeListBuilder.create().texOffs(0, 94).addBox(-4.0F, -2.0F, -6.5F, 6.0F, 10.0F, 15.0F, new CubeDeformation(0.0F))
-                .texOffs(190, 115).addBox(2.0F, 0.0F, 0.0F, 1.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.0F, 11.5F, -1.0F, 0.0F, 0.0F, -0.1309F));
+                .texOffs(190, 115).addBox(2.0F, 0.0F, 0.0F, 1.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.0F, 5.5F, -1.0F, 0.0F, 0.0F, -0.1309F));
 
         PartDefinition stand = body.addOrReplaceChild("stand", CubeListBuilder.create().texOffs(64, 0).addBox(7.75F, 0.0F, 8.0F, 2.0F, 10.0F, 2.0F, new CubeDeformation(0.0F))
                 .texOffs(64, 0).addBox(7.75F, 0.0F, -10.0F, 2.0F, 10.0F, 2.0F, new CubeDeformation(0.0F))
@@ -279,7 +299,7 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
                 .texOffs(64, 0).addBox(-9.5F, 0.0F, -10.0F, 2.0F, 10.0F, 2.0F, new CubeDeformation(0.0F))
                 .texOffs(64, 0).addBox(-9.5F, 0.0F, 8.0F, 2.0F, 10.0F, 2.0F, new CubeDeformation(0.0F))
                 .texOffs(117, 52).addBox(-7.5F, 0.0F, 8.5F, 16.0F, 3.0F, 1.0F, new CubeDeformation(0.0F))
-                .texOffs(117, 52).addBox(-7.5F, 0.0F, -9.5F, 16.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 9.0F, 0.0F));
+                .texOffs(117, 52).addBox(-7.5F, 0.0F, -9.5F, 16.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 14.0F, 0.0F));
 
         PartDefinition combine = root.addOrReplaceChild("combine", CubeListBuilder.create(), PartPose.offset(2.5F, -27.5F, -9.0F));
 
@@ -338,11 +358,15 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
         this.applyHeadRotation(netHeadYaw, headPitch);
 
         this.animateWalk(OxhaulerAnimations.oxhauler_walk, limbSwing, limbSwingAmount, 2f, 2.5f);
-        if (entity.getFuel() > 0) {
-            this.animate(entity.idleAnimationState, OxhaulerAnimations.oxhauler_idle, ageInTicks, 1f);
-        } else {
-            this.animate(entity.idleAnimationState, OxhaulerAnimations.oxhauler_assembly, ageInTicks, 1f);
-        }
+        this.animate(entity.idleAnimationState, OxhaulerAnimations.oxhauler_assembly, ageInTicks, 1f);
+
+        this.animate(entity.idleAnimation1, OxhaulerAnimations.oxhauler_idle1, ageInTicks, 1f);
+        this.animate(entity.idleAnimation2, OxhaulerAnimations.oxhauler_idle2, ageInTicks, 1f);
+        this.animate(entity.idleAnimation3, OxhaulerAnimations.oxhauler_idle3, ageInTicks, 1f);
+
+        float piston1 = Mth.sin(AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) + 1;
+        float piston2 = Mth.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) + (Mth.PI * 2/3)) + 1;
+        float piston3 = Mth.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) - (Mth.PI * 2/3)) + 1;
 
         back_master.visible = entity.getAssembly() > 0;
         front_master.visible = entity.getAssembly() > 1;
@@ -357,15 +381,31 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
         bolts_front.visible = entity.isHarvester();
         bolts_rear.visible = entity.isPlough();
 
+        this.piston1.y = piston1;
+        this.piston4.y = piston1;
+
+        this.piston2.y = piston2;
+        this.piston5.y = piston2;
+
+        this.piston3.y = piston3;
+        this.piston6.y = piston3;
+
+        stand.visible = entity.getFuel() == 0;
+
         dial.yRot = (float) entity.getFuel() / 10000 * (Mth.PI / 2) - Mth.PI / 2;
         roller.xRot = ScrollValueHandler.getScroll(AnimationTickHolder.getPartialTicks()) / 20;
     }
     private void applyHeadRotation(float pNetHeadYaw, float pHeadPitch) {
-        pNetHeadYaw = Mth.clamp(pNetHeadYaw, -30.0F, 30.0F);
-        pHeadPitch = Mth.clamp(pHeadPitch, -25.0F, 45.0F);
+        pNetHeadYaw = Mth.clamp(pNetHeadYaw/2, -30.0F, 30.0F);
+        pHeadPitch = Mth.clamp(pHeadPitch/2 + 22.5f, -25.0F, 45.0F);
 
-        this.neck_master.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
-        this.neck_master.xRot = pHeadPitch * ((float)Math.PI / 180F);
+        this.neck.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
+        this.neck.xRot = pHeadPitch * ((float)Math.PI / 180F);
+
+        this.head.xRot = -pHeadPitch * ((float)Math.PI / 180F);
+
+        this.pistons.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
+        this.pistons.xRot = pHeadPitch * ((float)Math.PI / 180F) + (-10 * (Mth.PI / 180));
     }
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {

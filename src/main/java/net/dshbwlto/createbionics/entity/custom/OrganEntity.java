@@ -113,18 +113,6 @@ public class OrganEntity extends AbstractRobot {
         return null;
     }
 
-    public Item healItem() {
-        if (getHealth() < getMaxHealth() / 10) {
-            return Items.NETHERITE_BLOCK;
-        } else if (getHealth() < getMaxHealth() / 5) {
-            return AllItems.PRECISION_MECHANISM.asItem();
-        } else if (getHealth() < getMaxHealth() / 2) {
-            return AllBlocks.RAILWAY_CASING.asItem();
-        } else {
-            return AllItems.BRASS_SHEET.asItem();
-        }
-    }
-
     /* ANIMATIONS */
 
     private void setUpAnimationStates() {
@@ -298,7 +286,7 @@ public class OrganEntity extends AbstractRobot {
 
         } else if (itemStack.is(AllBlocks.RAILWAY_CASING.asItem())) {
             itemStack.shrink(1);
-            heal(150);
+            heal(50);
             playSound(SoundEvents.SMITHING_TABLE_USE);
             return InteractionResult.CONSUME;
         } else if (itemStack.is(AllItems.WRENCH) && (isOwnedBy(player) || getAssembly() < 21)) {

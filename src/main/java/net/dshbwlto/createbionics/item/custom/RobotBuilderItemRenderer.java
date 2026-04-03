@@ -18,8 +18,10 @@ public class RobotBuilderItemRenderer extends CustomRenderedItemModelRenderer {
 
     private static final PartialModel GEAR = PartialModel.of(CreateBionics.asResource("item/robot_builder_gear"));
 
-    //Idk why but the organ whistle parts only work if they're defined here first.
+    //Idk why but partial models only work if they're defined here first.
     //W Mojang and their highly skilled software developers.
+
+    private final PartialModel OXHAULER_FIRE = PartialModel.of(CreateBionics.asResource("item/oxhauler_fire"));
 
     private final PartialModel WHISTLE_BASE_MIDDLE_LARGE1 = PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_large1"));
     private final PartialModel WHISTLE_BASE_MIDDLE_MEDIUM1 = PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium1"));

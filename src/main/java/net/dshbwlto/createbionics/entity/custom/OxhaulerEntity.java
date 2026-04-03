@@ -2,14 +2,12 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
-import net.dshbwlto.createbionics.Util.BionicsTags;
+import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerColor;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.screen.custom.OxhaulerMenu;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.Particle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -18,8 +16,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -40,12 +36,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
 
@@ -53,6 +46,10 @@ import java.util.*;
 
 public class OxhaulerEntity extends AbstractHorse{
     public final AnimationState idleAnimationState = new AnimationState();
+
+    public final AnimationState idleAnimation1 = new AnimationState();
+    public final AnimationState idleAnimation2 = new AnimationState();
+    public final AnimationState idleAnimation3 = new AnimationState();
     private int idleAnimationTimeout = 0;
     private static final EntityDataAccessor<Integer> VARIANT =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.INT);
@@ -201,44 +198,22 @@ public class OxhaulerEntity extends AbstractHorse{
         } else {
             --this.idleAnimationTimeout;
         }
+        if (random.nextFloat() < 0.005) {
+            if (tickCount % 3 == 0) {
+                this.idleAnimation1.start(this.tickCount);
+                idleAnimationTimeout = 220;
+            } else if (tickCount % 3 == 1) {
+                this.idleAnimation2.start(this.tickCount);
+                idleAnimationTimeout = 220;
+            } else {
+                this.idleAnimation3.start(this.tickCount);
+                idleAnimationTimeout = 220;
+            }
+        }
     }
 
     @Override
     public void aiStep() {
-        if (this.level().isClientSide) {
-            for (int i = 0; i < 1; ++i) {
-                if (this.isVehicle()) {
-                    Particle particle1 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.1D, 0.0D);
-                    Particle particle2 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.075D, 0.0D);
-                    Particle particle3 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
-                    Particle particle4 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
-                    Particle particle5 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
-                    Particle particle6 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
-                    Particle particle7 = Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.2F), (this.getY() + 0.85 + random.nextFloat()), this.getRandomZ((double) 0.2F), 0.0D, 0.05D, 0.0D);
-                    if (particle1 != null) {
-                        particle1.scale(1f + random.nextFloat());
-                        particle1.setLifetime(2);
-                        particle2.scale(1f + random.nextFloat());
-                        particle2.setLifetime(2);
-                        particle3.scale(1f + random.nextFloat());
-                        particle3.setLifetime(2);
-                        particle4.scale(1f + random.nextFloat());
-                        particle4.setLifetime(2);
-                        particle5.scale(1f + random.nextFloat());
-                        particle5.setLifetime(2);
-                        particle6.scale(1f + random.nextFloat());
-                        particle6.setLifetime(2);
-                        particle7.scale(1f + random.nextFloat());
-                        particle7.setLifetime(2);
-                    }
-                } else {
-                    this.level().addParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
-                    this.level().addParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
-                    this.level().addParticle(ParticleTypes.FLAME, this.getRandomX((double) 0.1F), this.getY() + 0.8 + random.nextFloat(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
-                }
-                this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX((double) 0.5F), this.getRandomY(), this.getRandomZ((double) 0.5F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
-            }
-        }
         if (isHarvester()) {
             boolean flag = false;
             AABB aabb = this.getBoundingBox().inflate(1.2);
@@ -281,8 +256,20 @@ public class OxhaulerEntity extends AbstractHorse{
             playSound(SoundEvents.FIRE_EXTINGUISH);
             ejectPassengers();
         }
-        if (getFuel() > 0 && isVehicle()) {
-            setFuel(getFuel() - 1);
+        if (getFuel() > 0) {
+            if (isVehicle()) {
+                setFuel(getFuel() - 1);
+            }
+            if (isInWater()) {
+                setFuel(0);
+                playSound(SoundEvents.FIRE_EXTINGUISH);
+                ejectPassengers();
+            }
+            this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX((double) 0.1F), this.getRandomY(), this.getRandomZ((double) 0.1F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
+        } else {
+            if (isVehicle()) {
+                ejectPassengers();
+            }
         }
 
         if (this.level().isClientSide()) {
@@ -315,12 +302,14 @@ public class OxhaulerEntity extends AbstractHorse{
             }
             itemStack.shrink(1);
             this.entityData.set(HARVESTER, true);
+            return InteractionResult.SUCCESS;
         } else if (itemStack.is(AllBlocks.MECHANICAL_PLOUGH.asItem()) && !isPlough() && !isHarvester()) {
             if (this.level().isClientSide) {
                 return InteractionResult.CONSUME;
             }
             itemStack.shrink(1);
             this.entityData.set(PLOUGH, true);
+            return InteractionResult.SUCCESS;
         } else if ((itemStack.is(BionicsItems.ROBOT_BUILDER) || itemStack.is(getPart())) && getAssembly() < 7) {
             setAssembly(getAssembly() + 1);
             if (!itemStack.is(BionicsItems.ROBOT_BUILDER.get())) {
@@ -347,6 +336,16 @@ public class OxhaulerEntity extends AbstractHorse{
         } else if (itemStack.is(Tags.Items.DYES)) {
             setColor(itemStack.getItem());
             itemStack.shrink(1);
+        } else if (itemStack.is(Items.COPPER_INGOT)
+                || itemStack.is(AllItems.ANDESITE_ALLOY)
+                || itemStack.is(AllItems.BRASS_INGOT)) {
+            dropIngot();
+            setTypeVariant(itemStack);
+            if (level().isClientSide) {
+                return InteractionResult.SUCCESS;
+            } else {
+                itemStack.shrink(1);
+            }
         }else if (player.isShiftKeyDown() ){
             openCustomInventoryScreen(player);
         } else if(getFuel() > 0){
@@ -431,13 +430,26 @@ public class OxhaulerEntity extends AbstractHorse{
                         .yRot(-this.getYRot() * (float) (Math.PI / 180.0)));
     }
 
-    private void setTypeVariant(int typeVariant) {
-        this.entityData.set(VARIANT, typeVariant);
+    private void dropIngot() {
+        if (getVariant() == OxhaulerVariant.BRASS) {
+            spawnAtLocation(new ItemStack(AllItems.BRASS_INGOT.asItem()));
+        } else if (getVariant() == OxhaulerVariant.COPPER) {
+            spawnAtLocation(new ItemStack(Items.COPPER_INGOT));
+        } else if (getVariant() == OxhaulerVariant.ANDESITE) {
+            spawnAtLocation(new ItemStack(AllItems.ANDESITE_ALLOY.asItem()));
+        }
     }
-    private void setTypeColor(int typeColor) {
-        this.entityData.set(COLOR, typeColor);
+    private void setTypeVariant(ItemStack itemStack) {
+        if (itemStack.getItem() == Items.COPPER_INGOT && getVariant() != OxhaulerVariant.COPPER) {
+            setVariant(OxhaulerVariant.COPPER);
+        } else if (itemStack.is(AllItems.ANDESITE_ALLOY)
+                && getVariant() != OxhaulerVariant.ANDESITE) {
+            setVariant(OxhaulerVariant.ANDESITE);
+        } else if (itemStack.is(AllItems.BRASS_INGOT)
+                && getVariant() != OxhaulerVariant.BRASS) {
+            setVariant(OxhaulerVariant.BRASS);
+        }
     }
-
     private int getTypeVariant() {
         return this.entityData.get(VARIANT);
     }
@@ -463,9 +475,6 @@ public class OxhaulerEntity extends AbstractHorse{
         return this.entityData.get(HARVESTER);
     }
     public boolean isPlough() {
-        return this.entityData.get(PLOUGH);
-    }
-    public boolean firstFuel() {
         return this.entityData.get(PLOUGH);
     }
 
