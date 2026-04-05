@@ -502,7 +502,7 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
 
         dial_fuel.yRot = (float) entity.getFuel() / 10000 * (Mth.PI / 2) - Mth.PI / 2;
         dial_fluid.yRot = entity.getSynchedFluid().getAmount() / 160000f * (Mth.PI / 2) - Mth.PI / 2;
-        gear.zRot = entity.getFuel() == 0 ? 0 : (AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 100;
+        gear.zRot = entity.getFuel() > 0 && entity.getAssembly() == 12? (AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 100 : 0;
     }
 
     @Override

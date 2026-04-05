@@ -7,7 +7,7 @@
       "item": "create:brass_sheet"
     },
     "B": {
-      "tag": "create:brass_ingot"
+      "item": "create:brass_ingot"
     },
     "T": {
       "item": "create:transmitter"

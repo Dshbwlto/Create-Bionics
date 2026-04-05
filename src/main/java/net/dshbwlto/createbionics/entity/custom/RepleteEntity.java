@@ -172,7 +172,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
     }
 
     public void aiStep() {
-        if (entityData.get(FUEL) > 0 && this.level().isClientSide) {
+        if (getFuel() > 0 && getAssembly() == 12 && this.level().isClientSide) {
             for(int i = 0; i < 1; ++i) {
                 this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX((double) 0.5F), this.getRandomY(), this.getRandomZ((double) 0.5F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
             }
@@ -347,6 +347,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
                         if (getAssembly() > 0) {
                             spawnAtLocation(new ItemStack(getPart()));
                             setAssembly(getAssembly() - 1);
+                            setFuel(0);
                         } else {
                             spawnAtLocation(BionicsItems.REPLETE_BODY);
                             if (getVariant() != RepleteVariant.BRASS) {

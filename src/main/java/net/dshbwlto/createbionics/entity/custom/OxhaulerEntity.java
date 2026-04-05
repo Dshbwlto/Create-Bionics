@@ -46,7 +46,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class OxhaulerEntity extends AbstractHorse{
+public class OxhaulerEntity extends AbstractHorse {
     public final AnimationState idleAnimationState = new AnimationState();
 
     public final AnimationState idleAnimation1 = new AnimationState();
@@ -132,6 +132,8 @@ public class OxhaulerEntity extends AbstractHorse{
     public boolean isTamed() {
         return true;
     }
+
+    public int pageCount = 1;
 
     public OxhaulerEntity(EntityType<? extends AbstractHorse> entityType, Level level) {
         super(entityType, level);

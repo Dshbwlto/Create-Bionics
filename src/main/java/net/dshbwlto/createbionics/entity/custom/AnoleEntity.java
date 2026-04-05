@@ -232,12 +232,6 @@ public class AnoleEntity extends AbstractRobot {
 
     }
 
-    @Override
-    protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
-
-        super.dropCustomDeathLoot(level, damageSource, recentlyHit);
-    }
-
     /* RIGHT CLICKING */
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
