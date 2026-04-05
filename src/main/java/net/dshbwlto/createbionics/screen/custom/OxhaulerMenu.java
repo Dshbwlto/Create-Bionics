@@ -69,13 +69,24 @@ public class OxhaulerMenu extends AbstractContainerMenu {
         //Container//
         for (int j = 0; j < 3; ++j) {
             for (int k = 0; k < 9; ++k) {
-                this.addSlot(new Slot(horseContainer, (k + j * 9), -16 + k * 18, 57 + j * 18));
+                this.addSlot(new Slot(horseContainer, (k + j * 9), -16 + k * 18, 57 + j * 18) {
+                    @Override
+                    public boolean isActive() {
+                        return oxhauler.pageCount == 1;
+                    }
+                });
             }
         }
+        this.addSlot(new Slot(horseContainer, 27, -16, 57) {
+            @Override
+            public boolean isActive() {
+                return oxhauler.pageCount == 2;
+            }
+        });
 
         //Crafting Grid//
-        for(int i = 0; i < 3; ++i) {
-            for(int j = 0; j < 3; ++j) {
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 3; ++j) {
                 this.addSlot(new Slot(this.craftSlots, j + i * 3, 42 + j * 18, i * 18));
             }
         }

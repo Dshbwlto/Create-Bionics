@@ -18,6 +18,7 @@ import net.minecraft.network.protocol.game.ServerboundSetBeaconPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.BeaconMenu;
+import net.minecraft.world.inventory.Slot;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
@@ -27,11 +28,12 @@ import java.util.Optional;
 public class OxhaulerScreen  extends AbstractContainerScreen<OxhaulerMenu> {
     private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"textures/gui/oxhauler/oxhauler_gui.png");
 
-    private static final ResourceLocation BUTTON_SPRITE = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"textures/gui/oxhauler/button.png");
-    private static final ResourceLocation BUTTON_SELECTED_SPRITE = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"textures/gui/oxhauler/button_selected.png");
-    private static final ResourceLocation BUTTON_PRESSED_SPRITE = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"textures/gui/oxhauler/button_selected.png");
-    private static final ResourceLocation UP_SPRITE = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"textures/gui/oxhauler/up_widget.png");
-    private static final ResourceLocation DOWN_SPRITE = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"textures/gui/oxhauler/down_widget.png");
+    private static final ResourceLocation BUTTON_SPRITE = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"oxhauler/button");
+    private static final ResourceLocation BUTTON_SELECTED_SPRITE = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"oxhauler/button_selected");
+    private static final ResourceLocation BUTTON_PRESSED_SPRITE = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"oxhauler/button_selected");
+    private static final ResourceLocation BUTTON_DISABLED_SPRITE = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"oxhauler/button_unavailable");
+    private static final ResourceLocation UP_SPRITE = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"oxhauler/up_widget");
+    private static final ResourceLocation DOWN_SPRITE = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"oxhauler/down_widget");
 
     private final OxhaulerEntity oxhauler;
     private float xMouse;
@@ -42,7 +44,6 @@ public class OxhaulerScreen  extends AbstractContainerScreen<OxhaulerMenu> {
         super(pMenu, pPlayerInventory, title);
         this.oxhauler = pMenu.oxhauler;
     }
-
     @Override
     protected void init() {
         super.init();
@@ -50,8 +51,18 @@ public class OxhaulerScreen  extends AbstractContainerScreen<OxhaulerMenu> {
         titleLabelY = -30;
         inventoryLabelX = 1000;
 
-        this.addOxhaulerButton(new OxhaulerScreen.OxhaulerUpButton(this.leftPos + 164, this.topPos + 107));
-        this.addOxhaulerButton(new OxhaulerScreen.OxhaulerDownButton(this.leftPos + 184, this.topPos + 107));
+        this.addOxhaulerButton(new OxhaulerScreen.OxhaulerUpButton(this.leftPos + 149, this.topPos + 67) {
+            @Override
+            public boolean isActive() {
+                return oxhauler.pageCount > 1;
+            }
+        });
+        this.addOxhaulerButton(new OxhaulerScreen.OxhaulerDownButton(this.leftPos + 149, this.topPos + 84) {
+            @Override
+            public boolean isActive() {
+                return oxhauler.pageCount < 6;
+            }
+        });
     }
 
     @Override
@@ -71,6 +82,13 @@ public class OxhaulerScreen  extends AbstractContainerScreen<OxhaulerMenu> {
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         super.renderLabels(guiGraphics, mouseX, mouseY);
+        guiGraphics.drawString(this.font, Component.translatable("entity.createbionics.all.page_progress", oxhauler.pageCount, 6), 109, 45, 0xFFFFFF, true);
+        for (int j = 0; j < 3; ++j) {
+            for (int k = 0; k < 9; ++k) {
+                guiGraphics.drawString(this.font, Component.translatable("entity.createbionics.all.int_preview", ((k + j * 9) + oxhauler.pageCount * 27) - 27), -16 + k * 18, 57 + j * 18, 0xFFFFFF, true);
+            }
+        }
+
     }
 
     @Override
@@ -89,16 +107,18 @@ public class OxhaulerScreen  extends AbstractContainerScreen<OxhaulerMenu> {
         private boolean selected;
 
         protected OxhaulerScreenButton(int x, int y) {
-            super(x, y, 22, 22, CommonComponents.EMPTY);
+            super(x, y, 13, 13, CommonComponents.EMPTY);
         }
 
         protected OxhaulerScreenButton(int x, int y, Component message) {
-            super(x, y, 22, 22, message);
+            super(x, y, 13, 13, message);
         }
 
         public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
             ResourceLocation resourcelocation;
-            if (this.selected) {
+            if (!this.isActive()) {
+                resourcelocation = OxhaulerScreen.BUTTON_DISABLED_SPRITE;
+            } else if (this.selected) {
                 resourcelocation = OxhaulerScreen.BUTTON_PRESSED_SPRITE;
             } else if (this.isHoveredOrFocused()) {
                 resourcelocation = OxhaulerScreen.BUTTON_SELECTED_SPRITE;
@@ -135,7 +155,7 @@ public class OxhaulerScreen  extends AbstractContainerScreen<OxhaulerMenu> {
         }
 
         protected void renderIcon(GuiGraphics guiGraphics) {
-            guiGraphics.blitSprite(this.sprite, this.getX() + 2, this.getY() + 2, 18, 18);
+            guiGraphics.blitSprite(this.sprite, this.getX(), this.getY(), 13, 13);
         }
     }
 
@@ -150,7 +170,9 @@ public class OxhaulerScreen  extends AbstractContainerScreen<OxhaulerMenu> {
             super(x, y, OxhaulerScreen.UP_SPRITE, CommonComponents.GUI_DONE);
         }
         public void onPress() {
-            oxhauler.pageCount ++;
+            if (oxhauler.pageCount > 1) {
+                oxhauler.pageCount--;
+            }
         }
         @Override
         public void updateStatus(int var1) {
@@ -163,7 +185,9 @@ public class OxhaulerScreen  extends AbstractContainerScreen<OxhaulerMenu> {
             super(x, y, OxhaulerScreen.DOWN_SPRITE, CommonComponents.GUI_DONE);
         }
         public void onPress() {
-            oxhauler.pageCount --;
+            if (oxhauler.pageCount < 6) {
+                oxhauler.pageCount++;
+            }
         }
         @Override
         public void updateStatus(int var1) {

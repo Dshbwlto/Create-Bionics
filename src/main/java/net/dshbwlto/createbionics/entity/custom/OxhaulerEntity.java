@@ -387,7 +387,7 @@ public class OxhaulerEntity extends AbstractHorse {
         compound.putInt("Fuel", getFuel());
 
         ListTag listtag = new ListTag();
-        for (int x = 0; x <= 100; x++) {
+        for (int x = 0; x <= 200; x++) {
             ItemStack itemstack = this.inventory.getItem(x);
             if (!itemstack.isEmpty()) {
                 CompoundTag compoundtag = new CompoundTag();
@@ -520,11 +520,11 @@ public class OxhaulerEntity extends AbstractHorse {
     @Override
     protected void createInventory() {
         SimpleContainer simplecontainer = this.inventory;
-        this.inventory = new SimpleContainer(100);
+        this.inventory = new SimpleContainer(200);
         if (simplecontainer != null) {
             simplecontainer.removeListener(this);
 
-            for (int j = 0; j < 100; j++) {
+            for (int j = 0; j < 200; j++) {
                 ItemStack itemstack = simplecontainer.getItem(j);
                 if (!itemstack.isEmpty()) {
                     this.inventory.setItem(j, itemstack.copy());
