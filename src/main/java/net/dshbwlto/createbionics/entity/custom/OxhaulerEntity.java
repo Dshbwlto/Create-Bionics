@@ -2,6 +2,8 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
+import com.simibubi.create.AllParticleTypes;
+import net.createmod.catnip.math.VecHelper;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerColor;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerVariant;
@@ -21,6 +23,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -290,14 +293,18 @@ public class OxhaulerEntity extends AbstractHorse {
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
-        if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL) && !isInWater()) {
+        if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL) || itemStack.is(AllItems.BLAZE_CAKE) && !isInWater()) {
             if (this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
                 if (!player.getAbilities().instabuild) {
                     itemStack.shrink(1);
                 }
-                setFuel(10000);
+                if (itemStack.is(AllItems.BLAZE_CAKE)) {
+                    setFuel(25000);
+                } else {
+                    setFuel(10000);
+                }
                 makeSound(SoundEvents.FIRECHARGE_USE);
             }
         } else if (itemStack.is(AllBlocks.MECHANICAL_HARVESTER.asItem()) && !isPlough() && !isHarvester()) {
@@ -480,6 +487,22 @@ public class OxhaulerEntity extends AbstractHorse {
     }
     public boolean isPlough() {
         return this.entityData.get(PLOUGH);
+    }
+
+    public void spawnParticleBurst(boolean soulFlame) {
+        Vec3 c = VecHelper.getCenterOf(getOnPos());
+        RandomSource r = level().random;
+        for (int i = 0; i < 20; i++) {
+            Vec3 offset = VecHelper.offsetRandomly(Vec3.ZERO, r, .5f)
+                    .multiply(1, .25f, 1)
+                    .normalize();
+            Vec3 v = c.add(offset.scale(.5 + r.nextDouble() * .125f))
+                    .add(0, .125, 0);
+            Vec3 m = offset.scale(1 / 32f);
+
+            level().addParticle(soulFlame ? ParticleTypes.SOUL_FIRE_FLAME : ParticleTypes.FLAME, v.x, v.y, v.z, m.x, m.y,
+                    m.z);
+        }
     }
 
     //ASSEMBLY//

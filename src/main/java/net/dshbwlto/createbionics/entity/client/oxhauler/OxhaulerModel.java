@@ -392,7 +392,7 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
 
         stand.visible = entity.getFuel() == 0;
 
-        dial.yRot = (float) entity.getFuel() / 10000 * (Mth.PI / 2) - Mth.PI / 2;
+        dial.yRot = (float) entity.getFuel() / 25000 * (Mth.PI / 2) - Mth.PI / 2;
         roller.xRot = ScrollValueHandler.getScroll(AnimationTickHolder.getPartialTicks()) / 20;
     }
     private void applyHeadRotation(float pNetHeadYaw, float pHeadPitch) {

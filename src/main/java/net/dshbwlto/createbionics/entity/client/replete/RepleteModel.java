@@ -462,17 +462,10 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
             this.animate(entity.idleAnimationState, RepleteAnimations.replete_assembly, ageInTicks, 1f);
         }
 
-        if (entity.countdown != 0) {
-            this.animate(entity.sitDownAnimationState, RepleteAnimations.replete_assembly, ageInTicks, 1.0F);
-        } else {
-            this.animate(entity.sitDownAnimationState, RepleteAnimations.replete_sit,ageInTicks, 1.0f);
-        }
+        this.animate(entity.sitDownAnimationState, RepleteAnimations.replete_sit,ageInTicks, 1.0f);
 
-        if (entity.countdown != 0) {
-            this.animate(entity.sitPoseAnimationState, RepleteAnimations.replete_assembly, ageInTicks, 1.0F);
-        } else {
-            this.animate(entity.sitPoseAnimationState, RepleteAnimations.replete_stay, ageInTicks, 1.0F);
-        }
+        this.animate(entity.sitPoseAnimationState, RepleteAnimations.replete_stay, ageInTicks, 1.0F);
+
         this.animate(entity.sitUpAnimationState, RepleteAnimations.replete_stand, ageInTicks, 1.0F);
 
         leg_l.visible = entity.getAssembly() > 0;
@@ -500,7 +493,7 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
         tank_4_b.visible = !entity.getWindow();
         tank_5_b.visible = !entity.getWindow();
 
-        dial_fuel.yRot = (float) entity.getFuel() / 10000 * (Mth.PI / 2) - Mth.PI / 2;
+        dial_fuel.yRot = (float) entity.getFuel() / 25000 * (Mth.PI / 2) - Mth.PI / 2;
         dial_fluid.yRot = entity.getSynchedFluid().getAmount() / 160000f * (Mth.PI / 2) - Mth.PI / 2;
         gear.zRot = entity.getFuel() > 0 && entity.getAssembly() == 12? (AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 100 : 0;
     }

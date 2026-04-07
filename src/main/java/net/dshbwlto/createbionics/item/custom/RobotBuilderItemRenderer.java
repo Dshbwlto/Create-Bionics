@@ -22,6 +22,7 @@ public class RobotBuilderItemRenderer extends CustomRenderedItemModelRenderer {
     //W Mojang and their highly skilled software developers.
 
     private final PartialModel OXHAULER_FIRE = PartialModel.of(CreateBionics.asResource("item/oxhauler_fire"));
+    private final PartialModel OXHAULER_SOUL_FIRE = PartialModel.of(CreateBionics.asResource("item/oxhauler_soul_fire"));
 
     private final PartialModel WHISTLE_BASE_MIDDLE_LARGE1 = PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_large1"));
     private final PartialModel WHISTLE_BASE_MIDDLE_MEDIUM1 = PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium1"));

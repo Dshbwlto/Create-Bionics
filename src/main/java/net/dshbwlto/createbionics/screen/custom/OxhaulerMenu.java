@@ -1,6 +1,8 @@
 package net.dshbwlto.createbionics.screen.custom;
 
+import com.simibubi.create.AllSoundEvents;
 import net.dshbwlto.createbionics.entity.custom.OxhaulerEntity;
+import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.screen.BionicsMenuTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
@@ -43,7 +45,7 @@ public class OxhaulerMenu extends AbstractContainerMenu {
         List<OxhaulerEntity> turtles = inventory.player.level().getEntitiesOfClass(OxhaulerEntity.class,
                 inventory.player.getBoundingBox().inflate(16), test -> test.getUUID().equals(uuid));
         OxhaulerEntity oxhaulerEntity = turtles.isEmpty() ? null : turtles.getFirst();
-        return new OxhaulerMenu(i, inventory, new SimpleContainer(28), oxhaulerEntity);
+        return new OxhaulerMenu(i, inventory, new SimpleContainer(200), oxhaulerEntity);
     }
 
     public OxhaulerMenu(int containerId, Inventory inventory, Container horseContainer, final OxhaulerEntity oxhaulerEntity) {
@@ -69,7 +71,7 @@ public class OxhaulerMenu extends AbstractContainerMenu {
         //Container//
         for (int j = 0; j < 3; ++j) {
             for (int k = 0; k < 9; ++k) {
-                this.addSlot(new Slot(horseContainer, (k + j * 9), -16 + k * 18, 57 + j * 18) {
+                this.addSlot(new Slot(horseContainer, (k + j * 9) + 36, -16 + k * 18, 57 + j * 18) {
                     @Override
                     public boolean isActive() {
                         return oxhauler.pageCount == 1;
@@ -77,12 +79,56 @@ public class OxhaulerMenu extends AbstractContainerMenu {
                 });
             }
         }
-        this.addSlot(new Slot(horseContainer, 27, -16, 57) {
-            @Override
-            public boolean isActive() {
-                return oxhauler.pageCount == 2;
+        for (int j = 0; j < 3; ++j) {
+            for (int k = 0; k < 9; ++k) {
+                this.addSlot(new Slot(horseContainer, (k + j * 9) + 63, -16 + k * 18, 57 + j * 18) {
+                    @Override
+                    public boolean isActive() {
+                        return oxhauler.pageCount == 2;
+                    }
+                });
             }
-        });
+        }
+        for (int j = 0; j < 3; ++j) {
+            for (int k = 0; k < 9; ++k) {
+                this.addSlot(new Slot(horseContainer, (k + j * 9) + 90, -16 + k * 18, 57 + j * 18) {
+                    @Override
+                    public boolean isActive() {
+                        return oxhauler.pageCount == 3;
+                    }
+                });
+            }
+        }
+        for (int j = 0; j < 3; ++j) {
+            for (int k = 0; k < 9; ++k) {
+                this.addSlot(new Slot(horseContainer, (k + j * 9) + 117, -16 + k * 18, 57 + j * 18) {
+                    @Override
+                    public boolean isActive() {
+                        return oxhauler.pageCount == 4;
+                    }
+                });
+            }
+        }
+        for (int j = 0; j < 3; ++j) {
+            for (int k = 0; k < 9; ++k) {
+                this.addSlot(new Slot(horseContainer, (k + j * 9) + 144, -16 + k * 18, 57 + j * 18) {
+                    @Override
+                    public boolean isActive() {
+                        return oxhauler.pageCount == 5;
+                    }
+                });
+            }
+        }
+        for (int j = 0; j < 3; ++j) {
+            for (int k = 0; k < 9; ++k) {
+                this.addSlot(new Slot(horseContainer, (k + j * 9) + 171, -16 + k * 18, 57 + j * 18) {
+                    @Override
+                    public boolean isActive() {
+                        return oxhauler.pageCount == 6;
+                    }
+                });
+            }
+        }
 
         //Crafting Grid//
         for (int i = 0; i < 3; ++i) {
@@ -125,9 +171,6 @@ public class OxhaulerMenu extends AbstractContainerMenu {
 
     }
 
-    /**
-     * Determines whether supplied player can use this container
-     */
     @Override
     public boolean stillValid(Player player) {
         return !this.oxhauler.hasInventoryChanged(this.oxhaulerContainer)
@@ -136,56 +179,20 @@ public class OxhaulerMenu extends AbstractContainerMenu {
                 && player.canInteractWithEntity(this.oxhauler, 4.0);
     }
 
-    /**
-     * Handle when the stack in slot {@code index} is shift-clicked. Normally this moves the stack between the player inventory and the other inventory(s).
-     */
-
     @Override
-    public ItemStack quickMoveStack(Player player, int index) {
-        ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(index);
-        if (slot != null && slot.hasItem()) {
-            ItemStack itemstack1 = slot.getItem();
-            itemstack = itemstack1.copy();
-            int i = 27;
-            if (index < i) {
-                if (!this.moveItemStackTo(itemstack1, i, this.slots.size(), true)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (this.getSlot(1).mayPlace(itemstack1) && !this.getSlot(1).hasItem()) {
-                if (!this.moveItemStackTo(itemstack1, 1, 2, false)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (this.getSlot(0).mayPlace(itemstack1)) {
-                if (!this.moveItemStackTo(itemstack1, 0, 1, false)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (i <= 1 || !this.moveItemStackTo(itemstack1, 2, i, false)) {
-                int j = i + 27;
-                int k = j + 9;
-                if (index >= j && index < k) {
-                    if (!this.moveItemStackTo(itemstack1, i, j, false)) {
-                        return ItemStack.EMPTY;
-                    }
-                } else if (index >= i && index < j) {
-                    if (!this.moveItemStackTo(itemstack1, j, k, false)) {
-                        return ItemStack.EMPTY;
-                    }
-                } else if (!this.moveItemStackTo(itemstack1, j, j, false)) {
-                    return ItemStack.EMPTY;
-                }
+    public ItemStack quickMoveStack(Player playerIn, int index) {
+        Slot clickedSlot = getSlot(index);
+        if (!clickedSlot.hasItem())
+            return ItemStack.EMPTY;
 
-                return ItemStack.EMPTY;
-            }
-
-            if (itemstack1.isEmpty()) {
-                slot.setByPlayer(ItemStack.EMPTY);
-            } else {
-                slot.setChanged();
-            }
+        ItemStack stack = clickedSlot.getItem();
+        if (index < 36) {
+            moveItemStackTo(stack, 36, 198, false);
+        } else {
+            moveItemStackTo(stack, 0, 35, false);
         }
 
-        return itemstack;
+        return ItemStack.EMPTY;
     }
 
     /**

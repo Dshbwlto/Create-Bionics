@@ -1,0 +1,6 @@
+{
+	"parent": "createbionics:item/oxhauler_fire",
+	"textures": {
+		"0": "minecraft:block/soul_campfire_fire"
+	}
+}

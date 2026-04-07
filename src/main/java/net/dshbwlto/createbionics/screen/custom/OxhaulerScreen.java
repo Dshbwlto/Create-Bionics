@@ -26,7 +26,12 @@ import java.util.List;
 import java.util.Optional;
 
 public class OxhaulerScreen  extends AbstractContainerScreen<OxhaulerMenu> {
-    private static final ResourceLocation GUI_TEXTURE = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"textures/gui/oxhauler/oxhauler_gui.png");
+    private static final ResourceLocation GUI_TEXTURE_1 = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"textures/gui/oxhauler/oxhauler_gui_1.png");
+    private static final ResourceLocation GUI_TEXTURE_2 = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"textures/gui/oxhauler/oxhauler_gui_2.png");
+    private static final ResourceLocation GUI_TEXTURE_3 = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"textures/gui/oxhauler/oxhauler_gui_3.png");
+    private static final ResourceLocation GUI_TEXTURE_4 = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"textures/gui/oxhauler/oxhauler_gui_4.png");
+    private static final ResourceLocation GUI_TEXTURE_5 = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"textures/gui/oxhauler/oxhauler_gui_5.png");
+    private static final ResourceLocation GUI_TEXTURE_6 = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"textures/gui/oxhauler/oxhauler_gui_6.png");
 
     private static final ResourceLocation BUTTON_SPRITE = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"oxhauler/button");
     private static final ResourceLocation BUTTON_SELECTED_SPRITE = ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID,"oxhauler/button_selected");
@@ -72,8 +77,25 @@ public class OxhaulerScreen  extends AbstractContainerScreen<OxhaulerMenu> {
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
-        RenderSystem.setShaderTexture(0, GUI_TEXTURE);
-        pGuiGraphics.blit(GUI_TEXTURE, 120, 10, 0, 0, 218, 236);
+        if (oxhauler.pageCount == 1) {
+            RenderSystem.setShaderTexture(0, GUI_TEXTURE_1);
+            pGuiGraphics.blit(GUI_TEXTURE_1, 120, 10, 0, 0, 218, 236);
+        } else if (oxhauler.pageCount == 2) {
+            RenderSystem.setShaderTexture(0, GUI_TEXTURE_2);
+            pGuiGraphics.blit(GUI_TEXTURE_2, 120, 10, 0, 0, 218, 236);
+        } else if (oxhauler.pageCount == 3) {
+            RenderSystem.setShaderTexture(0, GUI_TEXTURE_3);
+            pGuiGraphics.blit(GUI_TEXTURE_3, 120, 10, 0, 0, 218, 236);
+        } else if (oxhauler.pageCount == 4) {
+            RenderSystem.setShaderTexture(0, GUI_TEXTURE_4);
+            pGuiGraphics.blit(GUI_TEXTURE_4, 120, 10, 0, 0, 218, 236);
+        } else if (oxhauler.pageCount == 5) {
+            RenderSystem.setShaderTexture(0, GUI_TEXTURE_5);
+            pGuiGraphics.blit(GUI_TEXTURE_5, 120, 10, 0, 0, 218, 236);
+        } else {
+            RenderSystem.setShaderTexture(0, GUI_TEXTURE_6);
+            pGuiGraphics.blit(GUI_TEXTURE_6, 120, 10, 0, 0, 218, 236);
+        }
 
         InventoryScreen.renderEntityInInventoryFollowsMouse(pGuiGraphics, x -16, y, x + 36, y + 52, 15, 0.25f,
                 this.xMouse, this.yMouse, this. oxhauler);
@@ -83,12 +105,6 @@ public class OxhaulerScreen  extends AbstractContainerScreen<OxhaulerMenu> {
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         super.renderLabels(guiGraphics, mouseX, mouseY);
         guiGraphics.drawString(this.font, Component.translatable("entity.createbionics.all.page_progress", oxhauler.pageCount, 6), 109, 45, 0xFFFFFF, true);
-        for (int j = 0; j < 3; ++j) {
-            for (int k = 0; k < 9; ++k) {
-                guiGraphics.drawString(this.font, Component.translatable("entity.createbionics.all.int_preview", ((k + j * 9) + oxhauler.pageCount * 27) - 27), -16 + k * 18, 57 + j * 18, 0xFFFFFF, true);
-            }
-        }
-
     }
 
     @Override

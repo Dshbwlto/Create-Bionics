@@ -331,13 +331,20 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
             } else {
                 itemStack.shrink(1);
             }
-        } else if ((itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL)) && getAssembly() == 12) {
-            setFuel(getFuel() + 10000);
-            if (getFuel() > 10000) {
-                setFuel(10000);
+        } else if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL) || itemStack.is(AllItems.BLAZE_CAKE) && !isInWater()) {
+            if (this.level().isClientSide()) {
+                return InteractionResult.CONSUME;
+            } else {
+                if (!player.getAbilities().instabuild) {
+                    itemStack.shrink(1);
+                }
+                if (itemStack.is(AllItems.BLAZE_CAKE)) {
+                    setFuel(25000);
+                } else {
+                    setFuel(10000);
+                }
+                makeSound(SoundEvents.FIRECHARGE_USE);
             }
-            itemStack.shrink(1);
-            return InteractionResult.CONSUME;
         } else if (itemStack.is(AllItems.WRENCH)) {
             if (!player.isShiftKeyDown()) {
                 toggleWindow();
@@ -364,6 +371,10 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
         } else {
             if (getFuel() > 0) {
                 updateCommand(player);
+                if (getCommand() == 0 && random.nextFloat() < 0.001) {
+                    playSound(BionicsSounds.GET_STICK_BUGGED.get());
+                    countdown = 150;
+                }
                 return InteractionResult.SUCCESS;
             }
         }
