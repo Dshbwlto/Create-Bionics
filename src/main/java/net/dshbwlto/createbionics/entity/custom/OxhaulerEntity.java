@@ -203,7 +203,8 @@ public class OxhaulerEntity extends AbstractHorse {
         }
         if (getVariant() != OxhaulerVariant.BRASS) {
             dropIngot();
-        }    }
+        }
+    }
 
     public Item canDrop(int assembly, int targetAssembly, Item item) {
         if (random.nextBoolean() && assembly >= targetAssembly) {
