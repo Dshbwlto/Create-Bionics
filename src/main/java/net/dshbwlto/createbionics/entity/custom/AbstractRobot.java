@@ -1,5 +1,7 @@
 package net.dshbwlto.createbionics.entity.custom;
 
+import com.simibubi.create.AllBlocks;
+import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.api.equipment.goggles.IHaveHoveringInformation;
@@ -68,6 +70,24 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
         long i = this.getPoseTime();
         return i < (long) (this.isSitting() ? 40 : 52);
     }
+    public Item canDrop(int assembly, int targetAssembly, Item item) {
+        if (random.nextBoolean() && assembly >= targetAssembly) {
+            return item;
+        } else if (random.nextBoolean()) {
+            return randomSalvage();
+        } else {
+            return ItemStack.EMPTY.getItem();
+        }
+    }
+
+    public Item randomSalvage() {
+        if (random.nextBoolean()) {
+            return AllItems.ANDESITE_ALLOY.get();
+        } else {
+            return AllBlocks.SHAFT.asItem();
+        }
+    }
+
     /*COMMAND*/
 
     public static final EntityDataAccessor<Integer> COMMAND =

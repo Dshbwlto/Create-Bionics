@@ -3,10 +3,12 @@ package net.dshbwlto.createbionics.entity.custom;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllParticleTypes;
+import com.simibubi.create.AllTags;
 import net.createmod.catnip.math.VecHelper;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerColor;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerVariant;
+import net.dshbwlto.createbionics.entity.client.replete.RepleteVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.screen.custom.OxhaulerMenu;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
@@ -185,7 +187,40 @@ public class OxhaulerEntity extends AbstractHorse {
 
     @Override
     protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
-        super.dropCustomDeathLoot(level, damageSource, recentlyHit);
+        spawnAtLocation(canDrop(getAssembly(), 0, BionicsItems.OXHAULER_MIDDLE.get()));
+        spawnAtLocation(canDrop(getAssembly(), 1, BionicsItems.OXHAULER_REAR.get()));
+        spawnAtLocation(canDrop(getAssembly(), 2, BionicsItems.OXHAULER_FRONT.get()));
+        spawnAtLocation(canDrop(getAssembly(), 3, BionicsItems.OXHAULER_LEG.get()));
+        spawnAtLocation(canDrop(getAssembly(), 4, BionicsItems.OXHAULER_LEG.get()));
+        spawnAtLocation(canDrop(getAssembly(), 5, BionicsItems.OXHAULER_LEG.get()));
+        spawnAtLocation(canDrop(getAssembly(), 6, BionicsItems.OXHAULER_LEG.get()));
+        spawnAtLocation(canDrop(getAssembly(), 7, BionicsItems.OXHAULER_HEAD.get()));
+        if (isPlough()) {
+            spawnAtLocation(AllBlocks.MECHANICAL_PLOUGH);
+        }
+        if (isHarvester()) {
+            spawnAtLocation(AllBlocks.MECHANICAL_HARVESTER);
+        }
+        if (getVariant() != OxhaulerVariant.BRASS) {
+            dropIngot();
+        }    }
+
+    public Item canDrop(int assembly, int targetAssembly, Item item) {
+        if (random.nextBoolean() && assembly >= targetAssembly) {
+            return item;
+        } else if (random.nextBoolean()) {
+            return randomSalvage();
+        } else {
+            return ItemStack.EMPTY.getItem();
+        }
+    }
+
+    public Item randomSalvage() {
+        if (random.nextBoolean()) {
+            return AllItems.ANDESITE_ALLOY.get();
+        } else {
+            return AllBlocks.SHAFT.asItem();
+        }
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -293,7 +328,7 @@ public class OxhaulerEntity extends AbstractHorse {
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
-        if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL) || itemStack.is(AllItems.BLAZE_CAKE) && !isInWater()) {
+        if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL) || itemStack.is(AllItems.BLAZE_CAKE) && !isInWater() && getAssembly() == 7) {
             if (this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
@@ -329,7 +364,7 @@ public class OxhaulerEntity extends AbstractHorse {
             playSound(SoundEvents.NETHERITE_BLOCK_PLACE);
             player.displayClientMessage(Component.translatable("entity.createbionics.all.assembly", getPart().getDescription().getString()), true);
             return InteractionResult.SUCCESS;
-        } else if (itemStack.is(AllItems.WRENCH)) {
+        } else if (itemStack.is(AllItems.WRENCH) && player.isShiftKeyDown()) {
             if (isPlough()) {
                 entityData.set(PLOUGH, false);
                 spawnAtLocation(new ItemStack(AllBlocks.MECHANICAL_PLOUGH));
@@ -338,6 +373,7 @@ public class OxhaulerEntity extends AbstractHorse {
                 spawnAtLocation(new ItemStack(AllBlocks.MECHANICAL_HARVESTER));
             } else if (getAssembly() > 0) {
                 setAssembly(getAssembly() - 1);
+                setFuel(0);
                 spawnAtLocation(new ItemStack(getPart()));
                 playSound(SoundEvents.NETHERITE_BLOCK_PLACE);
             } else {
@@ -357,7 +393,7 @@ public class OxhaulerEntity extends AbstractHorse {
             } else {
                 itemStack.shrink(1);
             }
-        }else if (player.isShiftKeyDown() ){
+        }else if (player.isShiftKeyDown() && getAssembly() == 7){
             openCustomInventoryScreen(player);
         } else if(getFuel() > 0){
             doPlayerRide(player);

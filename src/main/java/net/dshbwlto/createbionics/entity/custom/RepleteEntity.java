@@ -166,9 +166,24 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
             return null;
         }
     }
-
     @Override
     protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
+        spawnAtLocation(canDrop(getAssembly(), 0, BionicsItems.REPLETE_BODY.get()));
+        spawnAtLocation(canDrop(getAssembly(), 1, BionicsItems.REPLETE_LEG.get()));
+        spawnAtLocation(canDrop(getAssembly(), 2, BionicsItems.REPLETE_LEG.get()));
+        spawnAtLocation(canDrop(getAssembly(), 3, BionicsItems.REPLETE_LEG.get()));
+        spawnAtLocation(canDrop(getAssembly(), 4, BionicsItems.REPLETE_LEG.get()));
+        spawnAtLocation(canDrop(getAssembly(), 5, BionicsItems.REPLETE_LEG.get()));
+        spawnAtLocation(canDrop(getAssembly(), 6, BionicsItems.REPLETE_LEG.get()));
+        spawnAtLocation(canDrop(getAssembly(), 7, AllBlocks.MECHANICAL_PUMP.asItem()));
+        spawnAtLocation(canDrop(getAssembly(), 8, AllBlocks.FLUID_TANK.asItem()));
+        spawnAtLocation(canDrop(getAssembly(), 9, AllBlocks.FLUID_TANK.asItem()));
+        spawnAtLocation(canDrop(getAssembly(), 10, AllBlocks.FLUID_TANK.asItem()));
+        spawnAtLocation(canDrop(getAssembly(), 11, AllBlocks.FLUID_TANK.asItem()));
+        spawnAtLocation(canDrop(getAssembly(), 12, AllBlocks.FLUID_TANK.asItem()));
+        if (getVariant() != RepleteVariant.COPPER) {
+            dropIngot();
+        }
     }
 
     public void aiStep() {
@@ -357,7 +372,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
                             setFuel(0);
                         } else {
                             spawnAtLocation(BionicsItems.REPLETE_BODY);
-                            if (getVariant() != RepleteVariant.BRASS) {
+                            if (getVariant() != RepleteVariant.COPPER) {
                                 dropIngot();
                             }
                             remove(RemovalReason.DISCARDED);

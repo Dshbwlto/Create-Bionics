@@ -1,102 +1,104 @@
 {
-  "type": "minecraft:entity",
   "pools": [
     {
-      "bonus_rolls": 0.0,
+      "name": "anole_body",
+      "rolls": 1,
       "entries": [
         {
-          "type": "minecraft:item",
+          "type": "item",
+          "name": "createbionics:anole_body_item",
+          "weight": 1,
           "functions": [
             {
+              "function": "set_count",
               "count": {
-                "type": "minecraft:uniform",
-                "max": 1.0,
-                "min": 0.0
+                "min": 0,
+                "max": 1
               }
             }
-          ],
-          "name": "createbionics:anole_body_item"
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 3.0,
-                "min": 0.0
-              }
-            }
-          ],
-          "name": "createbionics:anole_leg_item"
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 1.0,
-                "min": 0.0
-              }
-            }
-          ],
-          "name": "createbionics:anole_tail_item"
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 1.0,
-                "min": 0.0
-              }
-            }
-          ],
-          "name": "createbionics:anole_head_item"
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 1.0,
-                "min": 0.0
-              }
-            }
-          ],
-          "name": "create:copper_nugget"
+          ]
         }
-      ],
-      "rolls": 1.0
+      ]
     },
     {
-      "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:killed_by_player"
-        },
-        {
-          "condition": "minecraft:random_chance_with_enchanted_bonus",
-          "enchanted_chance": {
-            "type": "minecraft:linear",
-            "base": 0.13,
-            "per_level_above_first": 0.02
-          },
-          "enchantment": "minecraft:looting",
-          "unenchanted_chance": 0.11
-        }
-      ],
+      "name": "anole_leg",
+      "rolls": 1,
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "minecraft:copper_ingot"
+          "type": "item",
+          "name": "createbionics:anole_leg_item",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 0,
+                "max": 2
+              }
+            }
+          ]
         }
-      ],
-      "rolls": 1.0
+      ]
+    },
+    {
+      "name": "anole_tail",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "createbionics:anole_tail_item",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 0,
+                "max": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "anole_head",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "createbionics:anole_head_item",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 0,
+                "max": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "copper_nugget",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "create:copper_nugget",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 0,
+                "max": 3
+              }
+            }
+          ]
+        }
+      ]
     }
-  ],
-  "random_sequence": "minecraft:entities/drowned"
+  ]
 }
