@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class OxhaulerMenu extends AbstractContainerMenu {
+public class OxhaulerMenu extends RecipeBookMenu {
 
     private Container oxhaulerContainer;
     public OxhaulerEntity oxhauler;
@@ -143,12 +143,12 @@ public class OxhaulerMenu extends AbstractContainerMenu {
     protected static void slotChangedCraftingGrid(AbstractContainerMenu menu, Level level, Player player, CraftingContainer craftSlots, ResultContainer resultSlots, @Nullable RecipeHolder<CraftingRecipe> recipe) {
         if (!level.isClientSide) {
             CraftingInput craftinginput = craftSlots.asCraftInput();
-            ServerPlayer serverplayer = (ServerPlayer)player;
+            ServerPlayer serverplayer = (ServerPlayer) player;
             ItemStack itemstack = ItemStack.EMPTY;
             Optional<RecipeHolder<CraftingRecipe>> optional = level.getServer().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, craftinginput, level, recipe);
             if (optional.isPresent()) {
-                RecipeHolder<CraftingRecipe> recipeholder = (RecipeHolder)optional.get();
-                CraftingRecipe craftingrecipe = (CraftingRecipe)recipeholder.value();
+                RecipeHolder<CraftingRecipe> recipeholder = (RecipeHolder) optional.get();
+                CraftingRecipe craftingrecipe = (CraftingRecipe) recipeholder.value();
                 if (resultSlots.setRecipeUsed(level, serverplayer, recipeholder)) {
                     ItemStack itemstack1 = craftingrecipe.assemble(craftinginput, level.registryAccess());
                     if (itemstack1.isItemEnabled(level.enabledFeatures())) {
@@ -164,9 +164,53 @@ public class OxhaulerMenu extends AbstractContainerMenu {
 
     }
 
+    public void fillCraftSlotsStackedContents(StackedContents itemHelper) {
+        this.craftSlots.fillStackedContents(itemHelper);
+    }
+
+    public void clearCraftingContent() {
+        this.craftSlots.clearContent();
+        this.resultSlots.clearContent();
+    }
+
+    @Override
+    public boolean recipeMatches(RecipeHolder recipeHolder) {
+        return false;
+    }
+
+    @Override
+    public int getResultSlotIndex() {
+        return 0;
+    }
+
+    @Override
+    public int getGridWidth() {
+        return 0;
+    }
+
+    @Override
+    public int getGridHeight() {
+        return 0;
+    }
+
+    @Override
+    public int getSize() {
+        return 0;
+    }
+
+    @Override
+    public RecipeBookType getRecipeBookType() {
+        return null;
+    }
+
+    @Override
+    public boolean shouldMoveToInventory(int i) {
+        return false;
+    }
+
     public void slotsChanged(Container inventory) {
         if (!this.placingRecipe) {
-            this.access.execute((p_344363_, p_344364_) -> slotChangedCraftingGrid(this, p_344363_, this.player, this.craftSlots, this.resultSlots, (RecipeHolder)null));
+            this.access.execute((p_344363_, p_344364_) -> slotChangedCraftingGrid(this, p_344363_, this.player, this.craftSlots, this.resultSlots, (RecipeHolder) null));
         }
 
     }
@@ -181,27 +225,39 @@ public class OxhaulerMenu extends AbstractContainerMenu {
 
     @Override
     public ItemStack quickMoveStack(Player playerIn, int index) {
-        Slot clickedSlot = getSlot(index);
-        if (!clickedSlot.hasItem())
-            return ItemStack.EMPTY;
+        ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = (Slot)this.slots.get(index);
+        if (slot != null && slot.hasItem()) {
+            ItemStack stack = slot.getItem();
+            ItemStack itemstack1 = slot.getItem();
+            itemstack = itemstack1.copy();
 
-        ItemStack stack = clickedSlot.getItem();
-        if (index < 36) {
-            moveItemStackTo(stack, 36, 198, false);
-        } else {
-            moveItemStackTo(stack, 0, 35, false);
+            if (slot instanceof ResultSlot) {
+                clearCraftingContent();
+                playerIn.playSound(AllSoundEvents.CONFIRM.getMainEvent());
+            }
+            if (index < 36) {
+                moveItemStackTo(stack, 36, 198, false);
+            } else {
+                moveItemStackTo(stack, 0, 35, false);
+            }
+
+            if (itemstack1.isEmpty()) {
+                slot.setByPlayer(ItemStack.EMPTY);
+            } else {
+                slot.setChanged();
+            }
         }
-
         return ItemStack.EMPTY;
     }
 
-    /**
-     * Called when the container is closed.
-     */
-    @Override
-    public void removed(Player player) {
-        super.removed(player);
-        this.access.execute((p_39371_, p_39372_) -> this.clearContainer(player, this.craftSlots));
-        this.oxhaulerContainer.stopOpen(player);
+        /**
+         * Called when the container is closed.
+         */
+        @Override
+        public void removed (Player player){
+            super.removed(player);
+            this.access.execute((p_39371_, p_39372_) -> this.clearContainer(player, this.craftSlots));
+            this.oxhaulerContainer.stopOpen(player);
+        }
     }
-}

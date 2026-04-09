@@ -544,21 +544,6 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
             }
         }
     }
-
-    private void transferFluidFromTankToHandler() {
-        FluidActionResult result = FluidUtil.tryFillContainer(itemHandler.getStackInSlot(0), this.FLUID_TANK, Integer.MAX_VALUE, null, true);
-        if(result.result != ItemStack.EMPTY) {
-            itemHandler.setStackInSlot(0, result.result);
-        }
-    }
-
-    private void transferFluidToTank() {
-        FluidActionResult result = FluidUtil.tryEmptyContainer(itemHandler.getStackInSlot(0), this.FLUID_TANK, Integer.MAX_VALUE, null, true);
-        if(result.result != ItemStack.EMPTY) {
-            itemHandler.setStackInSlot(0, result.result);
-        }
-    }
-
     private boolean hasFluidHandlerInHand(Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         return !itemStack.isEmpty()

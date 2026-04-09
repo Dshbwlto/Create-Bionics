@@ -363,7 +363,9 @@ public class OxhaulerEntity extends AbstractHorse {
                 itemStack.shrink(1);
             }
             playSound(SoundEvents.NETHERITE_BLOCK_PLACE);
+            if (getAssembly() < 7) {
             player.displayClientMessage(Component.translatable("entity.createbionics.all.assembly", getPart().getDescription().getString()), true);
+            }
             return InteractionResult.SUCCESS;
         } else if (itemStack.is(AllItems.WRENCH) && player.isShiftKeyDown()) {
             if (isPlough()) {
