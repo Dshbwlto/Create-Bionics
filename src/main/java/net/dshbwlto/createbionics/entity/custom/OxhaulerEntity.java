@@ -24,6 +24,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.*;
@@ -249,7 +250,7 @@ public class OxhaulerEntity extends AbstractHorse {
         } else {
             --this.idleAnimationTimeout;
         }
-        if (random.nextFloat() < 0.005) {
+        if (random.nextFloat() < 0.00 && getFuel() > 0) {
             if (tickCount % 3 == 0) {
                 this.idleAnimation1.start(this.tickCount);
                 idleAnimationTimeout = 220;
@@ -337,7 +338,14 @@ public class OxhaulerEntity extends AbstractHorse {
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
-        if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL) || itemStack.is(AllItems.BLAZE_CAKE) && !isInWater() && getAssembly() == 7) {
+        if (itemStack.is(ItemTags.CREEPER_DROP_MUSIC_DISCS)) {
+            if (level().isClientSide) {
+                return InteractionResult.SUCCESS;
+            } else {
+                itemStack.shrink(1);
+                player.addItem(new ItemStack(BionicsItems.WALTZ_2_MUSIC_DISC.get()));
+            }
+        } else if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL) || itemStack.is(AllItems.BLAZE_CAKE) && !isInWater() && getAssembly() == 7) {
             if (this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {

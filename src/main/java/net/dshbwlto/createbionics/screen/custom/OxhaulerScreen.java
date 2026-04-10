@@ -52,23 +52,26 @@ public class OxhaulerScreen  extends AbstractContainerScreen<OxhaulerMenu> {
     }
     @Override
     protected void init() {
-        super.init();
         titleLabelX = -20;
         titleLabelY = -30;
         inventoryLabelX = 1000;
 
-        this.addOxhaulerButton(new OxhaulerScreen.OxhaulerUpButton(this.leftPos + 149, this.topPos + 67) {
+        int x = (width - imageWidth) / 2;
+        int y = (height - imageHeight) / 2;
+
+        this.addOxhaulerButton(new OxhaulerScreen.OxhaulerUpButton(x + 149, y + 67) {
             @Override
             public boolean isActive() {
                 return oxhauler.pageCount > 1;
             }
         });
-        this.addOxhaulerButton(new OxhaulerScreen.OxhaulerDownButton(this.leftPos + 149, this.topPos + 84) {
+        this.addOxhaulerButton(new OxhaulerScreen.OxhaulerDownButton(x + 149, y + 84) {
             @Override
             public boolean isActive() {
                 return oxhauler.pageCount < 6;
             }
         });
+        super.init();
     }
 
     @Override
@@ -80,22 +83,22 @@ public class OxhaulerScreen  extends AbstractContainerScreen<OxhaulerMenu> {
 
         if (oxhauler.pageCount == 1) {
             RenderSystem.setShaderTexture(0, GUI_TEXTURE_1);
-            pGuiGraphics.blit(GUI_TEXTURE_1, 120, 10, 0, 0, 218, 236);
+            pGuiGraphics.blit(GUI_TEXTURE_1, x-32, y-33, 0, 0, 218, 236);
         } else if (oxhauler.pageCount == 2) {
             RenderSystem.setShaderTexture(0, GUI_TEXTURE_2);
-            pGuiGraphics.blit(GUI_TEXTURE_2, 120, 10, 0, 0, 218, 236);
+            pGuiGraphics.blit(GUI_TEXTURE_2, x-32, y-33, 0, 0, 218, 236);
         } else if (oxhauler.pageCount == 3) {
             RenderSystem.setShaderTexture(0, GUI_TEXTURE_3);
-            pGuiGraphics.blit(GUI_TEXTURE_3, 120, 10, 0, 0, 218, 236);
+            pGuiGraphics.blit(GUI_TEXTURE_3, x-32, y-33, 0, 0, 218, 236);
         } else if (oxhauler.pageCount == 4) {
             RenderSystem.setShaderTexture(0, GUI_TEXTURE_4);
-            pGuiGraphics.blit(GUI_TEXTURE_4, 120, 10, 0, 0, 218, 236);
+            pGuiGraphics.blit(GUI_TEXTURE_4, x-32, y-33, 0, 0, 218, 236);
         } else if (oxhauler.pageCount == 5) {
             RenderSystem.setShaderTexture(0, GUI_TEXTURE_5);
-            pGuiGraphics.blit(GUI_TEXTURE_5, 120, 10, 0, 0, 218, 236);
+            pGuiGraphics.blit(GUI_TEXTURE_5, x-32, y-33, 0, 0, 218, 236);
         } else {
             RenderSystem.setShaderTexture(0, GUI_TEXTURE_6);
-            pGuiGraphics.blit(GUI_TEXTURE_6, 120, 10, 0, 0, 218, 236);
+            pGuiGraphics.blit(GUI_TEXTURE_6, x-32, y-33, 0, 0, 218, 236);
         }
 
         InventoryScreen.renderEntityInInventoryFollowsMouse(pGuiGraphics, x -16, y, x + 36, y + 52, 15, 0.25f,

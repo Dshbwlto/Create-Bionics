@@ -17,6 +17,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
@@ -34,6 +35,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -88,7 +90,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
-        this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 1.0d, 20, 10f) {
+        this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 1.0d, 15, 7) {
             @Override
             public boolean canUse() {
                 return super.canUse() && getCommand() == 0 && getAssembly() == 12 && getFuel() > 0;
@@ -316,7 +318,14 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
                 player.displayClientMessage(Component.translatable("entity.createbionics.all.construction_warning"), true);
             }
         }
-        if ((itemStack.is(BionicsItems.ROBOT_BUILDER) || itemStack.is(getPart())) && getAssembly() < 12) {
+        if (itemStack.is(ItemTags.CREEPER_DROP_MUSIC_DISCS)) {
+            if (level().isClientSide) {
+                return InteractionResult.SUCCESS;
+            } else {
+                itemStack.shrink(1);
+                player.addItem(new ItemStack(BionicsItems.WALTZ_2_MUSIC_DISC.get()));
+            }
+        } else if ((itemStack.is(BionicsItems.ROBOT_BUILDER) || itemStack.is(getPart())) && getAssembly() < 12) {
             setAssembly(getAssembly() + 1);
             if (!itemStack.is(BionicsItems.ROBOT_BUILDER.get())) {
                 itemStack.shrink(1);
