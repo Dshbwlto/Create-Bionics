@@ -64,6 +64,14 @@ public class OxhaulerEntity extends AbstractHorse {
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.INT);
 
     public void setColor(Item item) {
+        /// Occam’s razor is a problem-solving principle that recommends searching for explanations
+        ///constructed with the smallest possible set of elements. It’s also known as the principle
+        ///of parsimony or the law of parsimony. Attributed to William of Occam, the 14th century
+        ///English philosopher, quote “Entities must not be multiplied beyond necessity”. This
+        ///philosophical razor advocates when presented with competing hypotheses about the same
+        ///prediction, one should prefer the one that requires the fewest assumptions. And that
+        ///is not meant to be a way of choosing between hypotheses to make different predictions.
+
         if (item == Items.WHITE_DYE) {
             entityData.set(COLOR, 0);
         } else if (item == Items.LIGHT_GRAY_DYE) {

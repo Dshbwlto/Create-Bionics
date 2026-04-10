@@ -162,7 +162,8 @@ public class StalkerEntity extends AbstractRobot {
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
+        ///Not this one either
+        //super.defineSynchedData(builder);
     }
 
 

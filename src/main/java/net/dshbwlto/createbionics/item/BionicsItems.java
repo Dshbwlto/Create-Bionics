@@ -35,14 +35,6 @@ public class BionicsItems {
             .properties(properties -> properties.stacksTo(1)).register();
     public static final ItemEntry<AnoleItem> ANOLE = REGISTRATE.item("anole_item",
             properties -> new AnoleItem(BionicsEntities.ANOLE.get(), 0xFFFFFF, 0xFFFFFF, properties.stacksTo(1))).register();
-    public static final ItemEntry<Item> ANOLE_BODY = REGISTRATE.item("anole_body_item",
-            Item::new).properties(properties -> properties.stacksTo(1)) .register();
-    public static final ItemEntry<Item> ANOLE_HEAD = REGISTRATE.item("anole_head_item",
-            Item::new).properties(properties -> properties.stacksTo(1)) .register();
-    public static final ItemEntry<Item> ANOLE_LEG = REGISTRATE.item("anole_leg_item",
-            Item::new).properties(properties -> properties.stacksTo(1)) .register();
-    public static final ItemEntry<Item> ANOLE_TAIL = REGISTRATE.item("anole_tail_item",
-            Item::new).properties(properties -> properties.stacksTo(1)) .register();
 
     public static final ItemEntry<SpawnEggItem> OXHAULER_MIDDLE = REGISTRATE.item("oxhauler_middle_item",
             properties -> new SpawnEggItem(BionicsEntities.OXHAULER.get(), 0xFFFFFF, 0xFFFFFF, properties.stacksTo(1))).register();
@@ -92,6 +84,14 @@ public class BionicsItems {
     public static final ItemEntry<Item> ORGAN_CHIMNEY = REGISTRATE.item("organ_chimney_item", Item::new)
             .properties(properties -> properties.stacksTo(1)).register();
 
+    public static final ItemEntry<Item> ANOLE_BODY = REGISTRATE.item("anole_body_item",
+            Item::new).properties(properties -> properties.stacksTo(1)) .register();
+    public static final ItemEntry<Item> ANOLE_HEAD = REGISTRATE.item("anole_head_item",
+            Item::new).properties(properties -> properties.stacksTo(1)) .register();
+    public static final ItemEntry<Item> ANOLE_LEG = REGISTRATE.item("anole_leg_item",
+            Item::new).properties(properties -> properties.stacksTo(1)) .register();
+    public static final ItemEntry<Item> ANOLE_TAIL = REGISTRATE.item("anole_tail_item",
+            Item::new).properties(properties -> properties.stacksTo(1)) .register();
     public static final ItemEntry<Item> I2_COAL_ENGINE = REGISTRATE.item("i2_coal_engine",
             Item::new).properties(properties -> properties.stacksTo(1)) .register();
     public static final ItemEntry<Item> OXHAULER_ENGINE = REGISTRATE.item("oxhauler_engine_item",

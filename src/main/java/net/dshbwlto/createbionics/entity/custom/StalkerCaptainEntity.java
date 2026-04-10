@@ -156,10 +156,9 @@ public class StalkerCaptainEntity extends StalkerEntity {
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(PAGE_NUMBER, 1);
+        /// Nope
+        //super.defineSynchedData(builder);
     }
-
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {

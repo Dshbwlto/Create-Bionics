@@ -211,8 +211,9 @@ public class OrganEntity extends AbstractRobot {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(GLOW_COLOR, 0);
-        builder.define(SIT_Y_OFFSET, 0f);
+        ///   Not yet, hotshot
+        //builder.define(GLOW_COLOR, 0);
+        //builder.define(SIT_Y_OFFSET, 0f);
     }
 
     @Override
