@@ -17,7 +17,7 @@ public class BionicsModelLayers {
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "oxhauler"), "glow");
     public static final ModelLayerLocation OXHAULER_COLOR = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "oxhauler"), "color");
-    
+
     public static final ModelLayerLocation REPLETE = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "replete"), "main");
     public static final ModelLayerLocation REPLETE_GLOW = new ModelLayerLocation(

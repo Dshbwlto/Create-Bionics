@@ -1,3 +1,4 @@
+
 package net.dshbwlto.createbionics.item.custom;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -20,11 +21,11 @@ public class OrganHeadItemRenderer extends CustomRenderedItemModelRenderer {
 
     @Override
     protected void render(ItemStack stack, CustomRenderedItemModel model, PartialItemModelRenderer renderer, ItemDisplayContext transformType, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
-            renderer.render(model.getOriginalModel(), light);
+        renderer.render(model.getOriginalModel(), light);
 
         //ms.translate(0, 3/256f, 10/128f);
         ms.mulPose(Axis.XP.rotationDegrees(-15));
 
-            renderer.render(SNOUT.get(), light);
+        renderer.render(SNOUT.get(), light);
     }
 }

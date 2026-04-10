@@ -1,3 +1,4 @@
+
 package net.dshbwlto.createbionics.entity.client.stalker;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -127,9 +128,9 @@ public class StalkerModel <T extends StalkerEntity> extends HierarchicalModel <T
             this.animateWalk(StalkerAnimations.stalker_walk, limbSwing, limbSwingAmount, 2f, 2f);
         }
         this.animate(entity.idleAnimationState, StalkerAnimations.stalker_idle, ageInTicks, 1f);
-            this.animate(entity.sitDownAnimationState, StalkerAnimations.stalker_sit, ageInTicks, 1.0F);
-            this.animate(entity.sitPoseAnimationState, StalkerAnimations.stalker_stay, ageInTicks, 1.0F);
-            this.animate(entity.sitUpAnimationState, StalkerAnimations.stalker_stand, ageInTicks, 1.0F);
+        this.animate(entity.sitDownAnimationState, StalkerAnimations.stalker_sit, ageInTicks, 1.0F);
+        this.animate(entity.sitPoseAnimationState, StalkerAnimations.stalker_stay, ageInTicks, 1.0F);
+        this.animate(entity.sitUpAnimationState, StalkerAnimations.stalker_stand, ageInTicks, 1.0F);
     }
 
     @Override

@@ -354,19 +354,19 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
     @Override
     public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, OrganEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         int integer = entity.exhaustProgress;
-            this.getParentModel().copyPropertiesTo(this.model);
-            this.model.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTicks);
-            this.model.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-            if (integer < 10) {
-                VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucentCull(EXHAUST_MAP_1.get(integer)));
-                this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
-            } else if (integer < 20) {
-                VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.itemEntityTranslucentCull(EXHAUST_MAP_2.get(integer)));
-                this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
-            } else {
-                VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.itemEntityTranslucentCull(EXHAUST_MAP_3.get(integer)));
-                this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
-            }
+        this.getParentModel().copyPropertiesTo(this.model);
+        this.model.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTicks);
+        this.model.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+        if (integer < 10) {
+            VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucentCull(EXHAUST_MAP_1.get(integer)));
+            this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
+        } else if (integer < 20) {
+            VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.itemEntityTranslucentCull(EXHAUST_MAP_2.get(integer)));
+            this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
+        } else {
+            VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.itemEntityTranslucentCull(EXHAUST_MAP_3.get(integer)));
+            this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
+        }
 
         //back middle
         renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
@@ -424,4 +424,3 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                 8, 1, 2, 10/16f, -0.7f, -4f - 1/16f, -9/16f, 0.1872665f, 76);
     }
 }
-

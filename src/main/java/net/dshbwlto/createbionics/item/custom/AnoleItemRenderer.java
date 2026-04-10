@@ -1,3 +1,4 @@
+
 package net.dshbwlto.createbionics.item.custom;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -60,9 +61,9 @@ public class AnoleItemRenderer extends CustomRenderedItemModelRenderer {
             ms.translate(0,0.001f, 0);
             renderer.render(TAIL1.get(), light);
             ms.translate(0, 0.001f, 5 / 16f);
-            ms.mulPose(Axis.YP.rotation(tailYaw - Mth.PI / 4));
+            ms.mulPose(Axis.YP.rotation(tailYaw - Mth.PI / 3.5f));
             renderer.render(TAIL2.get(), light);
-            ms.mulPose(Axis.YP.rotation(-tailYaw + Mth.PI /  4));
+            ms.mulPose(Axis.YP.rotation(-tailYaw + Mth.PI /  3.5f));
             ms.translate(0, -0.002f, -5 / 16f);
             ms.mulPose(Axis.YP.rotation(-tailYaw + Mth.PI / 4));
 

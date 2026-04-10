@@ -1,3 +1,4 @@
+
 package net.dshbwlto.createbionics.entity.client.organ.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -32,12 +33,11 @@ public class OrganGlowLayer extends RenderLayer<OrganEntity, OrganModel<OrganEnt
     public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, OrganEntity livingEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         //if (livingEntity.isFueled()) {
         Integer integer = livingEntity.getGlowColor();
-            this.getParentModel().copyPropertiesTo(this.model);
-            this.model.prepareMobModel(livingEntity, limbSwing, limbSwingAmount, partialTicks);
-            this.model.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-                VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucentEmissive(GLOW_MAP.get(integer)));
-                this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
+        this.getParentModel().copyPropertiesTo(this.model);
+        this.model.prepareMobModel(livingEntity, limbSwing, limbSwingAmount, partialTicks);
+        this.model.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+        VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucentEmissive(GLOW_MAP.get(integer)));
+        this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
         //}
     }
 }
-

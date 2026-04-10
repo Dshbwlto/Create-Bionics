@@ -1,3 +1,4 @@
+
 package net.dshbwlto.createbionics.item.custom;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -20,7 +21,7 @@ public class OxhaulerHeadItemRenderer extends CustomRenderedItemModelRenderer {
 
     @Override
     protected void render(ItemStack stack, CustomRenderedItemModel model, PartialItemModelRenderer renderer, ItemDisplayContext transformType, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
-            renderer.render(model.getOriginalModel(), light);
+        renderer.render(model.getOriginalModel(), light);
 
         ms.mulPose(Axis.ZP.rotationDegrees(-12.5f));
         ms.mulPose(Axis.YP.rotationDegrees(-10f));

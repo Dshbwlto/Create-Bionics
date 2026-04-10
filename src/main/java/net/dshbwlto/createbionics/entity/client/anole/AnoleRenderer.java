@@ -30,7 +30,7 @@ public class AnoleRenderer extends MobRenderer<AnoleEntity, AnoleModel<AnoleEnti
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_weathered.png"));
                 map.put(AnoleVariant.OXIDIZED,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_oxidized.png"));
-    });
+            });
 
     public AnoleRenderer(EntityRendererProvider.Context context) {
         super (context, new AnoleModel<>(context.bakeLayer(BionicsModelLayers.ANOLE)), 0.25f);

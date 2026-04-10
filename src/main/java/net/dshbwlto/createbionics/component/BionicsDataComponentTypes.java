@@ -15,7 +15,7 @@ public class BionicsDataComponentTypes {
             DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, CreateBionics.MOD_ID);
 
     public static DeferredHolder<DataComponentType<?>, DataComponentType<BlockPos>> COORDINATES = register("coordinates",
-        buider -> buider.persistent(BlockPos.CODEC));
+            buider -> buider.persistent(BlockPos.CODEC));
 
     private static <T>DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
         return DATA_COMPONENT_TYPES.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());

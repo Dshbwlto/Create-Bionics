@@ -252,13 +252,13 @@ public class AnoleEntity extends AbstractRobot {
             }
         }
 
-       if (isTame() && isOwnedBy(player)) {
+        if (isTame() && isOwnedBy(player)) {
             if (itemStack.is(Items.COPPER_INGOT)
-                   || itemStack.is(AllItems.ANDESITE_ALLOY)
-                   || itemStack.is(AllItems.BRASS_INGOT)
-                   || itemStack.is(Items.NETHERITE_INGOT)
-                   || itemStack.is(Items.SPONGE)
-                   || itemStack.is(Items.WET_SPONGE)) {
+                    || itemStack.is(AllItems.ANDESITE_ALLOY)
+                    || itemStack.is(AllItems.BRASS_INGOT)
+                    || itemStack.is(Items.NETHERITE_INGOT)
+                    || itemStack.is(Items.SPONGE)
+                    || itemStack.is(Items.WET_SPONGE)) {
                 if (player.isShiftKeyDown()) {
                     if (itemStack.is(AllItems.ANDESITE_ALLOY) && getHealth() < maxHealth) {
                         heal(1);
@@ -275,31 +275,31 @@ public class AnoleEntity extends AbstractRobot {
                     itemStack.shrink(1);
                 }
             } else if (itemStack.is(Items.REDSTONE)
-                   || itemStack.is(Items.GOLD_INGOT)
-                   || itemStack.is(Items.DIAMOND)
-                   || itemStack.is(Items.BRUSH)) {
-               dropMaterial(getMarkings());
-               setTypeMarking(itemStack);
-               if (!itemStack.is(Items.BRUSH)) {
-                   itemStack.shrink(1);
-               }
-           } else if (itemStack.is(AllItems.WRENCH)) {
+                    || itemStack.is(Items.GOLD_INGOT)
+                    || itemStack.is(Items.DIAMOND)
+                    || itemStack.is(Items.BRUSH)) {
+                dropMaterial(getMarkings());
+                setTypeMarking(itemStack);
+                if (!itemStack.is(Items.BRUSH)) {
+                    itemStack.shrink(1);
+                }
+            } else if (itemStack.is(AllItems.WRENCH)) {
                 if (getVariant() != AnoleVariant.COPPPER
-                && getVariant() != AnoleVariant.EXPOSED
-                && getVariant() != AnoleVariant.WEATHERED
-                && getVariant() != AnoleVariant.OXIDIZED) {
+                        && getVariant() != AnoleVariant.EXPOSED
+                        && getVariant() != AnoleVariant.WEATHERED
+                        && getVariant() != AnoleVariant.OXIDIZED) {
                     dropIngot(getVariant());
                 }
                 dropMaterial(getMarkings());
                 spawnAtLocation(BionicsItems.ANOLE);
                 remove(RemovalReason.DISCARDED);
-           } else {
-               updateCommand(player);
-               return InteractionResult.SUCCESS;
-           }
-       }
+            } else {
+                updateCommand(player);
+                return InteractionResult.SUCCESS;
+            }
+        }
 
-       return super.mobInteract(player, hand);
+        return super.mobInteract(player, hand);
     }
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
@@ -483,4 +483,3 @@ public class AnoleEntity extends AbstractRobot {
         return "Scallywag".equals(s);
     }
 }
-

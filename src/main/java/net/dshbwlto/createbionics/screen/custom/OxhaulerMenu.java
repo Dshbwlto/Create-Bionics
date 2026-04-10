@@ -1,3 +1,4 @@
+
 package net.dshbwlto.createbionics.screen.custom;
 
 import com.simibubi.create.AllSoundEvents;
@@ -251,13 +252,13 @@ public class OxhaulerMenu extends RecipeBookMenu {
         return ItemStack.EMPTY;
     }
 
-        /**
-         * Called when the container is closed.
-         */
-        @Override
-        public void removed (Player player){
-            super.removed(player);
-            this.access.execute((p_39371_, p_39372_) -> this.clearContainer(player, this.craftSlots));
-            this.oxhaulerContainer.stopOpen(player);
-        }
+    /**
+     * Called when the container is closed.
+     */
+    @Override
+    public void removed (Player player){
+        super.removed(player);
+        this.access.execute((p_39371_, p_39372_) -> this.clearContainer(player, this.craftSlots));
+        this.oxhaulerContainer.stopOpen(player);
     }
+}

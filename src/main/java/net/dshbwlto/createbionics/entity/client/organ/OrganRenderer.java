@@ -38,7 +38,7 @@ public class OrganRenderer extends MobRenderer<OrganEntity, OrganModel<OrganEnti
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/organ_copper.png"));
                 map.put(OrganVariant.STURDY_SHEET,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/organ_sturdy_sheet.png"));
-    });
+            });
 
     public OrganRenderer(EntityRendererProvider.Context context) {
         super (context, new OrganModel<>(context.bakeLayer(BionicsModelLayers.ORGAN)), 4);

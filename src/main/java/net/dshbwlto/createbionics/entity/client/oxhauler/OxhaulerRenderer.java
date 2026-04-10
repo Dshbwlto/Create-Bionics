@@ -1,3 +1,4 @@
+
 package net.dshbwlto.createbionics.entity.client.oxhauler;
 
 import com.google.common.collect.Maps;
@@ -49,14 +50,14 @@ import java.util.Map;
 
 public class OxhaulerRenderer extends MobRenderer<OxhaulerEntity, OxhaulerModel<OxhaulerEntity>> {
     private static final Map<OxhaulerVariant, ResourceLocation> LOCATION_BY_VARIANT =
-        Util.make(Maps.newEnumMap(OxhaulerVariant.class), map -> {
-            map.put(OxhaulerVariant.BRASS,
-                    ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/oxhauler_brass.png"));
-            map.put(OxhaulerVariant.COPPER,
-                    ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/oxhauler_copper.png"));
-            map.put(OxhaulerVariant.ANDESITE,
-                    ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/oxhauler_andesite.png"));
-        });
+            Util.make(Maps.newEnumMap(OxhaulerVariant.class), map -> {
+                map.put(OxhaulerVariant.BRASS,
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/oxhauler_brass.png"));
+                map.put(OxhaulerVariant.COPPER,
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/oxhauler_copper.png"));
+                map.put(OxhaulerVariant.ANDESITE,
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/oxhauler_andesite.png"));
+            });
 
     public OxhaulerRenderer(EntityRendererProvider.Context context) {
         super(context, new OxhaulerModel<>(context.bakeLayer(BionicsModelLayers.OXHAULER)), 1.6f);

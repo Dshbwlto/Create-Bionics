@@ -1,3 +1,4 @@
+
 package net.dshbwlto.createbionics.sound;
 
 import net.dshbwlto.createbionics.CreateBionics;
@@ -46,6 +47,6 @@ public class BionicsSounds {
     }
 
     public static void register(IEventBus eventBus) {
-      SOUND_EVENTS.register(eventBus);
+        SOUND_EVENTS.register(eventBus);
     }
 }

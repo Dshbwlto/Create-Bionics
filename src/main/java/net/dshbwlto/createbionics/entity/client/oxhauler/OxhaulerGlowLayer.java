@@ -1,3 +1,4 @@
+
 package net.dshbwlto.createbionics.entity.client.oxhauler;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -29,9 +30,8 @@ public class OxhaulerGlowLayer extends RenderLayer<OxhaulerEntity, OxhaulerModel
             this.model.prepareMobModel(livingEntity, limbSwing, limbSwingAmount, partialTicks);
             this.model.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
             VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucentEmissive(
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/oxhauler_glow.png")));
-                this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
+                    ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/oxhauler_glow.png")));
+            this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
         }
     }
 }
-

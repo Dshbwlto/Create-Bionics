@@ -1,3 +1,4 @@
+
 package net.dshbwlto.createbionics.datagen;
 
 import net.dshbwlto.createbionics.CreateBionics;
@@ -22,4 +23,3 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(deferredBlock.get(), cubeAll(deferredBlock.get()));
     }
 }
-
