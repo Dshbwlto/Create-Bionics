@@ -220,6 +220,10 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
 
         PartDefinition neck = neck_master.addOrReplaceChild("neck", CubeListBuilder.create().texOffs(216, 172).addBox(-5.0F, -2.5F, -11.0F, 10.0F, 3.0F, 10.0F, new CubeDeformation(0.0F))
                 .texOffs(226, 187).addBox(-5.0F, -2.0F, -11.0F, 10.0F, 0.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(238, 187).addBox(-4.0F, -2.5F, -10.0F, 8.0F, 1.0F, 0.0F, new CubeDeformation(0.0F))
+                .texOffs(238, 187).addBox(-4.0F, -2.5F, -2.0F, 8.0F, 1.0F, 0.0F, new CubeDeformation(0.0F))
+                .texOffs(238, 179).addBox(4.0F, -2.5F, -10.0F, 0.0F, 1.0F, 8.0F, new CubeDeformation(0.0F))
+                .texOffs(238, 179).addBox(-4.0F, -2.5F, -10.0F, 0.0F, 1.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(132, 198).addBox(4.0F, 1.0F, -11.5F, 1.0F, 3.0F, 11.0F, new CubeDeformation(0.0F))
                 .texOffs(132, 198).addBox(-5.0F, 1.0F, -11.5F, 1.0F, 3.0F, 11.0F, new CubeDeformation(0.0F))
                 .texOffs(114, 214).addBox(-5.0F, -2.5F, -18.5F, 1.0F, 7.0F, 7.0F, new CubeDeformation(0.0F))

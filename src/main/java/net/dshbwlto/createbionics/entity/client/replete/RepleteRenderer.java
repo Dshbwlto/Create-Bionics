@@ -13,6 +13,7 @@ import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -68,5 +69,10 @@ public class RepleteRenderer extends MobRenderer<RepleteEntity, RepleteModel<Rep
         NeoForgeCatnipServices.FLUID_RENDERER.renderFluidBox(fluidStack, -15/16f, height, -15/16f, 15/16f, 0, 15/16f, buffer,
                 poseStack, packedLight, false, true);
         poseStack.popPose();
+    }
+
+    @Override
+    public boolean shouldRender(RepleteEntity livingEntity, Frustum camera, double camX, double camY, double camZ) {
+        return true;
     }
 }

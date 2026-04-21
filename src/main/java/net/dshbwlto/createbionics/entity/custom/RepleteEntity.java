@@ -394,7 +394,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
             }
             return InteractionResult.SUCCESS;
         } else {
-            if (getFuel() > 0) {
+            if (getFuel() > 0 && isOwnedBy(player) && !hasFluidHandlerInHand(player, hand) && !hasFluidStackInHand(player, hand)) {
                 updateCommand(player);
                 if (getCommand() == 0 && random.nextFloat() < 0.001) {
                     playSound(BionicsSounds.GET_STICK_BUGGED.get());
