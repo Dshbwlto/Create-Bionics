@@ -1,11 +1,11 @@
 package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllItems;
+import net.createmod.catnip.animation.AnimationTickHolder;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleMarkings;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
-import net.dshbwlto.createbionics.sound.BionicsSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -13,7 +13,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -28,7 +27,6 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Bee;
-import net.minecraft.world.entity.animal.Ocelot;
 import net.minecraft.world.entity.monster.CaveSpider;
 import net.minecraft.world.entity.monster.Silverfish;
 import net.minecraft.world.entity.monster.Spider;
@@ -230,6 +228,13 @@ public class AnoleEntity extends AbstractRobot {
             this.setDeltaMovement(climbVec.scale(0.96D));
         }
 
+        if (canDebugSwapSkins() && AnimationTickHolder.getTicks() % 30 == 0) {
+            if (getTypeVariant() < 6) {
+                entityData.set(VARIANT, getTypeVariant() + 1);
+            } else {
+                entityData.set(VARIANT, 0);
+            }
+        }
     }
 
     /* RIGHT CLICKING */

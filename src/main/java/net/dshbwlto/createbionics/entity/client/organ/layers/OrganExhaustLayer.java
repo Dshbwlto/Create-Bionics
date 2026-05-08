@@ -73,9 +73,9 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
         return Mth.rotLerp(delta, start, end);
     }
 
-    public void renderWhistles(OrganEntity entity, float netHeadYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight,
+    public void renderWhistles(OrganEntity entity, float netHeadYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float yoffset,
                                int count, int size, int height, float separation, float xPos, float yPos, float zPos, float angle, int index) {
-        float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - entity.getSitYOffset() / 16;
+        float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yoffset / 16;
         int build = entity.getAssembly() - 22;
         PartialModel base_middle = size == 1 ? (entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small").withSuffix(variant(entity)))
                 : PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small5")))
@@ -127,12 +127,12 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
         }
     }
 
-    public void renderWhistlesTail1(OrganEntity entity, float netHeadYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight,
+    public void renderWhistlesTail1(OrganEntity entity, float netHeadYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float yoffset,
                                     int count, int size, int height, float separation, float xPos, float yPos, float zPos, float angle, int index) {
         float ySwing = entity.getAssembly() >= 21 ? (float) Math.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / -16) * 3.55f : 0;
-        float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - entity.getSitYOffset()/16;
+        float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yoffset/16;
         int build = entity.getAssembly() - 22;
-        netHeadYaw = Mth.clamp(netHeadYaw, -60.0F, 60.0F / 2);
+        netHeadYaw = Mth.clamp(netHeadYaw, -60.0F, 60.0F) / 2;
         PartialModel base_middle = size == 1 ? (entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small").withSuffix(variant(entity)))
                 : PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small5")))
                 : size == 2 ? (entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium").withSuffix(variant(entity)))
@@ -199,11 +199,11 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
         }
     }
 
-    public void renderWhistlesChest(OrganEntity entity, float netHeadYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight,
+    public void renderWhistlesChest(OrganEntity entity, float netHeadYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float yOffset,
                                     int count, int size, int height, float separation, float xPos, float yPos, float zPos, float angle, int index) {
-        float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - entity.getSitYOffset() / 16;
+        float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yOffset / 16;
         int build = entity.getAssembly() - 22;
-        netHeadYaw = Mth.clamp(netHeadYaw, -60.0F, 60.0F / 2);
+        netHeadYaw = Mth.clamp(netHeadYaw, -60.0F, 60.0F) / 2;
         PartialModel base_middle = size == 1 ? (entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small").withSuffix(variant(entity)))
                 : PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small5")))
                 : size == 2 ? (entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium").withSuffix(variant(entity)))
@@ -270,11 +270,11 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
         }
     }
 
-    public void renderWhistlesTail2(OrganEntity entity, float netHeadYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight,
+    public void renderWhistlesTail2(OrganEntity entity, float netHeadYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float yoffset,
                                     int count, int size, int height, float separation, float xPos, float yPos, float zPos, float angle, int index) {
         float ySwing = entity.getAssembly() >= 21 ? (float) Math.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / -16) * 3.55f : 0;
         float ySwing2 = entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / -16) + 2) * 3.55f : 0;
-        float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - entity.getSitYOffset()/16;
+        float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yoffset / 16;
         int build = entity.getAssembly() - 22;
         netHeadYaw = Mth.clamp(netHeadYaw, -60.0F, 60.0F) / 2;
         PartialModel base_middle = size == 1 ? (entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small").withSuffix(variant(entity)))
@@ -305,7 +305,7 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .rotateYDegrees(ySwing + netHeadYaw)
                     .translate(0, 0, -76.5/16f)
                     .rotateYDegrees(ySwing2 + netHeadYaw)
-                    .translate(xPos, separation < 0 ? 7 + bodyYOffset + yPos - i * 0.04 : 7 + bodyYOffset + yPos - i * 0.02, zPos - separation * i)
+                    .translate(xPos == 0 ? 0 : xPos > 0 ? xPos - i / 16f + 1/8f : xPos + i / 16f - 1/8f, separation < 0 ? 7 + bodyYOffset + yPos - i * 0.04 : 7 + bodyYOffset + yPos - i * 0.02, zPos - separation * i)
                     .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos < 0 ? i * 0.1f + angle : -i * 0.1f - angle)
                     .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
                     .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
@@ -316,7 +316,7 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .rotateYDegrees(ySwing + netHeadYaw)
                     .translate(0, 0, -76.5/16f)
                     .rotateYDegrees(ySwing2 + netHeadYaw)
-                    .translate(xPos, separation < 0 ? 7 + bodyYOffset + yPos - i * 0.04 : 7 + bodyYOffset + yPos - i * 0.02, zPos - separation * i)
+                    .translate(xPos == 0 ? 0 : xPos > 0 ? xPos - i / 16f + 1/8f : xPos + i / 16f - 1/8f, separation < 0 ? 7 + bodyYOffset + yPos - i * 0.04 : 7 + bodyYOffset + yPos - i * 0.02, zPos - separation * i)
                     .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos < 0 ? i * 0.1f + angle : -i * 0.1f - angle)
                     .translate(0, (height/2f) + (i/4f) + 0.5, 0)
                     .scale(0.999f)
@@ -328,7 +328,7 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .rotateYDegrees(ySwing + netHeadYaw)
                     .translate(0, 0, -76.5/16f)
                     .rotateYDegrees(ySwing2 + netHeadYaw)
-                    .translate(xPos, separation < 0 ? 7 + bodyYOffset + yPos - i * 0.04 : 7 + bodyYOffset + yPos - i * 0.02, zPos - separation * i)
+                    .translate(xPos == 0 ? 0 : xPos > 0 ? xPos - i / 16f + 1/8f : xPos + i / 16f - 1/8f, separation < 0 ? 7 + bodyYOffset + yPos - i * 0.04 : 7 + bodyYOffset + yPos - i * 0.02, zPos - separation * i)
                     .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos < 0 ? i * 0.1f + angle : -i * 0.1f - angle)
                     .translate(0, (height/2f) + (i/4f) + 1, 0)
                     .scale(0.999f)
@@ -342,7 +342,7 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                         .rotateYDegrees(ySwing + netHeadYaw)
                         .translate(0, 0, -76.5/16f)
                         .rotateYDegrees(ySwing2 + netHeadYaw)
-                        .translate(xPos, separation < 0 ? 7 + bodyYOffset + yPos - i * 0.04 : 7 + bodyYOffset + yPos - i * 0.02, zPos - separation * i)
+                        .translate(xPos == 0 ? 0 : xPos > 0 ? xPos - i / 16f + 1/8f: xPos + i / 16f - 1/8f, separation < 0 ? 7 + bodyYOffset + yPos - i * 0.04 : 7 + bodyYOffset + yPos - i * 0.02, zPos - separation * i)
                         .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos < 0 ? i * 0.1f + angle : -i * 0.1f - angle)
                         .translate(0, j * 0.5f + 1, 0)
                         .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
@@ -368,59 +368,73 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
             this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
         }
 
+        if (AnimationTickHolder.getTicks() == 25 && entity.isSitting()) {
+            entity.z0 = 47;
+        }
+
+        if (entity.isSitting()) {
+            if (entity.z0 < 47) {
+                entity.z0 += 0.45f;
+            }
+        } else {
+            if (entity.z0 > 0) {
+                entity.z0 -= 0.45f;
+            }
+        }
+
         //back middle
-        renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
+        renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 4, 3, 4, 7/8f, 0, -1.5f, 0.5f, 0, 0);
 
         //back right
-        renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
+        renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 4, 3, 1, -7/8f, -1.2f, -2.15f, -2 - 1/8f, -0.1f, 4);
-        renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
+        renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 4, 3, 1, -7/8f, -1.6f, -2.95f, -17/8f, 0.3f, 8);
 
         //back left
-        renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
+        renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 4, 3, 1, -7/8f, 1.2f, -2.15f, -2 - 1/8f, -0.1f, 12);
-        renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
+        renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 4, 3, 1, -7/8f, 1.6f, -2.95f, -17/8f, 0.3f, 16);
 
         //chest middle
-        renderWhistlesChest(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
+        renderWhistlesChest(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 6, 2, 1, 12/16f, 0, -2.5f, 4, 0, 20);
 
         //tail 1 middle
-        renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
+        renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 6, 2, 6, -12/16f, 0, -2.7f, -4 - 7/16f, 0, 26);
 
         //tail 1 left
-        renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
+        renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 4, 2, 1, -12/16f, 1.25f, -4.1f, -4 - 4/16f, -0.261799f, 32);
-        renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
+        renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 2, 3, 3, -12/16f, 1.1f, -3.8f, -1 - 4/16f, 0.0872665f, 36);
-        renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
+        renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 2, 2, 1, -12/16f, 1.1f, -4.7f, -1 - 2/16f, -0.349066f, 38);
 
         //tail 1 right
-        renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
+        renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 4, 2, 1, -12/16f, -1.25f, -4.1f, -4 - 4/16f, -0.261799f, 40);
-        renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
+        renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 2, 3, 3, -12/16f, -1.1f, -3.8f, -1 - 4/16f, 0.0872665f, 44);
-        renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
+        renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 2, 2, 1, -12/16f, -1.1f, -4.7f, -1 - 2/16f, -0.349066f, 46);
 
         //tail 2 middle
-        renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
+        renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 8, 1, 2, -10/16f, 0, -2.5f, -4 - 14/16f, 0, 48);
 
         //tail 2 left
-        renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
+        renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 6, 1, 2, 10/16f, 0.7f, -3.4f, -1 - 13/16f, 0.0872665f, 56);
-        renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
+        renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 6, 1, 2, 10/16f, -0.7f, -3.4f, -1 - 13/16f, 0.0872665f, 62);
 
-        renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
+        renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 8, 1, 2, 10/16f, 0.7f, -4f - 1/16f, -9/16f, 0.1872665f, 68);
-        renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight,
+        renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 8, 1, 2, 10/16f, -0.7f, -4f - 1/16f, -9/16f, 0.1872665f, 76);
     }
 }

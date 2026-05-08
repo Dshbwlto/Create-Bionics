@@ -99,6 +99,8 @@ public class RobotBuilderItemRenderer extends CustomRenderedItemModelRenderer {
     private final PartialModel WHISTLE_FACE_MIDDLE_LARGE5 = PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_large5"));
     private final PartialModel WHISTLE_FACE_MIDDLE_MEDIUM5 = PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_medium5"));
 
+    private final PartialModel DEBUG_ARROW = PartialModel.of(CreateBionics.asResource("item/debug_arrow"));
+
     @Override
     protected void render(ItemStack stack, CustomRenderedItemModel model, PartialItemModelRenderer renderer, ItemDisplayContext transformType, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
             renderer.render(model.getOriginalModel(), light);

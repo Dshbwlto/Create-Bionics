@@ -3,6 +3,7 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
+import net.createmod.catnip.animation.AnimationTickHolder;
 import net.dshbwlto.createbionics.Util.BionicsEntityDataSerializers;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
@@ -35,7 +36,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -265,6 +265,14 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
         }
         if (countdown > 0) {
             countdown = countdown - 1;
+        }
+
+        if (canDebugSwapSkins() && AnimationTickHolder.getTicks() % 30 == 0) {
+            if (getTypeVariant() < 2) {
+                entityData.set(VARIANT, getTypeVariant() + 1);
+            } else {
+                entityData.set(VARIANT, 0);
+            }
         }
     }
 
@@ -519,11 +527,6 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
 
     public IFluidHandler getTank(@Nullable Direction direction) {
         return FLUID_TANK;
-    }
-
-    @Override
-    public Component getDisplayName() {
-        return Component.literal("Tank");
     }
 
     private boolean hasFluidStackInHand(Player player, InteractionHand hand) {

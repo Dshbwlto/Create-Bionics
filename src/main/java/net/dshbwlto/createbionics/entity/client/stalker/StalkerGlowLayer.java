@@ -4,8 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
-import net.dshbwlto.createbionics.entity.client.organ.OrganModel;
-import net.dshbwlto.createbionics.entity.custom.OrganEntity;
 import net.dshbwlto.createbionics.entity.custom.StalkerEntity;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -14,8 +12,6 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-
-import java.util.Map;
 
 public class StalkerGlowLayer extends RenderLayer<StalkerEntity, StalkerModel<StalkerEntity>> {
     private final StalkerModel<StalkerEntity> model;

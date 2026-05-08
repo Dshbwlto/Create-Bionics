@@ -1,18 +1,13 @@
 
 package net.dshbwlto.createbionics.ponder;
 
-import com.simibubi.create.AllItems;
-import com.simibubi.create.infrastructure.ponder.AllCreatePonderTags;
 import com.tterrag.registrate.util.entry.ItemProviderEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
 import net.createmod.ponder.api.registration.PonderTagRegistrationHelper;
-import net.createmod.ponder.foundation.content.DebugScenes;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.neoforge.data.loading.DatagenModLoader;
 
 public class BionicsPonders {
 

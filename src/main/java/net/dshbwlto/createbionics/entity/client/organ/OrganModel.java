@@ -693,9 +693,9 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         tail1.yRot = ySwing - netHeadYaw * ((float) Math.PI / 180F);
         tail2.yRot = ySwing2 - netHeadYaw * ((float) Math.PI / 180F);
-        body.y = bodyYOffset - 80;
+        body.y = bodyYOffset - 80 + entity.z0;
 
-        this.animateWalk(OrganAnimations.organ_walk, limbSwing, limbSwingAmount, 1f, 2f);
+        this.animateWalk(OrganAnimations.organ_walk_forward, limbSwing, limbSwingAmount, 1f, 2f);
 
         if (entity.getAssembly() > 20) {
             this.animate(entity.idleAnimationState, OrganAnimations.organ_idle, ageInTicks, 1f);
@@ -703,9 +703,9 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
             this.animate(entity.idleAnimationState, OrganAnimations.organ_assembly, ageInTicks, 1f);
         }
 
-        this.animate(entity.sitDownAnimationState, OrganAnimations.organ_sit_c, ageInTicks, 1.0F);
-        this.animate(entity.sitPoseAnimationState, OrganAnimations.organ_stay_c, ageInTicks, 1.0F);
-        this.animate(entity.sitUpAnimationState, OrganAnimations.organ_stand_c, ageInTicks, 1.0F);
+        this.animate(entity.sitDownAnimationState, OrganAnimations.organ_sit, ageInTicks, 1.0F);
+        this.animate(entity.sitPoseAnimationState, OrganAnimations.organ_stay, ageInTicks, 1.0F);
+        this.animate(entity.sitUpAnimationState, OrganAnimations.organ_stand, ageInTicks, 1.0F);
 
         this.animate(entity.lookAnimationState, OrganAnimations.sit_look, ageInTicks, 1.0f);
         this.animate(entity.shakeAnimationState, OrganAnimations.sit_shake, ageInTicks, 1.0f);

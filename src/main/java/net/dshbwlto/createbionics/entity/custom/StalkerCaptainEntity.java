@@ -1,7 +1,6 @@
 package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllItems;
-import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.stalker.StalkerVariant;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;

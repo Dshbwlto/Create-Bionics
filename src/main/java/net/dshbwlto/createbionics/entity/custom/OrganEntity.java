@@ -3,7 +3,7 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
-import com.simibubi.create.AllSoundEvents;
+import net.createmod.catnip.animation.AnimationTickHolder;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganGlow;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
@@ -16,7 +16,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -29,8 +28,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
@@ -44,6 +41,9 @@ public class OrganEntity extends AbstractRobot {
         return idlePoseTimeout > 0;
     }
     private int idlePoseTimeout = 0;
+    public float x0;
+    public float y0;
+    public float z0;
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
@@ -54,9 +54,6 @@ public class OrganEntity extends AbstractRobot {
 
     public static final EntityDataAccessor<Integer> GLOW_COLOR =
             SynchedEntityData.defineId(OrganEntity.class, EntityDataSerializers.INT);
-
-    public static final EntityDataAccessor<Float> SIT_Y_OFFSET =
-            SynchedEntityData.defineId(OrganEntity.class, EntityDataSerializers.FLOAT);
 
     public OrganEntity(EntityType<? extends AbstractRobot> entityType, Level level) {
         super(entityType, level);
@@ -165,16 +162,6 @@ public class OrganEntity extends AbstractRobot {
 
         playSoundScape(5, 5);
 
-        if (getCommand() == 2) {
-            if (getSitYOffset() < 47) {
-                setSitYOffset(getSitYOffset() + 1.2f);
-            }
-        } else {
-            if (getSitYOffset() > 0) {
-                setSitYOffset(getSitYOffset() - 1.2f);
-            }
-        }
-
         /* BLINKING */
         if (Math.random() < 0.01f) {
             blinkCountdown = blinkCountdown + 6;
@@ -199,6 +186,14 @@ public class OrganEntity extends AbstractRobot {
 
         /* exhaust */
 
+        /* easter egg*/
+        if (canDebugSwapSkins() && AnimationTickHolder.getTicks() % 30 == 0) {
+            if (getTypeVariant() < 3) {
+                entityData.set(VARIANT, getTypeVariant() + 1);
+            } else {
+                entityData.set(VARIANT, 0);
+            }
+        }
     }
 
     //test
@@ -215,21 +210,18 @@ public class OrganEntity extends AbstractRobot {
         super.defineSynchedData(builder);
         ///   Not yet, hotshot
         //builder.define(GLOW_COLOR, 0);
-        //builder.define(SIT_Y_OFFSET, 0f);
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("Glow_Color", this.entityData.get(GLOW_COLOR));
-        compound.putFloat("Sit_Y_Offset", this.entityData.get(SIT_Y_OFFSET));
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         entityData.set(GLOW_COLOR, compound.getInt("Glow_Color"));
-        entityData.set(SIT_Y_OFFSET, compound.getFloat("Sit_Y_Offset"));
     }
 
     /* INTERACT */
@@ -311,7 +303,7 @@ public class OrganEntity extends AbstractRobot {
 
         } else {
             if (getAssembly() >= 20 && isOwnedBy(player)) {
-                if (getSitYOffset() < 1 || getSitYOffset() > 45) {
+                if (!isInPoseTransition()) {
                     updateCommand(player);
                 }
             }
@@ -426,10 +418,4 @@ public class OrganEntity extends AbstractRobot {
 
     //SITTING//
 
-    public float getSitYOffset() {
-        return entityData.get(SIT_Y_OFFSET);
-    }
-    public void setSitYOffset(float offset) {
-        entityData.set(SIT_Y_OFFSET, offset);
-    }
 }

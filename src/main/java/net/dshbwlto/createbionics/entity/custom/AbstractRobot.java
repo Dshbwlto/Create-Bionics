@@ -6,6 +6,7 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.api.equipment.goggles.IHaveHoveringInformation;
 import com.simibubi.create.foundation.sound.SoundScapes;
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -175,6 +176,16 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
                 SoundScapes.play(SoundScapes.AmbienceGroup.COG, getOnPos().north(i).east(-i).above(j), (float)(1 / radius) * 10);
                 SoundScapes.play(SoundScapes.AmbienceGroup.KINETIC, getOnPos().north(i).east(-i).above(j), (float)(1 / radius) * 10);
             }
+        }
+    }
+
+    public boolean canDebugSwapSkins() {
+        if (isTame() && getOwner() instanceof Player player) {
+            String s = ChatFormatting.stripFormatting(this.getName().getString());
+            String d = ChatFormatting.stripFormatting(player.getName().getString());
+            return "ωωωω".equals(s) && ("Dshbwlto".equals(d) || "ilikefrogs31".equals(d) || "Dev".equals(d));
+        } else {
+            return false;
         }
     }
 
