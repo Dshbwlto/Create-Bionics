@@ -73,7 +73,14 @@ public class OxhaulerRenderer extends MobRenderer<OxhaulerEntity, OxhaulerModel<
 
     @Override
     public void render(OxhaulerEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+        /*
+        CachedBuffers.partial(PartialModel.of(CreateBionics.asResource("item/debug_arrow")), entity.getBlockStateOn())
+                .translate(0, 3, 0)
+                .rotate(Direction.Axis.Y, (-entity.getPreciseBodyRotation(partialTicks) * Mth.PI / 180) + Mth.PI)
+                .scale(2)
+                .light(15728880)
+                .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
+         */
         if (entity.getFuel() > 0) {
             CachedBuffers.partial(PartialModel.of(entity.getFuel() < 23000
                             ? CreateBionics.asResource("item/oxhauler_fire")
@@ -83,6 +90,7 @@ public class OxhaulerRenderer extends MobRenderer<OxhaulerEntity, OxhaulerModel<
                     .light(15728880)
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
         }
+        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
 
     @Override

@@ -2,16 +2,14 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
-import com.simibubi.create.AllParticleTypes;
-import com.simibubi.create.AllTags;
+import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.math.VecHelper;
-import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerColor;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerVariant;
-import net.dshbwlto.createbionics.entity.client.replete.RepleteVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.screen.custom.OxhaulerMenu;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -32,17 +30,14 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.entity.BannerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -50,10 +45,10 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
-
 public class OxhaulerEntity extends AbstractHorse {
     public final AnimationState idleAnimationState = new AnimationState();
+    public float x0;
+    public float y0;
 
     public final AnimationState idleAnimation1 = new AnimationState();
     public final AnimationState idleAnimation2 = new AnimationState();
@@ -68,8 +63,8 @@ public class OxhaulerEntity extends AbstractHorse {
         /// Occam’s razor is a problem-solving principle that recommends searching for explanations
         ///constructed with the smallest possible set of elements. It’s also known as the principle
         ///of parsimony or the law of parsimony. Attributed to William of Occam, the 14th century
-        ///English philosopher, quote “Entities must not be multiplied beyond necessity”. This
-        ///philosophical razor advocates when presented with competing hypotheses about the same
+        ///English philosopher, “Entities must not be multiplied beyond necessity”. This
+        ///philosophical razor advocates that when presented with competing hypotheses about the same
         ///prediction, one should prefer the one that requires the fewest assumptions. And that
         ///is not meant to be a way of choosing between hypotheses to make different predictions.
 
@@ -327,6 +322,13 @@ public class OxhaulerEntity extends AbstractHorse {
         if (this.level().isClientSide()) {
             this.setupAnimationStates();
         }
+        if (canDebugSwapSkins() && AnimationTickHolder.getTicks() % 30 == 0) {
+            if (getTypeVariant() < 2) {
+                entityData.set(VARIANT, getTypeVariant() + 1);
+            } else {
+                entityData.set(VARIANT, 0);
+            }
+        }
     }
 
 
@@ -494,6 +496,12 @@ public class OxhaulerEntity extends AbstractHorse {
         return super.getPassengerAttachmentPoint(entity, dimensions, partialTick)
                 .add(new Vec3(0.0, 0.15 * (double) partialTick, -0.5 * (double) partialTick)
                         .yRot(-this.getYRot() * (float) (Math.PI / 180.0)));
+    }
+
+    //Variant//
+    public boolean canDebugSwapSkins() {
+        String s = ChatFormatting.stripFormatting(this.getName().getString());
+        return "ωωωω".equals(s);
     }
 
     private void dropIngot() {
