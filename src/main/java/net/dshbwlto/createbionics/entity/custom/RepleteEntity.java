@@ -294,6 +294,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
                 return InteractionResult.SUCCESS;
             }
         }
+        //
         if(itemStack.getCapability(Capabilities.FluidHandler.ITEM, null) != null) {
             if (hasFluidStackInHand(player, hand) && getFluid().getAmount() < 160000) {
                 if (getAssembly() == 12) {
