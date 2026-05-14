@@ -174,8 +174,6 @@ public class CreateBionics {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
 
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
             EntityRenderers.register(BionicsEntities.ANOLE.get(), AnoleRenderer::new);
             EntityRenderers.register(BionicsEntities.OXHAULER.get(), OxhaulerRenderer::new);
             EntityRenderers.register(BionicsEntities.REPLETE.get(), RepleteRenderer::new);
@@ -191,7 +189,6 @@ public class CreateBionics {
 
         @SubscribeEvent
         public static void onClientExtensions(RegisterClientExtensionsEvent event) {
-
         }
     }
 }

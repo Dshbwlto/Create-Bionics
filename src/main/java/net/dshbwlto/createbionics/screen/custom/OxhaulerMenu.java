@@ -235,7 +235,6 @@ public class OxhaulerMenu extends RecipeBookMenu {
 
             if (slot instanceof ResultSlot) {
                 clearCraftingContent();
-                playerIn.playSound(AllSoundEvents.CONFIRM.getMainEvent());
             }
             if (index < 36) {
                 moveItemStackTo(stack, 36, 198, false);

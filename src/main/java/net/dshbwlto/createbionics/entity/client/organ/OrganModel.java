@@ -58,7 +58,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
     private final ModelPart steam_tail;
 
     public OrganModel(ModelPart root) {
-        this.root = root.getChild("root");
+        this.root = root;
 
         this.body = this.root.getChild("root_util").getChild("body");
         this.chest = this.root.getChild("root_util").getChild("body").getChild("chest");

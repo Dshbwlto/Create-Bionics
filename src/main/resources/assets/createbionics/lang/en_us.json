@@ -24,7 +24,7 @@
   "item.createbionics.oxhauler_middle_item.tooltip.condition2": "When right-clicked with a Mechanical Harvester",
   "item.createbionics.oxhauler_middle_item.tooltip.behaviour2": "Adds a _harvester_ attachment to the oxhauler so it can harvest _crops_.",
   "item.createbionics.oxhauler_middle_item.tooltip.condition3": "When right-clicked with a Mechanical Plough",
-  "item.createbionics.oxhauler_middle_item.tooltip.behaviour3": "Adds a _plough_ attachment to the oxhauler so it can prepare _farmland_.",
+  "item.createbionics.oxhauler_middle_item.tooltip.behaviour3": "Adds a _plough_ attachment to the oxhauler for turning _dirt_ into _farmland_.",
   "item.createbionics.oxhauler_middle_item.tooltip.condition4": "When shift-right-clicked with a Wrench",
   "item.createbionics.oxhauler_middle_item.tooltip.behaviour4": "Removes _attachments_.",
   "item.createbionics.oxhauler_head_item": "Oxhauler Head",

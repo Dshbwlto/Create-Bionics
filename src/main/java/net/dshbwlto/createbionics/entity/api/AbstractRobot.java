@@ -1,5 +1,5 @@
 
-package net.dshbwlto.createbionics.entity.custom;
+package net.dshbwlto.createbionics.entity.api;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;

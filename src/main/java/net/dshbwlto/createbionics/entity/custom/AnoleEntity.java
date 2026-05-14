@@ -3,6 +3,7 @@ package net.dshbwlto.createbionics.entity.custom;
 import com.simibubi.create.AllItems;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
+import net.dshbwlto.createbionics.entity.api.AbstractRobot;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleMarkings;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
