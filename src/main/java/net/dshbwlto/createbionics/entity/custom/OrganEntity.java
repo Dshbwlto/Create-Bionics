@@ -38,7 +38,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public class OrganEntity extends MultiPartRobot<MultiPartEntity<OrganEntity>> {
+public class OrganEntity extends AbstractRobot {
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
     private boolean isInIdlePose() {
@@ -52,9 +52,6 @@ public class OrganEntity extends MultiPartRobot<MultiPartEntity<OrganEntity>> {
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
 
-    public MultiPartEntity<OrganEntity> leftArm;
-    public MultiPartEntity<OrganEntity> rightArm;
-
     public final AnimationState lookAnimationState = new AnimationState();
     public final AnimationState shakeAnimationState = new AnimationState();
     public final AnimationState yawnAnimationState = new AnimationState();
@@ -62,21 +59,8 @@ public class OrganEntity extends MultiPartRobot<MultiPartEntity<OrganEntity>> {
     public static final EntityDataAccessor<Integer> GLOW_COLOR =
             SynchedEntityData.defineId(OrganEntity.class, EntityDataSerializers.INT);
 
-    public OrganEntity(EntityType<MultiPartRobot<?>> entityType, Level level) {
+    public OrganEntity(EntityType<? extends AbstractRobot> entityType, Level level) {
         super(entityType, level);
-    }
-
-    @Override
-    protected MultiPartEntity<OrganEntity>[] createParts() {
-        this.leftArm = new MultiPartEntity<>(this, 0.8f, 2.1f, 1.2f, 0.4f, 0f);
-        this.rightArm = new MultiPartEntity<>(this, 0.8f, 2.1f, -1.2f, 0.4f, 0f);
-        return new MultiPartEntity[]{this.leftArm, this.rightArm};
-    }
-
-    @Override
-    public boolean hurtPart(MultiPartEntity<OrganEntity> part, DamageSource source, float damage) {
-        if (part == rightArm) return hurt(source, 100000f);
-        return super.hurtPart(part, source, damage);
     }
 
     public int blinkCountdown = 0;
@@ -173,8 +157,6 @@ public class OrganEntity extends MultiPartRobot<MultiPartEntity<OrganEntity>> {
     @Override
     public void tick() {
         super.tick();
-
-        resetPartOffsets();
 
         idlePoseTimeout = idlePoseTimeout - 1;
 
@@ -437,6 +419,8 @@ public class OrganEntity extends MultiPartRobot<MultiPartEntity<OrganEntity>> {
             return (AllBlocks.STEAM_WHISTLE.asItem());
         }
     }
+
+    //PARTS//
 
     //SITTING//
 

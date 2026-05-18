@@ -2,6 +2,7 @@
 package net.dshbwlto.createbionics.entity;
 
 import net.dshbwlto.createbionics.CreateBionics;
+import net.dshbwlto.createbionics.entity.api.MultiPartEntity;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
 import net.dshbwlto.createbionics.entity.custom.*;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -39,8 +40,8 @@ public class BionicsEntities {
             ENTITIES.register("stalker_captain", () -> EntityType.Builder.of(StalkerCaptainEntity::new, MobCategory.CREATURE)
                     .sized(1.5f, 1f).build("stalker_captain"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<MultiPartRobot<?>>> ORGAN = ENTITIES.register("organ",
-            () -> EntityType.Builder.of(OrganEntity::new, MobCategory.CREATURE)
+    public static final Supplier<EntityType<OrganEntity>> ORGAN =
+            ENTITIES.register("organ", () -> EntityType.Builder.of(OrganEntity::new, MobCategory.CREATURE)
                     .sized(5, 6f).build("organ"));
 
     public static void register(IEventBus eventBus) {
