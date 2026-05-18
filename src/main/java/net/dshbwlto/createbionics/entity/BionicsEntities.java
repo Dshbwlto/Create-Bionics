@@ -2,15 +2,11 @@
 package net.dshbwlto.createbionics.entity;
 
 import net.dshbwlto.createbionics.CreateBionics;
-import net.dshbwlto.createbionics.entity.api.MultiPartEntity;
-import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
 import net.dshbwlto.createbionics.entity.custom.*;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
