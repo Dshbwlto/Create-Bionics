@@ -56,12 +56,6 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
 
     public static final EntityDataAccessor<FluidStack> TANK_FLUID =
             SynchedEntityData.defineId(RepleteEntity.class, BionicsEntityDataSerializers.FLUID_STACK.get());
-    public int getFuel() {
-        return entityData.get(FUEL);
-    }
-    public void setFuel(int fuel) {
-        entityData.set(FUEL, fuel);
-    }
 
     public boolean getWindow() {
         return entityData.get(WINDOW);
@@ -78,8 +72,6 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
 
-    public static final EntityDataAccessor<Integer> FUEL =
-            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Boolean> WINDOW =
             SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.BOOLEAN);
 
@@ -419,7 +411,6 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(FUEL, 0);
         builder.define(TANK_FLUID, FluidStack.EMPTY);
         builder.define(WINDOW, false);
     }
@@ -427,7 +418,6 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putInt("Fuel", this.entityData.get(FUEL));
         compound.putBoolean("Window", this.entityData.get(WINDOW));
         FLUID_TANK.writeToNBT(level().registryAccess(), compound);
     }
@@ -435,7 +425,6 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        entityData.set(FUEL, compound.getInt("Fuel"));
         entityData.set(WINDOW, compound.getBoolean("Window"));
         FLUID_TANK.readFromNBT(level().registryAccess(), compound);
         entityData.set(TANK_FLUID, FLUID_TANK.getFluid().copy());
@@ -567,7 +556,6 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
                 FluidUtil.tryFluidTransfer(itemStack.getCapability(Capabilities.FluidHandler.ITEM, null),
                         FLUID_TANK, Integer.MAX_VALUE, false) != FluidStack.EMPTY);
     }
-
     @Override
     public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
         return null;

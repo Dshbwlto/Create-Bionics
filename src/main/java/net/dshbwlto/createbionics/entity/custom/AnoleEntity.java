@@ -46,12 +46,6 @@ import java.util.Objects;
 
 @EventBusSubscriber
 public class AnoleEntity extends AbstractRobot {
-    public int getFuel() {
-        return entityData.get(FUEL_TIME);
-    }
-    private void setFuel(int fuel) {
-        entityData.set(FUEL_TIME, fuel);
-    }
     public boolean climbing = false;
 
     int maxHealth = 5;
@@ -64,9 +58,6 @@ public class AnoleEntity extends AbstractRobot {
     public final AnimationState sitUpAnimationState = new AnimationState();
 
     public static final EntityDataAccessor<Integer> MARKING_MAP =
-            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.INT);
-
-    public static final EntityDataAccessor<Integer> FUEL_TIME =
             SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.INT);
 
     private static final EntityDataAccessor<Boolean> HAT1 =
@@ -94,29 +85,47 @@ public class AnoleEntity extends AbstractRobot {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(0, new FloatGoal(this) {
+            @Override
+            public boolean canUse() {
+                return super.canUse() && isFueled();
+            }
+        });
 
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
 
-        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
-
         this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0d, 10f, 5f));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D) {
+            @Override
+            public boolean canUse() {
+                return super.canUse() && isTame() && isFueled();
+            }
+        });
 
-        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 4f));
-        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 4f) {
+            @Override
+            public boolean canUse() {
+                return super.canUse() && isTame() && isFueled();
+            }
+        });
+        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this) {
+            @Override
+            public boolean canUse() {
+                return super.canUse() && isTame() && isFueled();
+            }
+        });
     }
 
     @SubscribeEvent
     public static void scareEntity(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof Spider spider) {
-            spider.goalSelector.addGoal(1, new AvoidEntityGoal(spider, AnoleEntity.class, 6.0F, (double)1.0F, 1.2));;
+            spider.goalSelector.addGoal(1, new AvoidEntityGoal(spider, AnoleEntity.class, 6.0F, (double)1.0F, 1.2));
         }
         if (event.getEntity() instanceof CaveSpider caveSpider) {
-            caveSpider.goalSelector.addGoal(1, new AvoidEntityGoal(caveSpider, AnoleEntity.class, 6.0F, (double)1.0F, 1.2));;
+            caveSpider.goalSelector.addGoal(1, new AvoidEntityGoal(caveSpider, AnoleEntity.class, 6.0F, (double)1.0F, 1.2));
         }
         if (event.getEntity() instanceof Silverfish silverfish) {
-            silverfish.goalSelector.addGoal(1, new AvoidEntityGoal(silverfish, AnoleEntity.class, 6.0F, (double)1.0F, 1.2));;
+            silverfish.goalSelector.addGoal(1, new AvoidEntityGoal(silverfish, AnoleEntity.class, 6.0F, (double)1.0F, 1.2));
         }
         if (event.getEntity() instanceof Bee bee) {
             bee.goalSelector.addGoal(1, new AvoidEntityGoal(bee, AnoleEntity.class, 6.0F, (double)1.0F, 1.2));;
@@ -136,9 +145,6 @@ public class AnoleEntity extends AbstractRobot {
                 .add(Attributes.SAFE_FALL_DISTANCE, 200D)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 200f);
     }
-
-
-
 
     @Override
     public boolean isFood(ItemStack stack) {
@@ -162,32 +168,15 @@ public class AnoleEntity extends AbstractRobot {
     }
 
     public void aiStep() {
-
-        if (this.level().isClientSide) {
-            for(int i = 0; i < 1; ++i) {
-                if(!isCurrentlyGlowing()) {
-                    this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX((double) 0.5F), this.getRandomY(), this.getRandomZ((double) 0.5F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
-                }
-            }
-        }
-
-        if(this.getFuel() == 500 && isTame()) {
-            this.setGlowingTag(true);
-            Objects.requireNonNull(getOwner()).sendSystemMessage(Component.literal(getOwner().getName().getString() + ", your Anole is running low on fuel! Top it up with coal or charcoal!"));
-        }
-        if(this.getFuel() == 100 && isTame()) {
-            this.setGlowingTag(true);
-            Objects.requireNonNull(getOwner()).sendSystemMessage(Component.literal(getOwner().getName().getString() + ", your Anole is running very low on fuel! Top it up with coal or charcoal immediately!"));
+        if (this.level().isClientSide && isFueled()) {
+            this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX(0.5F), this.getRandomY(), this.getRandomZ(0.5F), 0.0F, 0.0F, 0.0F);
         }
         super.aiStep();
     }
 
     @Override
     public boolean fireImmune() {
-        if(getVariant() == AnoleVariant.NETHERITE) {
-            return true;
-        }
-        return super.fireImmune();
+        return true;
     }
 
     /* ANIMATIONS */
@@ -222,8 +211,12 @@ public class AnoleEntity extends AbstractRobot {
         if (this.level().isClientSide()) {
             this.setupAnimationStates();
         }
-        playSoundScape(1, 1);
-        if(this.horizontalCollision) {
+
+        if (isFueled()) {
+            playSoundScape(1, 1);
+        }
+
+        if (this.horizontalCollision) {
             Vec3 initialVec = this.getDeltaMovement();
             Vec3 climbVec = new Vec3(initialVec.x, 0.2D, initialVec.z);
             this.setDeltaMovement(climbVec.scale(0.96D));
@@ -252,7 +245,6 @@ public class AnoleEntity extends AbstractRobot {
                     this.navigation.recomputePath();
                     this.setTarget(null);
                     this.level().broadcastEntityEvent(this, (byte) 7);
-                    this.setFuel(510);
                 }
                 return InteractionResult.SUCCESS;
             }
@@ -311,7 +303,6 @@ public class AnoleEntity extends AbstractRobot {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(MARKING_MAP, 0);
-        builder.define(FUEL_TIME, 0);
 
         builder.define(HAT1, true);
         builder.define(HAT2, false);
@@ -329,7 +320,6 @@ public class AnoleEntity extends AbstractRobot {
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("Marking", this.getTypeMarkings());
-        compound.putInt("RefuelTime", this.getFuel());
 
         compound.putBoolean("Hat1", hat1());
         compound.putBoolean("Hat2", hat2());
@@ -346,7 +336,6 @@ public class AnoleEntity extends AbstractRobot {
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.entityData.set(MARKING_MAP, compound.getInt("Marking"));
-        this.entityData.set(FUEL_TIME, compound.getInt("RefuelTime"));
 
         this.entityData.set(HAT1, compound.getBoolean("Hat1"));
         this.entityData.set(HAT2, compound.getBoolean("Hat2"));
@@ -452,6 +441,9 @@ public class AnoleEntity extends AbstractRobot {
     public void setMarking(AnoleMarkings marking) {
         this.entityData.set(MARKING_MAP, marking.getId() & 255);
     }
+
+    //Hats//
+
     public boolean hat1() {
         String s = ChatFormatting.stripFormatting(this.getName().getString());
         return ("Distinguished Gentleman".equals(s) || "Bill".equals(s));

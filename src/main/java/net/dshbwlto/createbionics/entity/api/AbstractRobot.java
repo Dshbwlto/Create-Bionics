@@ -6,6 +6,7 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.api.equipment.goggles.IHaveHoveringInformation;
 import com.simibubi.create.foundation.sound.SoundScapes;
+import net.dshbwlto.createbionics.entity.custom.AnoleEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -34,6 +35,18 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
 
     public static final EntityDataAccessor<Integer> VARIANT =
             SynchedEntityData.defineId(AbstractRobot.class, EntityDataSerializers.INT);
+
+    public static final EntityDataAccessor<Integer> FUEL_TIME =
+            SynchedEntityData.defineId(AbstractRobot.class, EntityDataSerializers.INT);
+    public int getFuel() {
+        return entityData.get(FUEL_TIME);
+    }
+    public void setFuel(int fuel) {
+        entityData.set(FUEL_TIME, fuel);
+    }
+    public boolean isFueled() {
+        return getFuel() > 0;
+    }
 
     public static final EntityDataAccessor<Integer> ASSEMBLY =
             SynchedEntityData.defineId(AbstractRobot.class, EntityDataSerializers.INT);
@@ -87,16 +100,18 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
     }
 
     public void updateCommand(Player player) {
-        this.setCommand(this.getCommand() + 1);
-        if (this.getCommand() > 2) {
-            this.setCommand(0);
-        }
-        player.displayClientMessage(Component.translatable("entity.createbionics.all.command_" + this.getCommand(), this.getName()), true);
-        boolean sit = this.getCommand() == 2;
-        if (sit) {
-            sitDown(player);
-        } else {
-            standUp(player);
+        if (isFueled()) {
+            this.setCommand(this.getCommand() + 1);
+            if (this.getCommand() > 2) {
+                this.setCommand(0);
+            }
+            player.displayClientMessage(Component.translatable("entity.createbionics.all.command_" + this.getCommand(), this.getName()), true);
+            boolean sit = this.getCommand() == 2;
+            if (sit) {
+                sitDown(player);
+            } else {
+                standUp(player);
+            }
         }
     }
 
@@ -141,6 +156,7 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
         builder.define(COMMAND, 0);
         builder.define(ASSEMBLY, 0);
         builder.define(VARIANT, 0);
+        builder.define(FUEL_TIME, 0);
     }
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -149,6 +165,7 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
         compound.putInt("Command", this.entityData.get(COMMAND));
         compound.putInt("Assembly", this.entityData.get(ASSEMBLY));
         compound.putInt("Variant", this.entityData.get(VARIANT));
+        compound.putInt("RefuelTime", this.getFuel());
     }
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
@@ -161,6 +178,7 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
         entityData.set(COMMAND, compound.getInt("Command"));
         entityData.set(ASSEMBLY, compound.getInt("Assembly"));
         entityData.set(VARIANT, compound.getInt("Variant"));
+        this.entityData.set(FUEL_TIME, compound.getInt("RefuelTime"));
     }
 
     @Override

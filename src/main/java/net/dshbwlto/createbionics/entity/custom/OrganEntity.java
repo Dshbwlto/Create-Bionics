@@ -3,12 +3,19 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
+import com.simibubi.create.AllSoundEvents;
+import com.simibubi.create.content.decoration.steamWhistle.WhistleBlock;
+import com.simibubi.create.content.decoration.steamWhistle.WhistleSoundInstance;
 import net.createmod.catnip.animation.AnimationTickHolder;
+import net.createmod.catnip.lang.Lang;
+import net.createmod.catnip.platform.CatnipServices;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
 import net.dshbwlto.createbionics.entity.api.OrganEntityPart;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganGlow;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
+import net.dshbwlto.createbionics.sound.OrganSoundInstance;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -17,6 +24,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -33,6 +41,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
@@ -49,6 +59,9 @@ public class OrganEntity extends AbstractRobot {
     public float x0;
     public float y0;
     public float z0;
+
+    protected int pitch;
+
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
@@ -164,7 +177,7 @@ public class OrganEntity extends AbstractRobot {
     @Override
     public void tick() {
         super.tick();
-
+        setFuel(1);
         if (!this.isNoAi()) {
             Vec3[] avector3d = new Vec3[this.allParts.length];
             for (int j = 0; j < this.allParts.length; ++j) {
@@ -204,16 +217,29 @@ public class OrganEntity extends AbstractRobot {
             }
         }
 
-        /* exhaust */
+        /* sound */
 
-        /* easter egg*/
-        if (canDebugSwapSkins() && AnimationTickHolder.getTicks() % 30 == 0) {
-            if (getTypeVariant() < 3) {
-                entityData.set(VARIANT, getTypeVariant() + 1);
-            } else {
-                entityData.set(VARIANT, 0);
-            }
+        CatnipServices.PLATFORM.executeOnClientOnly(() -> () -> this.tickAudio(1, isSitting()));
+    }
+
+    protected float rotlerp(float in, float target, float maxShift) {
+        float f = Mth.wrapDegrees(target - in);
+        if (f > maxShift) {
+            f = maxShift;
         }
+
+        if (f < -maxShift) {
+            f = -maxShift;
+        }
+
+        float f1 = in + f;
+        if (f1 < 0.0F) {
+            f1 += 360.0F;
+        } else if (f1 > 360.0F) {
+            f1 -= 360.0F;
+        }
+
+        return f1;
     }
 
     //test
@@ -455,6 +481,31 @@ public class OrganEntity extends AbstractRobot {
     public net.neoforged.neoforge.entity.PartEntity<?>[] getParts() {
         return this.allParts;
     }
-    //SITTING//
 
+    //MUSIC//
+
+    @OnlyIn(Dist.CLIENT)
+    protected OrganSoundInstance soundInstance;
+
+    public void tickAudio(int size, boolean powered) {
+        if (!powered) {
+            if (soundInstance != null) {
+                soundInstance.fadeOut();
+                soundInstance = null;
+            }
+            return;
+        }
+
+        float f = (float) Math.pow(2, -pitch / 12.0);
+        boolean particle = level().getGameTime() % 8 == 0;
+        float maxVolume = (float) Mth.clamp(10, 0, 1);
+        if (soundInstance == null || soundInstance.isStopped() || soundInstance.getOctave() != size) {
+            Minecraft.getInstance()
+                    .getSoundManager()
+                    .play(soundInstance = new OrganSoundInstance(size, this.getOnPos()));
+            AllSoundEvents.WHISTLE_CHIFF.playAt(level(), this.getOnPos(), maxVolume * .175f,
+                    size = (int)f, false);
+            particle = true;
+        }
+    }
 }
