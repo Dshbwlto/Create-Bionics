@@ -29,12 +29,15 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformation, IHaveHoveringInformation {
-    protected AbstractRobot(EntityType<? extends TamableAnimal> entityType, Level level) {
+    public AbstractRobot(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
     }
 
     public static final EntityDataAccessor<Integer> VARIANT =
             SynchedEntityData.defineId(AbstractRobot.class, EntityDataSerializers.INT);
+    public void setVariantNumber(int variant) {
+        entityData.set(VARIANT, variant);
+    }
 
     public static final EntityDataAccessor<Integer> FUEL_TIME =
             SynchedEntityData.defineId(AbstractRobot.class, EntityDataSerializers.INT);
@@ -46,6 +49,11 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
     }
     public boolean isFueled() {
         return getFuel() > 0;
+    }
+    public static final EntityDataAccessor<Boolean> CREATIVE_BLAZE_CAKE =
+            SynchedEntityData.defineId(AbstractRobot.class, EntityDataSerializers.BOOLEAN);
+    public boolean hasBlazeCake() {
+        return entityData.get(CREATIVE_BLAZE_CAKE);
     }
 
     public static final EntityDataAccessor<Integer> ASSEMBLY =
@@ -157,6 +165,7 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
         builder.define(ASSEMBLY, 0);
         builder.define(VARIANT, 0);
         builder.define(FUEL_TIME, 0);
+        builder.define(CREATIVE_BLAZE_CAKE, false);
     }
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -166,6 +175,7 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
         compound.putInt("Assembly", this.entityData.get(ASSEMBLY));
         compound.putInt("Variant", this.entityData.get(VARIANT));
         compound.putInt("RefuelTime", this.getFuel());
+        compound.putBoolean("CreativeCake", this.hasBlazeCake());
     }
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
@@ -178,7 +188,8 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
         entityData.set(COMMAND, compound.getInt("Command"));
         entityData.set(ASSEMBLY, compound.getInt("Assembly"));
         entityData.set(VARIANT, compound.getInt("Variant"));
-        this.entityData.set(FUEL_TIME, compound.getInt("RefuelTime"));
+        entityData.set(FUEL_TIME, compound.getInt("RefuelTime"));
+        entityData.set(CREATIVE_BLAZE_CAKE, compound.getBoolean("CreativeCake"));
     }
 
     @Override
@@ -194,16 +205,6 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
                 SoundScapes.play(SoundScapes.AmbienceGroup.COG, getOnPos().north(i).east(-i).above(j), (float)(1 / radius) * 10);
                 SoundScapes.play(SoundScapes.AmbienceGroup.KINETIC, getOnPos().north(i).east(-i).above(j), (float)(1 / radius) * 10);
             }
-        }
-    }
-
-    public boolean canDebugSwapSkins() {
-        if (isTame() && getOwner() instanceof Player player) {
-            String s = ChatFormatting.stripFormatting(this.getName().getString());
-            String d = ChatFormatting.stripFormatting(player.getName().getString());
-            return "ωωωω".equals(s) && ("Dshbwlto".equals(d) || "ilikefrogs31".equals(d) || "Dev".equals(d));
-        } else {
-            return false;
         }
     }
 

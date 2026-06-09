@@ -81,6 +81,10 @@ public class OxhaulerRenderer extends MobRenderer<OxhaulerEntity, OxhaulerModel<
                 .light(15728880)
                 .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
          */
+        if (entity.isPassenger()) {
+            poseStack.translate(0, -6 / 16f, 0);
+        }
+
         if (entity.getFuel() > 0) {
             CachedBuffers.partial(PartialModel.of(entity.getFuel() < 23000
                             ? CreateBionics.asResource("item/oxhauler_fire")

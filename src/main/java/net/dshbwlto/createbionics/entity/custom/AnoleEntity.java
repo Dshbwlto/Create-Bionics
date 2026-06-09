@@ -1,12 +1,15 @@
 package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllItems;
+import com.simibubi.create.AllSoundEvents;
 import net.createmod.catnip.animation.AnimationTickHolder;
+import net.dshbwlto.createbionics.component.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleMarkings;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
+import net.dshbwlto.createbionics.item.custom.AnoleItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -17,6 +20,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -32,9 +36,11 @@ import net.minecraft.world.entity.monster.CaveSpider;
 import net.minecraft.world.entity.monster.Silverfish;
 import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -168,7 +174,7 @@ public class AnoleEntity extends AbstractRobot {
     }
 
     public void aiStep() {
-        if (this.level().isClientSide && isFueled()) {
+        if (this.level().isClientSide && isFueled() && getFuel() > 100) {
             this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX(0.5F), this.getRandomY(), this.getRandomZ(0.5F), 0.0F, 0.0F, 0.0F);
         }
         super.aiStep();
@@ -216,18 +222,16 @@ public class AnoleEntity extends AbstractRobot {
             playSoundScape(1, 1);
         }
 
+        if (!isSitting() && !isPassenger() && hasBlazeCake()) {
+            if (getFuel() > 0) {
+                setFuel(getFuel() - 1);
+            }
+        }
+
         if (this.horizontalCollision) {
             Vec3 initialVec = this.getDeltaMovement();
             Vec3 climbVec = new Vec3(initialVec.x, 0.2D, initialVec.z);
             this.setDeltaMovement(climbVec.scale(0.96D));
-        }
-
-        if (canDebugSwapSkins() && AnimationTickHolder.getTicks() % 30 == 0) {
-            if (getTypeVariant() < 6) {
-                entityData.set(VARIANT, getTypeVariant() + 1);
-            } else {
-                entityData.set(VARIANT, 0);
-            }
         }
     }
 
@@ -289,8 +293,19 @@ public class AnoleEntity extends AbstractRobot {
                     dropIngot(getVariant());
                 }
                 dropMaterial(getMarkings());
-                spawnAtLocation(BionicsItems.ANOLE);
+                spawnAtLocation(anoleItem());
                 remove(RemovalReason.DISCARDED);
+            } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE)) {
+                if (hasBlazeCake()) {
+                    entityData.set(CREATIVE_BLAZE_CAKE, false);
+                } else {
+                    setFuel(10000);
+                    entityData.set(CREATIVE_BLAZE_CAKE, true);
+                    playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+                }
+            } else if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL)){
+                setFuel(10000);
+                playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
             } else {
                 updateCommand(player);
                 return InteractionResult.SUCCESS;
@@ -299,6 +314,13 @@ public class AnoleEntity extends AbstractRobot {
 
         return super.mobInteract(player, hand);
     }
+
+    public Item anoleItem() {
+        ItemStack anole = new ItemStack(BionicsItems.ANOLE.get());
+        anole.set(BionicsDataComponentTypes.VARIANT, this.getTypeVariant());
+        return anole.getItem();
+    }
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
@@ -438,6 +460,7 @@ public class AnoleEntity extends AbstractRobot {
     public void setVariant(AnoleVariant variant) {
         this.entityData.set(VARIANT, variant.getId() & 255);
     }
+
     public void setMarking(AnoleMarkings marking) {
         this.entityData.set(MARKING_MAP, marking.getId() & 255);
     }

@@ -140,7 +140,7 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
         PartDefinition cube_r6 = stand.addOrReplaceChild("cube_r6", CubeListBuilder.create().texOffs(0, 69).addBox(-1.0F, 19.0F, -22.0F, 2.0F, 14.0F, 19.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.2182F, 0.0F, 0.0F));
 
         PartDefinition leg_l = body.addOrReplaceChild("leg_l", CubeListBuilder.create().texOffs(82, 28).addBox(-2.0F, -2.0F, -2.0F, 8.0F, 4.0F, 4.0F, new CubeDeformation(0.0F))
-                .texOffs(32, 44).addBox(6.0F, -2.5F, -2.0F, 5.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(12.0F, -6.5F, 10.0F, 0.0F, -0.9599F, 0.0F));
+                .texOffs(32, 44).addBox(6.0F, -2.5F, -2.0F, 5.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(12.0F, -6.5F, 10.0F, 0.0F, -0.7854F, 0.0F));
 
         PartDefinition leg_l2 = leg_l.addOrReplaceChild("leg_l2", CubeListBuilder.create().texOffs(95, 86).addBox(-2.0F, -3.0F, -3.0F, 6.0F, 6.0F, 3.0F, new CubeDeformation(0.0F))
                 .texOffs(98, 4).addBox(4.0F, -2.0F, -2.0F, 27.0F, 4.0F, 1.0F, new CubeDeformation(0.0F))
@@ -152,7 +152,7 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
                 .texOffs(26, 69).addBox(-2.0F, -1.0F, -1.5F, 12.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(37.0F, 0.0F, -1.5F, 0.0F, 0.0F, 2.2689F));
 
         PartDefinition leg_r = body.addOrReplaceChild("leg_r", CubeListBuilder.create().texOffs(82, 28).addBox(-6.0F, -2.0F, -2.0F, 8.0F, 4.0F, 4.0F, new CubeDeformation(0.0F))
-                .texOffs(32, 44).addBox(-11.0F, -2.5F, -2.0F, 5.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-12.0F, -6.5F, 10.0F, 0.0F, 0.9599F, 0.0F));
+                .texOffs(32, 44).addBox(-11.0F, -2.5F, -2.0F, 5.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-12.0F, -6.5F, 10.0F, 0.0F, 0.7854F, 0.0F));
 
         PartDefinition leg_r2 = leg_r.addOrReplaceChild("leg_r2", CubeListBuilder.create().texOffs(124, 146).mirror().addBox(-39.0F, -3.0F, -3.0F, 8.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(98, 4).addBox(-31.0F, -2.0F, -2.0F, 27.0F, 4.0F, 1.0F, new CubeDeformation(0.0F))
@@ -164,7 +164,7 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
                 .texOffs(26, 69).mirror().addBox(-10.0F, -1.0F, -1.5F, 12.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-37.0F, 0.0F, -1.5F, 0.0F, 0.0F, -2.2689F));
 
         PartDefinition leg2_l = body.addOrReplaceChild("leg2_l", CubeListBuilder.create().texOffs(84, 28).addBox(-2.0F, -2.0F, -2.0F, 6.0F, 4.0F, 4.0F, new CubeDeformation(0.0F))
-                .texOffs(32, 44).addBox(4.0F, -2.5F, -2.0F, 5.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(12.0F, -3.5F, -3.0F, 0.0F, -0.2618F, 0.0F));
+                .texOffs(32, 44).addBox(4.0F, -2.5F, -2.0F, 5.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(12.0F, -3.5F, -3.0F));
 
         PartDefinition leg2_l2 = leg2_l.addOrReplaceChild("leg2_l2", CubeListBuilder.create().texOffs(58, 145).addBox(-2.0F, -3.0F, -3.0F, 16.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.5F, 0.0F, 1.5F, 0.0F, 0.0F, -1.0036F));
 
@@ -172,7 +172,7 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
                 .texOffs(26, 69).addBox(-2.0F, -1.0F, -1.5F, 12.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(12.0F, 0.0F, -1.5F, 0.0F, 0.0F, 2.2253F));
 
         PartDefinition leg2_r = body.addOrReplaceChild("leg2_r", CubeListBuilder.create().texOffs(84, 28).addBox(-4.0F, -2.0F, -2.0F, 6.0F, 4.0F, 4.0F, new CubeDeformation(0.0F))
-                .texOffs(32, 44).addBox(-9.0F, -2.5F, -2.0F, 5.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-12.0F, -3.5F, -3.0F, 0.0F, 0.2618F, 0.0F));
+                .texOffs(32, 44).addBox(-9.0F, -2.5F, -2.0F, 5.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-12.0F, -3.5F, -3.0F));
 
         PartDefinition leg2_r2 = leg2_r.addOrReplaceChild("leg2_r2", CubeListBuilder.create().texOffs(58, 145).mirror().addBox(-14.0F, -3.0F, -3.0F, 16.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-6.5F, 0.0F, 1.5F, 0.0F, 0.0F, 1.0036F));
 
@@ -180,7 +180,7 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
                 .texOffs(26, 69).mirror().addBox(-10.0F, -1.0F, -1.5F, 12.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-12.0F, 0.0F, -1.5F, 0.0F, 0.0F, -2.2253F));
 
         PartDefinition leg3_l = body.addOrReplaceChild("leg3_l", CubeListBuilder.create().texOffs(84, 28).addBox(-2.0F, -2.0F, -2.0F, 6.0F, 4.0F, 4.0F, new CubeDeformation(0.0F))
-                .texOffs(32, 44).addBox(4.0F, -2.5F, -2.0F, 5.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(12.0F, 0.0F, -18.0F, 0.0F, 0.2618F, 0.0F));
+                .texOffs(32, 44).addBox(4.0F, -2.5F, -2.0F, 5.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(12.0F, 0.0F, -18.0F, 0.0F, 0.3927F, 0.0F));
 
         PartDefinition leg3_l1 = leg3_l.addOrReplaceChild("leg3_l1", CubeListBuilder.create().texOffs(58, 154).addBox(-2.0F, -3.0F, -3.0F, 16.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.5F, 0.0F, 1.5F, 0.0F, 0.0F, -0.7854F));
 
@@ -188,7 +188,7 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
                 .texOffs(26, 69).addBox(-2.0F, -1.0F, -1.5F, 12.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(13.0F, 0.0F, -1.5F, 0.0F, 0.0F, 1.8762F));
 
         PartDefinition leg3_r = body.addOrReplaceChild("leg3_r", CubeListBuilder.create().texOffs(84, 28).addBox(-4.0F, -2.0F, -2.0F, 6.0F, 4.0F, 4.0F, new CubeDeformation(0.0F))
-                .texOffs(32, 44).addBox(-9.0F, -2.5F, -2.0F, 5.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-12.0F, 0.0F, -18.0F, 0.0F, -0.2618F, 0.0F));
+                .texOffs(32, 44).addBox(-9.0F, -2.5F, -2.0F, 5.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-12.0F, 0.0F, -18.0F, 0.0F, -0.3927F, 0.0F));
 
         PartDefinition leg3_r2 = leg3_r.addOrReplaceChild("leg3_r2", CubeListBuilder.create().texOffs(58, 154).mirror().addBox(-14.0F, -3.0F, -3.0F, 16.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-6.5F, 0.0F, 1.5F, 0.0F, 0.0F, 0.7854F));
 
@@ -397,7 +397,7 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
                 .texOffs(11, 28).mirror().addBox(-16.0F, -12.0F, 4.0F, 1.0F, 12.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(216, 112).addBox(4.0F, -12.0F, 16.0F, 12.0F, 12.0F, 0.0F, new CubeDeformation(0.0F))
                 .texOffs(12, 28).addBox(4.0F, -12.0F, 15.0F, 12.0F, 12.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(0, 16).mirror().addBox(16.0F, -12.0F, 4.0F, 0.0F, 12.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(228, 100).mirror().addBox(16.0F, -12.0F, 4.0F, 0.0F, 12.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(228, 100).addBox(15.0F, -12.0F, 4.0F, 0.0F, 12.0F, 12.0F, new CubeDeformation(0.0F))
                 .texOffs(11, 28).addBox(15.0F, -12.0F, 4.0F, 1.0F, 12.0F, 0.0F, new CubeDeformation(0.0F))
                 .texOffs(11, 27).addBox(4.0F, -12.0F, 15.0F, 0.0F, 12.0F, 1.0F, new CubeDeformation(0.0F))

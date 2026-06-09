@@ -2,8 +2,10 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
+import com.simibubi.create.AllSoundEvents;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.math.VecHelper;
+import net.dshbwlto.createbionics.entity.api.AbstractRobot;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerColor;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
@@ -47,7 +49,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class OxhaulerEntity extends AbstractHorse {
     public final AnimationState idleAnimationState = new AnimationState();
-    public float x0;
+    private int x0;
     public float y0;
 
     public final AnimationState idleAnimation1 = new AnimationState();
@@ -112,6 +114,11 @@ public class OxhaulerEntity extends AbstractHorse {
 
     private static final EntityDataAccessor<Integer> FUEL =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Boolean> CREATIVE_BLAZE_CAKE =
+            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
+    public boolean hasBlazeCake() {
+        return entityData.get(CREATIVE_BLAZE_CAKE);
+    }
 
     public int getFuel() {
         return entityData.get(FUEL);
@@ -245,7 +252,7 @@ public class OxhaulerEntity extends AbstractHorse {
         } else {
             --this.idleAnimationTimeout;
         }
-        if (random.nextFloat() < 0.00 && getFuel() > 0) {
+        if (random.nextFloat() < 0.001 && getFuel() > 0) {
             if (tickCount % 3 == 0) {
                 this.idleAnimation1.start(this.tickCount);
                 idleAnimationTimeout = 220;
@@ -261,6 +268,10 @@ public class OxhaulerEntity extends AbstractHorse {
 
     @Override
     public void aiStep() {
+        if (getHealth() - x0 == 1)
+            setHealth(getHealth() - 1);
+        x0 = (int) getHealth();
+
         if (isHarvester()) {
             boolean flag = false;
             AABB aabb = this.getBoundingBox().inflate(1.2);
@@ -304,7 +315,7 @@ public class OxhaulerEntity extends AbstractHorse {
             ejectPassengers();
         }
         if (getFuel() > 0) {
-            if (isVehicle()) {
+            if (isVehicle() && !hasBlazeCake()) {
                 setFuel(getFuel() - 1);
             }
             if (isInWater()) {
@@ -322,12 +333,9 @@ public class OxhaulerEntity extends AbstractHorse {
         if (this.level().isClientSide()) {
             this.setupAnimationStates();
         }
-        if (canDebugSwapSkins() && AnimationTickHolder.getTicks() % 30 == 0) {
-            if (getTypeVariant() < 2) {
-                entityData.set(VARIANT, getTypeVariant() + 1);
-            } else {
-                entityData.set(VARIANT, 0);
-            }
+
+        if (isVehicle() && getFirstPassenger() instanceof Player player) {
+            //player.sendSystemMessage(Component.literal("" + this.getYHeadRot()));
         }
     }
 
@@ -346,6 +354,14 @@ public class OxhaulerEntity extends AbstractHorse {
             } else {
                 itemStack.shrink(1);
                 player.addItem(new ItemStack(BionicsItems.WALTZ_2_MUSIC_DISC.get()));
+            }
+        } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE) && getAssembly() == 7) {
+            if (hasBlazeCake()) {
+                entityData.set(CREATIVE_BLAZE_CAKE, false);
+            } else {
+                setFuel(10000);
+                entityData.set(CREATIVE_BLAZE_CAKE, true);
+                playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
             }
         } else if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL) || itemStack.is(AllItems.BLAZE_CAKE) && !isInWater() && getAssembly() == 7) {
             if (this.level().isClientSide()) {
@@ -434,6 +450,7 @@ public class OxhaulerEntity extends AbstractHorse {
         builder.define(PLOUGH, false);
 
         builder.define(FUEL, 0);
+        builder.define(CREATIVE_BLAZE_CAKE, false);
 
     }
 
@@ -449,6 +466,7 @@ public class OxhaulerEntity extends AbstractHorse {
         compound.putBoolean("Harvester", isHarvester());
         compound.putBoolean("Plough", isPlough());
         compound.putInt("Fuel", getFuel());
+        compound.putInt("Variant", this.entityData.get(VARIANT));
 
         ListTag listtag = new ListTag();
         for (int x = 0; x <= 200; x++) {
@@ -478,6 +496,7 @@ public class OxhaulerEntity extends AbstractHorse {
         this.entityData.set(PLOUGH, compound.getBoolean("Plough"));
 
         this.entityData.set(FUEL, compound.getInt("Fuel"));
+        entityData.set(CREATIVE_BLAZE_CAKE, compound.getBoolean("CreativeCake"));
 
         this.createInventory();
         ListTag listtag = compound.getList("Items", 10);
@@ -499,10 +518,6 @@ public class OxhaulerEntity extends AbstractHorse {
     }
 
     //Variant//
-    public boolean canDebugSwapSkins() {
-        String s = ChatFormatting.stripFormatting(this.getName().getString());
-        return "ωωωω".equals(s);
-    }
 
     private void dropIngot() {
         if (getVariant() == OxhaulerVariant.BRASS) {

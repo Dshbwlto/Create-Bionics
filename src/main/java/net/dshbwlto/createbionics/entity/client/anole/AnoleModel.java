@@ -136,17 +136,17 @@ public class AnoleModel<T extends AnoleEntity> extends HierarchicalModel<T>
         this.applyHeadRotation(netHeadYaw, headPitch);
 
         this.animateWalk(AnoleAnimations.anole_walk, limbSwing, limbSwingAmount, 2f, 2.5f);
-        if (entity.climbing) {
-            this.animate(entity.idleAnimationState, AnoleAnimations.anole_climbing, ageInTicks, 1f);
+
+        if (entity.isPassenger()) {
+            this.animate(entity.idleAnimationState, AnoleAnimations.anole_sit_up, ageInTicks, 1f);
         } else {
-            if (entity.isPassenger()) {
-                this.animate(entity.idleAnimationState, AnoleAnimations.anole_sit_up, ageInTicks, 1f);
-            } else {
-                this.animate(entity.idleAnimationState, AnoleAnimations.anole_idle, ageInTicks, 1f);
-            }
+            this.animate(entity.idleAnimationState, AnoleAnimations.anole_idle, ageInTicks, 1f);
         }
+
         this.animate(entity.sitDownAnimationState, AnoleAnimations.anole_sit, ageInTicks, 1.0F);
-        this.animate(entity.sitPoseAnimationState, AnoleAnimations.anole_stay, ageInTicks, 1.0F);
+        if (!entity.isPassenger()) {
+            this.animate(entity.sitPoseAnimationState, AnoleAnimations.anole_stay, ageInTicks, 1.0F);
+        }
         this.animate(entity.sitUpAnimationState, AnoleAnimations.anole_stand, ageInTicks, 1.0F);
 
         hat1.visible = entity.hat1();

@@ -231,8 +231,8 @@ public class OxhaulerMenu extends RecipeBookMenu {
         if (slot != null && slot.hasItem()) {
             ItemStack stack = slot.getItem();
             ItemStack itemstack1 = slot.getItem();
-            itemstack = itemstack1.copy();
 
+            int startIndex = oxhauler.pageCount == 1 ? 36 : oxhauler.pageCount == 2 ? 63 : oxhauler.pageCount == 3 ? 90 : oxhauler.pageCount == 4 ? 117 : oxhauler.pageCount == 5 ? 144 : 171  ;
             if (slot instanceof ResultSlot) {
                 clearCraftingContent();
             }

@@ -43,7 +43,7 @@
   "item.createbionics.oxhauler_leg_item": "Oxhauler Leg",
   "item.createbionics.oxhauler_leg_item.tooltip.summary": "The _Third_ through _Sixth_ part of the _Oxhauler_ build sequence.",
   "item.createbionics.oxhauler_leg_item.tooltip.condition1": "When used on an incomplete Oxhauler",
-  "item.createbionics.oxhauler_leg_item.tooltip.behaviour1": "_Spawns_ a partial Replete for _construction_.",
+  "item.createbionics.oxhauler_leg_item.tooltip.behaviour1": "Advances the construction sequence by _one_.",
 
   "item.createbionics.replete_body_item": "Replete Body",
   "item.createbionics.replete_body_item.tooltip.summary": "A large insect robot with a _tank_ on its back to carry _fluids_.",
@@ -107,5 +107,7 @@
   "item.createbionics.stalker_leg_item": "Stalker Leg",
   "item.createbionics.stalker_tail_item": "Stalker Tail",
   "item.createbionics.stalker_antenna_item": "Stalker Antenna",
-  "item.createbionics.stalker_head_item": "Stalker Head"
+  "item.createbionics.stalker_head_item": "Stalker Head",
+
+  "createbionics.ponder.oxhauler.header": "Assembling an Oxhauler"
 }

@@ -56,7 +56,7 @@ public class OrganEntity extends AbstractRobot {
         return idlePoseTimeout > 0;
     }
     private int idlePoseTimeout = 0;
-    public float x0;
+    public float x0 = (float) this.lerpYHeadRot;
     public float y0;
     public float z0;
 
@@ -219,7 +219,7 @@ public class OrganEntity extends AbstractRobot {
 
         /* sound */
 
-        CatnipServices.PLATFORM.executeOnClientOnly(() -> () -> this.tickAudio(1, isSitting()));
+        //CatnipServices.PLATFORM.executeOnClientOnly(() -> () -> this.tickAudio(1, isSitting()));
     }
 
     protected float rotlerp(float in, float target, float maxShift) {

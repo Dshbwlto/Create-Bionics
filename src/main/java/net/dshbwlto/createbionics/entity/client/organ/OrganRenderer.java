@@ -54,7 +54,18 @@ public class OrganRenderer extends MobRenderer<OrganEntity, OrganModel<OrganEnti
                 .scale(10)
                 .light(15728880)
                 .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
+
+        poseStack.mulPose(Axis.YN.rotation(-entity.getPreciseBodyRotation(partialTicks) * Mth.PI / 180));
+
+        if (entity.x0 > 0) {
+            entity.y0 -= 1f;
+        } else if (entity.x0 < 0)
+            entity.y0 += 1f;
+
+        poseStack.mulPose(Axis.YN.rotation(-entity.y0 * Mth.PI / 180));
+
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+
     }
 
     @Override
