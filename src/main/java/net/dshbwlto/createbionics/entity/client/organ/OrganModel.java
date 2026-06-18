@@ -698,7 +698,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         this.animateWalk(OrganAnimations.organ_walk_forward, limbSwing, limbSwingAmount, 1f, 2f);
 
         if (entity.getAssembly() > 20) {
-            this.animate(entity.idleAnimationState, OrganAnimations.organ_idle, ageInTicks, 1f);
+            this.animate(entity.idleAnimationState, OrganAnimations.organ_playing, ageInTicks, 1f);
         } else {
             this.animate(entity.idleAnimationState, OrganAnimations.organ_assembly, ageInTicks, 1f);
         }

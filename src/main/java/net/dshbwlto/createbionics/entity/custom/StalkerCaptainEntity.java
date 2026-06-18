@@ -244,3 +244,5 @@ public class StalkerCaptainEntity extends StalkerEntity {
         this.entityData.set(VARIANT, variant.getId() & 255);
     }
 }
+
+//Maxwell6925
