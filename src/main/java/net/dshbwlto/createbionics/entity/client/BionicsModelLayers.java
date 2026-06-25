@@ -38,4 +38,8 @@ public class BionicsModelLayers {
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "organ"), "glow");
     public static final ModelLayerLocation ORGAN_EXHAUST = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "organ"), "exhaust");
+
+    public static final ModelLayerLocation GOLEM = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "golem"), "main"
+    );
 }

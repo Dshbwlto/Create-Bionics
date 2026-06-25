@@ -100,7 +100,12 @@ public class AnoleEntity extends AbstractRobot {
 
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
 
-        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0d, 10f, 5f));
+        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0d, 10f, 5f) {
+            @Override
+            public boolean canUse() {
+                return super.canUse() && isFueled();
+            }
+        });
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D) {
             @Override
             public boolean canUse() {
@@ -255,22 +260,13 @@ public class AnoleEntity extends AbstractRobot {
         }
 
         if (isTame() && isOwnedBy(player)) {
-            if (itemStack.is(Items.COPPER_INGOT)
-                    || itemStack.is(AllItems.ANDESITE_ALLOY)
+            if (itemStack.is(AllItems.ANDESITE_ALLOY)
                     || itemStack.is(AllItems.BRASS_INGOT)
                     || itemStack.is(Items.NETHERITE_INGOT)
                     || itemStack.is(Items.SPONGE)
                     || itemStack.is(Items.WET_SPONGE)) {
-                if (player.isShiftKeyDown()) {
-                    if (itemStack.is(AllItems.ANDESITE_ALLOY) && getHealth() < maxHealth) {
-                        heal(1);
-                    }
-                } else {
-                    if (!itemStack.is(Items.SPONGE) && !itemStack.is(Items.WET_SPONGE)) {
-                        dropIngot(getVariant());
-                    }
-                    setTypeVariant(itemStack);
-                }
+                dropIngot(getVariant());
+                setTypeVariant(itemStack);
                 if (level().isClientSide) {
                     return InteractionResult.SUCCESS;
                 } else if (!itemStack.is(Items.SPONGE) && !itemStack.is(Items.WET_SPONGE)) {
@@ -419,11 +415,6 @@ public class AnoleEntity extends AbstractRobot {
     private void dropIngot(AnoleVariant variant) {
         if (getVariant() == AnoleVariant.BRASS) {
             spawnAtLocation(new ItemStack(AllItems.BRASS_INGOT.asItem()));
-        } else if (getVariant() == AnoleVariant.COPPPER
-                || getVariant() == AnoleVariant.EXPOSED
-                || getVariant() == AnoleVariant.WEATHERED
-                || getVariant() == AnoleVariant.OXIDIZED) {
-            spawnAtLocation(new ItemStack(Items.COPPER_INGOT));
         } else if (getVariant() == AnoleVariant.ANDESITE) {
             spawnAtLocation(new ItemStack(AllItems.ANDESITE_ALLOY.asItem()));
         } else if (getVariant() == AnoleVariant.NETHERITE) {

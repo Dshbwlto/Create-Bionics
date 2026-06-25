@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "createbionics:i2_coal_engine"
+        "recipe": "createbionics:simple_engine"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "createbionics:i2_coal_engine"
+      "createbionics:simple_engine"
     ]
   }
 }

@@ -197,15 +197,16 @@ public class OxhaulerEntity extends AbstractHorse {
     }
 
     @Override
+    public boolean canBeCollidedWith() {
+        return getFuel() == 0;
+    }
+
+    @Override
     protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
         spawnAtLocation(canDrop(getAssembly(), 0, BionicsItems.OXHAULER_MIDDLE.get()));
         spawnAtLocation(canDrop(getAssembly(), 1, BionicsItems.OXHAULER_REAR.get()));
         spawnAtLocation(canDrop(getAssembly(), 2, BionicsItems.OXHAULER_FRONT.get()));
-        spawnAtLocation(canDrop(getAssembly(), 3, BionicsItems.OXHAULER_LEG.get()));
-        spawnAtLocation(canDrop(getAssembly(), 4, BionicsItems.OXHAULER_LEG.get()));
-        spawnAtLocation(canDrop(getAssembly(), 5, BionicsItems.OXHAULER_LEG.get()));
-        spawnAtLocation(canDrop(getAssembly(), 6, BionicsItems.OXHAULER_LEG.get()));
-        spawnAtLocation(canDrop(getAssembly(), 7, BionicsItems.OXHAULER_HEAD.get()));
+        spawnAtLocation(canDrop(getAssembly(), 3, BionicsItems.OXHAULER_HEAD.get()));
         if (isPlough()) {
             spawnAtLocation(AllBlocks.MECHANICAL_PLOUGH);
         }
@@ -215,13 +216,16 @@ public class OxhaulerEntity extends AbstractHorse {
         if (getVariant() != OxhaulerVariant.BRASS) {
             dropIngot();
         }
+        spawnAtLocation(randomSalvage());
     }
 
     public Item canDrop(int assembly, int targetAssembly, Item item) {
-        if (random.nextBoolean() && assembly >= targetAssembly) {
-            return item;
-        } else if (random.nextBoolean()) {
-            return randomSalvage();
+        if (assembly >= targetAssembly) {
+            if (random.nextBoolean()) {
+                return item;
+            } else {
+                return randomSalvage();
+            }
         } else {
             return ItemStack.EMPTY.getItem();
         }
@@ -268,9 +272,6 @@ public class OxhaulerEntity extends AbstractHorse {
 
     @Override
     public void aiStep() {
-        if (getHealth() - x0 == 1)
-            setHealth(getHealth() - 1);
-        x0 = (int) getHealth();
 
         if (isHarvester()) {
             boolean flag = false;
@@ -299,6 +300,11 @@ public class OxhaulerEntity extends AbstractHorse {
         }
 
         super.aiStep();
+
+        if (getHealth() - x0 == 1) {
+            setHealth(getHealth() - 1);
+        }
+        x0 = (int) getHealth();
     }
 
     public long getPoseTime() {
@@ -334,8 +340,10 @@ public class OxhaulerEntity extends AbstractHorse {
             this.setupAnimationStates();
         }
 
-        if (isVehicle() && getFirstPassenger() instanceof Player player) {
-            //player.sendSystemMessage(Component.literal("" + this.getYHeadRot()));
+        if (level().isClientSide) {
+            if (isVehicle() && getFirstPassenger() instanceof Player player) {
+                //player.displayClientMessage(Component.literal("" + getYRot()), false);
+            }
         }
     }
 
@@ -355,7 +363,7 @@ public class OxhaulerEntity extends AbstractHorse {
                 itemStack.shrink(1);
                 player.addItem(new ItemStack(BionicsItems.WALTZ_2_MUSIC_DISC.get()));
             }
-        } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE) && getAssembly() == 7) {
+        } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE) && getAssembly() == 3) {
             if (hasBlazeCake()) {
                 entityData.set(CREATIVE_BLAZE_CAKE, false);
             } else {
@@ -363,7 +371,10 @@ public class OxhaulerEntity extends AbstractHorse {
                 entityData.set(CREATIVE_BLAZE_CAKE, true);
                 playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
             }
-        } else if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL) || itemStack.is(AllItems.BLAZE_CAKE) && !isInWater() && getAssembly() == 7) {
+        } else if ((itemStack.is(Items.COAL)
+                || itemStack.is(Items.CHARCOAL)
+                || itemStack.is(AllItems.BLAZE_CAKE))
+                && !isInWater() && getAssembly() == 3) {
             if (this.level().isClientSide()) {
                 return InteractionResult.CONSUME;
             } else {
@@ -391,7 +402,7 @@ public class OxhaulerEntity extends AbstractHorse {
             itemStack.shrink(1);
             this.entityData.set(PLOUGH, true);
             return InteractionResult.SUCCESS;
-        } else if ((itemStack.is(BionicsItems.ROBOT_BUILDER) || itemStack.is(getPart())) && getAssembly() < 7) {
+        } else if ((itemStack.is(BionicsItems.ROBOT_BUILDER) || itemStack.is(getPart())) && getAssembly() < 3) {
             setAssembly(getAssembly() + 1);
             if (!itemStack.is(BionicsItems.ROBOT_BUILDER.get())) {
                 itemStack.shrink(1);
@@ -408,21 +419,29 @@ public class OxhaulerEntity extends AbstractHorse {
             } else if (isHarvester()) {
                 entityData.set(HARVESTER, false);
                 spawnAtLocation(new ItemStack(AllBlocks.MECHANICAL_HARVESTER));
+            } else if (getVariant() != OxhaulerVariant.BRASS){
+                dropIngot();
+                setVariant(OxhaulerVariant.BRASS);
             } else if (getAssembly() > 0) {
                 setAssembly(getAssembly() - 1);
                 setFuel(0);
                 spawnAtLocation(new ItemStack(getPart()));
                 playSound(SoundEvents.NETHERITE_BLOCK_PLACE);
             } else {
-                spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_MIDDLE.get()));
-                remove(RemovalReason.DISCARDED);
+                if (!level().isClientSide) {
+                    if (getInventory().isEmpty()) {
+                        spawnAtLocation(new ItemStack(BionicsItems.OXHAULER_MIDDLE.get()));
+                        remove(RemovalReason.DISCARDED);
+                    } else {
+                        player.displayClientMessage(Component.translatable("entity.createbionics.all.empty_warning"), true);
+                    }
+                }
             }
         } else if (itemStack.is(Tags.Items.DYES)) {
             setColor(itemStack.getItem());
             itemStack.shrink(1);
-        } else if (itemStack.is(Items.COPPER_INGOT)
-                || itemStack.is(AllItems.ANDESITE_ALLOY)
-                || itemStack.is(AllItems.BRASS_INGOT)) {
+        } else if (itemStack.is(AllItems.ANDESITE_ALLOY)
+                || itemStack.is(Items.COPPER_INGOT)) {
             dropIngot();
             setTypeVariant(itemStack);
             if (level().isClientSide) {
@@ -430,9 +449,9 @@ public class OxhaulerEntity extends AbstractHorse {
             } else {
                 itemStack.shrink(1);
             }
-        }else if (player.isShiftKeyDown() && getAssembly() == 7){
+        } else if (player.isShiftKeyDown()){
             openCustomInventoryScreen(player);
-        } else if(getFuel() > 0){
+        } else if (getFuel() > 0){
             doPlayerRide(player);
         }
         return InteractionResult.SUCCESS;
@@ -520,9 +539,7 @@ public class OxhaulerEntity extends AbstractHorse {
     //Variant//
 
     private void dropIngot() {
-        if (getVariant() == OxhaulerVariant.BRASS) {
-            spawnAtLocation(new ItemStack(AllItems.BRASS_INGOT.asItem()));
-        } else if (getVariant() == OxhaulerVariant.COPPER) {
+        if (getVariant() == OxhaulerVariant.COPPER) {
             spawnAtLocation(new ItemStack(Items.COPPER_INGOT));
         } else if (getVariant() == OxhaulerVariant.ANDESITE) {
             spawnAtLocation(new ItemStack(AllItems.ANDESITE_ALLOY.asItem()));
@@ -589,9 +606,7 @@ public class OxhaulerEntity extends AbstractHorse {
             return BionicsItems.OXHAULER_REAR.get();
         } else if (getAssembly() == 1) {
             return BionicsItems.OXHAULER_FRONT.get();
-        } else if (getAssembly() >= 2 && getAssembly() <= 5) {
-            return BionicsItems.OXHAULER_LEG.get();
-        } else {
+        } else  {
             return BionicsItems.OXHAULER_HEAD.get();
         }
     }
@@ -632,7 +647,6 @@ public class OxhaulerEntity extends AbstractHorse {
                 }
             }
         }
-
         this.inventory.addListener(this);
     }
 

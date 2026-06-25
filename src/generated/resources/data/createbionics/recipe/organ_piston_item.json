@@ -2,20 +2,20 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "I": {
+    "C": {
       "item": "create:iron_sheet"
     },
-    "S": {
+    "D": {
       "item": "create:sturdy_sheet"
     }
   },
   "pattern": [
-    "SS ",
-    "II ",
-    "II "
+    "DD ",
+    "CC ",
+    "CC "
   ],
   "result": {
-    "count": 2,
+    "count": 1,
     "id": "createbionics:organ_piston_item"
   }
 }

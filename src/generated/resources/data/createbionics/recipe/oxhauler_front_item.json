@@ -14,8 +14,8 @@
     "G": {
       "item": "create:brass_ingot"
     },
-    "L": {
-      "item": "createbionics:oxhauler_leg_item"
+    "S": {
+      "item": "create:shaft"
     },
     "T": {
       "item": "minecraft:crafting_table"
@@ -24,7 +24,7 @@
   "pattern": [
     "GTG",
     "CFC",
-    "LDL"
+    "SDS"
   ],
   "result": {
     "count": 1,

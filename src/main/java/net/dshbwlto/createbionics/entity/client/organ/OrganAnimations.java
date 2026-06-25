@@ -7,9 +7,6 @@ import net.minecraft.client.animation.KeyframeAnimations;
 
 public class OrganAnimations {
         public static final AnimationDefinition organ_idle = AnimationDefinition.Builder.withLength(4.0F).looping()
-                .addAnimation("bellows_fabric_l", new AnimationChannel(AnimationChannel.Targets.SCALE,
-                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
-                ))
                 .addAnimation("piston_l1", new AnimationChannel(AnimationChannel.Targets.POSITION,
                         new Keyframe(0.0F, KeyframeAnimations.posVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
                         new Keyframe(0.25F, KeyframeAnimations.posVec(-8.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
@@ -329,33 +326,24 @@ public class OrganAnimations {
                         new Keyframe(3.75F, KeyframeAnimations.scaleVec(1.0F, 1.0F, 1.0F), AnimationChannel.Interpolations.CATMULLROM),
                         new Keyframe(4.0F, KeyframeAnimations.scaleVec(0.4F, 1.0F, 1.0F), AnimationChannel.Interpolations.CATMULLROM)
                 ))
-                .addAnimation("bellows_bottom_l", new AnimationChannel(AnimationChannel.Targets.SCALE,
-                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.0F, 0.99F, 1.0F), AnimationChannel.Interpolations.LINEAR)
-                ))
-                .addAnimation("bellows_top_l", new AnimationChannel(AnimationChannel.Targets.SCALE,
-                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.0F, 0.94F, 1.0F), AnimationChannel.Interpolations.LINEAR)
-                ))
                 .addAnimation("bone", new AnimationChannel(AnimationChannel.Targets.SCALE,
                         new Keyframe(0.0F, KeyframeAnimations.scaleVec(0.975F, 1.0F, 1.0F), AnimationChannel.Interpolations.CATMULLROM)
                 ))
                 .addAnimation("bone2", new AnimationChannel(AnimationChannel.Targets.SCALE,
                         new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.05F, 1.0F, 1.0F), AnimationChannel.Interpolations.CATMULLROM)
                 ))
+                .addAnimation("bellows_bottom_l", new AnimationChannel(AnimationChannel.Targets.SCALE,
+                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.0F, 0.94F, 1.0F), AnimationChannel.Interpolations.LINEAR)
+                ))
+                .addAnimation("bellows_top_l", new AnimationChannel(AnimationChannel.Targets.SCALE,
+                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.0F, 0.94F, 1.0F), AnimationChannel.Interpolations.LINEAR)
+                ))
+                .addAnimation("bellows_fabric_l", new AnimationChannel(AnimationChannel.Targets.SCALE,
+                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
+                ))
                 .build();
 
         public static final AnimationDefinition organ_playing = AnimationDefinition.Builder.withLength(4.0F).looping()
-                .addAnimation("bellows_fabric_l", new AnimationChannel(AnimationChannel.Targets.ROTATION,
-                        new Keyframe(0.0F, KeyframeAnimations.degreeVec(-16.67F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
-                        new Keyframe(2.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
-                        new Keyframe(3.0F, KeyframeAnimations.degreeVec(-22.5F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
-                        new Keyframe(4.0F, KeyframeAnimations.degreeVec(-16.67F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
-                ))
-                .addAnimation("bellows_fabric_l", new AnimationChannel(AnimationChannel.Targets.SCALE,
-                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.0F, 0.7407F, 0.9444F), AnimationChannel.Interpolations.CATMULLROM),
-                        new Keyframe(2.0F, KeyframeAnimations.scaleVec(1.0F, 0.0F, 1.0F), AnimationChannel.Interpolations.CATMULLROM),
-                        new Keyframe(3.0F, KeyframeAnimations.scaleVec(1.0F, 1.0F, 0.925F), AnimationChannel.Interpolations.CATMULLROM),
-                        new Keyframe(4.0F, KeyframeAnimations.scaleVec(1.0F, 0.7407F, 0.9444F), AnimationChannel.Interpolations.CATMULLROM)
-                ))
                 .addAnimation("piston_l1", new AnimationChannel(AnimationChannel.Targets.POSITION,
                         new Keyframe(0.0F, KeyframeAnimations.posVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
                         new Keyframe(0.25F, KeyframeAnimations.posVec(-8.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
@@ -688,22 +676,10 @@ public class OrganAnimations {
                 .addAnimation("jaw", new AnimationChannel(AnimationChannel.Targets.POSITION,
                         new Keyframe(0.0F, KeyframeAnimations.posVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
                 ))
-                .addAnimation("top_l", new AnimationChannel(AnimationChannel.Targets.ROTATION,
-                        new Keyframe(0.0F, KeyframeAnimations.degreeVec(-33.33F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
-                        new Keyframe(2.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
-                        new Keyframe(3.0F, KeyframeAnimations.degreeVec(-45.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
-                        new Keyframe(4.0F, KeyframeAnimations.degreeVec(-33.33F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
-                ))
                 .addAnimation("top_r", new AnimationChannel(AnimationChannel.Targets.ROTATION,
                         new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
                         new Keyframe(1.0F, KeyframeAnimations.degreeVec(-45.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
                         new Keyframe(4.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
-                ))
-                .addAnimation("bellows_bottom_l", new AnimationChannel(AnimationChannel.Targets.SCALE,
-                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.0F, 0.99F, 1.0F), AnimationChannel.Interpolations.LINEAR)
-                ))
-                .addAnimation("bellows_top_l", new AnimationChannel(AnimationChannel.Targets.SCALE,
-                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.0F, 0.94F, 1.0F), AnimationChannel.Interpolations.LINEAR)
                 ))
                 .addAnimation("bone", new AnimationChannel(AnimationChannel.Targets.SCALE,
                         new Keyframe(0.0F, KeyframeAnimations.scaleVec(0.975F, 1.0F, 1.0F), AnimationChannel.Interpolations.CATMULLROM)
@@ -711,12 +687,33 @@ public class OrganAnimations {
                 .addAnimation("bone2", new AnimationChannel(AnimationChannel.Targets.SCALE,
                         new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.05F, 1.0F, 1.0F), AnimationChannel.Interpolations.CATMULLROM)
                 ))
+                .addAnimation("bellows_bottom_l", new AnimationChannel(AnimationChannel.Targets.SCALE,
+                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.0F, 0.99F, 1.0F), AnimationChannel.Interpolations.LINEAR)
+                ))
+                .addAnimation("top_l", new AnimationChannel(AnimationChannel.Targets.ROTATION,
+                        new Keyframe(0.0F, KeyframeAnimations.degreeVec(-33.33F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+                        new Keyframe(2.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+                        new Keyframe(3.0F, KeyframeAnimations.degreeVec(-45.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+                        new Keyframe(4.0F, KeyframeAnimations.degreeVec(-33.33F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("bellows_top_l", new AnimationChannel(AnimationChannel.Targets.SCALE,
+                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.0F, 0.94F, 1.0F), AnimationChannel.Interpolations.LINEAR)
+                ))
+                .addAnimation("bellows_fabric_l", new AnimationChannel(AnimationChannel.Targets.ROTATION,
+                        new Keyframe(0.0F, KeyframeAnimations.degreeVec(-16.67F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+                        new Keyframe(2.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+                        new Keyframe(3.0F, KeyframeAnimations.degreeVec(-22.5F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
+                        new Keyframe(4.0F, KeyframeAnimations.degreeVec(-16.67F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("bellows_fabric_l", new AnimationChannel(AnimationChannel.Targets.SCALE,
+                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.0F, 0.7407F, 0.9444F), AnimationChannel.Interpolations.CATMULLROM),
+                        new Keyframe(2.0F, KeyframeAnimations.scaleVec(1.0F, 0.0F, 1.0F), AnimationChannel.Interpolations.CATMULLROM),
+                        new Keyframe(3.0F, KeyframeAnimations.scaleVec(1.0F, 1.0F, 0.925F), AnimationChannel.Interpolations.CATMULLROM),
+                        new Keyframe(4.0F, KeyframeAnimations.scaleVec(1.0F, 0.7407F, 0.9444F), AnimationChannel.Interpolations.CATMULLROM)
+                ))
                 .build();
 
         public static final AnimationDefinition organ_assembly = AnimationDefinition.Builder.withLength(0.0F).looping()
-                .addAnimation("bellows_fabric_l", new AnimationChannel(AnimationChannel.Targets.SCALE,
-                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
-                ))
                 .addAnimation("bellows_bottom_r", new AnimationChannel(AnimationChannel.Targets.SCALE,
                         new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.0F, 0.94F, 1.0F), AnimationChannel.Interpolations.LINEAR)
                 ))
@@ -783,17 +780,20 @@ public class OrganAnimations {
                 .addAnimation("piston_r4", new AnimationChannel(AnimationChannel.Targets.POSITION,
                         new Keyframe(0.0F, KeyframeAnimations.posVec(10.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
                 ))
+                .addAnimation("bone", new AnimationChannel(AnimationChannel.Targets.SCALE,
+                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(0.975F, 1.0F, 1.0F), AnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("bone2", new AnimationChannel(AnimationChannel.Targets.SCALE,
+                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.05F, 1.0F, 1.0F), AnimationChannel.Interpolations.CATMULLROM)
+                ))
                 .addAnimation("bellows_bottom_l", new AnimationChannel(AnimationChannel.Targets.SCALE,
                         new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.0F, 0.94F, 1.0F), AnimationChannel.Interpolations.LINEAR)
                 ))
                 .addAnimation("bellows_top_l", new AnimationChannel(AnimationChannel.Targets.SCALE,
                         new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.0F, 0.94F, 1.0F), AnimationChannel.Interpolations.LINEAR)
                 ))
-                .addAnimation("bone", new AnimationChannel(AnimationChannel.Targets.SCALE,
-                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(0.975F, 1.0F, 1.0F), AnimationChannel.Interpolations.CATMULLROM)
-                ))
-                .addAnimation("bone2", new AnimationChannel(AnimationChannel.Targets.SCALE,
-                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.05F, 1.0F, 1.0F), AnimationChannel.Interpolations.CATMULLROM)
+                .addAnimation("bellows_fabric_l", new AnimationChannel(AnimationChannel.Targets.SCALE,
+                        new Keyframe(0.0F, KeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
                 ))
                 .build();
 

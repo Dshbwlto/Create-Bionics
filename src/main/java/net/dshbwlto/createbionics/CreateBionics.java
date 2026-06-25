@@ -72,21 +72,21 @@ public class CreateBionics {
     }
 
     private static final ItemLike[] excludedItemsList = new ItemLike[]{
+            BionicsItems.ORGAN_MIDDLE,
+            BionicsItems.ORGAN_FOOT,
+            BionicsItems.ORGAN_TAIL_BASE,
+            BionicsItems.ORGAN_TAIL_END,
+            BionicsItems.ORGAN_CHEST,
+            BionicsItems.ORGAN_PISTON,
+            BionicsItems.ORGAN_BELLOWS,
+            BionicsItems.ORGAN_NECK,
+            BionicsItems.ORGAN_HEAD,
+            BionicsItems.ORGAN_CHIMNEY,
             BionicsItems.STALKER_BODY,
             BionicsItems.STALKER_ANTENNA,
             BionicsItems.STALKER_HEAD,
             BionicsItems.STALKER_LEG,
             BionicsItems.STALKER_TAIL,
-            BionicsItems.ORGAN_HEAD,
-            BionicsItems.ORGAN_CHIMNEY,
-            BionicsItems.ORGAN_NECK,
-            BionicsItems.ORGAN_CHEST,
-            BionicsItems.ORGAN_PISTON,
-            BionicsItems.ORGAN_BELLOWS,
-            BionicsItems.ORGAN_MIDDLE,
-            BionicsItems.ORGAN_FOOT,
-            BionicsItems.ORGAN_TAIL_BASE,
-            BionicsItems.ORGAN_TAIL_END,
     };
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
@@ -182,6 +182,7 @@ public class CreateBionics {
             EntityRenderers.register(BionicsEntities.STALKER.get(), StalkerRenderer::new);
             EntityRenderers.register(BionicsEntities.STALKER_CAPTAIN.get(), StalkerCaptainRenderer::new);
             EntityRenderers.register(BionicsEntities.ORGAN.get(), OrganRenderer::new);
+
         }
 
         @SubscribeEvent

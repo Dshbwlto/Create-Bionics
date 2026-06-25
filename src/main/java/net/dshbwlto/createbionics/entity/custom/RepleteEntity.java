@@ -234,6 +234,8 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
         this.resetLastPoseChangeTick(Math.max(0L, lastPoseChangedTick - 52L - 1L));
     }
 
+
+
     @Override
     public void tick() {
         super.tick();
@@ -336,10 +338,11 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
             heal(10);
             makeSound(SoundEvents.SMITHING_TABLE_USE);
             return InteractionResult.CONSUME;
-        } else if (itemStack.is(Items.COPPER_INGOT)
-                || itemStack.is(AllItems.BRASS_INGOT)
+        } else if (itemStack.is(AllItems.BRASS_INGOT)
                 || itemStack.is(AllItems.ANDESITE_ALLOY)) {
-            dropIngot();
+            if (getVariant() != RepleteVariant.COPPER) {
+                dropIngot();
+            }
             setTypeVariant(itemStack);
             if (level().isClientSide) {
                 return InteractionResult.SUCCESS;
@@ -374,16 +377,21 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
             } else {
                 if (!level().isClientSide) {
                     if (getFluid().isEmpty() && getFluid().getAmount() == 0) {
-                        if (getAssembly() > 0) {
-                            spawnAtLocation(new ItemStack(getPart()));
-                            setAssembly(getAssembly() - 1);
-                            setFuel(0);
+                        if (getVariant() != RepleteVariant.COPPER) {
+                            dropIngot();
+                            setVariant(RepleteVariant.COPPER);
                         } else {
-                            spawnAtLocation(BionicsItems.REPLETE_BODY);
-                            if (getVariant() != RepleteVariant.COPPER) {
-                                dropIngot();
+                            if (getAssembly() > 0) {
+                                setAssembly(getAssembly() - 1);
+                                spawnAtLocation(new ItemStack(getPart()));
+                                setFuel(0);
+                            } else {
+                                spawnAtLocation(BionicsItems.REPLETE_BODY);
+                                if (getVariant() != RepleteVariant.COPPER) {
+                                    dropIngot();
+                                }
+                                remove(RemovalReason.DISCARDED);
                             }
-                            remove(RemovalReason.DISCARDED);
                         }
                     } else {
                         player.displayClientMessage(Component.translatable("entity.createbionics.all.empty_warning"), true);

@@ -358,7 +358,7 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
         this.root().getAllParts().forEach(ModelPart::resetPose);
         this.applyHeadRotation(netHeadYaw, headPitch);
 
-        this.animateWalk(OxhaulerAnimations.oxhauler_walk, limbSwing, limbSwingAmount, 2f, 2.5f);
+        this.animateWalk(OxhaulerAnimations.oxhauler_walk, limbSwing, limbSwingAmount, 4f, 2.5f);
         this.animate(entity.idleAnimationState, OxhaulerAnimations.oxhauler_assembly, ageInTicks, 1f);
 
         this.animate(entity.idleAnimation1, OxhaulerAnimations.oxhauler_idle1, ageInTicks, 1f);
@@ -371,11 +371,7 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
 
         back_master.visible = entity.getAssembly() > 0;
         front_master.visible = entity.getAssembly() > 1;
-        leg_l.visible = entity.getAssembly() > 2;
-        leg_r.visible = entity.getAssembly() > 3;
-        arm_l.visible = entity.getAssembly() > 4;
-        arm_r.visible = entity.getAssembly() > 5;
-        neck_master.visible = entity.getAssembly() > 6;
+        neck_master.visible = entity.getAssembly() > 2;
 
         combine.visible = entity.isHarvester();
         plough.visible = entity.isPlough();

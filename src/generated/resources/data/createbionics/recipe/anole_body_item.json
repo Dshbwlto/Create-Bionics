@@ -12,7 +12,7 @@
       "item": "minecraft:iron_ingot"
     },
     "E": {
-      "item": "createbionics:i2_coal_engine"
+      "item": "createbionics:simple_engine"
     }
   },
   "pattern": [

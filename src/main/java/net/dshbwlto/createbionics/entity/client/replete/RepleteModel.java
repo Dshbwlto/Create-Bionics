@@ -495,6 +495,8 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
         tank_4_b.visible = !entity.getWindow();
         tank_5_b.visible = !entity.getWindow();
 
+        tank.y = entity.y * 16 - 20;
+
         dial_fuel.yRot = (float) entity.getFuel() / 25000 * (Mth.PI / 2) - Mth.PI / 2;
         dial_fluid.yRot = entity.getSynchedFluid().getAmount() / 160000f * (Mth.PI / 2) - Mth.PI / 2;
         gear.zRot = entity.getFuel() > 0 && entity.getAssembly() == 12? (AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 100 : 0;

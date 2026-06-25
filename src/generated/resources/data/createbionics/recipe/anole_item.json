@@ -16,9 +16,9 @@
     }
   },
   "pattern": [
-    " CB",
+    " CD",
     "CAC",
-    "DC "
+    "BC "
   ],
   "result": {
     "count": 1,

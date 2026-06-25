@@ -17,14 +17,14 @@
     "G": {
       "item": "create:brass_ingot"
     },
-    "L": {
-      "item": "createbionics:oxhauler_leg_item"
+    "S": {
+      "item": "create:shaft"
     }
   },
   "pattern": [
     "GEG",
     "CBC",
-    "LDL"
+    "SDS"
   ],
   "result": {
     "count": 1,

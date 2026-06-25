@@ -78,10 +78,12 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
         return i < (long) (this.isSitting() ? 40 : 52);
     }
     public Item canDrop(int assembly, int targetAssembly, Item item) {
-        if (random.nextBoolean() && assembly >= targetAssembly) {
-            return item;
-        } else if (random.nextBoolean()) {
-            return randomSalvage();
+        if (assembly >= targetAssembly) {
+            if (random.nextBoolean()) {
+                return item;
+            } else {
+                return randomSalvage();
+            }
         } else {
             return ItemStack.EMPTY.getItem();
         }

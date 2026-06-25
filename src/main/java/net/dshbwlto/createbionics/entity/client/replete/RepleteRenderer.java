@@ -61,11 +61,11 @@ public class RepleteRenderer extends MobRenderer<RepleteEntity, RepleteModel<Rep
 
         if (!entity.isSitting()) {
             if (entity.y > 0) {
-                entity.y -= 0.0168f;
+                entity.y -= 0.03f * partialTicks;
             }
         } else {
             if (entity.y < 1) {
-                entity.y += 0.0168f;
+                entity.y += 0.03f * partialTicks;
             }
         }
 

@@ -12,7 +12,7 @@
       "item": "create:mechanical_pump"
     },
     "E": {
-      "item": "createbionics:i2_coal_engine"
+      "item": "createbionics:simple_engine"
     }
   },
   "pattern": [

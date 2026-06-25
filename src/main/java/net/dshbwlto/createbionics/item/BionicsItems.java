@@ -8,19 +8,10 @@ import com.tterrag.registrate.util.entry.ItemEntry;
 import net.createmod.catnip.lang.FontHelper;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
-import net.dshbwlto.createbionics.entity.custom.RepleteEntity;
 import net.dshbwlto.createbionics.item.custom.*;
 import net.dshbwlto.createbionics.registry.custom.BionicsRegistrate;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.Level;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredItem;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class BionicsItems {
     public static final BionicsRegistrate REGISTRATE = CreateBionics.registrate();
@@ -36,13 +27,11 @@ public class BionicsItems {
     public static final ItemEntry<AnoleItem> ANOLE = REGISTRATE.item("anole_item",
             properties -> new AnoleItem(BionicsEntities.ANOLE.get(), 0xFFFFFF, 0xFFFFFF, properties.stacksTo(1))).register();
 
-    public static final ItemEntry<SpawnEggItem> OXHAULER_MIDDLE = REGISTRATE.item("oxhauler_middle_item",
-            properties -> new SpawnEggItem(BionicsEntities.OXHAULER.get(), 0xFFFFFF, 0xFFFFFF, properties.stacksTo(1))).register();
+    public static final ItemEntry<OxhaulerMiddleItem> OXHAULER_MIDDLE = REGISTRATE.item("oxhauler_middle_item",
+            properties -> new OxhaulerMiddleItem(BionicsEntities.OXHAULER.get(), 0xFFFFFF, 0xFFFFFF, properties.stacksTo(1))).register();
     public static final ItemEntry<Item> OXHAULER_FRONT = REGISTRATE.item("oxhauler_front_item",
             Item::new).properties(properties -> properties.stacksTo(1)).register();
     public static final ItemEntry<Item> OXHAULER_REAR = REGISTRATE.item("oxhauler_rear_item",
-            Item::new).properties(properties -> properties.stacksTo(1)).register();
-    public static final ItemEntry<Item> OXHAULER_LEG = REGISTRATE.item("oxhauler_leg_item",
             Item::new).properties(properties -> properties.stacksTo(1)).register();
     public static final ItemEntry<OxhaulerHeadItem> OXHAULER_HEAD = REGISTRATE.item("oxhauler_head_item",
             OxhaulerHeadItem::new).properties(properties -> properties.stacksTo(1)).register();
@@ -92,13 +81,15 @@ public class BionicsItems {
             Item::new).properties(properties -> properties.stacksTo(1)) .register();
     public static final ItemEntry<Item> ANOLE_TAIL = REGISTRATE.item("anole_tail_item",
             Item::new).properties(properties -> properties.stacksTo(1)) .register();
-    public static final ItemEntry<Item> I2_COAL_ENGINE = REGISTRATE.item("i2_coal_engine",
-            Item::new).properties(properties -> properties.stacksTo(1)) .register();
+    public static final ItemEntry<Item> SIMPLE_ENGINE = REGISTRATE.item("simple_engine",
+            Item::new).register();
     public static final ItemEntry<Item> OXHAULER_ENGINE = REGISTRATE.item("oxhauler_engine_item",
             Item::new).properties(properties -> properties.stacksTo(1)).register();
 
     public static final ItemEntry<Item> WALTZ_2_MUSIC_DISC = REGISTRATE.item("waltz_2_music_disc", Item::new)
             .properties(properties -> properties.jukeboxPlayable(BionicsSounds.WALTZ_2_KEY).rarity(Rarity.RARE)).register();
 
-    public static void register() {}
+    public static void register() {
+
+    }
 }
