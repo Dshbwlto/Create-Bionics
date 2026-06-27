@@ -38,7 +38,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
@@ -51,7 +50,6 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -65,14 +63,16 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
     public static final EntityDataAccessor<FluidStack> TANK_FLUID =
             SynchedEntityData.defineId(RepleteEntity.class, BionicsEntityDataSerializers.FLUID_STACK.get());
 
-    public boolean getWindow() {
-        return entityData.get(WINDOW);
+    public boolean shouldAbsorb() {
+        return entityData.get(SHOULD_ABSORB);
     }
-    public void toggleWindow() {
-        if (getWindow()) {
-            entityData.set(WINDOW, false);
+    public void toggleAbsorb(Player player) {
+        if (shouldAbsorb()) {
+            entityData.set(SHOULD_ABSORB, false);
+            player.displayClientMessage(Component.translatable("entity.createbionics.all.absorb.false"), true);
         } else {
-            entityData.set(WINDOW, true);
+            entityData.set(SHOULD_ABSORB, true);
+            player.displayClientMessage(Component.translatable("entity.createbionics.all.absorb.true"), true);
         }
     }
 
@@ -80,7 +80,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
 
-    public static final EntityDataAccessor<Boolean> WINDOW =
+    public static final EntityDataAccessor<Boolean> SHOULD_ABSORB =
             SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.BOOLEAN);
 
     public RepleteEntity(EntityType<? extends TamableAnimal> entityType, Level level) {
@@ -89,7 +89,6 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 1.0d, 15, 7) {
             @Override
@@ -111,6 +110,11 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
             return distanceTo(Objects.requireNonNull(getOwner())) > 30;
         }
         return super.shouldTryTeleportToOwner();
+    }
+
+    @Override
+    public boolean canBeCollidedWith() {
+        return getFuel() == 0;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -198,14 +202,18 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
         }
 
         //absorb matching fluids
-        if (!getFluid().isEmpty()) {
+        if (!getSynchedFluid().isEmpty() && shouldAbsorb()) {
             AABB aabb = this.getBoundingBox().inflate(0.2);
             for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
                 BlockState blockstate = this.level().getBlockState(blockpos);
                 FluidState fluidState = blockstate.getFluidState();
                 Fluid fluid = fluidState.getType();
-
-                //level().setBlock(blockpos, Blocks.AIR.defaultBlockState(), 11);
+                FluidStack fluidStack = new FluidStack(getSynchedFluid().getFluid(), 1000);
+                if (getSynchedFluid().getFluid() == fluid) {
+                    level().setBlock(blockpos, Blocks.AIR.defaultBlockState(), 11);
+                    FLUID_TANK.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                    playSound(SoundEvents.BUCKET_FILL);
+                }
             }
         }
 
@@ -265,7 +273,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
             this.setupAnimationStates();
         }
 
-        if (isFueled() && hasBlazeCake()) {
+        if (isFueled() || hasBlazeCake()) {
             playSoundScape(2, 6);
         }
 
@@ -393,7 +401,7 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
             }
         } else if (itemStack.is(AllItems.WRENCH)) {
             if (!player.isShiftKeyDown()) {
-                toggleWindow();
+                toggleAbsorb(player);
             } else {
                 if (!level().isClientSide) {
                     if (getFluid().isEmpty() && getFluid().getAmount() == 0) {
@@ -420,9 +428,9 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
             }
             return InteractionResult.SUCCESS;
         } else {
-            if (getFuel() > 0 && isOwnedBy(player) && !hasFluidHandlerInHand(player, hand) && !hasFluidStackInHand(player, hand)) {
+            if (isOwnedBy(player)) {
                 updateCommand(player);
-                if (getCommand() == 0.001 && random.nextFloat() < 1) {
+                if (getFuel() > 0 && getCommand() == 1 && random.nextFloat() < 0.001) {
                     playSound(BionicsSounds.GET_STICK_BUGGED.get());
                     countdown = 150;
                 }
@@ -436,20 +444,20 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(TANK_FLUID, FluidStack.EMPTY);
-        builder.define(WINDOW, false);
+        builder.define(SHOULD_ABSORB, false);
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putBoolean("Window", this.entityData.get(WINDOW));
+        compound.putBoolean("Absorb", this.entityData.get(SHOULD_ABSORB));
         FLUID_TANK.writeToNBT(level().registryAccess(), compound);
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        entityData.set(WINDOW, compound.getBoolean("Window"));
+        entityData.set(SHOULD_ABSORB, compound.getBoolean("Absorb"));
         FLUID_TANK.readFromNBT(level().registryAccess(), compound);
         entityData.set(TANK_FLUID, FLUID_TANK.getFluid().copy());
         if (isSitting()) {

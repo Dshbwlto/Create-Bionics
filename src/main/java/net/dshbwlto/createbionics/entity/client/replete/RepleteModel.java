@@ -18,18 +18,12 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
 
     private final ModelPart tank;
     private final ModelPart tank_single;
-    private final ModelPart tank_single_b;
     private final ModelPart tank_3;
-    private final ModelPart tank_3_b;
     private final ModelPart tank_4;
-    private final ModelPart tank_4_b;
     private final ModelPart tank_5;
-    private final ModelPart tank_5_b;
     private final ModelPart tank_bottom;
-    private final ModelPart tank_bottom_b;
     private final ModelPart tank_cap;
     private final ModelPart tank_top;
-    private final ModelPart tank_top_b;
 
     private final ModelPart leg_l;
     private final ModelPart leg_r;
@@ -49,18 +43,12 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
 
         this.tank = this.root.getChild("root_util").getChild("tank");
         this.tank_single = this.root.getChild("root_util").getChild("tank").getChild("tank_single");
-        this.tank_single_b = this.root.getChild("root_util").getChild("tank").getChild("tank_single").getChild("tank_single_b");
         this.tank_3 = this.root.getChild("root_util").getChild("tank").getChild("tank_3");
-        this.tank_3_b = this.root.getChild("root_util").getChild("tank").getChild("tank_3").getChild("tank_3_b");
         this.tank_4 = this.root.getChild("root_util").getChild("tank").getChild("tank_4");
-        this.tank_4_b = this.root.getChild("root_util").getChild("tank").getChild("tank_4").getChild("tank_4_b");
         this.tank_5 = this.root.getChild("root_util").getChild("tank").getChild("tank_5");
-        this.tank_5_b = this.root.getChild("root_util").getChild("tank").getChild("tank_5").getChild("tank_5_b");
         this.tank_bottom = this.root.getChild("root_util").getChild("tank").getChild("tank_bottom");
-        this.tank_bottom_b = this.root.getChild("root_util").getChild("tank").getChild("tank_bottom").getChild("tank_bottom_b");
         this.tank_cap = this.root.getChild("root_util").getChild("tank").getChild("tank_cap");
         this.tank_top = this.root.getChild("root_util").getChild("tank").getChild("tank_cap").getChild("tank_top");
-        this.tank_top_b = this.root.getChild("root_util").getChild("tank").getChild("tank_cap").getChild("tank_top").getChild("tank_top_b");
 
         this.leg_l = this.root.getChild("root_util").getChild("body").getChild("leg_l");
         this.leg_r = this.root.getChild("root_util").getChild("body").getChild("leg_r");
@@ -270,11 +258,6 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
                 .texOffs(36, -8).addBox(15.5F, -8.0F, -4.0F, 0.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(36, -8).addBox(-15.5F, -8.0F, -4.0F, 0.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -4.0F, 16.0F));
 
-        PartDefinition tank_single_b = tank_single.addOrReplaceChild("tank_single_b", CubeListBuilder.create().texOffs(15, 214).addBox(-4.0F, -8.0F, -8.0F, 8.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(15, 206).addBox(16.0F, -8.0F, 4.0F, 0.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
-                .texOffs(7, 214).addBox(-4.0F, -8.0F, 24.0F, 8.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(7, 206).addBox(-16.0F, -8.0F, 4.0F, 0.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -8.0F));
-
         PartDefinition tank_3 = tank.addOrReplaceChild("tank_3", CubeListBuilder.create().texOffs(12, 0).addBox(15.0F, -16.0F, -16.0F, 0.0F, 16.0F, 12.0F, new CubeDeformation(0.0F))
                 .texOffs(11, 12).addBox(15.0F, -16.0F, -4.0F, 1.0F, 16.0F, 0.0F, new CubeDeformation(0.0F))
                 .texOffs(216, 84).addBox(16.0F, -16.0F, -16.0F, 0.0F, 16.0F, 12.0F, new CubeDeformation(0.0F))
@@ -303,11 +286,6 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
                 .texOffs(36, 16).addBox(-4.0F, -16.0F, 15.5F, 8.0F, 16.0F, 0.0F, new CubeDeformation(0.0F))
                 .texOffs(36, 8).addBox(15.5F, -16.0F, -4.0F, 0.0F, 16.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(36, 8).addBox(-15.5F, -16.0F, -4.0F, 0.0F, 16.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -16.0F, 16.0F));
-
-        PartDefinition tank_3_b = tank_3.addOrReplaceChild("tank_3_b", CubeListBuilder.create().texOffs(15, 186).addBox(0.0F, -16.0F, -4.0F, 8.0F, 16.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(15, 178).addBox(20.0F, -16.0F, 8.0F, 0.0F, 16.0F, 8.0F, new CubeDeformation(0.0F))
-                .texOffs(7, 186).addBox(0.0F, -16.0F, 28.0F, 8.0F, 16.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(7, 178).addBox(-12.0F, -16.0F, 8.0F, 0.0F, 16.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 0.0F, -12.0F));
 
         PartDefinition tank_4 = tank.addOrReplaceChild("tank_4", CubeListBuilder.create().texOffs(12, 0).addBox(15.0F, -16.0F, -16.0F, 0.0F, 16.0F, 12.0F, new CubeDeformation(0.0F))
                 .texOffs(11, 12).addBox(15.0F, -16.0F, -4.0F, 1.0F, 16.0F, 0.0F, new CubeDeformation(0.0F))
@@ -338,11 +316,6 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
                 .texOffs(36, 8).addBox(15.5F, -16.0F, -4.0F, 0.0F, 16.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(36, 8).addBox(-15.5F, -16.0F, -4.0F, 0.0F, 16.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -32.0F, 16.0F));
 
-        PartDefinition tank_4_b = tank_4.addOrReplaceChild("tank_4_b", CubeListBuilder.create().texOffs(15, 186).addBox(0.0F, -16.0F, -4.0F, 8.0F, 16.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(15, 178).addBox(20.0F, -16.0F, 8.0F, 0.0F, 16.0F, 8.0F, new CubeDeformation(0.0F))
-                .texOffs(7, 186).addBox(0.0F, -16.0F, 28.0F, 8.0F, 16.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(7, 178).addBox(-12.0F, -16.0F, 8.0F, 0.0F, 16.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 0.0F, -12.0F));
-
         PartDefinition tank_5 = tank.addOrReplaceChild("tank_5", CubeListBuilder.create().texOffs(12, 0).addBox(15.0F, -16.0F, -16.0F, 0.0F, 16.0F, 12.0F, new CubeDeformation(0.0F))
                 .texOffs(11, 12).addBox(15.0F, -16.0F, -4.0F, 1.0F, 16.0F, 0.0F, new CubeDeformation(0.0F))
                 .texOffs(216, 84).addBox(16.0F, -16.0F, -16.0F, 0.0F, 16.0F, 12.0F, new CubeDeformation(0.0F))
@@ -372,12 +345,7 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
                 .texOffs(36, 8).addBox(15.5F, -16.0F, -4.0F, 0.0F, 16.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(36, 8).addBox(-15.5F, -16.0F, -4.0F, 0.0F, 16.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -48.0F, 16.0F));
 
-        PartDefinition tank_5_b = tank_5.addOrReplaceChild("tank_5_b", CubeListBuilder.create().texOffs(15, 186).addBox(0.0F, -16.0F, -4.0F, 8.0F, 16.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(15, 178).addBox(20.0F, -16.0F, 8.0F, 0.0F, 16.0F, 8.0F, new CubeDeformation(0.0F))
-                .texOffs(7, 186).addBox(0.0F, -16.0F, 28.0F, 8.0F, 16.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(7, 178).addBox(-12.0F, -16.0F, 8.0F, 0.0F, 16.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 0.0F, -12.0F));
-
-        PartDefinition tank_bottom = tank.addOrReplaceChild("tank_bottom", CubeListBuilder.create().texOffs(12, 16).addBox(15.0F, -12.0F, -16.0F, 0.0F, 12.0F, 12.0F, new CubeDeformation(0.0F))
+            PartDefinition tank_bottom = tank.addOrReplaceChild("tank_bottom", CubeListBuilder.create().texOffs(12, 16).addBox(15.0F, -12.0F, -16.0F, 0.0F, 12.0F, 12.0F, new CubeDeformation(0.0F))
                 .texOffs(11, 28).addBox(15.0F, -12.0F, -4.0F, 1.0F, 12.0F, 0.0F, new CubeDeformation(0.0F))
                 .texOffs(216, 100).addBox(16.0F, -12.0F, -16.0F, 0.0F, 12.0F, 12.0F, new CubeDeformation(0.0F))
                 .texOffs(12, 28).addBox(4.0F, -12.0F, -16.0F, 12.0F, 12.0F, 0.0F, new CubeDeformation(0.0F))
@@ -405,11 +373,6 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
                 .texOffs(36, 28).addBox(-4.0F, -12.0F, 15.5F, 8.0F, 12.0F, 0.0F, new CubeDeformation(0.0F))
                 .texOffs(36, 20).addBox(15.5F, -12.0F, -4.0F, 0.0F, 12.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(36, 20).addBox(-15.5F, -12.0F, -4.0F, 0.0F, 12.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -4.0F, 16.0F));
-
-        PartDefinition tank_bottom_b = tank_bottom.addOrReplaceChild("tank_bottom_b", CubeListBuilder.create().texOffs(15, 202).addBox(0.0F, -12.0F, -4.0F, 8.0F, 12.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(15, 194).addBox(20.0F, -12.0F, 8.0F, 0.0F, 12.0F, 8.0F, new CubeDeformation(0.0F))
-                .texOffs(7, 202).addBox(0.0F, -12.0F, 28.0F, 8.0F, 12.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(7, 194).addBox(-12.0F, -12.0F, 8.0F, 0.0F, 12.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 0.0F, -12.0F));
 
         PartDefinition tank_cap = tank.addOrReplaceChild("tank_cap", CubeListBuilder.create().texOffs(127, 0).addBox(-16.0F, 4.0F, -16.0F, 32.0F, 4.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -84.0F, 16.0F));
 
@@ -441,11 +404,6 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
                 .texOffs(36, 8).addBox(-4.0F, -8.0F, 15.5F, 8.0F, 12.0F, 0.0F, new CubeDeformation(0.0F))
                 .texOffs(36, 0).addBox(15.5F, -8.0F, -4.0F, 0.0F, 12.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(36, 0).addBox(-15.5F, -8.0F, -4.0F, 0.0F, 12.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 16.0F, 0.0F));
-
-        PartDefinition tank_top_b = tank_top.addOrReplaceChild("tank_top_b", CubeListBuilder.create().texOffs(15, 174).addBox(0.0F, -12.0F, -4.0F, 8.0F, 12.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(15, 166).addBox(20.0F, -12.0F, 8.0F, 0.0F, 12.0F, 8.0F, new CubeDeformation(0.0F))
-                .texOffs(7, 174).addBox(0.0F, -12.0F, 28.0F, 8.0F, 12.0F, 0.0F, new CubeDeformation(0.0F))
-                .texOffs(7, 166).addBox(-12.0F, -12.0F, 8.0F, 0.0F, 12.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 4.0F, -12.0F));
 
         return LayerDefinition.create(meshdefinition, 256, 256);
     }
@@ -487,13 +445,6 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
         tank_cap.y = (-(entity.getAssembly() * 16) + 108);
         pump.visible = entity.getAssembly() > 6;
         stand.visible = entity.getAssembly() < 12;
-
-        tank_single_b.visible = !entity.getWindow();
-        tank_bottom_b.visible = !entity.getWindow();
-        tank_top_b.visible = !entity.getWindow();
-        tank_3_b.visible = !entity.getWindow();
-        tank_4_b.visible = !entity.getWindow();
-        tank_5_b.visible = !entity.getWindow();
 
         tank.y = entity.y * 16 - 20;
 

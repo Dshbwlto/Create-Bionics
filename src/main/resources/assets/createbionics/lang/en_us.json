@@ -83,8 +83,12 @@
   "entity.createbionics.all.command_0": "%s is following",
   "entity.createbionics.all.command_1": "%s is wandering",
   "entity.createbionics.all.command_2": "%s is staying",
-  "entity.createbionics.all.empty_warning": "Remove contents before deconstructing.",
-  "entity.createbionics.all.construction_warning": "Finish construction before filling or emptying.",
+  "entity.createbionics.all.absorb.true": "Can absorb fluids: true",
+  "entity.createbionics.all.absorb.false": "Can absorb fluids: false",
+
+  "entity.createbionics.all.empty_warning": "§cRemove contents before deconstructing.",
+  "entity.createbionics.all.construction_warning": "§cFinish construction before filling or emptying.",
+  "entity.createbionics.all.fuel_warning": "§cFuel with coal or charcoal",
 
   "entity.createbionics.all.assembly": "Next Part: %s",
   "entity.createbionics.all.page_progress": "%s/%s",

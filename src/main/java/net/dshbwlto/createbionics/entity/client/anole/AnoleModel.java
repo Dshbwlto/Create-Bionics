@@ -139,7 +139,7 @@ public class AnoleModel<T extends AnoleEntity> extends HierarchicalModel<T>
 
         if (entity.isPassenger()) {
             this.animate(entity.idleAnimationState, AnoleAnimations.anole_sit_up, ageInTicks, 1f);
-        } else {
+        } else if (entity.isFueled()){
             this.animate(entity.idleAnimationState, AnoleAnimations.anole_idle, ageInTicks, 1f);
         }
 

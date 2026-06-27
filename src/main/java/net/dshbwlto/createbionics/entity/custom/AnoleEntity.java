@@ -227,7 +227,7 @@ public class AnoleEntity extends AbstractRobot {
             playSoundScape(1, 1);
         }
 
-        if (!isSitting() && !isPassenger() && hasBlazeCake()) {
+        if (!isSitting() && !isPassenger() && !hasBlazeCake()) {
             if (getFuel() > 0) {
                 setFuel(getFuel() - 1);
             }

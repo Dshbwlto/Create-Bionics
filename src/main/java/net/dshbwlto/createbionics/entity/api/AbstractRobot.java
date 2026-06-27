@@ -3,6 +3,7 @@ package net.dshbwlto.createbionics.entity.api;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
+import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.api.equipment.goggles.IHaveHoveringInformation;
 import com.simibubi.create.foundation.sound.SoundScapes;
@@ -122,6 +123,8 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
             } else {
                 standUp(player);
             }
+        } else {
+            sendFuelError(player);
         }
     }
 
@@ -192,6 +195,12 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
         entityData.set(VARIANT, compound.getInt("Variant"));
         entityData.set(FUEL_TIME, compound.getInt("RefuelTime"));
         entityData.set(CREATIVE_BLAZE_CAKE, compound.getBoolean("CreativeCake"));
+    }
+
+    public void sendFuelError(Player player) {
+        player.displayClientMessage(Component.translatable("entity.createbionics.all.fuel_warning"), true);
+        playSound(AllSoundEvents.DENY.getMainEvent(), 1, 0.2f);
+
     }
 
     @Override

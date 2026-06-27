@@ -3,6 +3,7 @@ package net.dshbwlto.createbionics.entity.custom;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
+import com.simibubi.create.foundation.sound.SoundScapes;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.math.VecHelper;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
@@ -198,7 +199,7 @@ public class OxhaulerEntity extends AbstractHorse {
 
     @Override
     public boolean canBeCollidedWith() {
-        return getFuel() == 0;
+        return getFuel() == 0 || isVehicle();
     }
 
     @Override
@@ -270,6 +271,12 @@ public class OxhaulerEntity extends AbstractHorse {
         }
     }
 
+    public void sendFuelError(Player player) {
+        player.displayClientMessage(Component.translatable("entity.createbionics.all.fuel_warning"), true);
+        playSound(AllSoundEvents.DENY.getMainEvent(), 1, 0.2f);
+
+    }
+
     @Override
     public void aiStep() {
 
@@ -321,6 +328,7 @@ public class OxhaulerEntity extends AbstractHorse {
             ejectPassengers();
         }
         if (getFuel() > 0) {
+            playSoundScape(2, 3);
             if (isVehicle() && !hasBlazeCake()) {
                 setFuel(getFuel() - 1);
             }
@@ -338,12 +346,6 @@ public class OxhaulerEntity extends AbstractHorse {
 
         if (this.level().isClientSide()) {
             this.setupAnimationStates();
-        }
-
-        if (level().isClientSide) {
-            if (isVehicle() && getFirstPassenger() instanceof Player player) {
-                //player.displayClientMessage(Component.literal("" + getYRot()), false);
-            }
         }
     }
 
@@ -449,10 +451,14 @@ public class OxhaulerEntity extends AbstractHorse {
             } else {
                 itemStack.shrink(1);
             }
-        } else if (player.isShiftKeyDown()){
-            openCustomInventoryScreen(player);
-        } else if (getFuel() > 0){
-            doPlayerRide(player);
+        } else if (getFuel() > 0) {
+            if (player.isShiftKeyDown()){
+                openCustomInventoryScreen(player);
+            } else {
+                doPlayerRide(player);
+            }
+        } else {
+            sendFuelError(player);
         }
         return InteractionResult.SUCCESS;
     }
@@ -536,6 +542,16 @@ public class OxhaulerEntity extends AbstractHorse {
                         .yRot(-this.getYRot() * (float) (Math.PI / 180.0)));
     }
 
+    public void playSoundScape(int radius, int height) {
+        for (int j = 0; j <= height; j++) {
+            for (int i = -radius; i <= radius; i++) {
+                SoundScapes.play(SoundScapes.AmbienceGroup.COG, getOnPos().east(i).north(-i).above(j), (float)(1 / radius) * 10);
+                SoundScapes.play(SoundScapes.AmbienceGroup.KINETIC, getOnPos().east(i).north(-i).above(j), (float)(1 / radius) * 10);
+                SoundScapes.play(SoundScapes.AmbienceGroup.COG, getOnPos().north(i).east(-i).above(j), (float)(1 / radius) * 10);
+                SoundScapes.play(SoundScapes.AmbienceGroup.KINETIC, getOnPos().north(i).east(-i).above(j), (float)(1 / radius) * 10);
+            }
+        }
+    }
     //Variant//
 
     private void dropIngot() {
