@@ -484,6 +484,7 @@ public class OrganEntity extends AbstractRobot {
 
     //MUSIC//
 
+    /*
     @OnlyIn(Dist.CLIENT)
     protected OrganSoundInstance soundInstance;
 
@@ -508,4 +509,5 @@ public class OrganEntity extends AbstractRobot {
             particle = true;
         }
     }
+     */
 }
