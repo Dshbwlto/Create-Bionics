@@ -66,25 +66,6 @@ public class AnoleEntity extends AbstractRobot {
     public static final EntityDataAccessor<Integer> MARKING_MAP =
             SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.INT);
 
-    private static final EntityDataAccessor<Boolean> HAT1 =
-            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> HAT2 =
-            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> HAT3 =
-            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> HAT4 =
-            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> HAT5 =
-            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> HAT6 =
-            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> HAT7 =
-            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> HAT8 =
-            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> HAT9 =
-            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.BOOLEAN);
-
     public AnoleEntity(EntityType<? extends AbstractRobot> entityType, Level level) {
         super(entityType, level);
     }
@@ -322,15 +303,6 @@ public class AnoleEntity extends AbstractRobot {
         super.defineSynchedData(builder);
         builder.define(MARKING_MAP, 0);
 
-        builder.define(HAT1, true);
-        builder.define(HAT2, false);
-        builder.define(HAT3, false);
-        builder.define(HAT4, false);
-        builder.define(HAT5, false);
-        builder.define(HAT6, false);
-        builder.define(HAT7, false);
-        builder.define(HAT8, false);
-        builder.define(HAT9, false);
     }
 
 
@@ -338,32 +310,12 @@ public class AnoleEntity extends AbstractRobot {
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("Marking", this.getTypeMarkings());
-
-        compound.putBoolean("Hat1", hat1());
-        compound.putBoolean("Hat2", hat2());
-        compound.putBoolean("Hat3", hat3());
-        compound.putBoolean("Hat4", hat4());
-        compound.putBoolean("Hat5", hat5());
-        compound.putBoolean("Hat6", hat6());
-        compound.putBoolean("Hat7", hat7());
-        compound.putBoolean("Hat8", hat8());
-        compound.putBoolean("Hat9", hat9());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.entityData.set(MARKING_MAP, compound.getInt("Marking"));
-
-        this.entityData.set(HAT1, compound.getBoolean("Hat1"));
-        this.entityData.set(HAT2, compound.getBoolean("Hat2"));
-        this.entityData.set(HAT3, compound.getBoolean("Hat3"));
-        this.entityData.set(HAT4, compound.getBoolean("Hat4"));
-        this.entityData.set(HAT5, compound.getBoolean("Hat5"));
-        this.entityData.set(HAT6, compound.getBoolean("Hat6"));
-        this.entityData.set(HAT7, compound.getBoolean("Hat7"));
-        this.entityData.set(HAT8, compound.getBoolean("Hat8"));
-        this.entityData.set(HAT9, compound.getBoolean("Hat9"));
     }
 
     //VARIANT//
