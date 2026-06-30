@@ -3,6 +3,7 @@ package net.dshbwlto.createbionics;
 import com.simibubi.create.foundation.item.ItemDescription;
 import com.simibubi.create.foundation.item.KineticStats;
 import com.simibubi.create.foundation.item.TooltipModifier;
+import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.lang.FontHelper;
 import net.createmod.ponder.foundation.PonderIndex;
 import net.dshbwlto.createbionics.Util.BionicsEntityDataSerializers;
@@ -93,7 +94,7 @@ public class CreateBionics {
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN_TAB = CREATIVE_MODE_TABS.register(MOD_ID, () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
-            .icon(() -> BionicsItems.ANOLE.get().asItem().getDefaultInstance())
+            .icon(() -> (AnimationTickHolder.getTicks() % 4 == 0 ? BionicsItems.ANOLE.get().asItem().getDefaultInstance() : BionicsItems.OXHAULER_HEAD.asItem().getDefaultInstance()))
             .title(Component.translatable("itemGroup.createbionics.create_bionics_tab"))
             .displayItems((itemDisplayParameters, output) -> REGISTRATE.getAll(Registries.ITEM).forEach((item -> {
                 for (ItemLike excluded : excludedItemsList) {

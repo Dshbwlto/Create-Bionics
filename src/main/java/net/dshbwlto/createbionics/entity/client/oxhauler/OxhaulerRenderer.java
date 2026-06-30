@@ -63,7 +63,6 @@ public class OxhaulerRenderer extends MobRenderer<OxhaulerEntity, OxhaulerModel<
         super(context, new OxhaulerModel<>(context.bakeLayer(BionicsModelLayers.OXHAULER)), 1.6f);
         this.addLayer(new OxhaulerGlowLayer(this, context.getModelSet()));
         this.addLayer(new OxhaulerColorLayer(this, context.getModelSet()));
-        this.addLayer(new OxhaulerColorLayer(this, context.getModelSet()));
     }
 
     @Override

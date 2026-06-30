@@ -9,11 +9,13 @@ import com.simibubi.create.api.equipment.goggles.IHaveHoveringInformation;
 import com.simibubi.create.foundation.sound.SoundScapes;
 import net.dshbwlto.createbionics.entity.custom.AnoleEntity;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -209,12 +211,14 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
     }
 
     public void playSoundScape(int radius, int height) {
-        for (int j = 0; j <= height; j++) {
-            for (int i = -radius; i <= radius; i++) {
-                SoundScapes.play(SoundScapes.AmbienceGroup.COG, getOnPos().east(i).north(-i).above(j), (float)(1 / radius) * 10);
-                SoundScapes.play(SoundScapes.AmbienceGroup.KINETIC, getOnPos().east(i).north(-i).above(j), (float)(1 / radius) * 10);
-                SoundScapes.play(SoundScapes.AmbienceGroup.COG, getOnPos().north(i).east(-i).above(j), (float)(1 / radius) * 10);
-                SoundScapes.play(SoundScapes.AmbienceGroup.KINETIC, getOnPos().north(i).east(-i).above(j), (float)(1 / radius) * 10);
+        if (level().isClientSide) {
+            for (int j = 0; j <= height; j++) {
+                for (int i = -radius; i <= radius; i++) {
+                    SoundScapes.play(SoundScapes.AmbienceGroup.COG, getOnPos().east(i).north(-i).above(j), (float) (1 / radius) * 10);
+                    SoundScapes.play(SoundScapes.AmbienceGroup.KINETIC, getOnPos().east(i).north(-i).above(j), (float) (1 / radius) * 10);
+                    SoundScapes.play(SoundScapes.AmbienceGroup.COG, getOnPos().north(i).east(-i).above(j), (float) (1 / radius) * 10);
+                    SoundScapes.play(SoundScapes.AmbienceGroup.KINETIC, getOnPos().north(i).east(-i).above(j), (float) (1 / radius) * 10);
+                }
             }
         }
     }

@@ -12,8 +12,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 
-public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel<T>
-{
+public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel<T> {
     private final ModelPart root;
     private final ModelPart back_master;
     private final ModelPart front_master;

@@ -542,16 +542,20 @@ public class OxhaulerEntity extends AbstractHorse {
                         .yRot(-this.getYRot() * (float) (Math.PI / 180.0)));
     }
 
+
     public void playSoundScape(int radius, int height) {
-        for (int j = 0; j <= height; j++) {
-            for (int i = -radius; i <= radius; i++) {
-                SoundScapes.play(SoundScapes.AmbienceGroup.COG, getOnPos().east(i).north(-i).above(j), (float)(1 / radius) * 10);
-                SoundScapes.play(SoundScapes.AmbienceGroup.KINETIC, getOnPos().east(i).north(-i).above(j), (float)(1 / radius) * 10);
-                SoundScapes.play(SoundScapes.AmbienceGroup.COG, getOnPos().north(i).east(-i).above(j), (float)(1 / radius) * 10);
-                SoundScapes.play(SoundScapes.AmbienceGroup.KINETIC, getOnPos().north(i).east(-i).above(j), (float)(1 / radius) * 10);
+        if (level().isClientSide) {
+            for (int j = 0; j <= height; j++) {
+                for (int i = -radius; i <= radius; i++) {
+                    SoundScapes.play(SoundScapes.AmbienceGroup.COG, getOnPos().east(i).north(-i).above(j), (float) (1 / radius) * 10);
+                    SoundScapes.play(SoundScapes.AmbienceGroup.KINETIC, getOnPos().east(i).north(-i).above(j), (float) (1 / radius) * 10);
+                    SoundScapes.play(SoundScapes.AmbienceGroup.COG, getOnPos().north(i).east(-i).above(j), (float) (1 / radius) * 10);
+                    SoundScapes.play(SoundScapes.AmbienceGroup.KINETIC, getOnPos().north(i).east(-i).above(j), (float) (1 / radius) * 10);
+                }
             }
         }
     }
+
     //Variant//
 
     private void dropIngot() {
