@@ -30,6 +30,10 @@ public class BionicsEntities {
             ENTITIES.register("replete", () -> EntityType.Builder.of(RepleteEntity::new, MobCategory.CREATURE)
                     .sized(4f, 5f).build("replete"));
 
+    public static final Supplier<EntityType<SeekerEntity>> SEEKER =
+            ENTITIES.register("seeker", () -> EntityType.Builder.of(SeekerEntity::new, MobCategory.CREATURE)
+                    .sized(4f, 5f).build("seeker"));
+
     /// These are for future updates, just pretend they don't exist
     public static final Supplier<EntityType<StalkerEntity>> STALKER =
             ENTITIES.register("stalker", () -> EntityType.Builder.of(StalkerEntity::new, MobCategory.CREATURE)

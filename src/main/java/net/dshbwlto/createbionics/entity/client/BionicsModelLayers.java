@@ -10,7 +10,6 @@ public class BionicsModelLayers {
     public static final ModelLayerLocation ANOLE_MARKINGS = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "anole"), "markings");
 
-
     public static final ModelLayerLocation OXHAULER = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "oxhauler"), "main");
     public static final ModelLayerLocation OXHAULER_GLOW = new ModelLayerLocation(
@@ -22,6 +21,11 @@ public class BionicsModelLayers {
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "replete"), "main");
     public static final ModelLayerLocation REPLETE_GLOW = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "replete"), "glow");
+
+    public static final ModelLayerLocation SEEKER = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "seeker"), "main");
+    public static final ModelLayerLocation SEEKER_GLOW = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "seeker"), "glow");
 
     public static final ModelLayerLocation STALKER = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "stalker"), "main");

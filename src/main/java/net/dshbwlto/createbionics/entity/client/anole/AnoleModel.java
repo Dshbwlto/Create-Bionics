@@ -9,9 +9,8 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 
-public class AnoleModel<T extends AnoleEntity> extends HierarchicalModel<T>
-{
-    private final ModelPart anole;
+public class AnoleModel<T extends AnoleEntity> extends HierarchicalModel<T> {
+    private final ModelPart root;
     private final ModelPart head_main;
     private final ModelPart hat1;
     private final ModelPart hat2;
@@ -24,26 +23,26 @@ public class AnoleModel<T extends AnoleEntity> extends HierarchicalModel<T>
     private final ModelPart hat9;
 
     public AnoleModel(ModelPart root) {
-        this.anole = root.getChild("anole");
-        this.head_main = this.anole.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main");
-        this.hat1 = this.anole.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main").getChild("hat1");
-        this.hat2 = this.anole.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main").getChild("hat2");
-        this.hat3 = this.anole.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main").getChild("hat3");
-        this.hat4 = this.anole.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main").getChild("hat4");
-        this.hat5 = this.anole.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main").getChild("hat5");
-        this.hat6 = this.anole.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main").getChild("hat6");
-        this.hat7 = this.anole.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main").getChild("hat7");
-        this.hat8 = this.anole.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main").getChild("hat8");
-        this.hat9 = this.anole.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main").getChild("hat9");
+        this.root = root.getChild("root");
+        this.head_main = this.root.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main");
+        this.hat1 = this.root.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main").getChild("hat1");
+        this.hat2 = this.root.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main").getChild("hat2");
+        this.hat3 = this.root.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main").getChild("hat3");
+        this.hat4 = this.root.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main").getChild("hat4");
+        this.hat5 = this.root.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main").getChild("hat5");
+        this.hat6 = this.root.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main").getChild("hat6");
+        this.hat7 = this.root.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main").getChild("hat7");
+        this.hat8 = this.root.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main").getChild("hat8");
+        this.hat9 = this.root.getChild("lower_body").getChild("upper_body").getChild("neck").getChild("head_main").getChild("hat9");
     }
 
     public static LayerDefinition createBodyLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
 
-        PartDefinition anole = partdefinition.addOrReplaceChild("anole", CubeListBuilder.create(), PartPose.offset(0.0F, 21.7382F, -0.3918F));
+        PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 21.7382F, -0.3918F));
 
-        PartDefinition lower_body = anole.addOrReplaceChild("lower_body", CubeListBuilder.create().texOffs(10, 22).addBox(-1.0F, -1.25F, -0.5F, 2.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.2618F, 0.3918F, -0.1309F, 0.0F, 0.0F));
+        PartDefinition lower_body = root.addOrReplaceChild("lower_body", CubeListBuilder.create().texOffs(10, 22).addBox(-1.0F, -1.25F, -0.5F, 2.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.2618F, 0.3918F, -0.1309F, 0.0F, 0.0F));
 
         PartDefinition exhaust = lower_body.addOrReplaceChild("exhaust", CubeListBuilder.create(), PartPose.offset(1.1F, -0.25F, -1.0F));
 
@@ -170,11 +169,11 @@ public class AnoleModel<T extends AnoleEntity> extends HierarchicalModel<T>
 
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
-        anole.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
+        root.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
     }
 
     @Override
     public ModelPart root() {
-        return anole;
+        return root;
     }
 }

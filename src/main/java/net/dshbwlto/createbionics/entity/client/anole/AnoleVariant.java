@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public enum AnoleVariant {
-    COPPPER(0),
+    COPPER(0),
     BRASS(1),
     NETHERITE(2),
     ANDESITE(3),

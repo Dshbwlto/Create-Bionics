@@ -20,10 +20,6 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
     private final ModelPart neck;
     private final ModelPart pistons;
     private final ModelPart head;
-    private final ModelPart leg_l;
-    private final ModelPart leg_r;
-    private final ModelPart arm_l;
-    private final ModelPart arm_r;
     private final ModelPart combine;
     private final ModelPart roller;
     private final ModelPart plough;
@@ -41,10 +37,6 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
     public OxhaulerModel(ModelPart root) {
         this.root = root.getChild("root");
         this.back_master = this.root.getChild("body").getChild("back_master");
-        this.leg_l = this.root.getChild("body").getChild("back_master").getChild("leg_l");
-        this.leg_r = this.root.getChild("body").getChild("back_master").getChild("leg_r");
-        this.arm_l = this.root.getChild("body").getChild("front_master").getChild("arm_l");
-        this.arm_r = this.root.getChild("body").getChild("front_master").getChild("arm_r");
         this.front_master = this.root.getChild("body").getChild("front_master");
         this.neck_master = this.root.getChild("body").getChild("front_master").getChild("front").getChild("neck_master");
         this.neck = this.root.getChild("body").getChild("front_master").getChild("front").getChild("neck_master").getChild("neck");

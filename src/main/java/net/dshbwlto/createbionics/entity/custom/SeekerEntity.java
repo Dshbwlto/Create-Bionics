@@ -3,51 +3,36 @@ package net.dshbwlto.createbionics.entity.custom;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
 import net.dshbwlto.createbionics.component.BionicsDataComponentTypes;
-import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
-import net.dshbwlto.createbionics.entity.client.anole.AnoleMarkings;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.AnimationState;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Bee;
-import net.minecraft.world.entity.monster.CaveSpider;
-import net.minecraft.world.entity.monster.Silverfish;
-import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.EventHooks;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import org.jetbrains.annotations.Nullable;
 
-@EventBusSubscriber
-public class AnoleEntity extends AbstractRobot {
-    public boolean climbing = false;
-
-    int maxHealth = 5;
+public class SeekerEntity extends AbstractRobot {
 
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
@@ -56,10 +41,7 @@ public class AnoleEntity extends AbstractRobot {
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
 
-    public static final EntityDataAccessor<Integer> MARKING_MAP =
-            SynchedEntityData.defineId(AnoleEntity.class, EntityDataSerializers.INT);
-
-    public AnoleEntity(EntityType<? extends AbstractRobot> entityType, Level level) {
+    public SeekerEntity(EntityType<? extends AbstractRobot> entityType, Level level) {
         super(entityType, level);
     }
 
@@ -101,22 +83,6 @@ public class AnoleEntity extends AbstractRobot {
         });
     }
 
-    @SubscribeEvent
-    public static void scareEntity(EntityJoinLevelEvent event) {
-        if (event.getEntity() instanceof Spider spider) {
-            spider.goalSelector.addGoal(1, new AvoidEntityGoal(spider, AnoleEntity.class, 6.0F, (double)1.0F, 1.2));
-        }
-        if (event.getEntity() instanceof CaveSpider caveSpider) {
-            caveSpider.goalSelector.addGoal(1, new AvoidEntityGoal(caveSpider, AnoleEntity.class, 6.0F, (double)1.0F, 1.2));
-        }
-        if (event.getEntity() instanceof Silverfish silverfish) {
-            silverfish.goalSelector.addGoal(1, new AvoidEntityGoal(silverfish, AnoleEntity.class, 6.0F, (double)1.0F, 1.2));
-        }
-        if (event.getEntity() instanceof Bee bee) {
-            bee.goalSelector.addGoal(1, new AvoidEntityGoal(bee, AnoleEntity.class, 6.0F, (double)1.0F, 1.2));;
-        }
-    }
-
     protected PathNavigation createNavigation(Level level) {
         return new WallClimberNavigation(this, level);
     }
@@ -133,13 +99,7 @@ public class AnoleEntity extends AbstractRobot {
 
     @Override
     public boolean isFood(ItemStack stack) {
-        return stack.is(Items.BARRIER);
-    }
-
-    @Nullable
-    @Override
-    public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
-        return BionicsEntities.ANOLE.get().create(level);
+        return false;
     }
 
     @Override
@@ -220,49 +180,30 @@ public class AnoleEntity extends AbstractRobot {
         ItemStack itemStack = player.getItemInHand(hand);
 
         if (!isTame() && getMainHandItem().isEmpty()) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.SUCCESS;
-            } else {
+            if (!this.level().isClientSide()) {
                 if (!EventHooks.onAnimalTame(this, player)) {
                     super.tame(player);
                     this.navigation.recomputePath();
                     this.setTarget(null);
                     this.level().broadcastEntityEvent(this, (byte) 7);
                 }
-                return InteractionResult.SUCCESS;
             }
+            return InteractionResult.SUCCESS;
         }
 
         if (isTame() && isOwnedBy(player)) {
             if (itemStack.is(AllItems.ANDESITE_ALLOY)
                     || itemStack.is(AllItems.BRASS_INGOT)
-                    || itemStack.is(Items.NETHERITE_INGOT)
-                    || itemStack.is(Items.SPONGE)
-                    || itemStack.is(Items.WET_SPONGE)) {
-                dropIngot(getVariant());
+                    || itemStack.is(Items.NETHERITE_INGOT)) {
+                dropIngot();
                 setTypeVariant(itemStack);
                 if (level().isClientSide) {
                     return InteractionResult.SUCCESS;
-                } else if (!itemStack.is(Items.SPONGE) && !itemStack.is(Items.WET_SPONGE)) {
-                    itemStack.shrink(1);
-                }
-            } else if (itemStack.is(Items.REDSTONE)
-                    || itemStack.is(Items.GOLD_INGOT)
-                    || itemStack.is(Items.DIAMOND)
-                    || itemStack.is(Items.BRUSH)) {
-                dropMaterial(getMarkings());
-                setTypeMarking(itemStack);
-                if (!itemStack.is(Items.BRUSH)) {
+                } else {
                     itemStack.shrink(1);
                 }
             } else if (itemStack.is(AllItems.WRENCH)) {
-                if (getVariant() != AnoleVariant.COPPER
-                        && getVariant() != AnoleVariant.EXPOSED
-                        && getVariant() != AnoleVariant.WEATHERED
-                        && getVariant() != AnoleVariant.OXIDIZED) {
-                    dropIngot(getVariant());
-                }
-                dropMaterial(getMarkings());
+                dropIngot();
                 spawnAtLocation(anoleItem());
                 remove(RemovalReason.DISCARDED);
             } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE)) {
@@ -294,31 +235,24 @@ public class AnoleEntity extends AbstractRobot {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(MARKING_MAP, 0);
-
     }
 
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putInt("Marking", this.getTypeMarkings());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        this.entityData.set(MARKING_MAP, compound.getInt("Marking"));
     }
 
     //VARIANT//
 
     private void setTypeVariant(ItemStack itemStack) {
         if (itemStack.getItem() == Items.COPPER_INGOT &&
-                getVariant() != AnoleVariant.COPPER &&
-                getVariant() != AnoleVariant.EXPOSED &&
-                getVariant() != AnoleVariant.WEATHERED &&
-                getVariant() != AnoleVariant.OXIDIZED) {
+                getVariant() != AnoleVariant.COPPER) {
             setVariant(AnoleVariant.COPPER);
         } else if (itemStack.is(AllItems.ANDESITE_ALLOY)
                 && getVariant() != AnoleVariant.ANDESITE) {
@@ -326,38 +260,10 @@ public class AnoleEntity extends AbstractRobot {
         } else if (itemStack.is(AllItems.BRASS_INGOT)
                 && getVariant() != AnoleVariant.BRASS) {
             setVariant(AnoleVariant.BRASS);
-        } else if (itemStack.is(Items.NETHERITE_INGOT)
-                && getVariant() != AnoleVariant.NETHERITE) {
-            setVariant(AnoleVariant.NETHERITE);
-        } else if (itemStack.is(Items.WET_SPONGE)) {
-            if (getVariant() == AnoleVariant.COPPER) {
-                setVariant(AnoleVariant.EXPOSED);
-            } else if (getVariant() == AnoleVariant.EXPOSED) {
-                setVariant(AnoleVariant.WEATHERED);
-            } else if (getVariant() == AnoleVariant.WEATHERED) {
-                setVariant(AnoleVariant.OXIDIZED);
-            }
-        } else if (itemStack.is(Items.SPONGE) && (getVariant() == AnoleVariant.EXPOSED
-                || getVariant() == AnoleVariant.WEATHERED
-                || getVariant() == AnoleVariant.OXIDIZED)) {
-            setVariant(AnoleVariant.COPPER);
         }
     }
 
-    private void setTypeMarking(ItemStack itemStack) {
-        if (itemStack.is(Items.REDSTONE)
-                && getMarkings() != AnoleMarkings.REDSTONE) {
-            setMarking(AnoleMarkings.REDSTONE);
-        } else if (itemStack.is(Items.GOLD_INGOT) && getMarkings() != AnoleMarkings.GOLD) {
-            setMarking(AnoleMarkings.GOLD);
-        } else if (itemStack.is(Items.DIAMOND) && getMarkings() != AnoleMarkings.DIAMOND) {
-            setMarking(AnoleMarkings.DIAMOND);
-        } else if (itemStack.is(Items.BRUSH) && getMarkings() != AnoleMarkings.DEFAULT) {
-            setMarking(AnoleMarkings.DEFAULT);
-        }
-    }
-
-    private void dropIngot(AnoleVariant variant) {
+    private void dropIngot() {
         if (getVariant() == AnoleVariant.BRASS) {
             spawnAtLocation(new ItemStack(AllItems.BRASS_INGOT.asItem()));
         } else if (getVariant() == AnoleVariant.ANDESITE) {
@@ -367,76 +273,16 @@ public class AnoleEntity extends AbstractRobot {
         }
     }
 
-    private void dropMaterial(AnoleMarkings markings) {
-        if (getMarkings() == AnoleMarkings.GOLD) {
-            spawnAtLocation(new ItemStack(Items.GOLD_INGOT));
-        } else if (getMarkings() == AnoleMarkings.REDSTONE) {
-            spawnAtLocation(new ItemStack(Items.REDSTONE));
-        } else if (getMarkings() == AnoleMarkings.DIAMOND) {
-            spawnAtLocation(new ItemStack(Items.DIAMOND));
-        }
-    }
-
     private int getTypeVariant() {
         return this.entityData.get(VARIANT);
-    }
-
-    public int getTypeMarkings() {
-        return this.entityData.get(MARKING_MAP);
     }
 
     public AnoleVariant getVariant() {
         return AnoleVariant.byId(this.getTypeVariant() & 255);
     }
 
-    public AnoleMarkings getMarkings() {
-        return AnoleMarkings.byId(this.getTypeMarkings() & 255);
-    }
-
     public void setVariant(AnoleVariant variant) {
         this.entityData.set(VARIANT, variant.getId() & 255);
     }
 
-    public void setMarking(AnoleMarkings marking) {
-        this.entityData.set(MARKING_MAP, marking.getId() & 255);
-    }
-
-    //Hats//
-
-    public boolean hat1() {
-        String s = ChatFormatting.stripFormatting(this.getName().getString());
-        return ("Distinguished Gentleman".equals(s) || "Bill".equals(s));
-    }
-    public boolean hat2() {
-        String s = ChatFormatting.stripFormatting(this.getName().getString());
-        return "Timmy".equals(s);
-    }
-    public boolean hat3() {
-        String s = ChatFormatting.stripFormatting(this.getName().getString());
-        return "Unicorn".equals(s);
-    }
-    public boolean hat4() {
-        String s = ChatFormatting.stripFormatting(this.getName().getString());
-        return ("Legend".equals(s) || "Techno".equals(s) || "Alex".equals(s));
-    }
-    public boolean hat5() {
-        String s = ChatFormatting.stripFormatting(this.getName().getString());
-        return "Stampy".equals(s);
-    }
-    public boolean hat6() {
-        String s = ChatFormatting.stripFormatting(this.getName().getString());
-        return ("Doug".equals(s) || "Dimmadome".equals(s) || "Mayor".equals(s));
-    }
-    public boolean hat7() {
-        String s = ChatFormatting.stripFormatting(this.getName().getString());
-        return "Cat in the Hat".equals(s);
-    }
-    public boolean hat8() {
-        String s = ChatFormatting.stripFormatting(this.getName().getString());
-        return "Sherlock".equals(s);
-    }
-    public boolean hat9() {
-        String s = ChatFormatting.stripFormatting(this.getName().getString());
-        return "Scallywag".equals(s);
-    }
 }

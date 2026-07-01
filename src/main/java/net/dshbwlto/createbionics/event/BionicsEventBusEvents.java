@@ -8,6 +8,7 @@ import net.dshbwlto.createbionics.entity.client.anole.AnoleModel;
 import net.dshbwlto.createbionics.entity.client.organ.OrganModel;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerModel;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteModel;
+import net.dshbwlto.createbionics.entity.client.seeker.SeekerModel;
 import net.dshbwlto.createbionics.entity.client.stalker.StalkerModel;
 import net.dshbwlto.createbionics.entity.client.stalker_captain.StalkerCaptainModel;
 import net.dshbwlto.createbionics.entity.custom.*;
@@ -40,6 +41,9 @@ public class BionicsEventBusEvents {
 
         event.registerLayerDefinition(BionicsModelLayers.REPLETE, RepleteModel::createBodyLayer);
         event.registerLayerDefinition(BionicsModelLayers.REPLETE_GLOW, RepleteModel::createBodyLayer);
+
+        event.registerLayerDefinition(BionicsModelLayers.SEEKER, SeekerModel::createBodyLayer);
+        event.registerLayerDefinition(BionicsModelLayers.SEEKER_GLOW, SeekerModel::createBodyLayer);
 
         event.registerLayerDefinition(BionicsModelLayers.STALKER, StalkerModel::createBodyLayer);
         event.registerLayerDefinition(BionicsModelLayers.STALKER_GLOW, StalkerModel::createBodyLayer);
