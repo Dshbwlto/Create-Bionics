@@ -1,0 +1,37 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Dshbwlto",
+	"texture_size": [128, 128],
+	"textures": {
+		"0": "createbionics:item/entity/anole/anole_marking_1",
+		"particle": "createbionics:item/entity/anole/anole_marking_1"
+	},
+	"elements": [
+		{
+			"from": [6.999, 6.999, 4.999],
+			"to": [9.001, 8.001, 8.001],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [2.375, 1.125, 2.625, 1.25], "texture": "#0"},
+				"east": {"uv": [2, 1.125, 2.375, 1.25], "texture": "#0"},
+				"south": {"uv": [3, 1.125, 3.25, 1.25], "texture": "#0"},
+				"west": {"uv": [2.625, 1.125, 3, 1.25], "texture": "#0"},
+				"up": {"uv": [2.625, 1.125, 2.375, 0.75], "texture": "#0"},
+				"down": {"uv": [2.875, 0.75, 2.625, 1.125], "texture": "#0"}
+			}
+		},
+		{
+			"from": [6.999, 7.999, 4.999],
+			"to": [9.001, 9.001, 9.001],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 9, 8]},
+			"faces": {
+				"north": {"uv": [0.5, 2.625, 0.75, 2.75], "texture": "#0"},
+				"east": {"uv": [0, 2.625, 0.5, 2.75], "texture": "#0"},
+				"south": {"uv": [1.25, 2.625, 1.5, 2.75], "texture": "#0"},
+				"west": {"uv": [0.75, 2.625, 1.25, 2.75], "texture": "#0"},
+				"up": {"uv": [0.75, 2.625, 0.5, 2.125], "texture": "#0"},
+				"down": {"uv": [1, 2.125, 0.75, 2.625], "texture": "#0"}
+			}
+		}
+	]
+}

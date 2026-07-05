@@ -4,10 +4,14 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
 import net.dshbwlto.createbionics.component.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
-import net.dshbwlto.createbionics.entity.client.anole.AnoleVariant;
+import net.dshbwlto.createbionics.entity.client.seeker.SeekerPickaxe;
+import net.dshbwlto.createbionics.entity.client.seeker.SeekerVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
+import net.dshbwlto.createbionics.item.custom.SeekerItem;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -18,6 +22,8 @@ import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
@@ -28,7 +34,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,12 +46,18 @@ public class SeekerEntity extends AbstractRobot {
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
 
+    public static final EntityDataAccessor<Integer> PICK_MAP =
+            SynchedEntityData.defineId(SeekerEntity.class, EntityDataSerializers.INT);
+
     public SeekerEntity(EntityType<? extends AbstractRobot> entityType, Level level) {
         super(entityType, level);
     }
 
     @Override
     protected void registerGoals() {
+        this.lookControl = new SmoothSwimmingLookControl(this, 10);
+        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 1, 1, true);
+
         this.goalSelector.addGoal(0, new FloatGoal(this) {
             @Override
             public boolean canUse() {
@@ -59,7 +70,7 @@ public class SeekerEntity extends AbstractRobot {
         this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0d, 10f, 5f) {
             @Override
             public boolean canUse() {
-                return super.canUse() && isFueled();
+                return super.canUse() && isFueled() && getCommand() == 0;
             }
         });
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D) {
@@ -82,7 +93,6 @@ public class SeekerEntity extends AbstractRobot {
             }
         });
     }
-
     protected PathNavigation createNavigation(Level level) {
         return new WallClimberNavigation(this, level);
     }
@@ -98,11 +108,6 @@ public class SeekerEntity extends AbstractRobot {
     }
 
     @Override
-    public boolean isFood(ItemStack stack) {
-        return false;
-    }
-
-    @Override
     protected @Nullable SoundEvent getDeathSound() {
         return SoundEvents.ITEM_BREAK;
     }
@@ -112,8 +117,14 @@ public class SeekerEntity extends AbstractRobot {
         return SoundEvents.ANVIL_PLACE;
     }
 
+
+    @Override
+    public @Nullable ItemStack getPickResult() {
+        return seekerItem();
+    }
+
     public void aiStep() {
-        if (this.level().isClientSide && isFueled() && getFuel() > 100) {
+        if (this.level().isClientSide && isFueled() && getFuel() > 0) {
             this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX(0.5F), this.getRandomY(), this.getRandomZ(0.5F), 0.0F, 0.0F, 0.0F);
         }
         super.aiStep();
@@ -193,8 +204,7 @@ public class SeekerEntity extends AbstractRobot {
 
         if (isTame() && isOwnedBy(player)) {
             if (itemStack.is(AllItems.ANDESITE_ALLOY)
-                    || itemStack.is(AllItems.BRASS_INGOT)
-                    || itemStack.is(Items.NETHERITE_INGOT)) {
+                    || itemStack.is(AllItems.BRASS_INGOT)) {
                 dropIngot();
                 setTypeVariant(itemStack);
                 if (level().isClientSide) {
@@ -202,9 +212,15 @@ public class SeekerEntity extends AbstractRobot {
                 } else {
                     itemStack.shrink(1);
                 }
+            } else if ((itemStack.is(Items.DIAMOND_PICKAXE) && getPickaxe() == SeekerPickaxe.IRON) ||
+                    (itemStack.is(Items.NETHERITE_INGOT) && getPickaxe() == SeekerPickaxe.DIAMOND)) {
+                setTypePickaxe(itemStack);
+                player.playSound(SoundEvents.SMITHING_TABLE_USE);
+                if (level().isClientSide) {
+                    return InteractionResult.SUCCESS;
+                }
             } else if (itemStack.is(AllItems.WRENCH)) {
-                dropIngot();
-                spawnAtLocation(anoleItem());
+                spawnAtLocation(seekerItem());
                 remove(RemovalReason.DISCARDED);
             } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE)) {
                 if (hasBlazeCake()) {
@@ -214,7 +230,7 @@ public class SeekerEntity extends AbstractRobot {
                     entityData.set(CREATIVE_BLAZE_CAKE, true);
                     playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
                 }
-            } else if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL)){
+            } else if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL)) {
                 setFuel(10000);
                 playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
             } else {
@@ -226,50 +242,80 @@ public class SeekerEntity extends AbstractRobot {
         return super.mobInteract(player, hand);
     }
 
-    public Item anoleItem() {
-        ItemStack anole = new ItemStack(BionicsItems.ANOLE.get());
-        anole.set(BionicsDataComponentTypes.VARIANT, this.getTypeVariant());
-        return anole.getItem();
+    public ItemStack seekerItem() {
+        ItemStack item = new ItemStack(BionicsItems.SEEKER.get());
+        item.set(BionicsDataComponentTypes.VARIANT, getTypeVariant());
+        item.set(BionicsDataComponentTypes.MARKING, getTypePickaxe());
+        item.set(BionicsDataComponentTypes.FUEL, getFuel());
+        return item;
     }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
+        /// just stop.
+        //builder.define(PICK_MAP, 0);
     }
-
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
+        compound.putInt("Pickaxe", this.getTypePickaxe());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
+        this.entityData.set(PICK_MAP, compound.getInt("Pickaxe"));
     }
 
     //VARIANT//
 
     private void setTypeVariant(ItemStack itemStack) {
-        if (itemStack.getItem() == Items.COPPER_INGOT &&
-                getVariant() != AnoleVariant.COPPER) {
-            setVariant(AnoleVariant.COPPER);
-        } else if (itemStack.is(AllItems.ANDESITE_ALLOY)
-                && getVariant() != AnoleVariant.ANDESITE) {
-            setVariant(AnoleVariant.ANDESITE);
+        if (itemStack.is(AllItems.ANDESITE_ALLOY)
+                && getVariant() != SeekerVariant.ANDESITE) {
+            setVariant(SeekerVariant.ANDESITE);
         } else if (itemStack.is(AllItems.BRASS_INGOT)
-                && getVariant() != AnoleVariant.BRASS) {
-            setVariant(AnoleVariant.BRASS);
+                && getVariant() != SeekerVariant.BRASS) {
+            setVariant(SeekerVariant.BRASS);
         }
     }
 
+    private void setTypePickaxe(ItemStack itemStack) {
+        if (itemStack.is(Items.DIAMOND_PICKAXE) && getPickaxe() == SeekerPickaxe.IRON) {
+            setPickaxe(SeekerPickaxe.DIAMOND);
+            if (!level().isClientSide) {
+                itemStack.shrink(1);
+            }
+        } else if (itemStack.is(Items.NETHERITE_INGOT) && getPickaxe() == SeekerPickaxe.DIAMOND) {
+            setPickaxe(SeekerPickaxe.NETHERITE);
+            if (!level().isClientSide) {
+                itemStack.shrink(1);
+            }
+        }
+    }
+
+    public int getTypePickaxe() {
+        return this.entityData.get(PICK_MAP);
+    }
+
+    public SeekerPickaxe getPickaxe() {
+        return SeekerPickaxe.byId(this.getTypePickaxe() & 255);
+    }
+
+    public void setPickaxe(SeekerPickaxe marking) {
+        this.entityData.set(PICK_MAP, marking.getId() & 255);
+    }
+
+    public void setPickaxeNumber(int pickaxe) {
+        this.entityData.set(PICK_MAP, pickaxe);
+    }
+
     private void dropIngot() {
-        if (getVariant() == AnoleVariant.BRASS) {
+        if (getVariant() == SeekerVariant.BRASS) {
             spawnAtLocation(new ItemStack(AllItems.BRASS_INGOT.asItem()));
-        } else if (getVariant() == AnoleVariant.ANDESITE) {
+        } else if (getVariant() == SeekerVariant.ANDESITE) {
             spawnAtLocation(new ItemStack(AllItems.ANDESITE_ALLOY.asItem()));
-        } else if (getVariant() == AnoleVariant.NETHERITE) {
-            spawnAtLocation(new ItemStack(Items.NETHERITE_INGOT));
         }
     }
 
@@ -277,11 +323,11 @@ public class SeekerEntity extends AbstractRobot {
         return this.entityData.get(VARIANT);
     }
 
-    public AnoleVariant getVariant() {
-        return AnoleVariant.byId(this.getTypeVariant() & 255);
+    public SeekerVariant getVariant() {
+        return SeekerVariant.byId(this.getTypeVariant() & 255);
     }
 
-    public void setVariant(AnoleVariant variant) {
+    public void setVariant(SeekerVariant variant) {
         this.entityData.set(VARIANT, variant.getId() & 255);
     }
 

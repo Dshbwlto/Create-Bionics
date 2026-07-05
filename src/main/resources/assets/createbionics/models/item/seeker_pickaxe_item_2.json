@@ -1,0 +1,7 @@
+{
+	"parent": "createbionics:item/seeker_pickaxe_item",
+	"textures": {
+		"0": "createbionics:item/entity/seeker/seeker_pickaxe_2",
+		"particle": "createbionics:item/entity/seeker/seeker_pickaxe_2"
+	}
+}

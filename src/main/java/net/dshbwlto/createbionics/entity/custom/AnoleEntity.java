@@ -77,7 +77,7 @@ public class AnoleEntity extends AbstractRobot {
         this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0d, 10f, 5f) {
             @Override
             public boolean canUse() {
-                return super.canUse() && isFueled();
+                return super.canUse() && isFueled() && getCommand() == 0;
             }
         });
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D) {
@@ -132,14 +132,8 @@ public class AnoleEntity extends AbstractRobot {
     }
 
     @Override
-    public boolean isFood(ItemStack stack) {
-        return stack.is(Items.BARRIER);
-    }
-
-    @Nullable
-    @Override
-    public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
-        return BionicsEntities.ANOLE.get().create(level);
+    public @Nullable ItemStack getPickResult() {
+        return anoleItem();
     }
 
     @Override
@@ -256,15 +250,17 @@ public class AnoleEntity extends AbstractRobot {
                     itemStack.shrink(1);
                 }
             } else if (itemStack.is(AllItems.WRENCH)) {
-                if (getVariant() != AnoleVariant.COPPER
-                        && getVariant() != AnoleVariant.EXPOSED
-                        && getVariant() != AnoleVariant.WEATHERED
-                        && getVariant() != AnoleVariant.OXIDIZED) {
+                if (player.isShiftKeyDown()) {
+                    spawnAtLocation(anoleItem());
+                    remove(RemovalReason.DISCARDED);
+                    return InteractionResult.SUCCESS;
+                } else {
                     dropIngot(getVariant());
+                    dropMaterial(getMarkings());
+                    setVariant(AnoleVariant.COPPER);
+                    setMarking(AnoleMarkings.DEFAULT);
+                    return InteractionResult.SUCCESS;
                 }
-                dropMaterial(getMarkings());
-                spawnAtLocation(anoleItem());
-                remove(RemovalReason.DISCARDED);
             } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE)) {
                 if (hasBlazeCake()) {
                     entityData.set(CREATIVE_BLAZE_CAKE, false);
@@ -285,10 +281,15 @@ public class AnoleEntity extends AbstractRobot {
         return super.mobInteract(player, hand);
     }
 
-    public Item anoleItem() {
-        ItemStack anole = new ItemStack(BionicsItems.ANOLE.get());
-        anole.set(BionicsDataComponentTypes.VARIANT, this.getTypeVariant());
-        return anole.getItem();
+    public ItemStack anoleItem() {
+        ItemStack item = new ItemStack(BionicsItems.ANOLE.get());
+        item.set(BionicsDataComponentTypes.VARIANT, getTypeVariant());
+        item.set(BionicsDataComponentTypes.MARKING, getTypeMarkings());
+        item.set(BionicsDataComponentTypes.FUEL, getFuel());
+        if (hasCustomName()) {
+            item.set(BionicsDataComponentTypes.NAME, getDisplayName().getString());
+        }
+        return item;
     }
 
     @Override
@@ -297,7 +298,6 @@ public class AnoleEntity extends AbstractRobot {
         builder.define(MARKING_MAP, 0);
 
     }
-
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -355,6 +355,10 @@ public class AnoleEntity extends AbstractRobot {
         } else if (itemStack.is(Items.BRUSH) && getMarkings() != AnoleMarkings.DEFAULT) {
             setMarking(AnoleMarkings.DEFAULT);
         }
+    }
+
+    public void setMarkingNumber(int marking) {
+        entityData.set(MARKING_MAP, marking);
     }
 
     private void dropIngot(AnoleVariant variant) {

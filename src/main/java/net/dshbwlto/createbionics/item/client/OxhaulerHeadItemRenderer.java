@@ -1,5 +1,5 @@
 
-package net.dshbwlto.createbionics.item.custom;
+package net.dshbwlto.createbionics.item.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;

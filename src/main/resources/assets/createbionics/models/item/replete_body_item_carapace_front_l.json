@@ -3,8 +3,8 @@
 	"credit": "Made by Dshbwlto",
 	"texture_size": [256, 256],
 	"textures": {
-		"0": "createbionics:item/entity/replete_items",
-		"particle": "createbionics:item/entity/replete_items"
+		"0": "createbionics:item/entity/replete/replete_items",
+		"particle": "createbionics:item/entity/replete/replete_items"
 	},
 	"elements": [
 		{

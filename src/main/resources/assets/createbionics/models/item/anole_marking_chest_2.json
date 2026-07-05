@@ -1,0 +1,7 @@
+{
+	"parent": "createbionics:item/anole_marking_chest",
+	"textures": {
+		"0": "createbionics:item/entity/anole/anole_marking_2",
+		"particle": "createbionics:item/entity/anole/anole_marking_2"
+	}
+}

@@ -1,0 +1,77 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Dshbwlto",
+	"texture_size": [128, 128],
+	"textures": {
+		"0": "createbionics:item/entity/anole/anole_items_1",
+		"particle": "createbionics:item/entity/anole/anole_items_1"
+	},
+	"elements": [
+		{
+			"from": [6.99, 13.10816, 3.80433],
+			"to": [9.01, 14.12816, 5.82433],
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [0, 3, -5]},
+			"faces": {
+				"north": {"uv": [5, 0.875, 5.25, 1], "texture": "#0"},
+				"east": {"uv": [4.75, 0.875, 5, 1], "texture": "#0"},
+				"south": {"uv": [5.5, 0.875, 5.75, 1], "texture": "#0"},
+				"west": {"uv": [5.25, 0.875, 5.5, 1], "texture": "#0"},
+				"up": {"uv": [5.25, 0.875, 5, 0.625], "texture": "#0"},
+				"down": {"uv": [5.5, 0.625, 5.25, 0.875], "texture": "#0"}
+			}
+		},
+		{
+			"from": [7.5, 13.61816, 4.31433],
+			"to": [8.5, 14.61816, 5.31433],
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [0, 3, -5]},
+			"faces": {
+				"north": {"uv": [6, 1.25, 6.125, 1.375], "texture": "#0"},
+				"east": {"uv": [5.875, 1.25, 6, 1.375], "texture": "#0"},
+				"south": {"uv": [6.25, 1.25, 6.375, 1.375], "texture": "#0"},
+				"west": {"uv": [6.125, 1.25, 6.25, 1.375], "texture": "#0"},
+				"up": {"uv": [6.125, 1.25, 6, 1.125], "texture": "#0"},
+				"down": {"uv": [6.25, 1.125, 6.125, 1.25], "texture": "#0"}
+			}
+		},
+		{
+			"from": [6.5, 14.36816, 3.31433],
+			"to": [9.5, 14.36816, 6.31433],
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [0, 3, -5]},
+			"faces": {
+				"north": {"uv": [6, 1, 6.375, 1], "texture": "#0"},
+				"east": {"uv": [5.625, 1, 6, 1], "texture": "#0"},
+				"south": {"uv": [6.75, 1, 7.125, 1], "texture": "#0"},
+				"west": {"uv": [6.375, 1, 6.75, 1], "texture": "#0"},
+				"up": {"uv": [6.375, 1, 6, 0.625], "texture": "#0"},
+				"down": {"uv": [6.375, 0.625, 6, 1], "texture": "#0"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "hat1",
+			"origin": [0.5, 2.75, -5.25],
+			"scope": 0,
+			"color": 0,
+			"children": []
+		},
+		{
+			"name": "hat2",
+			"origin": [0, 3, -5],
+			"rotation": [22.5, 0, 0],
+			"scope": 0,
+			"color": 0,
+			"children": [
+				0,
+				1,
+				{
+					"name": "propeller",
+					"origin": [0, 4, -4.9],
+					"scope": 0,
+					"color": 0,
+					"children": [2]
+				}
+			]
+		}
+	]
+}

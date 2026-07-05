@@ -2,6 +2,7 @@
 package net.dshbwlto.createbionics.item.custom;
 
 import com.simibubi.create.foundation.item.render.SimpleCustomRenderer;
+import net.dshbwlto.createbionics.item.client.OxhaulerHeadItemRenderer;
 import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;

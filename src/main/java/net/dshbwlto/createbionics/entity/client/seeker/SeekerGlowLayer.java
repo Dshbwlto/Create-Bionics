@@ -5,8 +5,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
-import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerModel;
-import net.dshbwlto.createbionics.entity.custom.OxhaulerEntity;
 import net.dshbwlto.createbionics.entity.custom.SeekerEntity;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -21,7 +19,7 @@ public class SeekerGlowLayer extends RenderLayer<SeekerEntity, SeekerModel<Seeke
 
     public SeekerGlowLayer(RenderLayerParent<SeekerEntity, SeekerModel<SeekerEntity>> renderer, EntityModelSet models) {
         super(renderer);
-        this.model = new SeekerModel<>(models.bakeLayer(BionicsModelLayers.OXHAULER_GLOW));
+        this.model = new SeekerModel<>(models.bakeLayer(BionicsModelLayers.SEEKER_GLOW));
     }
     @Override
     public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, SeekerEntity livingEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {

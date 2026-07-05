@@ -6,8 +6,8 @@ import java.util.Comparator;
 public enum AnoleVariant {
     COPPER(0),
     BRASS(1),
-    NETHERITE(2),
-    ANDESITE(3),
+    ANDESITE(2),
+    NETHERITE(3),
     EXPOSED(4),
     WEATHERED(5),
     OXIDIZED(6);

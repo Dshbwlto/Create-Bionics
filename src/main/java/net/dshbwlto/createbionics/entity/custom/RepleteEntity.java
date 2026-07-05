@@ -29,6 +29,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Inventory;
@@ -89,6 +91,9 @@ public class RepleteEntity extends AbstractRobot implements MenuProvider{
 
     @Override
     protected void registerGoals() {
+        this.lookControl = new SmoothSwimmingLookControl(this, 10);
+        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 1, 1, true);
+
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 1.0d, 15, 7) {
             @Override

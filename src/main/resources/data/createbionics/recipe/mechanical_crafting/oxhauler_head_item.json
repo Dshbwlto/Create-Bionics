@@ -7,7 +7,7 @@
       "item": "create:brass_ingot"
     },
     "B": {
-      "item": "create:brass_block"
+      "item": "create:brass_sheet"
     },
     "S": {
       "item": "create:shaft"
@@ -26,7 +26,7 @@
     }
   },
   "pattern": [
-    "IBTBI",
+    "BITIB",
     "SEAES",
     "SCICS"
   ],

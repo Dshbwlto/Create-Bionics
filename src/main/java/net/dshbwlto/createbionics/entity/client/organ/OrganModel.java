@@ -678,14 +678,14 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         netHeadYaw = Mth.clamp(netHeadYaw, -60.0F, 60.0F) / 2;
         this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);
         this.neck.yRot = netHeadYaw * ((float) Math.PI / 180F);
-        this.chest.yRot = netHeadYaw * ((float) Math.PI / 180F);
+        this.chest.yRot = (netHeadYaw * ((float) Math.PI / 180F)) / 3;
 
         float ySwing = entity.getAssembly() >= 21 ? (float) Math.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 16) / 16 : 0;
         float ySwing2 = entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 16) - 2) / 16 : 0;
         float bodyYOffset = entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / 2 : 0;
 
-        tail1.yRot = ySwing - netHeadYaw * ((float) Math.PI / 180F);
-        tail2.yRot = ySwing2 - netHeadYaw * ((float) Math.PI / 180F);
+        tail1.yRot = ySwing - (netHeadYaw * ((float) Math.PI / 180F)) / 3;
+        tail2.yRot = ySwing2 - (netHeadYaw * ((float) Math.PI / 180F)) / 3;
         body.y = bodyYOffset - 80 + entity.z0;
 
         this.animateWalk(OrganAnimations.organ_walk_forward, limbSwing, limbSwingAmount, 1f, 2f);

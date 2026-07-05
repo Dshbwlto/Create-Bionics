@@ -8,6 +8,7 @@ import com.tterrag.registrate.util.entry.ItemEntry;
 import net.createmod.catnip.lang.FontHelper;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
+import net.dshbwlto.createbionics.item.api.RobotSpawnerItem;
 import net.dshbwlto.createbionics.item.custom.*;
 import net.dshbwlto.createbionics.registry.custom.BionicsRegistrate;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
@@ -24,8 +25,12 @@ public class BionicsItems {
 
     public static final ItemEntry<RobotBuilderItem> ROBOT_BUILDER = REGISTRATE.item("robot_builder", RobotBuilderItem::new)
             .properties(properties -> properties.stacksTo(1)).register();
+
     public static final ItemEntry<AnoleItem> ANOLE = REGISTRATE.item("anole_item",
-            properties -> new AnoleItem(BionicsEntities.ANOLE.get(), 0xFFFFFF, 0xFFFFFF, properties.stacksTo(1))).register();
+            properties -> new AnoleItem(BionicsEntities.ANOLE.get(), properties.stacksTo(1))).register();
+
+    public static final ItemEntry<SeekerItem> SEEKER = REGISTRATE.item("seeker_item",
+            properties -> new SeekerItem(BionicsEntities.SEEKER.get(), properties.stacksTo(1))).register();
 
     public static final ItemEntry<OxhaulerMiddleItem> OXHAULER_MIDDLE = REGISTRATE.item("oxhauler_middle_item",
             properties -> new OxhaulerMiddleItem(BionicsEntities.OXHAULER.get(), 0xFFFFFF, 0xFFFFFF, properties.stacksTo(1))).register();
@@ -87,7 +92,10 @@ public class BionicsItems {
             Item::new).properties(properties -> properties.stacksTo(1)).register();
 
     public static final ItemEntry<Item> WALTZ_2_MUSIC_DISC = REGISTRATE.item("waltz_2_music_disc", Item::new)
-            .properties(properties -> properties.jukeboxPlayable(BionicsSounds.WALTZ_2_KEY).rarity(Rarity.RARE)).register();
+            .properties(properties -> properties.jukeboxPlayable(BionicsSounds.WALTZ_2_KEY).rarity(Rarity.RARE).stacksTo(1)).register();
+
+    public static final ItemEntry<InventoryPreviewItem> INVENTORY_PREVIEW = REGISTRATE.item("inventory_preview", InventoryPreviewItem::new)
+            .properties(properties -> properties.stacksTo(1)).register();
 
     public static void register() {
 

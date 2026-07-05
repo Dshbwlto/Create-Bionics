@@ -1,0 +1,50 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Dshbwlto",
+	"texture_size": [128, 128],
+	"textures": {
+		"0": "createbionics:item/entity/anole/anole_marking_1",
+		"particle": "createbionics:item/entity/anole/anole_marking_1"
+	},
+	"elements": [
+		{
+			"from": [7.999, 6.999, 7.999],
+			"to": [8.001, 9.001, 16.001],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [1, 1, 1, 1.25], "texture": "#0"},
+				"east": {"uv": [0, 1, 1, 1.25], "texture": "#0"},
+				"south": {"uv": [2, 1, 2, 1.25], "texture": "#0"},
+				"west": {"uv": [1, 1, 2, 1.25], "texture": "#0"},
+				"up": {"uv": [1, 1, 1, 0], "texture": "#0"},
+				"down": {"uv": [1, 0, 1, 1], "texture": "#0"}
+			}
+		},
+		{
+			"from": [7.999, 6.999, 7.999],
+			"to": [8.001, 9.001, 16.001],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [1, 1, 1, 1.25], "texture": "#0"},
+				"east": {"uv": [2, 1, 1, 1.25], "texture": "#0"},
+				"south": {"uv": [2, 1, 2, 1.25], "texture": "#0"},
+				"west": {"uv": [1, 1, 0, 1.25], "texture": "#0"},
+				"up": {"uv": [1, 1, 1, 0], "texture": "#0"},
+				"down": {"uv": [1, 0, 1, 1], "texture": "#0"}
+			}
+		},
+		{
+			"from": [7.499, 7.999, 7.999],
+			"to": [8.501, 9.001, 11.001],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [3.375, 2.125, 3.5, 2.25], "texture": "#0"},
+				"east": {"uv": [3, 2.125, 3.375, 2.25], "texture": "#0"},
+				"south": {"uv": [3.875, 2.125, 4, 2.25], "texture": "#0"},
+				"west": {"uv": [3.5, 2.125, 3.875, 2.25], "texture": "#0"},
+				"up": {"uv": [3.5, 2.125, 3.375, 1.75], "texture": "#0"},
+				"down": {"uv": [3.625, 1.75, 3.5, 2.125], "texture": "#0"}
+			}
+		}
+	]
+}

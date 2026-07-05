@@ -6,10 +6,7 @@ import java.util.Comparator;
 public enum SeekerVariant {
     COPPER(0),
     BRASS(1),
-    ANDESITE(3),
-    EXPOSED(4),
-    WEATHERED(5),
-    OXIDIZED(6);
+    ANDESITE(2);
 
     private static final SeekerVariant[] BY_ID = Arrays.stream(values()).sorted(
             Comparator.comparingInt(SeekerVariant::getId)).toArray(SeekerVariant[]::new);

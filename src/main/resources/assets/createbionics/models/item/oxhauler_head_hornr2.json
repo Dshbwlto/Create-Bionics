@@ -3,8 +3,8 @@
 	"credit": "Made by Dshbwlto",
 	"texture_size": [256, 256],
 	"textures": {
-		"0": "createbionics:item/entity/oxhauler_items",
-		"particle": "createbionics:item/entity/oxhauler_items"
+		"0": "createbionics:item/entity/oxhauler/oxhauler_items",
+		"particle": "createbionics:item/entity/oxhauler/oxhauler_items"
 	},
 	"elements": [
 		{

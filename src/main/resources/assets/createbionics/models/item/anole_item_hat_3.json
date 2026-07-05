@@ -1,0 +1,46 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Dshbwlto",
+	"texture_size": [128, 128],
+	"textures": {
+		"0": "createbionics:item/entity/anole/anole_items_1",
+		"particle": "createbionics:item/entity/anole/anole_items_1"
+	},
+	"elements": [
+		{
+			"from": [6.99, 7.99, 7.74],
+			"to": [9.01, 9.01, 8.76],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 6, 6]},
+			"faces": {
+				"north": {"uv": [4.625, 1.75, 4.875, 1.875], "texture": "#0"},
+				"east": {"uv": [4.5, 1.75, 4.625, 1.875], "texture": "#0"},
+				"south": {"uv": [5, 1.75, 5.25, 1.875], "texture": "#0"},
+				"west": {"uv": [4.875, 1.75, 5, 1.875], "texture": "#0"},
+				"up": {"uv": [4.875, 1.75, 4.625, 1.625], "texture": "#0"},
+				"down": {"uv": [5.125, 1.625, 4.875, 1.75], "texture": "#0"}
+			}
+		},
+		{
+			"from": [7.5, 9, 7.75],
+			"to": [8.5, 11, 8.75],
+			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 9, 8.75]},
+			"faces": {
+				"north": {"uv": [5.375, 1.75, 5.5, 2], "texture": "#0"},
+				"east": {"uv": [5.25, 1.75, 5.375, 2], "texture": "#0"},
+				"south": {"uv": [5.625, 1.75, 5.75, 2], "texture": "#0"},
+				"west": {"uv": [5.5, 1.75, 5.625, 2], "texture": "#0"},
+				"up": {"uv": [5.5, 1.75, 5.375, 1.625], "texture": "#0"},
+				"down": {"uv": [5.625, 1.625, 5.5, 1.75], "texture": "#0"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "hat3",
+			"origin": [0, 2.5, -4.75],
+			"scope": 0,
+			"color": 0,
+			"children": [0, 1]
+		}
+	]
+}

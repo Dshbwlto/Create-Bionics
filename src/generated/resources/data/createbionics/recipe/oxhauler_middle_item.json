@@ -19,12 +19,15 @@
     },
     "S": {
       "item": "create:red_seat"
+    },
+    "P": {
+      "item": "create:fluid_pipe"
     }
   },
   "pattern": [
     "GSG",
     "DFC",
-    "AAC"
+    "APC"
   ],
   "result": {
     "count": 1,

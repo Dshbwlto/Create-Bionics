@@ -1,6 +1,6 @@
 {
 	"parent": "createbionics:item/oxhauler_fire",
 	"textures": {
-		"0": "createbionics:item/entity/soul_oxhauler_fire"
+		"0": "createbionics:item/entity/oxhauler/soul_oxhauler_fire"
 	}
 }

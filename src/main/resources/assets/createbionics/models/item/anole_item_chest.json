@@ -3,9 +3,9 @@
 	"credit": "Made by Dshbwlto",
 	"texture_size": [128, 128],
 	"textures": {
-		"0": "createbionics:item/entity/anole_items",
-		"particle": "createbionics:item/entity/anole_items"
-},
+		"0": "createbionics:item/entity/anole/anole_items_0",
+		"particle": "createbionics:item/entity/anole/anole_items_0"
+	},
 	"elements": [
 		{
 			"from": [7, 7, 5],

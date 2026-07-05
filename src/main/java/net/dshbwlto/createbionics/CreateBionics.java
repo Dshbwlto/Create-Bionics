@@ -74,6 +74,7 @@ public class CreateBionics {
     }
 
     private static final ItemLike[] excludedItemsList = new ItemLike[]{
+            BionicsItems.SEEKER,
             BionicsItems.ORGAN_MIDDLE,
             BionicsItems.ORGAN_FOOT,
             BionicsItems.ORGAN_TAIL_BASE,
@@ -89,13 +90,14 @@ public class CreateBionics {
             BionicsItems.STALKER_HEAD,
             BionicsItems.STALKER_LEG,
             BionicsItems.STALKER_TAIL,
+            BionicsItems.INVENTORY_PREVIEW,
     };
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN_TAB = CREATIVE_MODE_TABS.register(MOD_ID, () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
-            .icon(() -> (AnimationTickHolder.getTicks() % 4 == 0 ? BionicsItems.ANOLE.get().asItem().getDefaultInstance() : BionicsItems.OXHAULER_HEAD.asItem().getDefaultInstance()))
+            .icon(() -> BionicsItems.ANOLE.asItem().getDefaultInstance())
             .title(Component.translatable("itemGroup.createbionics.create_bionics_tab"))
             .displayItems((itemDisplayParameters, output) -> REGISTRATE.getAll(Registries.ITEM).forEach((item -> {
                 for (ItemLike excluded : excludedItemsList) {

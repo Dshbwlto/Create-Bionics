@@ -48,21 +48,22 @@ public class OrganRenderer extends MobRenderer<OrganEntity, OrganModel<OrganEnti
 
     @Override
     public void render(OrganEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        /*
         CachedBuffers.partial(PartialModel.of(CreateBionics.asResource("item/debug_arrow")), entity.getBlockStateOn())
                 .translate(0, 18, 0)
                 .rotate(Direction.Axis.Y, (-entity.getPreciseBodyRotation(partialTicks) * Mth.PI / 180) + Mth.PI)
                 .scale(10)
                 .light(15728880)
                 .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
-
-        poseStack.mulPose(Axis.YN.rotation(-entity.getPreciseBodyRotation(partialTicks) * Mth.PI / 180));
+        //poseStack.mulPose(Axis.YN.rotation(-entity.getPreciseBodyRotation(partialTicks) * Mth.PI / 180));
+         */
 
         if (entity.x0 > 0) {
             entity.y0 -= 1f;
         } else if (entity.x0 < 0)
             entity.y0 += 1f;
 
-        poseStack.mulPose(Axis.YN.rotation(-entity.y0 * Mth.PI / 180));
+        //poseStack.mulPose(Axis.YN.rotation(-entity.y0 * Mth.PI / 180));
 
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
 

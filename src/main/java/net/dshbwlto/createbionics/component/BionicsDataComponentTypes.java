@@ -19,6 +19,15 @@ public class BionicsDataComponentTypes {
     public static DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> VARIANT = register("variant",
             buider -> buider.persistent(ExtraCodecs.NON_NEGATIVE_INT));
 
+    public static DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MARKING = register("marking",
+            buider -> buider.persistent(ExtraCodecs.NON_NEGATIVE_INT));
+
+    public static DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FUEL = register("fuel",
+            buider -> buider.persistent(ExtraCodecs.NON_NEGATIVE_INT));
+
+    public static DeferredHolder<DataComponentType<?>, DataComponentType<String>> NAME = register("name",
+            buider -> buider.persistent(ExtraCodecs.NON_EMPTY_STRING));
+
     private static <T>DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
         return DATA_COMPONENT_TYPES.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());
     }

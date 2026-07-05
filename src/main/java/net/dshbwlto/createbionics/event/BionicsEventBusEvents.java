@@ -44,6 +44,7 @@ public class BionicsEventBusEvents {
 
         event.registerLayerDefinition(BionicsModelLayers.SEEKER, SeekerModel::createBodyLayer);
         event.registerLayerDefinition(BionicsModelLayers.SEEKER_GLOW, SeekerModel::createBodyLayer);
+        event.registerLayerDefinition(BionicsModelLayers.SEEKER_PICKAXE, SeekerModel::createBodyLayer);
 
         event.registerLayerDefinition(BionicsModelLayers.STALKER, StalkerModel::createBodyLayer);
         event.registerLayerDefinition(BionicsModelLayers.STALKER_GLOW, StalkerModel::createBodyLayer);
@@ -66,6 +67,7 @@ public class BionicsEventBusEvents {
         event.put(BionicsEntities.ANOLE.get(), AnoleEntity.createAttributes().build());
         event.put(BionicsEntities.OXHAULER.get(), OxhaulerEntity.createAttributes().build());
         event.put(BionicsEntities.REPLETE.get(), RepleteEntity.createAttributes().build());
+        event.put(BionicsEntities.SEEKER.get(), SeekerEntity.createAttributes().build());
         event.put(BionicsEntities.STALKER.get(), StalkerEntity.createAttributes().build());
         event.put(BionicsEntities.STALKER_CAPTAIN.get(), StalkerCaptainEntity.createAttributes().build());
         event.put(BionicsEntities.ORGAN.get(), OrganEntity.createAttributes().build());

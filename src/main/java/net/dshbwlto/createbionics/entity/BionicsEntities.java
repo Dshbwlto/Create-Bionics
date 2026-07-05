@@ -32,7 +32,7 @@ public class BionicsEntities {
 
     public static final Supplier<EntityType<SeekerEntity>> SEEKER =
             ENTITIES.register("seeker", () -> EntityType.Builder.of(SeekerEntity::new, MobCategory.CREATURE)
-                    .sized(4f, 5f).build("seeker"));
+                    .sized(1f, 0.3f).build("seeker"));
 
     /// These are for future updates, just pretend they don't exist
     public static final Supplier<EntityType<StalkerEntity>> STALKER =

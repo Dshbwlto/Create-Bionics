@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
-import net.dshbwlto.createbionics.entity.client.anole.AnoleMarkingLayer;
 import net.dshbwlto.createbionics.entity.custom.SeekerEntity;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -28,6 +27,7 @@ public class SeekerRenderer extends MobRenderer<SeekerEntity, SeekerModel<Seeker
     public SeekerRenderer(EntityRendererProvider.Context context) {
         super (context, new SeekerModel<>(context.bakeLayer(BionicsModelLayers.SEEKER)), 0.25f);
         this.addLayer(new SeekerGlowLayer(this, context.getModelSet()));
+        this.addLayer(new SeekerPickaxeLayer(this, context.getModelSet()));
     }
 
     @Override

@@ -1,0 +1,60 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Dshbwlto",
+	"texture_size": [128, 128],
+	"textures": {
+		"0": "createbionics:item/entity/anole/anole_items_1",
+		"particle": "createbionics:item/entity/anole/anole_items_1"
+	},
+	"elements": [
+		{
+			"from": [6.975, 13.1698, 3.82327],
+			"to": [9.025, 14.2198, 5.87327],
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [0, 3, -5]},
+			"faces": {
+				"north": {"uv": [7.875, 2.125, 8.125, 2.25], "texture": "#0"},
+				"east": {"uv": [7.625, 2.125, 7.875, 2.25], "texture": "#0"},
+				"south": {"uv": [8.375, 2.125, 8.625, 2.25], "texture": "#0"},
+				"west": {"uv": [8.125, 2.125, 8.375, 2.25], "texture": "#0"},
+				"up": {"uv": [8.125, 2.125, 7.875, 1.875], "texture": "#0"},
+				"down": {"uv": [8.375, 1.875, 8.125, 2.125], "texture": "#0"}
+			}
+		},
+		{
+			"from": [7, 9.26365, 6.17179],
+			"to": [9, 9.26365, 7.17179],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 3, -5]},
+			"faces": {
+				"north": {"uv": [7.875, 1.75, 8.125, 1.75], "texture": "#0"},
+				"east": {"uv": [7.75, 1.75, 7.875, 1.75], "texture": "#0"},
+				"south": {"uv": [8.25, 1.75, 8.5, 1.75], "texture": "#0"},
+				"west": {"uv": [8.125, 1.75, 8.25, 1.75], "texture": "#0"},
+				"up": {"uv": [8.125, 1.75, 7.875, 1.625], "texture": "#0"},
+				"down": {"uv": [8.375, 1.625, 8.125, 1.75], "texture": "#0"}
+			}
+		},
+		{
+			"from": [7, 8.72926, 9.11522],
+			"to": [9, 8.72926, 10.11522],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 3, -5]},
+			"faces": {
+				"north": {"uv": [7.875, 1.75, 8.125, 1.75], "texture": "#0"},
+				"east": {"uv": [7.75, 1.75, 7.875, 1.75], "texture": "#0"},
+				"south": {"uv": [8.25, 1.75, 8.5, 1.75], "texture": "#0"},
+				"west": {"uv": [8.125, 1.75, 8.25, 1.75], "texture": "#0"},
+				"up": {"uv": [8.125, 1.75, 7.875, 1.625], "texture": "#0"},
+				"down": {"uv": [8.375, 1.625, 8.125, 1.75], "texture": "#0"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "hat8",
+			"origin": [0, 3, -6],
+			"rotation": [12.5, 0, 2],
+			"scope": 0,
+			"color": 0,
+			"children": [0, 1, 2]
+		}
+	]
+}

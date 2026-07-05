@@ -31,6 +31,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
@@ -92,6 +94,9 @@ public class OrganEntity extends AbstractRobot {
 
     @Override
     public void registerGoals() {
+        this.lookControl = new SmoothSwimmingLookControl(this, 1);
+        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 2, 1, 1, true);
+
         this.goalSelector.addGoal(0, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 1d, 15, 10) {
@@ -100,7 +105,7 @@ public class OrganEntity extends AbstractRobot {
                 return super.canUse() && getCommand() == 0;
             }
         });
-        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D, 20) {
+        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D, 70) {
             @Override
             public boolean canUse() {
                 return super.canUse() && getAssembly() >= 20 && isTame();

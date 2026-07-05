@@ -2,31 +2,26 @@
 package net.dshbwlto.createbionics.item.custom;
 
 import com.simibubi.create.foundation.item.render.SimpleCustomRenderer;
-import com.sun.jna.platform.win32.Variant;
 import net.dshbwlto.createbionics.component.BionicsDataComponentTypes;
-import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
-import net.dshbwlto.createbionics.entity.client.anole.AnoleVariant;
 import net.dshbwlto.createbionics.entity.custom.AnoleEntity;
+import net.dshbwlto.createbionics.item.api.RobotSpawnerItem;
+import net.dshbwlto.createbionics.item.client.AnoleItemRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.Spawner;
@@ -35,64 +30,73 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
+import java.util.AbstractCollection;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public class AnoleItem extends SpawnEggItem {
+public class AnoleItem extends RobotSpawnerItem {
 
-    public AnoleItem(EntityType<? extends Mob> defaultType, int backgroundColor, int highlightColor, Item.Properties properties) {
-        super(defaultType, backgroundColor, highlightColor, properties);
+    public EntityType<? extends AbstractRobot> type;
+
+    public AnoleItem(EntityType<? extends AbstractRobot> defaultType, Properties properties) {
+        super(defaultType, properties);
+        this.type = defaultType;
     }
+
+    @Override
+    public void spawnEntity(Level level, BlockPos blockPos, InteractionHand hand, Player player) {
+        ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
+        int variant = stack.get(BionicsDataComponentTypes.VARIANT.get()) != null ? stack.get(BionicsDataComponentTypes.VARIANT.get()) : 0;
+        int fuel = stack.get(BionicsDataComponentTypes.FUEL.get()) != null ? stack.get(BionicsDataComponentTypes.VARIANT.get()) : 0;
+        int marking = stack.get(BionicsDataComponentTypes.MARKING.get()) != null ? stack.get(BionicsDataComponentTypes.MARKING.get()) : 0;
+        String name = stack.get(BionicsDataComponentTypes.NAME.get());
+
+        AnoleEntity anoleEntity = new AnoleEntity(type, level);
+        anoleEntity.setPos(blockPos.getCenter().add(0, -0.5f, 0));
+        anoleEntity.setVariantNumber(variant);
+        anoleEntity.setMarkingNumber(marking);
+        anoleEntity.setFuel(fuel);
+        if (name != null) {
+            anoleEntity.setCustomName(Component.literal(name));
+        }
+        level.addFreshEntity(anoleEntity);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        int variant = stack.get(BionicsDataComponentTypes.VARIANT.get()) != null ? stack.get(BionicsDataComponentTypes.VARIANT.get()) : 0;
+        int marking = stack.get(BionicsDataComponentTypes.MARKING.get()) != null ? stack.get(BionicsDataComponentTypes.MARKING.get()) : 0;
+        String name = stack.get(BionicsDataComponentTypes.NAME.get());
+
+        int variantColor = variant == 0 ? 0xC9974C
+                : variant == 1 ? 0xF1DD79
+                : variant == 2 ? 11184810
+                : variant == 3 ? 0x6d585d
+                : variant == 4 ? 0x937661
+                : variant == 5 ? 0x738b55
+                : 0x58af92;
+
+        int markingColor = marking == 0 ? 0x555555
+                : marking == 1 ? 0xc61501
+                : marking == 2 ? 0xfad43d
+                : marking == 3 ? 0x55FFFF
+                : 0xff00bf;
+
+        tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.variant").append(Component.translatable("entity.createbionics.tooltip.variant_" + variant).setStyle(Style.EMPTY.withColor(variantColor))));
+        tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.marking").append(Component.translatable("entity.createbionics.tooltip.marking_" + marking).setStyle(Style.EMPTY.withColor(markingColor))));
+        if (name != null) {
+            tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.name").append(Component.literal(name)));
+        }
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+    }
+
     @Override
     @OnlyIn(Dist.CLIENT)
     public void initializeClient(@NotNull Consumer<IClientItemExtensions> consumer) {
         consumer.accept(SimpleCustomRenderer.create(this, new AnoleItemRenderer()));
-    }
-
-    public InteractionResult useOn(UseOnContext context) {
-        Level level = context.getLevel();
-        if (!(level instanceof ServerLevel)) {
-            return InteractionResult.SUCCESS;
-        } else {
-            ItemStack itemstack = context.getItemInHand();
-            BlockPos blockpos = context.getClickedPos();
-            Direction direction = context.getClickedFace();
-            BlockState blockstate = level.getBlockState(blockpos);
-            BlockEntity var8 = level.getBlockEntity(blockpos);
-            if (var8 instanceof Spawner) {
-                Spawner spawner = (Spawner)var8;
-                EntityType<?> entitytype1 = this.getType(itemstack);
-                spawner.setEntityId(entitytype1, level.getRandom());
-                level.sendBlockUpdated(blockpos, blockstate, blockstate, 3);
-                level.gameEvent(context.getPlayer(), GameEvent.BLOCK_CHANGE, blockpos);
-                itemstack.shrink(1);
-                return InteractionResult.CONSUME;
-            } else {
-                BlockPos blockpos1;
-                if (blockstate.getCollisionShape(level, blockpos).isEmpty()) {
-                    blockpos1 = blockpos;
-                } else {
-                    blockpos1 = blockpos.relative(direction);
-                }
-
-                EntityType<?> entitytype = this.getType(itemstack);
-
-                AnoleEntity anoleEntity = (AnoleEntity) entitytype.create(level);
-                anoleEntity.setFuel(100);
-                if (anoleEntity.getType().spawn((ServerLevel)level, itemstack, context.getPlayer(), blockpos1, MobSpawnType.SPAWN_EGG, true, !Objects.equals(blockpos, blockpos1) && direction == Direction.UP) != null) {
-                    itemstack.shrink(1);
-                    level.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, blockpos);
-                }
-
-                return InteractionResult.CONSUME;
-            }
-        }
     }
 }

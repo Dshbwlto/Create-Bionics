@@ -2,11 +2,11 @@
 package net.dshbwlto.createbionics.item.custom;
 
 import com.simibubi.create.foundation.item.render.SimpleCustomRenderer;
+import net.dshbwlto.createbionics.item.client.RepleteBodyItemRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.context.UseOnContext;
 import net.neoforged.api.distmarker.Dist;
