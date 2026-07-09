@@ -1,8 +1,8 @@
 {
   "parent": "createbionics:item/whistle_base_side_small1",
   "textures": {
-    "0": "createbionics:item/entity/organ_items_2",
-    "1": "createbionics:item/entity/organ_items_2",
-    "particle": "createbionics:item/entity/organ_items_2"
+    "0": "createbionics:item/entity/organ/organ_items_2",
+    "1": "createbionics:item/entity/organ/organ_items_2",
+    "particle": "createbionics:item/entity/organ/organ_items_2"
   }
 }

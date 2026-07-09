@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
@@ -52,27 +53,14 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
             21, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/exhaust/steam21.png")
     );
 
-    public String variant(OrganEntity entity) {
-        if (entity.getVariant() == OrganVariant.BRASS) {
-            return "1";
-        } else if (entity.getVariant() == OrganVariant.ANDESITE){
-            return "2";
-        } else if (entity.getVariant() == OrganVariant.COPPER) {
-            return "3";
-        } else {
-            return "4";
-        }
-    }
-
     public OrganExhaustLayer(RenderLayerParent<OrganEntity, OrganModel<OrganEntity>> renderer, EntityModelSet models) {
         super(renderer);
         this.model = new OrganModel<>(models.bakeLayer(BionicsModelLayers.ORGAN_EXHAUST));
     }
 
-    private float lerpTo(float delta, float start, float end) {
-        return Mth.rotLerp(delta, start, end);
+    public String variant(OrganEntity entity) {
+        return "" + (entity.getTypeVariant() + 1);
     }
-
     public void renderWhistles(OrganEntity entity, float netHeadYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float yoffset,
                                int count, int size, int height, float separation, float xPos, float yPos, float zPos, float angle, int index) {
         float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yoffset / 16;
@@ -88,7 +76,18 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                 : size == 2 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_medium").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_base_side_medium5"))
                 : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_large").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_base_side_large5"));
 
+        PartialModel face_middle = size == 1 ? (entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_small").withSuffix(variant(entity)))
+                : PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_small5")))
+                : size == 2 ? (entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_medium").withSuffix(variant(entity)))
+                : PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_medium5")))
+                : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_large").withSuffix(variant(entity)))
+                : PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_large5"));
+
+        PartialModel face_side = PartialModel.of(CreateBionics.asResource("item/whistle_face_large").withSuffix(variant(entity)));
+
         PartialModel base = xPos < 0 ? base_side : xPos == 0 ? base_middle : base_side;
+
+        PartialModel face = xPos < 0 ? face_side : xPos == 0 ? face_middle : face_side;
 
         PartialModel extension = size == 1 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_small").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_middle_small5"))
                 : size == 2 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_medium").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_middle_medium5"))
@@ -107,6 +106,14 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
             CachedBuffers.partial(end, entity.getBlockStateOn())
+                    .rotate(Direction.Axis.X, (float)Math.PI)
+                    .translate(xPos, 7 + bodyYOffset + yPos, zPos + 0.5 - separation * i)
+                    .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
+                    .rotate(Direction.Axis.Z, angle == 0 ? 0 : i * 0.1f + angle)
+                    .translate(0, xPos == 0 ? i * 0.5 - 1 + height : i * 0.5 + 0.5 + height, 0)
+                    .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
+                    .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
+            CachedBuffers.partial(face, entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
                     .translate(xPos, 7 + bodyYOffset + yPos, zPos + 0.5 - separation * i)
                     .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
@@ -159,7 +166,7 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .rotate(Direction.Axis.X, (float)Math.PI)
                     .translate(0, 0, -2 - 1 / 8f)
                     .rotateYDegrees(ySwing + netHeadYaw)
-                    .translate(xPos, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
+                    .translate(xPos + xPos == 0 ? 0 : xPos > 0 ? 1 : -1, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
                     .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? i * 0.1f + angle : -i * 0.1f - angle)
                     .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
                     .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
@@ -169,7 +176,7 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .rotate(Direction.Axis.X, (float)Math.PI)
                     .translate(0, 0, -2 - 1 / 8f)
                     .rotateYDegrees(ySwing + netHeadYaw)
-                    .translate(xPos, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
+                    .translate(xPos + xPos == 0 ? 0 : xPos > 0 ? 1 : -1, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
                     .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? i * 0.1f + angle : -i * 0.1f - angle)
                     .translate(0, (height/2f) + (i/4f) + 1, 0)
                     .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
@@ -178,7 +185,7 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .rotate(Direction.Axis.X, (float)Math.PI)
                     .translate(0, 0, -2 - 1 / 8f)
                     .rotateYDegrees(ySwing + netHeadYaw)
-                    .translate(xPos, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
+                    .translate(xPos + xPos == 0 ? 0 : xPos > 0 ? 1 : -1, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
                     .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? i * 0.1f + angle : -i * 0.1f - angle)
                     .translate(0, (height/2f) + (i/4f) + 0.5, 0)
                     .scale(0.999f)
@@ -190,7 +197,7 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                         .rotate(Direction.Axis.X, (float)Math.PI)
                         .translate(0, 0, -2 - 1 / 8f)
                         .rotateYDegrees(ySwing + netHeadYaw)
-                        .translate(xPos, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
+                        .translate(xPos + xPos == 0 ? 0 : xPos > 0 ? 1 : -1, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
                         .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? i * 0.1f + angle : -i * 0.1f - angle)
                         .translate(0, j * 0.5f + 1, 0)
                         .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
