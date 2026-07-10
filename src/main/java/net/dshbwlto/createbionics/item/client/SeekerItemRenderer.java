@@ -17,23 +17,15 @@ import net.minecraft.world.item.ItemStack;
 
 public class SeekerItemRenderer extends CustomRenderedItemModelRenderer {
 
-    private static final PartialModel COPPER = PartialModel.of(CreateBionics.asResource("item/seeker_item_0"));
-    private static final PartialModel BRASS = PartialModel.of(CreateBionics.asResource("item/seeker_item_1"));
-    private static final PartialModel ANDESITE = PartialModel.of(CreateBionics.asResource("item/seeker_item_2"));
-
-    private static final PartialModel IRON = PartialModel.of(CreateBionics.asResource("item/seeker_pickaxe_item_0"));
-    private static final PartialModel DIAMOND = PartialModel.of(CreateBionics.asResource("item/seeker_pickaxe_item_1"));
-    private static final PartialModel NETHERITE = PartialModel.of(CreateBionics.asResource("item/seeker_pickaxe_item_2"));
-
     @Override
     protected void render(ItemStack stack, CustomRenderedItemModel model, PartialItemModelRenderer renderer, ItemDisplayContext transformType, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
         int variant = stack.get(BionicsDataComponentTypes.VARIANT.get()) != null ? stack.get(BionicsDataComponentTypes.VARIANT.get()) : 0;
         int pickaxe = stack.get(BionicsDataComponentTypes.MARKING.get()) != null ? stack.get(BionicsDataComponentTypes.MARKING.get()) : 0;
 
-        PartialModel MODEL = PartialModel.of(CreateBionics.asResource("item/seeker_item_" + variant));
-        PartialModel PICKAXE = PartialModel.of(CreateBionics.asResource("item/seeker_pickaxe_item_" + pickaxe));
+        PartialModel body = PartialModel.of(CreateBionics.asResource("item/seeker_item_" + variant));
+        PartialModel body_pickaxe = PartialModel.of(CreateBionics.asResource("item/seeker_pickaxe_item_" + pickaxe));
 
-        renderer.render(MODEL.get(), light);
-        renderer.render(PICKAXE.get(), light);
+        renderer.render(body.get(), light);
+        renderer.render(body_pickaxe.get(), light);
     }
 }
