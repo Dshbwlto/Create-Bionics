@@ -1,19 +1,20 @@
 package net.dshbwlto.createbionics.entity.custom;
 
+import com.google.common.collect.UnmodifiableIterator;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.foundation.sound.SoundScapes;
-import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.math.VecHelper;
-import net.dshbwlto.createbionics.entity.api.AbstractRobot;
+import net.dshbwlto.createbionics.entity.api.RobotPartEntity;
+import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerColor;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.screen.custom.OxhaulerMenu;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -25,6 +26,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -34,8 +36,8 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -43,24 +45,31 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
 
-public class OxhaulerEntity extends AbstractHorse {
+public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntity>> implements ContainerListener, HasCustomInventoryScreen, OwnableEntity, PlayerRideableJumping, Saddleable {
     public final AnimationState idleAnimationState = new AnimationState();
     private int x0;
     public float y0;
+    protected int gallopSoundCounter;
+    protected boolean isJumping;
+    protected float playerJumpPendingScale;
+    protected boolean canGallop = true;
 
     public final AnimationState idleAnimation1 = new AnimationState();
     public final AnimationState idleAnimation2 = new AnimationState();
     public final AnimationState idleAnimation3 = new AnimationState();
     private int idleAnimationTimeout = 0;
-    private static final EntityDataAccessor<Integer> VARIANT =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.INT);
+
     private static final EntityDataAccessor<Integer> COLOR =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.INT);
+
+    protected SimpleContainer inventory;
 
     public void setColor(Item item) {
         /// Occam’s razor is a problem-solving principle that recommends searching for explanations
@@ -106,55 +115,39 @@ public class OxhaulerEntity extends AbstractHorse {
         }
     }
 
-    public static final EntityDataAccessor<Long> LAST_POSE_CHANGE_TICK =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.LONG);
     private static final EntityDataAccessor<Boolean> HARVESTER =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> PLOUGH =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
 
-    private static final EntityDataAccessor<Integer> FUEL =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Boolean> CREATIVE_BLAZE_CAKE =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    public boolean hasBlazeCake() {
-        return entityData.get(CREATIVE_BLAZE_CAKE);
-    }
-
-    public int getFuel() {
-        return entityData.get(FUEL);
-    }
-    public void setFuel(int fuel) {
-        entityData.set(FUEL, fuel);
-    }
-
-    public static final EntityDataAccessor<Integer> ASSEMBLY =
-            SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.INT);
-    public int getAssembly() {
-        return this.entityData.get(ASSEMBLY);
-    }
-    public void setAssembly(int assembly) {
-        this.entityData.set(ASSEMBLY, assembly);
-    }
-
     public float lastHealth = 0;
     public float currentHealth = 0;
+
+    @Override
+    public boolean isSaddleable() {
+        return false;
+    }
+
+    @Override
+    public void equipSaddle(ItemStack itemStack, @Nullable SoundSource soundSource) {
+
+    }
 
     @Override
     public boolean isSaddled() {
         return true;
     }
 
-    @Override
-    public boolean isTamed() {
-        return true;
-    }
-
     public int pageCount = 1;
 
-    public OxhaulerEntity(EntityType<? extends AbstractHorse> entityType, Level level) {
+    public OxhaulerEntity(EntityType<MultiPartRobot<?>> entityType, Level level) {
         super(entityType, level);
         this.createInventory();
+    }
+
+    @Override
+    protected RobotPartEntity<OxhaulerEntity>[] createParts() {
+        return new RobotPartEntity[0];
     }
 
     @Override
@@ -169,6 +162,10 @@ public class OxhaulerEntity extends AbstractHorse {
 
     @Override
     protected void registerGoals() {
+    }
+
+    public Item healItem() {
+        return AllItems.BRASS_INGOT.get();
     }
 
     @Override
@@ -307,11 +304,6 @@ public class OxhaulerEntity extends AbstractHorse {
         }
 
         super.aiStep();
-
-        if (getHealth() - x0 == 1) {
-            setHealth(getHealth() - 1);
-        }
-        x0 = (int) getHealth();
     }
 
     public long getPoseTime() {
@@ -442,6 +434,14 @@ public class OxhaulerEntity extends AbstractHorse {
         } else if (itemStack.is(Tags.Items.DYES)) {
             setColor(itemStack.getItem());
             itemStack.shrink(1);
+        } else if (itemStack.is(healItem()) && player.isShiftKeyDown() && getHealth() < getMaxHealth()) {
+            setHealth(getHealth() + 8);
+            playSound(SoundEvents.SMITHING_TABLE_USE);
+            if (level().isClientSide) {
+                return InteractionResult.CONSUME;
+            } else {
+                itemStack.shrink(1);
+            }
         } else if (itemStack.is(AllItems.ANDESITE_ALLOY)
                 || itemStack.is(Items.COPPER_INGOT)) {
             dropIngot();
@@ -466,32 +466,18 @@ public class OxhaulerEntity extends AbstractHorse {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(LAST_POSE_CHANGE_TICK, 0L);
-        builder.define(VARIANT, 0);
         builder.define(COLOR, 5);
-        builder.define(ASSEMBLY, 0);
-
         builder.define(HARVESTER, false);
         builder.define(PLOUGH, false);
-
-        builder.define(FUEL, 0);
-        builder.define(CREATIVE_BLAZE_CAKE, false);
-
     }
 
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putLong("LastPoseTick", this.entityData.get(LAST_POSE_CHANGE_TICK));
-        compound.putInt("Variant", this.getTypeVariant());
         compound.putInt("Color", this.getTypeColor());
-        compound.putInt("Assembly", this.getAssembly());
-
         compound.putBoolean("Harvester", isHarvester());
         compound.putBoolean("Plough", isPlough());
-        compound.putInt("Fuel", getFuel());
-        compound.putInt("Variant", this.entityData.get(VARIANT));
 
         ListTag listtag = new ListTag();
         for (int x = 0; x <= 200; x++) {
@@ -509,19 +495,10 @@ public class OxhaulerEntity extends AbstractHorse {
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        long i = compound.getLong("LastPoseTick");
-        if (i < 0L) {
-            this.setPose(Pose.SITTING);
-        }
-        this.entityData.set(VARIANT, compound.getInt("Variant"));
-        this.entityData.set(COLOR, compound.getInt("Color"));
-        this.entityData.set(ASSEMBLY, compound.getInt("Assembly"));
 
+        this.entityData.set(COLOR, compound.getInt("Color"));
         this.entityData.set(HARVESTER, compound.getBoolean("Harvester"));
         this.entityData.set(PLOUGH, compound.getBoolean("Plough"));
-
-        this.entityData.set(FUEL, compound.getInt("Fuel"));
-        entityData.set(CREATIVE_BLAZE_CAKE, compound.getBoolean("CreativeCake"));
 
         this.createInventory();
         ListTag listtag = compound.getList("Items", 10);
@@ -653,7 +630,6 @@ public class OxhaulerEntity extends AbstractHorse {
         }
     }
 
-    @Override
     protected void createInventory() {
         SimpleContainer simplecontainer = this.inventory;
         this.inventory = new SimpleContainer(200);
@@ -670,7 +646,6 @@ public class OxhaulerEntity extends AbstractHorse {
         this.inventory.addListener(this);
     }
 
-    @Override
     public Container getInventory() {
         return this.inventory;
     }
@@ -678,5 +653,198 @@ public class OxhaulerEntity extends AbstractHorse {
     public boolean hasInventoryChanged(Container inventory) {
         return this.inventory != inventory;
     }
+    public void onPlayerJump(int jumpPower) {
+        if (this.isSaddled()) {
+            if (jumpPower < 0) {
+                jumpPower = 0;
+            }
 
+            if (jumpPower >= 90) {
+                this.playerJumpPendingScale = 1.0F;
+            } else {
+                this.playerJumpPendingScale = 0.4F + 0.4F * (float)jumpPower / 90.0F;
+            }
+        }
+
+    }
+
+    public boolean canJump() {
+        return this.isSaddled();
+    }
+
+    public void handleStartJump(int jumpPower) {
+    }
+
+    public void handleStopJump() {
+    }
+
+
+    protected void doPlayerRide(Player player) {
+        if (!this.level().isClientSide) {
+            player.setYRot(this.getYRot());
+            player.setXRot(this.getXRot());
+            player.startRiding(this);
+        }
+
+    }
+
+    protected void tickRidden(Player player, Vec3 travelVector) {
+        super.tickRidden(player, travelVector);
+        Vec2 vec2 = this.getRiddenRotation(player);
+        this.setRot(vec2.y, vec2.x);
+        this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
+        if (this.isControlledByLocalInstance()) {
+            if (travelVector.z <= (double)0.0F) {
+                this.gallopSoundCounter = 0;
+            }
+
+            if (this.onGround()) {
+                this.setIsJumping(false);
+                if (this.playerJumpPendingScale > 0.0F && !this.isJumping()) {
+                    this.executeRidersJump(this.playerJumpPendingScale, travelVector);
+                }
+
+                this.playerJumpPendingScale = 0.0F;
+            }
+        }
+
+    }
+
+    public void setIsJumping(boolean jumping) {
+        this.isJumping = jumping;
+    }
+    public boolean isJumping() {
+        return this.isJumping;
+    }
+
+    protected Vec2 getRiddenRotation(LivingEntity entity) {
+        return new Vec2(entity.getXRot() * 0.5F, entity.getYRot());
+    }
+
+    protected Vec3 getRiddenInput(Player player, Vec3 travelVector) {
+        if (this.onGround() && this.playerJumpPendingScale == 0.0F) {
+            return Vec3.ZERO;
+        } else {
+            float f = player.xxa * 0.5F;
+            float f1 = player.zza;
+            if (f1 <= 0.0F) {
+                f1 *= 0.25F;
+            }
+
+            return new Vec3((double)f, (double)0.0F, (double)f1);
+        }
+    }
+
+    protected float getRiddenSpeed(Player player) {
+        return (float)this.getAttributeValue(Attributes.MOVEMENT_SPEED);
+    }
+
+    protected void executeRidersJump(float playerJumpPendingScale, Vec3 travelVector) {
+        double d0 = (double)this.getJumpPower(playerJumpPendingScale);
+        Vec3 vec3 = this.getDeltaMovement();
+        this.setDeltaMovement(vec3.x, d0, vec3.z);
+        this.setIsJumping(true);
+        this.hasImpulse = true;
+        CommonHooks.onLivingJump(this);
+        if (travelVector.z > (double)0.0F) {
+            float f = Mth.sin(this.getYRot() * ((float)Math.PI / 180F));
+            float f1 = Mth.cos(this.getYRot() * ((float)Math.PI / 180F));
+            this.setDeltaMovement(this.getDeltaMovement().add((double)(-0.4F * f * playerJumpPendingScale), (double)0.0F, (double)(0.4F * f1 * playerJumpPendingScale)));
+        }
+
+    }
+
+    protected void playStepSound(BlockPos pos, BlockState block) {
+        if (!block.liquid()) {
+            BlockState blockstate = this.level().getBlockState(pos.above());
+            SoundType soundtype = block.getSoundType(this.level(), pos, this);
+            if (blockstate.is(Blocks.SNOW)) {
+                soundtype = blockstate.getSoundType(this.level(), pos, this);
+            }
+
+            if (this.isVehicle() && this.canGallop) {
+                ++this.gallopSoundCounter;
+                if (this.gallopSoundCounter > 5 && this.gallopSoundCounter % 3 == 0) {
+                    this.playGallopSound(soundtype);
+                } else if (this.gallopSoundCounter <= 5) {
+                    this.playSound(SoundEvents.HORSE_STEP_WOOD, soundtype.getVolume() * 0.15F, soundtype.getPitch());
+                }
+            } else if (this.isWoodSoundType(soundtype)) {
+                this.playSound(SoundEvents.HORSE_STEP_WOOD, soundtype.getVolume() * 0.15F, soundtype.getPitch());
+            } else {
+                this.playSound(SoundEvents.HORSE_STEP, soundtype.getVolume() * 0.15F, soundtype.getPitch());
+            }
+        }
+
+    }
+
+    @javax.annotation.Nullable
+    public LivingEntity getControllingPassenger() {
+        if (this.isSaddled()) {
+            Entity entity = this.getFirstPassenger();
+            if (entity instanceof Player) {
+                return (Player)entity;
+            }
+        }
+
+        return super.getControllingPassenger();
+    }
+
+    @javax.annotation.Nullable
+    private Vec3 getDismountLocationInDirection(Vec3 direction, LivingEntity passenger) {
+        double d0 = this.getX() + direction.x;
+        double d1 = this.getBoundingBox().minY;
+        double d2 = this.getZ() + direction.z;
+        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+        UnmodifiableIterator var10 = passenger.getDismountPoses().iterator();
+
+        while(var10.hasNext()) {
+            Pose pose = (Pose)var10.next();
+            blockpos$mutableblockpos.set(d0, d1, d2);
+            double d3 = this.getBoundingBox().maxY + (double)0.75F;
+
+            while(true) {
+                double d4 = this.level().getBlockFloorHeight(blockpos$mutableblockpos);
+                if ((double)blockpos$mutableblockpos.getY() + d4 > d3) {
+                    break;
+                }
+
+                if (DismountHelper.isBlockFloorValid(d4)) {
+                    AABB aabb = passenger.getLocalBoundsForPose(pose);
+                    Vec3 vec3 = new Vec3(d0, (double)blockpos$mutableblockpos.getY() + d4, d2);
+                    if (DismountHelper.canDismountTo(this.level(), passenger, aabb.move(vec3))) {
+                        passenger.setPose(pose);
+                        return vec3;
+                    }
+                }
+
+                blockpos$mutableblockpos.move(Direction.UP);
+                if ((double)blockpos$mutableblockpos.getY() < d3) {
+                    break;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public Vec3 getDismountLocationForPassenger(LivingEntity livingEntity) {
+        Vec3 vec3 = getCollisionHorizontalEscapeVector((double)this.getBbWidth(), (double)livingEntity.getBbWidth(), this.getYRot() + (livingEntity.getMainArm() == HumanoidArm.RIGHT ? 90.0F : -90.0F));
+        Vec3 vec31 = this.getDismountLocationInDirection(vec3, livingEntity);
+        if (vec31 != null) {
+            return vec31;
+        } else {
+            Vec3 vec32 = getCollisionHorizontalEscapeVector((double)this.getBbWidth(), (double)livingEntity.getBbWidth(), this.getYRot() + (livingEntity.getMainArm() == HumanoidArm.LEFT ? 90.0F : -90.0F));
+            Vec3 vec33 = this.getDismountLocationInDirection(vec32, livingEntity);
+            return vec33 != null ? vec33 : this.position();
+        }
+    }
+
+    protected void playGallopSound(SoundType soundType) {
+        this.playSound(SoundEvents.HORSE_GALLOP, soundType.getVolume() * 0.15F, soundType.getPitch());
+    }
+
+    private boolean isWoodSoundType(SoundType soundType) {
+        return soundType == SoundType.WOOD || soundType == SoundType.NETHER_WOOD || soundType == SoundType.STEM || soundType == SoundType.CHERRY_WOOD || soundType == SoundType.BAMBOO_WOOD;
+    }
 }

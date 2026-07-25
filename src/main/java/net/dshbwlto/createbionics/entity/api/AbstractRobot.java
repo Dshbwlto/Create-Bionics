@@ -7,6 +7,7 @@ import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.api.equipment.goggles.IHaveHoveringInformation;
 import com.simibubi.create.foundation.sound.SoundScapes;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -24,8 +25,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AirBlock;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformation, IHaveHoveringInformation {
     public AbstractRobot(EntityType<? extends TamableAnimal> entityType, Level level) {
@@ -201,6 +206,10 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
 
     }
 
+    public Item healItem() {
+        return null;
+    }
+
     @Override
     protected @Nullable SoundEvent getHurtSound(DamageSource damageSource) {
         return SoundEvents.COPPER_BREAK;
@@ -217,6 +226,16 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
                 }
             }
         }
+    }
+
+    //LEGS//
+
+    public BlockPos legPos() {
+        return this.getOnPos().north(4);
+    }
+
+    public float leg_y() {
+        return 0;
     }
 
     //HOVER//

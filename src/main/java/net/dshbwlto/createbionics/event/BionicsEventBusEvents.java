@@ -5,6 +5,7 @@ import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleModel;
+import net.dshbwlto.createbionics.entity.client.golem.GolemModel;
 import net.dshbwlto.createbionics.entity.client.organ.OrganModel;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerModel;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteModel;
@@ -15,6 +16,7 @@ import net.dshbwlto.createbionics.entity.custom.*;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.monster.CaveSpider;
 import net.minecraft.world.entity.monster.Silverfish;
 import net.minecraft.world.entity.monster.Spider;
@@ -55,11 +57,13 @@ public class BionicsEventBusEvents {
         event.registerLayerDefinition(BionicsModelLayers.ORGAN_GLOW, OrganModel::createBodyLayer);
         event.registerLayerDefinition(BionicsModelLayers.ORGAN_EXHAUST, OrganModel::createBodyLayer);
 
+        event.registerLayerDefinition(BionicsModelLayers.GOLEM, GolemModel::createBodyLayer);
+
     }
 
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerEntity(Capabilities.FluidHandler.ENTITY, BionicsEntities.REPLETE.get(), RepleteEntity::getTank);
+        //event.registerEntity(Capabilities.FluidHandler.ENTITY, BionicsEntities.REPLETE.get(), RepleteEntity::getTank);
     }
 
     @SubscribeEvent
@@ -71,6 +75,8 @@ public class BionicsEventBusEvents {
         event.put(BionicsEntities.STALKER.get(), StalkerEntity.createAttributes().build());
         event.put(BionicsEntities.STALKER_CAPTAIN.get(), StalkerCaptainEntity.createAttributes().build());
         event.put(BionicsEntities.ORGAN.get(), OrganEntity.createAttributes().build());
+
+        event.put(BionicsEntities.GOLEM.get(), Sheep.createAttributes().build());
     }
 
     @SubscribeEvent

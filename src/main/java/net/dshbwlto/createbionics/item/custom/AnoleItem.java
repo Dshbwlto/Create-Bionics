@@ -7,6 +7,7 @@ import net.dshbwlto.createbionics.entity.api.AbstractRobot;
 import net.dshbwlto.createbionics.entity.custom.AnoleEntity;
 import net.dshbwlto.createbionics.item.api.RobotSpawnerItem;
 import net.dshbwlto.createbionics.item.client.AnoleItemRenderer;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -86,10 +87,25 @@ public class AnoleItem extends RobotSpawnerItem {
                 : marking == 3 ? 0x55FFFF
                 : 0xff00bf;
 
+        tooltipComponents.add(Component.literal(""));
         tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.variant").append(Component.translatable("entity.createbionics.tooltip.variant_" + variant).setStyle(Style.EMPTY.withColor(variantColor))));
         tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.marking").append(Component.translatable("entity.createbionics.tooltip.marking_" + marking).setStyle(Style.EMPTY.withColor(markingColor))));
         if (name != null) {
             tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.name").append(Component.literal(name)));
+        }
+        tooltipComponents.add(Component.literal(""));
+        if (Screen.hasAltDown()) {
+            tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.variant_list2"));
+            tooltipComponents.add(Component.literal(""));
+            tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.variant_" + 0).setStyle(Style.EMPTY.withColor(0xC9974C)));
+            tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.variant_" + 1).setStyle(Style.EMPTY.withColor(0xF1DD79)));
+            tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.variant_" + 2).setStyle(Style.EMPTY.withColor(11184810)));
+            tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.variant_" + 3).setStyle(Style.EMPTY.withColor(0x6d585d)));
+            tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.variant_" + 4).setStyle(Style.EMPTY.withColor(0x937661)));
+            tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.variant_" + 5).setStyle(Style.EMPTY.withColor(0x738b55)));
+            tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.variant_" + 6).setStyle(Style.EMPTY.withColor(0x58af92)));
+        } else {
+            tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.variant_list1"));
         }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }

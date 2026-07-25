@@ -2,11 +2,10 @@ package net.dshbwlto.createbionics.entity.api;
 
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class MultiPartMonster<T extends MultiPartEntity<?>> extends Monster {
+public abstract class MultiPartRobot<T extends RobotPartEntity<?>> extends AbstractRobot {
     public T[] parts; //Must be set in the constructor
 
     /**
@@ -14,7 +13,7 @@ public abstract class MultiPartMonster<T extends MultiPartEntity<?>> extends Mon
      * @param entityType Type of entity that this class corresponds to
      * @param level Game world
      */
-    protected MultiPartMonster(EntityType<? extends MultiPartMonster<?>> entityType, Level level) {
+    protected MultiPartRobot(EntityType<? extends MultiPartRobot<?>> entityType, Level level) {
         super(entityType, level);
         this.parts = createParts();
         registerParts();
@@ -80,5 +79,11 @@ public abstract class MultiPartMonster<T extends MultiPartEntity<?>> extends Mon
      */
     private void registerParts() {
         this.setId(ENTITY_COUNTER.getAndAdd(this.parts.length + 1) + 1);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        resetPartOffsets();
     }
 }

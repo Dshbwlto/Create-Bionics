@@ -35,6 +35,8 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
@@ -48,7 +50,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Map;
 
-public class OxhaulerRenderer extends MobRenderer<OxhaulerEntity, OxhaulerModel<OxhaulerEntity>> {
+public class OxhaulerRenderer extends MobRenderer {
     private static final Map<OxhaulerVariant, ResourceLocation> LOCATION_BY_VARIANT =
             Util.make(Maps.newEnumMap(OxhaulerVariant.class), map -> {
                 map.put(OxhaulerVariant.BRASS,
@@ -66,12 +68,14 @@ public class OxhaulerRenderer extends MobRenderer<OxhaulerEntity, OxhaulerModel<
     }
 
     @Override
-    public ResourceLocation getTextureLocation(OxhaulerEntity entity) {
-        return LOCATION_BY_VARIANT.get(entity.getVariant());
+    public ResourceLocation getTextureLocation(Entity entity) {
+        OxhaulerEntity oxhauler = (OxhaulerEntity) entity;
+        return LOCATION_BY_VARIANT.get(oxhauler.getVariant());
     }
 
     @Override
-    public void render(OxhaulerEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void render(LivingEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        OxhaulerEntity oxhauler = (OxhaulerEntity) entity;
         /*
         CachedBuffers.partial(PartialModel.of(CreateBionics.asResource("item/debug_arrow")), entity.getBlockStateOn())
                 .translate(0, 3, 0)
@@ -84,8 +88,8 @@ public class OxhaulerRenderer extends MobRenderer<OxhaulerEntity, OxhaulerModel<
             poseStack.translate(0, -6 / 16f, 0);
         }
 
-        if (entity.getFuel() > 0) {
-            CachedBuffers.partial(PartialModel.of(entity.getFuel() < 23000
+        if (oxhauler.getFuel() > 0) {
+            CachedBuffers.partial(PartialModel.of(oxhauler.getFuel() < 23000
                             ? CreateBionics.asResource("item/oxhauler_fire")
                             : CreateBionics.asResource("item/oxhauler_soul_fire")), entity.getBlockStateOn())
                     .rotate(Direction.Axis.Y, -entityYaw * Mth.PI / 180)
@@ -97,7 +101,7 @@ public class OxhaulerRenderer extends MobRenderer<OxhaulerEntity, OxhaulerModel<
     }
 
     @Override
-    public boolean shouldRender(OxhaulerEntity livingEntity, Frustum camera, double camX, double camY, double camZ) {
+    public boolean shouldRender(Entity livingEntity, Frustum camera, double camX, double camY, double camZ) {
         return true;
     }
 }

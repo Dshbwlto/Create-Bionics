@@ -2,10 +2,13 @@ package net.dshbwlto.createbionics.entity.api;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
@@ -13,9 +16,12 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class MultiPartEntity<T extends MultiPartMonster> extends PartEntity<T> {
+public class RobotPartEntity<T extends MultiPartRobot> extends PartEntity<T> {
     public EntityDimensions size;
     public Vec3 parentOffset;
+
+    //Adapted code from Duck-XYZ
+    //Repo: https://github.com/Duck-XYZ/ducky_lib.git
 
     /**
      * Creates a new part for an entity to use, does not need to be registered as an entity type
@@ -27,7 +33,8 @@ public class MultiPartEntity<T extends MultiPartMonster> extends PartEntity<T> {
      * @param zOffset the offset from parent along z-axis
      * @apiNote Where ever offset is used it assumes that the mob is facing the default direction when spawned. Mob rotating is handled by api.
      */
-    public MultiPartEntity(@NotNull T parent, float width, float height, double xOffset, double yOffset, double zOffset) {
+
+    public RobotPartEntity(@NotNull T parent, float width, float height, double xOffset, double yOffset, double zOffset) {
         super(parent);
         this.size = EntityDimensions.scalable(width, height);
         this.parentOffset = new Vec3(xOffset, yOffset, zOffset);
@@ -44,7 +51,6 @@ public class MultiPartEntity<T extends MultiPartMonster> extends PartEntity<T> {
         this.size = EntityDimensions.scalable(width, height);
         refreshDimensions();
     }
-
     /**
      * Offsets this entity from its parent by the currently saved offset
      */
@@ -68,7 +74,7 @@ public class MultiPartEntity<T extends MultiPartMonster> extends PartEntity<T> {
      * @param x the offset along x-axis
      * @param y the offset along y-axis
      * @param z the offset along z-axis
-     * @see MultiPartEntity#offsetFromParentAndUpdate(double, double, double)
+     * @see RobotPartEntity#offsetFromParentAndUpdate(double, double, double)
      */
     public void offsetFromParent(double x, double y, double z) {
         double rot = Math.toRadians(getParent().getYRot());
@@ -83,9 +89,9 @@ public class MultiPartEntity<T extends MultiPartMonster> extends PartEntity<T> {
      * @param x x coordinate in the world
      * @param y y coordinate in the world
      * @param z z coordinate in the world
-     * @see MultiPartEntity#offsetFromParent()
-     * @see MultiPartEntity#offsetFromParent(double, double, double)
-     * @see MultiPartEntity#offsetFromParentAndUpdate(double, double, double)
+     * @see RobotPartEntity#offsetFromParent()
+     * @see RobotPartEntity#offsetFromParent(double, double, double)
+     * @see RobotPartEntity#offsetFromParentAndUpdate(double, double, double)
      */
     @Override
     public void setPos(double x, double y, double z) {
@@ -103,7 +109,7 @@ public class MultiPartEntity<T extends MultiPartMonster> extends PartEntity<T> {
      * @param source The source of the damage
      * @param amount The amount of damage being dealt
      * @return true if entity could be hurt, false otherwise.
-     * @see MultiPartMonster#hurtPart(MultiPartEntity, DamageSource, float)
+     * @see MultiPartRobot#hurtPart(RobotPartEntity, DamageSource, float)
      */
     @Override
     public boolean hurt(DamageSource source, float amount) {
@@ -147,6 +153,11 @@ public class MultiPartEntity<T extends MultiPartMonster> extends PartEntity<T> {
     @Override
     public EntityDimensions getDimensions(Pose pose) {
         return size;
+    }
+
+    @Override
+    public InteractionResult interact(Player player, InteractionHand hand) {
+        return getParent().mobInteract(player, hand);
     }
 
     @Override

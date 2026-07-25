@@ -46,12 +46,17 @@ public class RobotSpawnerItem extends Item {
                 } else {
                     blockpos1 = blockpos.relative(direction);
                 }
-                spawnEntity(level, blockpos1, context.getHand(), context.getPlayer());
-                itemstack.shrink(1);
-                return InteractionResult.CONSUME;
+                if (context.getHand() == InteractionHand.MAIN_HAND) {
+                    spawnEntity(level, blockpos1, context.getHand(), context.getPlayer());
+                    itemstack.shrink(1);
+                    return InteractionResult.CONSUME;
+                } else {
+                    return InteractionResult.FAIL;
+                }
+            } else {
+                return InteractionResult.FAIL;
             }
         }
-        return InteractionResult.CONSUME;
     }
 
     public void spawnEntity(Level level, BlockPos blockpos, InteractionHand hand, Player player) {

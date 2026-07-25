@@ -11,6 +11,7 @@ import net.dshbwlto.createbionics.block.BionicsBlocks;
 import net.dshbwlto.createbionics.component.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleRenderer;
+import net.dshbwlto.createbionics.entity.client.golem.GolemRenderer;
 import net.dshbwlto.createbionics.entity.client.organ.OrganRenderer;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerRenderer;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteRenderer;
@@ -187,7 +188,7 @@ public class CreateBionics {
             EntityRenderers.register(BionicsEntities.STALKER.get(), StalkerRenderer::new);
             EntityRenderers.register(BionicsEntities.STALKER_CAPTAIN.get(), StalkerCaptainRenderer::new);
             EntityRenderers.register(BionicsEntities.ORGAN.get(), OrganRenderer::new);
-
+            EntityRenderers.register(BionicsEntities.GOLEM.get(), GolemRenderer::new);
         }
 
         @SubscribeEvent

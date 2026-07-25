@@ -2,10 +2,10 @@
 package net.dshbwlto.createbionics.entity;
 
 import net.dshbwlto.createbionics.CreateBionics;
-import net.dshbwlto.createbionics.entity.api.MultiPartMonster;
+import net.dshbwlto.createbionics.entity.api.GolemEntity;
+import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
 import net.dshbwlto.createbionics.entity.custom.*;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.bus.api.IEventBus;
@@ -22,13 +22,13 @@ public class BionicsEntities {
             ENTITIES.register("anole", () -> EntityType.Builder.of(AnoleEntity::new, MobCategory.CREATURE)
                     .sized(0.5f, 0.25f).build("anole"));
 
-    public static final Supplier<EntityType<OxhaulerEntity>> OXHAULER =
-            ENTITIES.register("oxhauler", () -> EntityType.Builder.of(OxhaulerEntity::new, MobCategory.CREATURE)
-                    .sized(2f, 2f).build("oxhauler"));
+    public static final DeferredHolder<EntityType<?>, EntityType<MultiPartRobot<?>>> REPLETE = ENTITIES.register("replete",
+            () -> EntityType.Builder.of(RepleteEntity::new, MobCategory.CREATURE)
+                    .sized(3f, 2f).build("replete"));
 
-    public static final Supplier<EntityType<RepleteEntity>> REPLETE =
-            ENTITIES.register("replete", () -> EntityType.Builder.of(RepleteEntity::new, MobCategory.CREATURE)
-                    .sized(4f, 5f).build("replete"));
+    public static final DeferredHolder<EntityType<?>, EntityType<MultiPartRobot<?>>> OXHAULER = ENTITIES.register("oxhauler",
+            () -> EntityType.Builder.of(OxhaulerEntity::new, MobCategory.CREATURE)
+                    .sized(2f, 2f).build("oxhauler"));
 
     public static final Supplier<EntityType<SeekerEntity>> SEEKER =
             ENTITIES.register("seeker", () -> EntityType.Builder.of(SeekerEntity::new, MobCategory.CREATURE)
@@ -42,6 +42,10 @@ public class BionicsEntities {
     public static final Supplier<EntityType<StalkerCaptainEntity>> STALKER_CAPTAIN =
             ENTITIES.register("stalker_captain", () -> EntityType.Builder.of(StalkerCaptainEntity::new, MobCategory.CREATURE)
                     .sized(1.5f, 1f).build("stalker_captain"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<MultiPartRobot<?>>> GOLEM = ENTITIES.register("golem",
+            () -> EntityType.Builder.of(GolemEntity::new, MobCategory.CREATURE)
+                    .sized(1.25f, 3f).build("golem"));
 
     public static final Supplier<EntityType<OrganEntity>> ORGAN =
             ENTITIES.register("organ", () -> EntityType.Builder.of(OrganEntity::new, MobCategory.CREATURE)

@@ -119,12 +119,12 @@ public class RobotBuilderItemRenderer extends CustomRenderedItemModelRenderer {
     private final PartialModel WHISTLE_FACE_SMALL5 = PartialModel.of(CreateBionics.asResource("item/whistle_face_small5"));
 
     private final PartialModel DEBUG_ARROW = PartialModel.of(CreateBionics.asResource("item/debug_arrow"));
+    private final PartialModel DEBUG_ARROWCUBE = PartialModel.of(CreateBionics.asResource("item/debug_cube"));
 
     @Override
     protected void render(ItemStack stack, CustomRenderedItemModel model, PartialItemModelRenderer renderer, ItemDisplayContext transformType, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
-            renderer.render(model.getOriginalModel(), light);
-
-            float xOffset = -1/16f;
+        renderer.render(model.getOriginalModel(), light);
+        float xOffset = -1 / 16f;
         ms.translate(-xOffset, 0, 0);
         ms.mulPose(Axis.YP.rotationDegrees(ScrollValueHandler.getScroll(AnimationTickHolder.getPartialTicks())));
         ms.translate(xOffset, 0, 0);

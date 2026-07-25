@@ -3,19 +3,10 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
-import com.simibubi.create.AllSoundEvents;
-import com.simibubi.create.content.decoration.steamWhistle.WhistleBlock;
-import com.simibubi.create.content.decoration.steamWhistle.WhistleSoundInstance;
-import net.createmod.catnip.animation.AnimationTickHolder;
-import net.createmod.catnip.lang.Lang;
-import net.createmod.catnip.platform.CatnipServices;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
-import net.dshbwlto.createbionics.entity.api.OrganEntityPart;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganGlow;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
-import net.dshbwlto.createbionics.sound.OrganSoundInstance;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -24,7 +15,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -43,8 +33,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
@@ -72,17 +60,11 @@ public class OrganEntity extends AbstractRobot {
     public final AnimationState shakeAnimationState = new AnimationState();
     public final AnimationState yawnAnimationState = new AnimationState();
 
-    public final OrganEntityPart headPart;
-    public final OrganEntityPart[] allParts;
-
     public static final EntityDataAccessor<Integer> GLOW_COLOR =
             SynchedEntityData.defineId(OrganEntity.class, EntityDataSerializers.INT);
 
     public OrganEntity(EntityType<? extends AbstractRobot> entityType, Level level) {
         super(entityType, level);
-        this.headPart = new OrganEntityPart(this, 1.2F, 0.9F);
-        this.allParts = new OrganEntityPart[]{this.headPart};
-
     }
 
     public int blinkCountdown = 0;
@@ -183,13 +165,7 @@ public class OrganEntity extends AbstractRobot {
     public void tick() {
         super.tick();
         setFuel(1);
-        if (!this.isNoAi()) {
-            Vec3[] avector3d = new Vec3[this.allParts.length];
-            for (int j = 0; j < this.allParts.length; ++j) {
-                this.allParts[j].collideWithNearbyEntities();
-                avector3d[j] = new Vec3(this.allParts[j].getX(), this.allParts[j].getY(), this.allParts[j].getZ());
-            }
-        }
+
         float yaw = this.yBodyRot * Mth.DEG_TO_RAD;
 
         idlePoseTimeout = idlePoseTimeout - 1;
@@ -465,26 +441,6 @@ public class OrganEntity extends AbstractRobot {
         } else {
             return (AllBlocks.STEAM_WHISTLE.asItem());
         }
-    }
-
-    //PARTS//
-
-    public boolean attackEntityPartFrom(OrganEntityPart part, DamageSource source, float amount) {
-        return this.hurt(source, amount);
-    }
-
-    private void setPartPosition(OrganEntityPart part, double offsetX, double offsetY, double offsetZ) {
-        part.setPos(this.getX() + offsetX * part.scale, this.getY() + offsetY * part.scale, this.getZ() + offsetZ * part.scale);
-    }
-
-    @Override
-    public boolean isMultipartEntity() {
-        return true;
-    }
-
-    @Override
-    public net.neoforged.neoforge.entity.PartEntity<?>[] getParts() {
-        return this.allParts;
     }
 
     //MUSIC//

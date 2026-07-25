@@ -45,10 +45,6 @@ import org.jetbrains.annotations.Nullable;
 
 @EventBusSubscriber
 public class AnoleEntity extends AbstractRobot {
-    public boolean climbing = false;
-
-    int maxHealth = 5;
-
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
 
@@ -123,11 +119,11 @@ public class AnoleEntity extends AbstractRobot {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Animal.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 5D)
+                .add(Attributes.MAX_HEALTH, 10D)
+                .add(Attributes.FALL_DAMAGE_MULTIPLIER, 0)
                 .add(Attributes.MOVEMENT_SPEED, 0.4)
                 .add(Attributes.ATTACK_DAMAGE, 2f)
                 .add(Attributes.FOLLOW_RANGE, 24D)
-                .add(Attributes.SAFE_FALL_DISTANCE, 200D)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 200f);
     }
 
@@ -144,6 +140,11 @@ public class AnoleEntity extends AbstractRobot {
     @Override
     protected @Nullable SoundEvent getHurtSound(DamageSource damageSource) {
         return SoundEvents.ANVIL_PLACE;
+    }
+
+    @Override
+    public Item healItem() {
+        return Items.COPPER_INGOT;
     }
 
     public void aiStep() {
@@ -228,7 +229,13 @@ public class AnoleEntity extends AbstractRobot {
         }
 
         if (isTame() && isOwnedBy(player)) {
-            if (itemStack.is(AllItems.ANDESITE_ALLOY)
+            if (itemStack.is(healItem()) && player.isShiftKeyDown() && getHealth() < getMaxHealth()) {
+                setHealth(getHealth() + 2);
+                if (!level().isClientSide && !player.getAbilities().instabuild) {
+                    itemStack.shrink(1);
+                }
+                return InteractionResult.SUCCESS;
+            } else if (itemStack.is(AllItems.ANDESITE_ALLOY)
                     || itemStack.is(AllItems.BRASS_INGOT)
                     || itemStack.is(Items.NETHERITE_INGOT)
                     || itemStack.is(Items.SPONGE)
