@@ -3,7 +3,8 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
-import net.dshbwlto.createbionics.entity.api.AbstractRobot;
+import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
+import net.dshbwlto.createbionics.entity.part.RobotPartEntity;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganGlow;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
@@ -17,7 +18,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -32,14 +32,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public class OrganEntity extends AbstractRobot {
+public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
     private boolean isInIdlePose() {
@@ -52,6 +51,15 @@ public class OrganEntity extends AbstractRobot {
 
     protected int pitch;
 
+    public RobotPartEntity<OrganEntity> chest;
+    public RobotPartEntity<OrganEntity> neck;
+    public RobotPartEntity<OrganEntity> head;
+    public RobotPartEntity<OrganEntity> tail1a;
+    public RobotPartEntity<OrganEntity> tail1b;
+    public RobotPartEntity<OrganEntity> tail2a;
+    public RobotPartEntity<OrganEntity> tail2b;
+    public RobotPartEntity<OrganEntity> tail2c;
+
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
@@ -63,8 +71,23 @@ public class OrganEntity extends AbstractRobot {
     public static final EntityDataAccessor<Integer> GLOW_COLOR =
             SynchedEntityData.defineId(OrganEntity.class, EntityDataSerializers.INT);
 
-    public OrganEntity(EntityType<? extends AbstractRobot> entityType, Level level) {
+    public OrganEntity(EntityType<MultiPartRobot<?>> entityType, Level level) {
         super(entityType, level);
+    }
+
+    @Override
+    protected RobotPartEntity<OrganEntity>[] createParts() {
+        this.chest = new RobotPartEntity<>(this, 3f, 3f, 0f, 3f, 3.5f, BionicsItems.ORGAN_CHEST.get(), false);
+        this.neck = new RobotPartEntity<>(this, 2.5f, 2.5f, 0f, 3.3f, 6.7f, BionicsItems.ORGAN_NECK.get(), false);
+        this.head = new RobotPartEntity<>(this, 2.5f, 2f, 0f, 3f, 9.8f, BionicsItems.ORGAN_HEAD.get(), false);
+
+        this.tail1a = new RobotPartEntity<>(this, 2.5f, 2.5f, 0f, 3.8f, -3.2f, BionicsItems.ORGAN_TAIL_BASE.get(), false);
+        this.tail1b = new RobotPartEntity<>(this, 2.5f, 2.5f, 0f, 3.6f, -5.7f, BionicsItems.ORGAN_TAIL_BASE.get(), false);
+        this.tail2a = new RobotPartEntity<>(this, 2f, 2f, 0f, 3.9f, -7.9f, BionicsItems.ORGAN_TAIL_END.get(), false);
+        this.tail2b = new RobotPartEntity<>(this, 2f, 2f, 0f, 4f, -9.9f, BionicsItems.ORGAN_TAIL_END.get(), false);
+        this.tail2c = new RobotPartEntity<>(this, 2f, 2f, 0f, 4.1f, -11.9f, BionicsItems.ORGAN_TAIL_END.get(), false);
+
+        return new RobotPartEntity[] {this.chest, this.neck, this.head, this.tail1a, this.tail1b, this.tail2a, this.tail2b, this.tail2c};
     }
 
     public int blinkCountdown = 0;
@@ -84,15 +107,16 @@ public class OrganEntity extends AbstractRobot {
         this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 1d, 15, 10) {
             @Override
             public boolean canUse() {
-                return super.canUse() && getCommand() == 0;
+                return super.canUse() && getCommand() == 0 && getAssembly() >= 21 && isTame();
             }
         });
-        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D, 70) {
+        /*this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D, 70) {
             @Override
             public boolean canUse() {
-                return super.canUse() && getAssembly() >= 20 && isTame();
+                return super.canUse() && getAssembly() >= 21;
             }
         });
+        */
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
     }
@@ -121,6 +145,11 @@ public class OrganEntity extends AbstractRobot {
     @Nullable
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
         return null;
+    }
+
+    @Override
+    public @Nullable ItemStack getPickResult() {
+        return BionicsItems.ORGAN_MIDDLE.asStack();
     }
 
     /* ANIMATIONS */
@@ -165,8 +194,25 @@ public class OrganEntity extends AbstractRobot {
     public void tick() {
         super.tick();
         setFuel(1);
+        if (getAssembly() < 7) {
+            tail1a.setDimensions(0, 0);
+            tail1b.setDimensions(0, 0);
+        }
+        if (getAssembly() < 8) {
+            tail2a.setDimensions(0, 0);
+            tail2b.setDimensions(0, 0);
+            tail2c.setDimensions(0, 0);
+        }
+        if (getAssembly() < 9) {
+            chest.setDimensions(0, 0);
+        }
+        if (getAssembly() < 20) {
+            neck.setDimensions(0, 0);
+        }
+        if (getAssembly() < 21) {
+            head.setDimensions(0, 0);
+        }
 
-        float yaw = this.yBodyRot * Mth.DEG_TO_RAD;
 
         idlePoseTimeout = idlePoseTimeout - 1;
 
@@ -236,7 +282,7 @@ public class OrganEntity extends AbstractRobot {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         ///   Not yet, hotshot
-        //builder.define(GLOW_COLOR, 0);
+        builder.define(GLOW_COLOR, 0);
     }
 
     @Override
@@ -306,6 +352,24 @@ public class OrganEntity extends AbstractRobot {
                 playSound(SoundEvents.NETHERITE_BLOCK_PLACE, 1, (float) getAssembly() / 50);
             }
             player.displayClientMessage(Component.translatable("entity.createbionics.all.assembly", getPart().getDescription().getString()), true);
+            if (getAssembly() == 7) {
+                this.tail1a.setDimensions(2.5f, 2.5f);
+                this.tail1b.setDimensions(2.5f, 2.5f);
+            }
+            if (getAssembly() == 8) {
+                this.tail2a.setDimensions(2, 2);
+                this.tail2b.setDimensions(2, 2);
+                this.tail2c.setDimensions(2, 2);
+            }
+            if (getAssembly() == 9) {
+                this.chest.setDimensions(3, 3);
+            }
+            if (getAssembly() == 20) {
+                this.neck.setDimensions(2.5f, 2.5f);
+            }
+            if (getAssembly() == 21) {
+                this.head.setDimensions(2.5f, 2.5f);
+            }
             return InteractionResult.SUCCESS;
 
         } else if (itemStack.is(AllBlocks.RAILWAY_CASING.asItem())) {
@@ -321,6 +385,24 @@ public class OrganEntity extends AbstractRobot {
                     playSound(SoundEvents.NETHERITE_BLOCK_PLACE);
                 } else {
                     playSound(SoundEvents.NETHERITE_BLOCK_PLACE, 1, (float) getAssembly() / 50);
+                }
+                if (getAssembly() == 6) {
+                    tail1a.setDimensions(0, 0);
+                    tail1b.setDimensions(0, 0);
+                }
+                if (getAssembly() == 7) {
+                    tail2a.setDimensions(0, 0);
+                    tail2b.setDimensions(0, 0);
+                    tail2c.setDimensions(0, 0);
+                }
+                if (getAssembly() == 8) {
+                    chest.setDimensions(0, 0);
+                }
+                if (getAssembly() == 19) {
+                    neck.setDimensions(0, 0);
+                }
+                if (getAssembly() == 20) {
+                    head.setDimensions(0, 0);
                 }
             } else {
                 spawnAtLocation(new ItemStack(BionicsItems.ORGAN_MIDDLE.get()));

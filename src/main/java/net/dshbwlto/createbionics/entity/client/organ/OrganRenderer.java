@@ -18,10 +18,12 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 
 import java.util.Map;
 
-public class OrganRenderer extends MobRenderer<OrganEntity, OrganModel<OrganEntity>> {
+public class OrganRenderer extends MobRenderer {
 
     private final Map<OrganVariant, ResourceLocation> LOCATION_BY_VARIANT =
             Util.make(Maps.newEnumMap(OrganVariant.class),map -> {
@@ -42,35 +44,37 @@ public class OrganRenderer extends MobRenderer<OrganEntity, OrganModel<OrganEnti
     }
 
     @Override
-    public ResourceLocation getTextureLocation(OrganEntity entity) {
-        return LOCATION_BY_VARIANT.get(entity.getVariant());
+    public ResourceLocation getTextureLocation(Entity entity) {
+        OrganEntity organ = (OrganEntity) entity;
+        return LOCATION_BY_VARIANT.get(organ.getVariant());
     }
 
     @Override
-    public void render(OrganEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void render(LivingEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        OrganEntity organEntity = (OrganEntity) entity;
         /*
-        CachedBuffers.partial(PartialModel.of(CreateBionics.asResource("item/debug_arrow")), entity.getBlockStateOn())
+        CachedBuffers.partial(PartialModel.of(CreateBionics.asResource("item/debug_arrow")), organEntity.getBlockStateOn())
                 .translate(0, 18, 0)
-                .rotate(Direction.Axis.Y, (-entity.getPreciseBodyRotation(partialTicks) * Mth.PI / 180) + Mth.PI)
+                .rotate(Direction.Axis.Y, (-organEntity.getPreciseBodyRotation(partialTicks) * Mth.PI / 180) + Mth.PI)
                 .scale(10)
                 .light(15728880)
                 .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
-        //poseStack.mulPose(Axis.YN.rotation(-entity.getPreciseBodyRotation(partialTicks) * Mth.PI / 180));
+        //poseStack.mulPose(Axis.YN.rotation(-organEntity.getPreciseBodyRotation(partialTicks) * Mth.PI / 180));
          */
 
-        if (entity.x0 > 0) {
-            entity.y0 -= 1f;
-        } else if (entity.x0 < 0)
-            entity.y0 += 1f;
+        if (organEntity.x0 > 0) {
+            organEntity.y0 -= 1f;
+        } else if (organEntity.x0 < 0)
+            organEntity.y0 += 1f;
 
-        //poseStack.mulPose(Axis.YN.rotation(-entity.y0 * Mth.PI / 180));
+        //poseStack.mulPose(Axis.YN.rotation(-organEntity.y0 * Mth.PI / 180));
 
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
 
     }
 
     @Override
-    public boolean shouldRender(OrganEntity livingEntity, Frustum camera, double camX, double camY, double camZ) {
+    public boolean shouldRender(Entity livingEntity, Frustum camera, double camX, double camY, double camZ) {
         return true;
     }
 }

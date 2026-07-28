@@ -6,7 +6,9 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.foundation.sound.SoundScapes;
 import net.createmod.catnip.math.VecHelper;
-import net.dshbwlto.createbionics.entity.api.RobotPartEntity;
+import net.dshbwlto.createbionics.entity.part.OxhaulerHarvesterPartEntity;
+import net.dshbwlto.createbionics.entity.part.OxhaulerPloughPartEntity;
+import net.dshbwlto.createbionics.entity.part.RobotPartEntity;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerColor;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerVariant;
@@ -60,6 +62,9 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntit
     protected boolean isJumping;
     protected float playerJumpPendingScale;
     protected boolean canGallop = true;
+
+    public RobotPartEntity<OxhaulerEntity> harvester;
+    public OxhaulerPloughPartEntity plough;
 
     public final AnimationState idleAnimation1 = new AnimationState();
     public final AnimationState idleAnimation2 = new AnimationState();
@@ -120,9 +125,6 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntit
     private static final EntityDataAccessor<Boolean> PLOUGH =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
 
-    public float lastHealth = 0;
-    public float currentHealth = 0;
-
     @Override
     public boolean isSaddleable() {
         return false;
@@ -147,7 +149,10 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntit
 
     @Override
     protected RobotPartEntity<OxhaulerEntity>[] createParts() {
-        return new RobotPartEntity[0];
+        this.harvester = new OxhaulerHarvesterPartEntity(this, 3f, 1f, 0f, -0.5f, 3f, AllBlocks.MECHANICAL_HARVESTER.asItem(), false);
+        this.plough = new OxhaulerPloughPartEntity(this, 3f, 1f, 0f, -0.5f, -3f, AllBlocks.MECHANICAL_PLOUGH.asItem(), false);
+
+        return new RobotPartEntity[] {this.harvester, this.plough};
     }
 
     @Override
@@ -272,38 +277,6 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntit
         player.displayClientMessage(Component.translatable("entity.createbionics.all.fuel_warning"), true);
         playSound(AllSoundEvents.DENY.getMainEvent(), 1, 0.2f);
 
-    }
-
-    @Override
-    public void aiStep() {
-
-        if (isHarvester()) {
-            boolean flag = false;
-            AABB aabb = this.getBoundingBox().inflate(1.2);
-
-            for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-                BlockState blockstate = this.level().getBlockState(blockpos);
-                Block block = blockstate.getBlock();
-                if (block instanceof CropBlock && ((CropBlock) block).isMaxAge(blockstate)) {
-                    flag = this.level().destroyBlock(blockpos, true, this) || flag;
-                    flag = this.level().setBlock(blockpos, block.defaultBlockState(), 1) || flag;
-                }
-            }
-        }
-        if (isPlough()) {
-            AABB aabb = this.getBoundingBox().inflate(0.2);
-
-            for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-                BlockState blockstate = this.level().getBlockState(blockpos);
-                Block block = blockstate.getBlock();
-                if (block.equals(Blocks.DIRT) || block.equals(Blocks.GRASS_BLOCK) || block.equals(Blocks.DIRT_PATH) || block.equals(Blocks.COARSE_DIRT)) {
-                    level().setBlock(blockpos, Blocks.FARMLAND.defaultBlockState(), 11);
-                    playSound(SoundEvents.HOE_TILL);
-                }
-            }
-        }
-
-        super.aiStep();
     }
 
     public long getPoseTime() {
@@ -678,7 +651,6 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntit
     public void handleStopJump() {
     }
 
-
     protected void doPlayerRide(Player player) {
         if (!this.level().isClientSide) {
             player.setYRot(this.getYRot());
@@ -722,17 +694,13 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntit
     }
 
     protected Vec3 getRiddenInput(Player player, Vec3 travelVector) {
-        if (this.onGround() && this.playerJumpPendingScale == 0.0F) {
-            return Vec3.ZERO;
-        } else {
-            float f = player.xxa * 0.5F;
-            float f1 = player.zza;
-            if (f1 <= 0.0F) {
-                f1 *= 0.25F;
-            }
-
-            return new Vec3((double)f, (double)0.0F, (double)f1);
+        float f = player.xxa * 0.5F;
+        float f1 = player.zza;
+        if (f1 <= 0.0F) {
+            f1 *= 0.25F;
         }
+
+        return new Vec3((double) f, (double) 0.0F, (double) f1);
     }
 
     protected float getRiddenSpeed(Player player) {

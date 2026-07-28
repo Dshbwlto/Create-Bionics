@@ -30,6 +30,10 @@ public class BionicsEntities {
             () -> EntityType.Builder.of(OxhaulerEntity::new, MobCategory.CREATURE)
                     .sized(2f, 2f).build("oxhauler"));
 
+    public static final DeferredHolder<EntityType<?>, EntityType<MultiPartRobot<?>>> ORGAN = ENTITIES.register("organ",
+            () -> EntityType.Builder.of(OrganEntity::new, MobCategory.CREATURE)
+                    .sized(4f, 6f).build("organ"));
+
     public static final Supplier<EntityType<SeekerEntity>> SEEKER =
             ENTITIES.register("seeker", () -> EntityType.Builder.of(SeekerEntity::new, MobCategory.CREATURE)
                     .sized(1f, 0.3f).build("seeker"));
@@ -46,10 +50,6 @@ public class BionicsEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<MultiPartRobot<?>>> GOLEM = ENTITIES.register("golem",
             () -> EntityType.Builder.of(GolemEntity::new, MobCategory.CREATURE)
                     .sized(1.25f, 3f).build("golem"));
-
-    public static final Supplier<EntityType<OrganEntity>> ORGAN =
-            ENTITIES.register("organ", () -> EntityType.Builder.of(OrganEntity::new, MobCategory.CREATURE)
-                    .sized(5, 6f).build("organ"));
 
     public static void register(IEventBus eventBus) {
         ENTITIES.register(eventBus);

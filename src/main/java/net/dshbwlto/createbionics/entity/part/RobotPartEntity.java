@@ -1,5 +1,6 @@
-package net.dshbwlto.createbionics.entity.api;
+package net.dshbwlto.createbionics.entity.part;
 
+import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.InteractionHand;
@@ -9,6 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.PartEntity;
@@ -19,6 +21,8 @@ import javax.annotation.Nullable;
 public class RobotPartEntity<T extends MultiPartRobot> extends PartEntity<T> {
     public EntityDimensions size;
     public Vec3 parentOffset;
+    public Item pickResult;
+    public Boolean collision;
 
     //Adapted code from Duck-XYZ
     //Repo: https://github.com/Duck-XYZ/ducky_lib.git
@@ -34,10 +38,12 @@ public class RobotPartEntity<T extends MultiPartRobot> extends PartEntity<T> {
      * @apiNote Where ever offset is used it assumes that the mob is facing the default direction when spawned. Mob rotating is handled by api.
      */
 
-    public RobotPartEntity(@NotNull T parent, float width, float height, double xOffset, double yOffset, double zOffset) {
+    public RobotPartEntity(@NotNull T parent, float width, float height, double xOffset, double yOffset, double zOffset, Item pickResult, boolean canCollide) {
         super(parent);
         this.size = EntityDimensions.scalable(width, height);
         this.parentOffset = new Vec3(xOffset, yOffset, zOffset);
+        this.pickResult = pickResult;
+        this.collision = canCollide;
         this.refreshDimensions();
         this.offsetFromParent();
     }
@@ -56,6 +62,11 @@ public class RobotPartEntity<T extends MultiPartRobot> extends PartEntity<T> {
      */
     public void offsetFromParent() {
         offsetFromParent(parentOffset.x, parentOffset.y, parentOffset.z);
+    }
+
+    @Override
+    public boolean canBeCollidedWith() {
+        return collision;
     }
 
     /**
@@ -132,7 +143,7 @@ public class RobotPartEntity<T extends MultiPartRobot> extends PartEntity<T> {
     @Nullable
     @Override
     public ItemStack getPickResult() {
-        return this.getParent().getPickResult();
+        return new ItemStack(this.pickResult);
     }
 
     /**

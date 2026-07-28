@@ -1,5 +1,6 @@
 package net.dshbwlto.createbionics.entity.api;
 
+import net.dshbwlto.createbionics.entity.part.RobotPartEntity;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;

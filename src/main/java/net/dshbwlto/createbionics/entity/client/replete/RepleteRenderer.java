@@ -65,13 +65,14 @@ public class RepleteRenderer extends MobRenderer {
                 .light(1000)
                 .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
          */
+
         if (!replete.isSitting()) {
-            if (replete.y > 0) {
-                replete.y -= 0.03f * partialTicks;
+            if (replete.getYOffs() > 0) {
+                replete.setYOffs((replete.getYOffs() - 0.03f * partialTicks));
             }
         } else {
-            if (replete.y < 1) {
-                replete.y += 0.03f * partialTicks;
+            if (replete.getYOffs() < 1) {
+                replete.setYOffs(replete.getYOffs() + 0.03f * partialTicks);
             }
         }
 
@@ -84,12 +85,12 @@ public class RepleteRenderer extends MobRenderer {
         float height = (fluidStack.getAmount() / 160000f) * -4.5f;
 
         if (AnimationTickHolder.getTicks() == 20 && replete.isSitting()) {
-            replete.y = 1;
+            replete.setYOffs(1);
         }
 
         poseStack.pushPose();
         poseStack.mulPose(Axis.YN.rotation(replete.getPreciseBodyRotation(partialTicks) * (Mth.PI / 180)));
-        poseStack.translate(0, 38/16f - height - replete.y, -7/8f);
+        poseStack.translate(0, 38/16f - height - replete.getYOffs(), -7/8f);
         NeoForgeCatnipServices.FLUID_RENDERER.renderFluidBox(fluidStack, -15/16f, height, -15/16f, 15/16f, 0, 15/16f, buffer,
                 poseStack, packedLight, false, true);
         poseStack.popPose();

@@ -1,6 +1,7 @@
 package net.dshbwlto.createbionics.entity.api;
 
 
+import net.dshbwlto.createbionics.entity.part.RobotPartEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
@@ -24,9 +25,8 @@ public class GolemEntity extends MultiPartRobot<RobotPartEntity<GolemEntity>> {
 
     @Override
     protected RobotPartEntity<GolemEntity>[] createParts() {
-        this.leftArm = new RobotPartEntity<>(this, 0.8f, 2.1f, 1.2f, 0.4f, 0f);
-        this.rightArm = new RobotPartEntity<>(this, 0.8f, 2.1f, -1.2f, 0.4f, 0f);
-        this.torso = new RobotPartEntity<>(this, 2f, 2f, 0f, 1f, 2f);
+        this.leftArm = new RobotPartEntity<>(this, 0.8f, 2.1f, 1.2f, 0.4f, 0f, null, false);
+        this.rightArm = new RobotPartEntity<>(this, 0.8f, 2.1f, -1.2f, 0.4f, 0f, null, false);
         return new RobotPartEntity[]{this.leftArm, this.rightArm, this.torso};
     }
 

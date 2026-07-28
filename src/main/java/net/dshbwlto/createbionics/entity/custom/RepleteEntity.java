@@ -5,10 +5,9 @@ import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.content.fluids.drain.ItemDrainBlockEntity;
-import com.simibubi.create.foundation.item.TooltipHelper;
-import net.createmod.catnip.animation.AnimationTickHolder;
 import net.dshbwlto.createbionics.Util.BionicsEntityDataSerializers;
-import net.dshbwlto.createbionics.entity.api.RobotPartEntity;
+import net.dshbwlto.createbionics.entity.part.GroundLevelSamplerPartEntity;
+import net.dshbwlto.createbionics.entity.part.RobotPartEntity;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
@@ -18,7 +17,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -35,7 +33,6 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
-import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Inventory;
@@ -44,7 +41,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -60,26 +56,44 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Objects;
 
 public class RepleteEntity extends MultiPartRobot<RobotPartEntity<RepleteEntity>> implements MenuProvider {
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
     public int countdown = 0;
-    public float y = 0;
 
     public RobotPartEntity<RepleteEntity> tank;
+    public GroundLevelSamplerPartEntity leg_l1;
+    public GroundLevelSamplerPartEntity leg_l2;
+    public GroundLevelSamplerPartEntity leg_r1;
+    public GroundLevelSamplerPartEntity leg_r2;
+
+    public GroundLevelSamplerPartEntity leg2_l1;
+    public GroundLevelSamplerPartEntity leg2_l2;
+    public GroundLevelSamplerPartEntity leg2_r1;
+    public GroundLevelSamplerPartEntity leg2_r2;
+
+    public GroundLevelSamplerPartEntity leg3_l1;
+    public GroundLevelSamplerPartEntity leg3_l2;
+    public GroundLevelSamplerPartEntity leg3_r1;
+    public GroundLevelSamplerPartEntity leg3_r2;
 
     public static final EntityDataAccessor<FluidStack> TANK_FLUID =
             SynchedEntityData.defineId(RepleteEntity.class, BionicsEntityDataSerializers.FLUID_STACK.get());
 
+    public static final EntityDataAccessor<Float> Y =
+            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.FLOAT);
+    public float getYOffs() {
+        return entityData.get(Y);
+    }
+    public void setYOffs(float y) {
+        entityData.set(Y, y);
+    }
+
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
-
-    public static final EntityDataAccessor<Boolean> SHOULD_ABSORB =
-            SynchedEntityData.defineId(RepleteEntity.class, EntityDataSerializers.BOOLEAN);
 
     public RepleteEntity(EntityType<MultiPartRobot<?>> entityType, Level level) {
         super(entityType, level);
@@ -87,14 +101,28 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity<RepleteEntity>
 
     @Override
     protected RobotPartEntity<RepleteEntity>[] createParts() {
-        this.tank = new RobotPartEntity<>(this, 2.2f, 5.2f, 0f, 2f, -0.9f);
-        return new RobotPartEntity[]{this.tank};
+        this.tank = new RobotPartEntity<>(this, 2.2f, 5.2f, 0f, 2f, -0.9f, AllBlocks.FLUID_TANK.asItem(), false);
+
+        this.leg_l1 = new GroundLevelSamplerPartEntity(this, 1, 1, 2f, 0f, -2f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg_l2 = new GroundLevelSamplerPartEntity(this, 1, 1, 2f, 1f, -2f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg_r1 = new GroundLevelSamplerPartEntity(this, 1, 1, -2f, 0f, -2f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg_r2 = new GroundLevelSamplerPartEntity(this, 1, 1, -2f, 1f, -2f, BionicsItems.REPLETE_BODY.asItem());
+
+        this.leg2_l1 = new GroundLevelSamplerPartEntity(this, 1, 1, 2f, 0f, 1f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg2_l2 = new GroundLevelSamplerPartEntity(this, 1, 1, 2f, 1f, 1f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg2_r1 = new GroundLevelSamplerPartEntity(this, 1, 1, -2f, 0f, 1f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg2_r2 = new GroundLevelSamplerPartEntity(this, 1, 1, -2f, 1f, 1f, BionicsItems.REPLETE_BODY.asItem());
+
+        this.leg3_l1 = new GroundLevelSamplerPartEntity(this, 1, 1, 33/16f, 0f, 40/16f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg3_l2 = new GroundLevelSamplerPartEntity(this, 1, 1, 33/16f, 1f, 40/16f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg3_r1 = new GroundLevelSamplerPartEntity(this, 1, 1, -33/16f, 0f, 40/16f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg3_r2 = new GroundLevelSamplerPartEntity(this, 1, 1, -33/16f, 1f, 40/16f, BionicsItems.REPLETE_BODY.asItem());
+        return new RobotPartEntity[]{this.tank, this.leg_l1, this.leg_l2, this.leg_r1, this.leg_r2, this.leg2_l1, this.leg2_l2, this.leg2_r1, this.leg2_r2, this.leg3_l1, this.leg3_l2, this.leg3_r1, this.leg3_r2};
     }
 
     @Override
     protected void registerGoals() {
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
-        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 1, 1, true);
 
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 1.0d, 15, 7) {
@@ -286,6 +314,10 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity<RepleteEntity>
     public void tick() {
         super.tick();
 
+        if (getYOffs() != 1 && getYOffs() != 0) {
+            tank.offsetFromParent(0, 2 - getYOffs(), -0.9f);
+        }
+
         if (this.level().isClientSide()) {
             this.setupAnimationStates();
         }
@@ -446,7 +478,7 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity<RepleteEntity>
         } else {
             if (isOwnedBy(player) && itemStack.getCapability(Capabilities.FluidHandler.ITEM, null) == null) {
                 updateCommand(player);
-                if (getFuel() > 0 && getCommand() == 1 && random.nextFloat() < 0.001) {
+                if (getFuel() > 0 && getCommand() == 0 && random.nextFloat() < 0.001) {
                     playSound(BionicsSounds.GET_STICK_BUGGED.get());
                     countdown = 150;
                 }
@@ -460,25 +492,22 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity<RepleteEntity>
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(TANK_FLUID, FluidStack.EMPTY);
-        builder.define(SHOULD_ABSORB, true);
+        builder.define(Y, 0f);
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putBoolean("Absorb", this.entityData.get(SHOULD_ABSORB));
         FLUID_TANK.writeToNBT(level().registryAccess(), compound);
+        compound.putFloat("yOffs", this.entityData.get(Y));
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        entityData.set(SHOULD_ABSORB, compound.getBoolean("Absorb"));
         FLUID_TANK.readFromNBT(level().registryAccess(), compound);
         entityData.set(TANK_FLUID, FLUID_TANK.getFluid().copy());
-        if (isSitting()) {
-            y = 1;
-        }
+        entityData.set(Y, compound.getFloat("yOffs"));
     }
 
     //VARIANT//
