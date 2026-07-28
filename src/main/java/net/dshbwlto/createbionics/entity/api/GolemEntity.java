@@ -2,6 +2,7 @@ package net.dshbwlto.createbionics.entity.api;
 
 
 import net.dshbwlto.createbionics.entity.part.RobotPartEntity;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
@@ -57,5 +58,10 @@ public class GolemEntity extends MultiPartRobot<RobotPartEntity<GolemEntity>> {
     @Override
     public @Nullable AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
         return null;
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        //super.defineSynchedData(builder);
     }
 }
