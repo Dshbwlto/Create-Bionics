@@ -103,10 +103,10 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity<RepleteEntity>
     protected RobotPartEntity<RepleteEntity>[] createParts() {
         this.tank = new RobotPartEntity<>(this, 2.2f, 5.2f, 0f, 2f, -0.9f, AllBlocks.FLUID_TANK.asItem(), false);
 
-        this.leg_l1 = new GroundLevelSamplerPartEntity(this, 1, 1, 2f, 0f, -2f, BionicsItems.REPLETE_BODY.asItem());
-        this.leg_l2 = new GroundLevelSamplerPartEntity(this, 1, 1, 2f, 1f, -2f, BionicsItems.REPLETE_BODY.asItem());
-        this.leg_r1 = new GroundLevelSamplerPartEntity(this, 1, 1, -2f, 0f, -2f, BionicsItems.REPLETE_BODY.asItem());
-        this.leg_r2 = new GroundLevelSamplerPartEntity(this, 1, 1, -2f, 1f, -2f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg_l1 = new GroundLevelSamplerPartEntity(this, 1, 1, 3f, 0f, -2f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg_l2 = new GroundLevelSamplerPartEntity(this, 1, 1, 3f, 1f, -2f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg_r1 = new GroundLevelSamplerPartEntity(this, 1, 1, -3f, 0f, -2f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg_r2 = new GroundLevelSamplerPartEntity(this, 1, 1, -3f, 1f, -2f, BionicsItems.REPLETE_BODY.asItem());
 
         this.leg2_l1 = new GroundLevelSamplerPartEntity(this, 1, 1, 2f, 0f, 1f, BionicsItems.REPLETE_BODY.asItem());
         this.leg2_l2 = new GroundLevelSamplerPartEntity(this, 1, 1, 2f, 1f, 1f, BionicsItems.REPLETE_BODY.asItem());

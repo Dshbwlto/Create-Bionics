@@ -38,6 +38,6 @@ public class GroundLevelSamplerPartEntity extends RobotPartEntity{
     }
 
     public boolean isColliding() {
-        return !(this.getBlockStateOn().getBlock() instanceof AirBlock);
+        return !(this.getBlockStateOn().getBlock() instanceof AirBlock || !this.getBlockStateOn().canOcclude());
     }
 }
