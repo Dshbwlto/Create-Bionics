@@ -2,13 +2,16 @@ package net.dshbwlto.createbionics.entity.client.organ.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.simibubi.create.AllPartialModels;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.render.CachedBuffers;
 import net.dshbwlto.createbionics.CreateBionics;
+import net.dshbwlto.createbionics.Util.BionicsPartialModels;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
 import net.dshbwlto.createbionics.entity.client.organ.OrganModel;
 import net.dshbwlto.createbionics.entity.custom.OrganEntity;
+import net.dshbwlto.createbionics.item.client.RobotBuilderItemRenderer;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -16,13 +19,12 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 import java.util.Map;
 
-public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<OrganEntity>> {
+public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<OrganEntity>> {
     private final OrganModel<OrganEntity> model;
     public Map<Integer, ResourceLocation> EXHAUST_MAP_1 = Map.of(
             0, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/exhaust/steam0.png"),
@@ -53,52 +55,26 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
             21, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/exhaust/steam21.png")
     );
 
-    public OrganExhaustLayer(RenderLayerParent<OrganEntity, OrganModel<OrganEntity>> renderer, EntityModelSet models) {
+    public OrganWhistleLayer(RenderLayerParent<OrganEntity, OrganModel<OrganEntity>> renderer, EntityModelSet models) {
         super(renderer);
         this.model = new OrganModel<>(models.bakeLayer(BionicsModelLayers.ORGAN_EXHAUST));
     }
 
-    public String variant(OrganEntity entity) {
-        return "" + (entity.getTypeVariant() + 1);
-    }
     public void renderWhistles(OrganEntity entity, float netHeadYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float yoffset,
                                int count, int size, int height, float separation, float xPos, float yPos, float zPos, float angle, int index) {
         float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yoffset / 16;
         int build = entity.getAssembly() - 22;
-        PartialModel base_middle = size == 1 ? (entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small").withSuffix(variant(entity)))
-                : PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small5")))
-                : size == 2 ? (entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium").withSuffix(variant(entity)))
-                : PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium5")))
-                : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_large").withSuffix(variant(entity)))
-                : PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_large5"));
-
-        PartialModel base_side = size == 1 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_small").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_base_side_small5"))
-                : size == 2 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_medium").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_base_side_medium5"))
-                : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_large").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_base_side_large5"));
-
-        PartialModel face_middle = size == 1 ? (entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_small").withSuffix(variant(entity)))
-                : PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_small5")))
-                : size == 2 ? (entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_medium").withSuffix(variant(entity)))
-                : PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_medium5")))
-                : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_large").withSuffix(variant(entity)))
-                : PartialModel.of(CreateBionics.asResource("item/whistle_face_middle_large5"));
-
-        PartialModel face_side = PartialModel.of(CreateBionics.asResource("item/whistle_face_large").withSuffix(variant(entity)));
-
-        PartialModel base = xPos < 0 ? base_side : xPos == 0 ? base_middle : base_side;
-
-        PartialModel face = xPos < 0 ? face_side : xPos == 0 ? face_middle : face_side;
-
-        PartialModel extension = size == 1 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_small").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_middle_small5"))
-                : size == 2 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_medium").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_middle_medium5"))
-                : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_large").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_middle_large5"));
-
-        PartialModel end = size == 1 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_end_small").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_end_small5"))
-                : size == 2 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_end_medium").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_end_medium5"))
-                : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_end_large").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_end_large5"));
+        PartialModel base_middle = AllPartialModels.BELT_MIDDLE;
+        PartialModel base_side = AllPartialModels.BELT_MIDDLE;
+        PartialModel face_middle = AllPartialModels.BELT_MIDDLE;
+        PartialModel face_side = AllPartialModels.BELT_MIDDLE;
+        PartialModel base = AllPartialModels.BELT_MIDDLE;
+        PartialModel face = AllPartialModels.BELT_MIDDLE;
+        PartialModel extension = AllPartialModels.BELT_MIDDLE;
+        PartialModel end = AllPartialModels.BELT_MIDDLE;
 
         for ( int i = 0; i < count && index + i <= build; i++) {
-            CachedBuffers.partial(base, entity.getBlockStateOn())
+            CachedBuffers.partial(BionicsPartialModels.whistleBase(xPos == 0, size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
                     .translate(xPos, 7 + bodyYOffset + yPos, zPos + 0.5 - separation * i)
                     .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
@@ -140,29 +116,17 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
         float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yoffset/16;
         int build = entity.getAssembly() - 22;
         netHeadYaw = Mth.clamp(netHeadYaw, -60.0F, 60.0F) / 6;
-        PartialModel base_middle = size == 1 ? (entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small").withSuffix(variant(entity)))
-                : PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small5")))
-                : size == 2 ? (entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium").withSuffix(variant(entity)))
-                : PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium5")))
-                : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_large").withSuffix(variant(entity)))
-                : PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_large5"));
-
-        PartialModel base_side = size == 1 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_small").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_base_side_small5"))
-                : size == 2 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_medium").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_base_side_medium5"))
-                : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_large").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_base_side_large5"));
-
-        PartialModel base = xPos < 0 ? base_side : xPos == 0 ? base_middle : base_side;
-
-        PartialModel extension = size == 1 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_small").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_middle_small5"))
-                : size == 2 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_medium").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_middle_medium5"))
-                : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_large").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_middle_large5"));
-
-        PartialModel end = size == 1 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_end_small").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_end_small5"))
-                : size == 2 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_end_medium").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_end_medium5"))
-                : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_end_large").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_end_large5"));
+        PartialModel base_middle = AllPartialModels.BELT_MIDDLE;
+        PartialModel base_side = AllPartialModels.BELT_MIDDLE;
+        PartialModel face_middle = AllPartialModels.BELT_MIDDLE;
+        PartialModel face_side = AllPartialModels.BELT_MIDDLE;
+        PartialModel base = AllPartialModels.BELT_MIDDLE;
+        PartialModel face = AllPartialModels.BELT_MIDDLE;
+        PartialModel extension = AllPartialModels.BELT_MIDDLE;
+        PartialModel end = AllPartialModels.BELT_MIDDLE;
 
         for (int i = 0; i < count && index + i <= build; i++) {
-            CachedBuffers.partial(base, entity.getBlockStateOn())
+            CachedBuffers.partial(BionicsPartialModels.whistleBase(xPos == 0, size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
                     .translate(0, 0, -2 - 1 / 8f)
                     .rotateYDegrees(ySwing + netHeadYaw)
@@ -211,29 +175,17 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
         float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yOffset / 16;
         int build = entity.getAssembly() - 22;
         netHeadYaw = Mth.clamp(netHeadYaw, -60.0F, 60.0F) / 6;
-        PartialModel base_middle = size == 1 ? (entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small").withSuffix(variant(entity)))
-                : PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small5")))
-                : size == 2 ? (entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium").withSuffix(variant(entity)))
-                : PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium5")))
-                : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_large").withSuffix(variant(entity)))
-                : PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_large5"));
-
-        PartialModel base_side = size == 1 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_small").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_base_side_small5"))
-                : size == 2 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_medium").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_base_side_medium5"))
-                : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_large").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_base_side_large5"));
-
-        PartialModel base = xPos < 0 ? base_side : xPos == 0 ? base_middle : base_side;
-
-        PartialModel extension = size == 1 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_small").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_middle_small5"))
-                : size == 2 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_medium").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_middle_medium5"))
-                : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_large").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_middle_large5"));
-
-        PartialModel end = size == 1 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_end_small").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_end_small5"))
-                : size == 2 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_end_medium").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_end_medium5"))
-                : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_end_large").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_end_large5"));
+        PartialModel base_middle = AllPartialModels.BELT_MIDDLE;
+        PartialModel base_side = AllPartialModels.BELT_MIDDLE;
+        PartialModel face_middle = AllPartialModels.BELT_MIDDLE;
+        PartialModel face_side = AllPartialModels.BELT_MIDDLE;
+        PartialModel base = AllPartialModels.BELT_MIDDLE;
+        PartialModel face = AllPartialModels.BELT_MIDDLE;
+        PartialModel extension = AllPartialModels.BELT_MIDDLE;
+        PartialModel end = AllPartialModels.BELT_MIDDLE;
 
         for (int i = 0; i < count && index + i <= build; i++) {
-            CachedBuffers.partial(base, entity.getBlockStateOn())
+            CachedBuffers.partial(BionicsPartialModels.whistleBase(xPos == 0, size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
                     .translate(0, 0, 1 + 14/16f)
                     .rotateYDegrees(-netHeadYaw)
@@ -284,29 +236,17 @@ public class OrganExhaustLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
         float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yoffset / 16;
         int build = entity.getAssembly() - 22;
         netHeadYaw = Mth.clamp(netHeadYaw, -60.0F, 60.0F) / 6;
-        PartialModel base_middle = size == 1 ? (entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small").withSuffix(variant(entity)))
-                : PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_small5")))
-                : size == 2 ? (entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium").withSuffix(variant(entity)))
-                : PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_medium5")))
-                : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_large").withSuffix(variant(entity)))
-                : PartialModel.of(CreateBionics.asResource("item/whistle_base_middle_large5"));
-
-        PartialModel base_side = size == 1 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_small").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_base_side_small5"))
-                : size == 2 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_medium").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_base_side_medium5"))
-                : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_base_side_large").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_base_side_large5"));
-
-        PartialModel base = xPos < 0 ? base_side : xPos == 0 ? base_middle : base_side;
-
-        PartialModel extension = size == 1 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_small").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_middle_small5"))
-                : size == 2 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_medium").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_middle_medium5"))
-                : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_middle_large").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_middle_large5"));
-
-        PartialModel end = size == 1 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_end_small").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_end_small5"))
-                : size == 2 ? entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_end_medium").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_end_medium5"))
-                : entity.getGlowColor() <2 ? PartialModel.of(CreateBionics.asResource("item/whistle_end_large").withSuffix(variant(entity))) : PartialModel.of(CreateBionics.asResource("item/whistle_end_large5"));
+        PartialModel base_middle = AllPartialModels.BELT_MIDDLE;
+        PartialModel base_side = AllPartialModels.BELT_MIDDLE;
+        PartialModel face_middle = AllPartialModels.BELT_MIDDLE;
+        PartialModel face_side = AllPartialModels.BELT_MIDDLE;
+        PartialModel base = AllPartialModels.BELT_MIDDLE;
+        PartialModel face = AllPartialModels.BELT_MIDDLE;
+        PartialModel extension = AllPartialModels.BELT_MIDDLE;
+        PartialModel end = AllPartialModels.BELT_MIDDLE;
 
         for (int i = 0; i < count && index + i <= build; i++) {
-            CachedBuffers.partial(base, entity.getBlockStateOn())
+            CachedBuffers.partial(BionicsPartialModels.whistleBase(xPos == 0, size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
                     .translate(0, 0, -2 - 1 / 8f)
                     .rotateYDegrees(ySwing + netHeadYaw)

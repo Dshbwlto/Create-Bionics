@@ -254,7 +254,7 @@ public class SeekerEntity extends AbstractRobot {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         /// just stop.
-        //builder.define(PICK_MAP, 0);
+        builder.define(PICK_MAP, 0);
     }
 
     @Override

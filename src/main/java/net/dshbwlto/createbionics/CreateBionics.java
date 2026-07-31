@@ -7,6 +7,7 @@ import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.lang.FontHelper;
 import net.createmod.ponder.foundation.PonderIndex;
 import net.dshbwlto.createbionics.Util.BionicsEntityDataSerializers;
+import net.dshbwlto.createbionics.Util.BionicsPartialModels;
 import net.dshbwlto.createbionics.block.BionicsBlocks;
 import net.dshbwlto.createbionics.component.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
@@ -189,6 +190,8 @@ public class CreateBionics {
             EntityRenderers.register(BionicsEntities.STALKER_CAPTAIN.get(), StalkerCaptainRenderer::new);
             EntityRenderers.register(BionicsEntities.ORGAN.get(), OrganRenderer::new);
             EntityRenderers.register(BionicsEntities.GOLEM.get(), GolemRenderer::new);
+
+            BionicsPartialModels.init();
         }
 
         @SubscribeEvent
