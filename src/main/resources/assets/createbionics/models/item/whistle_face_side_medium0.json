@@ -1,0 +1,79 @@
+{
+	"format_version": "1.21.11",
+	"credit": "Made by Dshbwlto",
+	"textures": {
+		"0": "createbionics:item/entity/organ/organ_whistle_0",
+		"particle": "createbionics:item/entity/organ/organ_whistle_0"
+	},
+	"elements": [
+		{
+			"name": "Centre",
+			"from": [-4.5, 7, -2],
+			"to": [-3, 12, 2],
+			"faces": {
+				"north": {"uv": [0, 0, 0, 0], "texture": "#0"},
+				"east": {"uv": [0, 0, 0, 0], "texture": "#0"},
+				"south": {"uv": [0, 0, 0, 0], "texture": "#0"},
+				"west": {"uv": [1.5, 4, 2.5, 5.25], "texture": "#0"},
+				"up": {"uv": [13.5, 14.5, 14.5, 15], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [5, 5.5, 5.5, 6], "rotation": 90, "texture": "#0"}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [-3, 5, -2],
+			"to": [4.5, 12, 2],
+			"faces": {
+				"north": {"uv": [0, 0, 0, 0], "texture": "#0"},
+				"east": {"uv": [1.5, 6, 2.5, 7.75], "texture": "#0"},
+				"south": {"uv": [0, 0, 0, 0], "texture": "#0"},
+				"west": {"uv": [5, 5.5, 5.5, 6], "texture": "#0"},
+				"up": {"uv": [13.5, 12.75, 14.5, 14.75], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [5, 5.5, 5.5, 6], "rotation": 90, "texture": "#0"}
+			}
+		},
+		{
+			"name": "Left",
+			"from": [-4.5, 5, 2],
+			"to": [4.5, 12, 4.5],
+			"faces": {
+				"north": {"uv": [5, 5.5, 5.5, 6], "texture": "#0"},
+				"east": {"uv": [1, 6, 1.5, 7.75], "texture": "#0"},
+				"south": {"uv": [1, 6, 3, 7.75], "texture": "#0"},
+				"west": {"uv": [2.5, 4, 3, 5.75], "texture": "#0"},
+				"up": {"uv": [14.5, 13, 15, 15], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [5, 5.5, 5.5, 6], "rotation": 90, "texture": "#0"}
+			}
+		},
+		{
+			"name": "Right",
+			"from": [-4.5, 5, -4.5],
+			"to": [4.5, 12, -2],
+			"faces": {
+				"north": {"uv": [1, 6, 3, 7.75], "texture": "#0"},
+				"east": {"uv": [2.5, 6, 3, 7.75], "texture": "#0"},
+				"south": {"uv": [5.5, 1.5, 5, 2], "texture": "#0"},
+				"west": {"uv": [1, 4, 1.5, 5.75], "texture": "#0"},
+				"up": {"uv": [13, 13, 13.5, 15], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [5, 1.5, 5.5, 2], "rotation": 90, "texture": "#0"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "Whistle Medium",
+			"origin": [8, 8, 8],
+			"scope": 0,
+			"color": 0,
+			"children": [
+				{
+					"name": "Whistle Medium Mouth",
+					"origin": [8, 8, 8],
+					"scope": 0,
+					"color": 0,
+					"children": [0, 1, 2, 3]
+				}
+			]
+		}
+	]
+}

@@ -64,14 +64,6 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                                int count, int size, int height, float separation, float xPos, float yPos, float zPos, float angle, int index) {
         float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yoffset / 16;
         int build = entity.getAssembly() - 22;
-        PartialModel base_middle = AllPartialModels.BELT_MIDDLE;
-        PartialModel base_side = AllPartialModels.BELT_MIDDLE;
-        PartialModel face_middle = AllPartialModels.BELT_MIDDLE;
-        PartialModel face_side = AllPartialModels.BELT_MIDDLE;
-        PartialModel base = AllPartialModels.BELT_MIDDLE;
-        PartialModel face = AllPartialModels.BELT_MIDDLE;
-        PartialModel extension = AllPartialModels.BELT_MIDDLE;
-        PartialModel end = AllPartialModels.BELT_MIDDLE;
 
         for ( int i = 0; i < count && index + i <= build; i++) {
             CachedBuffers.partial(BionicsPartialModels.whistleBase(xPos == 0, size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
@@ -81,15 +73,8 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .rotate(Direction.Axis.Z, angle == 0 ? 0 : i * 0.1f + angle)
                     .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
-            CachedBuffers.partial(end, entity.getBlockStateOn())
-                    .rotate(Direction.Axis.X, (float)Math.PI)
-                    .translate(xPos, 7 + bodyYOffset + yPos, zPos + 0.5 - separation * i)
-                    .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
-                    .rotate(Direction.Axis.Z, angle == 0 ? 0 : i * 0.1f + angle)
-                    .translate(0, xPos == 0 ? i * 0.5 - 1 + height : i * 0.5 + 0.5 + height, 0)
-                    .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
-                    .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
-            CachedBuffers.partial(face, entity.getBlockStateOn())
+
+            CachedBuffers.partial(BionicsPartialModels.whistleEnd( size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
                     .translate(xPos, 7 + bodyYOffset + yPos, zPos + 0.5 - separation * i)
                     .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
@@ -98,8 +83,17 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
 
+            CachedBuffers.partial(BionicsPartialModels.whistleFace(xPos == 0, size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
+                    .rotate(Direction.Axis.X, (float)Math.PI)
+                    .translate(xPos, 7 + bodyYOffset + yPos, zPos + 0.5 - separation * i)
+                    .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
+                    .rotate(Direction.Axis.Z, angle == 0 ? 0 : i * 0.1f + angle)
+                    .translate(0, 3/16f, 0)
+                    .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
+                    .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
+
             for (int j = 0; j < i + height; j ++) {
-                CachedBuffers.partial(extension, entity.getBlockStateOn())
+                CachedBuffers.partial(BionicsPartialModels.whistleExtension(size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                         .rotate(Direction.Axis.X, (float)Math.PI)
                         .translate(xPos, 7 + bodyYOffset + yPos, zPos + 0.5 - separation * i)
                         .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? -i * 0.1f - angle : i * 0.1f + angle)
@@ -116,14 +110,6 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
         float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yoffset/16;
         int build = entity.getAssembly() - 22;
         netHeadYaw = Mth.clamp(netHeadYaw, -60.0F, 60.0F) / 6;
-        PartialModel base_middle = AllPartialModels.BELT_MIDDLE;
-        PartialModel base_side = AllPartialModels.BELT_MIDDLE;
-        PartialModel face_middle = AllPartialModels.BELT_MIDDLE;
-        PartialModel face_side = AllPartialModels.BELT_MIDDLE;
-        PartialModel base = AllPartialModels.BELT_MIDDLE;
-        PartialModel face = AllPartialModels.BELT_MIDDLE;
-        PartialModel extension = AllPartialModels.BELT_MIDDLE;
-        PartialModel end = AllPartialModels.BELT_MIDDLE;
 
         for (int i = 0; i < count && index + i <= build; i++) {
             CachedBuffers.partial(BionicsPartialModels.whistleBase(xPos == 0, size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
@@ -136,7 +122,18 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
 
-            CachedBuffers.partial(end, entity.getBlockStateOn())
+            CachedBuffers.partial(BionicsPartialModels.whistleFace(xPos == 0, size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
+                    .rotate(Direction.Axis.X, (float)Math.PI)
+                    .translate(0, 0, -2 - 1 / 8f)
+                    .rotateYDegrees(ySwing + netHeadYaw)
+                    .translate(xPos + xPos == 0 ? 0 : xPos > 0 ? 1 : -1, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
+                    .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? i * 0.1f + angle : -i * 0.1f - angle)
+                    .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
+                    .translate(0, 3/16f, 0)
+                    .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
+                    .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
+
+            CachedBuffers.partial(BionicsPartialModels.whistleEnd( size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
                     .translate(0, 0, -2 - 1 / 8f)
                     .rotateYDegrees(ySwing + netHeadYaw)
@@ -145,7 +142,8 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .translate(0, (height/2f) + (i/4f) + 1, 0)
                     .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
-            CachedBuffers.partial(extension, entity.getBlockStateOn())
+
+            CachedBuffers.partial(BionicsPartialModels.whistleExtension(size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
                     .translate(0, 0, -2 - 1 / 8f)
                     .rotateYDegrees(ySwing + netHeadYaw)
@@ -157,7 +155,7 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
 
             for (int j = 0; j < i / 2 + height; j++) {
-                CachedBuffers.partial(extension, entity.getBlockStateOn())
+                CachedBuffers.partial(BionicsPartialModels.whistleExtension(size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                         .rotate(Direction.Axis.X, (float)Math.PI)
                         .translate(0, 0, -2 - 1 / 8f)
                         .rotateYDegrees(ySwing + netHeadYaw)
@@ -175,14 +173,6 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
         float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yOffset / 16;
         int build = entity.getAssembly() - 22;
         netHeadYaw = Mth.clamp(netHeadYaw, -60.0F, 60.0F) / 6;
-        PartialModel base_middle = AllPartialModels.BELT_MIDDLE;
-        PartialModel base_side = AllPartialModels.BELT_MIDDLE;
-        PartialModel face_middle = AllPartialModels.BELT_MIDDLE;
-        PartialModel face_side = AllPartialModels.BELT_MIDDLE;
-        PartialModel base = AllPartialModels.BELT_MIDDLE;
-        PartialModel face = AllPartialModels.BELT_MIDDLE;
-        PartialModel extension = AllPartialModels.BELT_MIDDLE;
-        PartialModel end = AllPartialModels.BELT_MIDDLE;
 
         for (int i = 0; i < count && index + i <= build; i++) {
             CachedBuffers.partial(BionicsPartialModels.whistleBase(xPos == 0, size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
@@ -195,7 +185,18 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
 
-            CachedBuffers.partial(end, entity.getBlockStateOn())
+            CachedBuffers.partial(BionicsPartialModels.whistleFace(xPos == 0, size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
+                    .rotate(Direction.Axis.X, (float)Math.PI)
+                    .translate(0, 0, 1 + 14/16f)
+                    .rotateYDegrees(-netHeadYaw)
+                    .translate(xPos, 7 + bodyYOffset + yPos + i * 0.2, zPos - separation * i)
+                    .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? i * 0.1f + angle : -i * 0.1f - angle)
+                    .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
+                    .translate(0, 3/16f, 0)
+                    .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
+                    .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
+
+            CachedBuffers.partial(BionicsPartialModels.whistleEnd( size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
                     .translate(0, 0, 1 + 14/16f)
                     .rotateYDegrees(-netHeadYaw)
@@ -204,7 +205,8 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .translate(0, (height/2f) + (i/4f) + 1, 0)
                     .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
-            CachedBuffers.partial(extension, entity.getBlockStateOn())
+
+            CachedBuffers.partial(BionicsPartialModels.whistleExtension(size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
                     .translate(0, 0, 1 + 14/16f)
                     .rotateYDegrees(-netHeadYaw)
@@ -216,7 +218,7 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
 
             for (int j = 0; j < i / 2 + height; j++) {
-                CachedBuffers.partial(extension, entity.getBlockStateOn())
+                CachedBuffers.partial(BionicsPartialModels.whistleExtension(size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                         .rotate(Direction.Axis.X, (float)Math.PI)
                         .translate(0, 0, 1 + 14/16f)
                         .rotateYDegrees(-netHeadYaw)
@@ -236,14 +238,6 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
         float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yoffset / 16;
         int build = entity.getAssembly() - 22;
         netHeadYaw = Mth.clamp(netHeadYaw, -60.0F, 60.0F) / 6;
-        PartialModel base_middle = AllPartialModels.BELT_MIDDLE;
-        PartialModel base_side = AllPartialModels.BELT_MIDDLE;
-        PartialModel face_middle = AllPartialModels.BELT_MIDDLE;
-        PartialModel face_side = AllPartialModels.BELT_MIDDLE;
-        PartialModel base = AllPartialModels.BELT_MIDDLE;
-        PartialModel face = AllPartialModels.BELT_MIDDLE;
-        PartialModel extension = AllPartialModels.BELT_MIDDLE;
-        PartialModel end = AllPartialModels.BELT_MIDDLE;
 
         for (int i = 0; i < count && index + i <= build; i++) {
             CachedBuffers.partial(BionicsPartialModels.whistleBase(xPos == 0, size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
@@ -257,7 +251,21 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
                     .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
-            CachedBuffers.partial(extension, entity.getBlockStateOn())
+
+            CachedBuffers.partial(BionicsPartialModels.whistleFace(xPos == 0, size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
+                    .rotate(Direction.Axis.X, (float)Math.PI)
+                    .translate(0, 0, -2 - 1 / 8f)
+                    .rotateYDegrees(ySwing + netHeadYaw)
+                    .translate(0, 0, -76.5/16f)
+                    .rotateYDegrees(ySwing2 + netHeadYaw)
+                    .translate(xPos == 0 ? 0 : xPos > 0 ? xPos - i / 16f + 1/8f : xPos + i / 16f - 1/8f, separation < 0 ? 7 + bodyYOffset + yPos - i * 0.04 : 7 + bodyYOffset + yPos - i * 0.02, zPos - separation * i)
+                    .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos < 0 ? i * 0.1f + angle : -i * 0.1f - angle)
+                    .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
+                    .translate(0, 3/16f, 0)
+                    .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
+                    .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
+
+            CachedBuffers.partial(BionicsPartialModels.whistleExtension(size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
                     .translate(0, 0, -2 - 1 / 8f)
                     .rotateYDegrees(ySwing + netHeadYaw)
@@ -269,7 +277,8 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .scale(0.999f)
                     .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
-            CachedBuffers.partial(end, entity.getBlockStateOn())
+
+            CachedBuffers.partial(BionicsPartialModels.whistleEnd(size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
                     .translate(0, 0, -2 - 1 / 8f)
                     .rotateYDegrees(ySwing + netHeadYaw)
@@ -283,7 +292,7 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
 
             for (int j = 0; j < i / 2 + height; j++) {
-                CachedBuffers.partial(extension, entity.getBlockStateOn())
+                CachedBuffers.partial(BionicsPartialModels.whistleExtension(size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                         .rotate(Direction.Axis.X, (float)Math.PI)
                         .translate(0, 0, -2 - 1 / 8f)
                         .rotateYDegrees(ySwing + netHeadYaw)

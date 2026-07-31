@@ -44,6 +44,77 @@ public class BionicsPartialModels {
             WHISTLE_BASE_SIDE_SMALL3 = part("whistle_base_side_small3"),
             WHISTLE_BASE_SIDE_SMALL4 = part("whistle_base_side_small4"),
 
+    WHISTLE_EXTENSION_LARGE0 = part("whistle_extension_large0"),
+            WHISTLE_EXTENSION_LARGE1 = part("whistle_extension_large1"),
+            WHISTLE_EXTENSION_LARGE2 = part("whistle_extension_large2"),
+            WHISTLE_EXTENSION_LARGE3 = part("whistle_extension_large3"),
+            WHISTLE_EXTENSION_LARGE4 = part("whistle_extension_large4"),
+
+    WHISTLE_EXTENSION_MEDIUM0 = part("whistle_extension_medium0"),
+            WHISTLE_EXTENSION_MEDIUM1 = part("whistle_extension_medium1"),
+            WHISTLE_EXTENSION_MEDIUM2 = part("whistle_extension_medium2"),
+            WHISTLE_EXTENSION_MEDIUM3 = part("whistle_extension_medium3"),
+            WHISTLE_EXTENSION_MEDIUM4 = part("whistle_extension_medium4"),
+
+    WHISTLE_EXTENSION_SMALL0 = part("whistle_extension_small0"),
+            WHISTLE_EXTENSION_SMALL1 = part("whistle_extension_small1"),
+            WHISTLE_EXTENSION_SMALL2 = part("whistle_extension_small2"),
+            WHISTLE_EXTENSION_SMALL3 = part("whistle_extension_small3"),
+            WHISTLE_EXTENSION_SMALL4 = part("whistle_extension_small4"),
+
+    WHISTLE_END_LARGE0 = part("whistle_end_large0"),
+            WHISTLE_END_LARGE1 = part("whistle_end_large1"),
+            WHISTLE_END_LARGE2 = part("whistle_end_large2"),
+            WHISTLE_END_LARGE3 = part("whistle_end_large3"),
+            WHISTLE_END_LARGE4 = part("whistle_end_large4"),
+
+    WHISTLE_END_MEDIUM0 = part("whistle_end_medium0"),
+            WHISTLE_END_MEDIUM2 = part("whistle_end_medium2"),
+            WHISTLE_END_MEDIUM3 = part("whistle_end_medium3"),
+            WHISTLE_END_MEDIUM4 = part("whistle_end_medium4"),
+
+    WHISTLE_END_SMALL0 = part("whistle_end_large0"),
+            WHISTLE_END_SMALL1 = part("whistle_end_small1"),
+            WHISTLE_END_SMALL2 = part("whistle_end_small2"),
+            WHISTLE_END_SMALL3 = part("whistle_end_small3"),
+            WHISTLE_END_SMALL4 = part("whistle_end_small4"),
+
+    WHISTLE_FACE_MIDDLE_LARGE0 = part("whistle_face_middle_large0"),
+            WHISTLE_FACE_MIDDLE_LARGE1 = part("whistle_face_middle_large1"),
+            WHISTLE_FACE_MIDDLE_LARGE2 = part("whistle_face_middle_large2"),
+            WHISTLE_FACE_MIDDLE_LARGE3 = part("whistle_face_middle_large3"),
+            WHISTLE_FACE_MIDDLE_LARGE4 = part("whistle_face_middle_large4"),
+
+    WHISTLE_FACE_MIDDLE_MEDIUM0 = part("whistle_face_middle_medium0"),
+            WHISTLE_FACE_MIDDLE_MEDIUM1 = part("whistle_face_middle_medium1"),
+            WHISTLE_FACE_MIDDLE_MEDIUM2 = part("whistle_face_middle_medium2"),
+            WHISTLE_FACE_MIDDLE_MEDIUM3 = part("whistle_face_middle_medium3"),
+            WHISTLE_FACE_MIDDLE_MEDIUM4 = part("whistle_face_middle_medium4"),
+
+    WHISTLE_FACE_MIDDLE_SMALL0 = part("whistle_face_middle_small0"),
+            WHISTLE_FACE_MIDDLE_SMALL1 = part("whistle_face_middle_small1"),
+            WHISTLE_FACE_MIDDLE_SMALL2 = part("whistle_face_middle_small2"),
+            WHISTLE_FACE_MIDDLE_SMALL3 = part("whistle_face_middle_small3"),
+            WHISTLE_FACE_MIDDLE_SMALL4 = part("whistle_face_middle_small4"),
+
+    WHISTLE_FACE_SIDE_LARGE0 = part("whistle_face_side_large0"),
+            WHISTLE_FACE_SIDE_LARGE1 = part("whistle_face_side_large1"),
+            WHISTLE_FACE_SIDE_LARGE2 = part("whistle_face_side_large2"),
+            WHISTLE_FACE_SIDE_LARGE3 = part("whistle_face_side_large3"),
+            WHISTLE_FACE_SIDE_LARGE4 = part("whistle_face_side_large4"),
+
+    WHISTLE_FACE_SIDE_MEDIUM0 = part("whistle_face_side_medium0"),
+            WHISTLE_FACE_SIDE_MEDIUM1 = part("whistle_face_side_medium1"),
+            WHISTLE_FACE_SIDE_MEDIUM2 = part("whistle_face_side_medium2"),
+            WHISTLE_FACE_SIDE_MEDIUM3 = part("whistle_face_side_medium3"),
+            WHISTLE_FACE_SIDE_MEDIUM4 = part("whistle_face_side_medium4"),
+
+    WHISTLE_FACE_SIDE_SMALL0 = part("whistle_face_side_small0"),
+            WHISTLE_FACE_SIDE_SMALL1 = part("whistle_face_side_small1"),
+            WHISTLE_FACE_SIDE_SMALL2 = part("whistle_face_side_small2"),
+            WHISTLE_FACE_SIDE_SMALL3 = part("whistle_face_side_small3"),
+            WHISTLE_FACE_SIDE_SMALL4 = part("whistle_face_side_small4"),
+
     DEBUG_ARROW = part("debug_arrow"),
             DEBUG_CUBE = part("debug_cube"),
 
@@ -145,8 +216,27 @@ public class BionicsPartialModels {
     public static PartialModel whistleBase(boolean middle, int size, int variant, boolean glow) {
         String x = middle ? "middle_" : "side_";
         String y = size == 1 ? "small" : size == 2 ? "medium" : "large";
-        int z = variant;
-        return PartialModel.of(CreateBionics.asResource("item/whistle_base_" + x + y + z));
+        int z = glow ? 4 : variant;
+        return part("whistle_base_" + x + y + z);
+    }
+
+    public static PartialModel whistleFace(boolean middle, int size, int variant, boolean glow) {
+        String x = middle ? "middle_" : "side_";
+        String y = size == 1 ? "small" : size == 2 ? "medium" : "large";
+        int z = glow ? 4 : variant;
+        return part("whistle_face_" + x + y + z);
+    }
+
+    public static PartialModel whistleExtension(int size, int variant, boolean glow) {
+        String x = size == 1 ? "small" : size == 2 ? "medium" : "large";
+        int y = glow ? 4 : variant;
+        return part("whistle_extension_" + x + y);
+    }
+
+    public static PartialModel whistleEnd(int size, int variant, boolean glow) {
+        String x = size == 1 ? "small" : size == 2 ? "medium" : "large";
+        int y = glow ? 4 : variant;
+        return part("whistle_end_" + x + y);
     }
 
     public static void init() {}
