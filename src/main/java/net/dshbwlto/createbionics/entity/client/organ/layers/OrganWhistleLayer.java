@@ -2,8 +2,6 @@ package net.dshbwlto.createbionics.entity.client.organ.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.simibubi.create.AllPartialModels;
-import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.render.CachedBuffers;
 import net.dshbwlto.createbionics.CreateBionics;
@@ -11,7 +9,6 @@ import net.dshbwlto.createbionics.Util.BionicsPartialModels;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
 import net.dshbwlto.createbionics.entity.client.organ.OrganModel;
 import net.dshbwlto.createbionics.entity.custom.OrganEntity;
-import net.dshbwlto.createbionics.item.client.RobotBuilderItemRenderer;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -88,7 +85,6 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .translate(xPos, 7 + bodyYOffset + yPos, zPos + 0.5 - separation * i)
                     .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
                     .rotate(Direction.Axis.Z, angle == 0 ? 0 : i * 0.1f + angle)
-                    .translate(0, 3/16f, 0)
                     .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
 
@@ -129,7 +125,6 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .translate(xPos + xPos == 0 ? 0 : xPos > 0 ? 1 : -1, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
                     .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? i * 0.1f + angle : -i * 0.1f - angle)
                     .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
-                    .translate(0, 3/16f, 0)
                     .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
 
@@ -192,7 +187,6 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .translate(xPos, 7 + bodyYOffset + yPos + i * 0.2, zPos - separation * i)
                     .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? i * 0.1f + angle : -i * 0.1f - angle)
                     .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
-                    .translate(0, 3/16f, 0)
                     .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
 
@@ -261,7 +255,6 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
                     .translate(xPos == 0 ? 0 : xPos > 0 ? xPos - i / 16f + 1/8f : xPos + i / 16f - 1/8f, separation < 0 ? 7 + bodyYOffset + yPos - i * 0.04 : 7 + bodyYOffset + yPos - i * 0.02, zPos - separation * i)
                     .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos < 0 ? i * 0.1f + angle : -i * 0.1f - angle)
                     .rotate(Direction.Axis.Y, xPos > 0 ? (float) Math.PI : 0)
-                    .translate(0, 3/16f, 0)
                     .light(entity.getGlowColor() < 2 ? packedLight : 15728880)
                     .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
 
@@ -340,57 +333,58 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
 
         //back middle
         renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                4, 3, 4, 7/8f, 0, -1.5f, 0.5f, 0, 0);
+                4, 3, 4, 7/8f, 0, -1.3f, 0.5f, 0, 0);
 
         //back right
         renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 4, 3, 1, -7/8f, -1.2f, -2.15f, -2 - 1/8f, -0.1f, 4);
         renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                4, 3, 1, -7/8f, -1.6f, -2.95f, -17/8f, 0.3f, 8);
+                4, 3, 1, -7/8f, -1.8f, -2.95f, -17/8f, 0.3f, 8);
 
         //back left
         renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
                 4, 3, 1, -7/8f, 1.2f, -2.15f, -2 - 1/8f, -0.1f, 12);
         renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                4, 3, 1, -7/8f, 1.6f, -2.95f, -17/8f, 0.3f, 16);
+                4, 3, 1, -7/8f, 1.8f, -2.95f, -17/8f, 0.3f, 16);
 
         //chest middle
         renderWhistlesChest(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                6, 2, 1, 12/16f, 0, -2.5f, 4, 0, 20);
+                6, 2, 1, 12/16f, 0, -2.3f, 4, 0, 20);
 
         //tail 1 middle
         renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                6, 2, 6, -12/16f, 0, -2.7f, -4 - 7/16f, 0, 26);
+                6, 2, 6, -12/16f, 0, -2.5f, -4 - 7/16f, 0, 26);
 
         //tail 1 left
         renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                4, 2, 1, -12/16f, 1.25f, -4.1f, -4 - 4/16f, -0.261799f, 32);
+                4, 2, 1, -12/16f, 1.25f, -4.1f + 1/4f, -4 - 4/16f, -0.261799f, 32);
         renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                2, 3, 3, -12/16f, 1.1f, -3.8f, -1 - 4/16f, 0.0872665f, 36);
+                2, 3, 3, -12/16f, 1.1f, -3.8f + 1/4f, -1 - 4/16f, 0.0872665f, 36);
         renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                2, 2, 1, -12/16f, 1.1f, -4.7f, -1 - 2/16f, -0.349066f, 38);
+                2, 2, 1, -12/16f, 1.1f, -4.7f + 1/4f, -1 - 2/16f, -0.349066f, 38);
 
         //tail 1 right
         renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                4, 2, 1, -12/16f, -1.25f, -4.1f, -4 - 4/16f, -0.261799f, 40);
+                4, 2, 1, -12/16f, -1.25f, -4.1f + 1/4f, -4 - 4/16f, -0.261799f, 40);
         renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                2, 3, 3, -12/16f, -1.1f, -3.8f, -1 - 4/16f, 0.0872665f, 44);
+                2, 3, 3, -12/16f, -1.1f, -3.8f + 1/4f, -1 - 4/16f, 0.0872665f, 44);
         renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                2, 2, 1, -12/16f, -1.1f, -4.7f, -1 - 2/16f, -0.349066f, 46);
+                2, 2, 1, -12/16f, -1.1f, -4.7f + 1/4f, -1 - 2/16f, -0.349066f, 46);
 
         //tail 2 middle
         renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                8, 1, 2, -10/16f, 0, -2.5f, -4 - 14/16f, 0, 48);
+                8, 1, 2, -10/16f, 0, -2.3f, -4 - 14/16f, 0, 48);
 
-        //tail 2 left
+        //tail 2 down
         renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                6, 1, 2, 10/16f, 0.7f, -3.4f, -1 - 13/16f, 0.0872665f, 56);
+                6, 1, 2, 10/16f, 0.8f, -3.4f + 1/5f, -1 - 13/16f, 0.0872665f, 56);
         renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                6, 1, 2, 10/16f, -0.7f, -3.4f, -1 - 13/16f, 0.0872665f, 62);
+                6, 1, 2, 10/16f, -0.8f, -3.4f + 1/5f, -1 - 13/16f, 0.0872665f, 62);
 
+        //tail 2 up
         renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                8, 1, 2, 10/16f, 0.7f, -4f - 1/16f, -9/16f, 0.1872665f, 68);
+                8, 1, 2, 10/16f, 0.8f, -4f - 1/16f, -9/16f, 0.1872665f, 68);
         renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                8, 1, 2, 10/16f, -0.7f, -4f - 1/16f, -9/16f, 0.1872665f, 76);
+                8, 1, 2, 10/16f, -0.8f, -4f - 1/16f, -9/16f, 0.1872665f, 76);
     }
 }

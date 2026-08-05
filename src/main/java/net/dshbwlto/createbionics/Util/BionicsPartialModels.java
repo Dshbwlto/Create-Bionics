@@ -69,11 +69,12 @@ public class BionicsPartialModels {
             WHISTLE_END_LARGE4 = part("whistle_end_large4"),
 
     WHISTLE_END_MEDIUM0 = part("whistle_end_medium0"),
+            WHISTLE_END_MEDIUM1 = part("whistle_end_medium1"),
             WHISTLE_END_MEDIUM2 = part("whistle_end_medium2"),
             WHISTLE_END_MEDIUM3 = part("whistle_end_medium3"),
             WHISTLE_END_MEDIUM4 = part("whistle_end_medium4"),
 
-    WHISTLE_END_SMALL0 = part("whistle_end_large0"),
+    WHISTLE_END_SMALL0 = part("whistle_end_small0"),
             WHISTLE_END_SMALL1 = part("whistle_end_small1"),
             WHISTLE_END_SMALL2 = part("whistle_end_small2"),
             WHISTLE_END_SMALL3 = part("whistle_end_small3"),

@@ -90,14 +90,16 @@ public class SeekerModel<T extends SeekerEntity> extends HierarchicalModel<T> {
 
         if (entity.isPassenger()) {
             this.animate(entity.idleAnimationState, SeekerAnimations.seeker_sit_up, ageInTicks, 1f);
+        } else if (entity.scanning) {
+            this.animate(entity.idleAnimationState, SeekerAnimations.seeker_search, ageInTicks, 1f);
         }
-
+        this.animate(entity.digAnimationState, SeekerAnimations.seeker_find, ageInTicks, 1.0F);
+        this.animate(entity.returnAnimationState, SeekerAnimations.seeker_return, ageInTicks, 1.0F);
         this.animate(entity.sitDownAnimationState, SeekerAnimations.seeker_sit, ageInTicks, 1.0F);
         if (!entity.isPassenger()) {
             this.animate(entity.sitPoseAnimationState, SeekerAnimations.seeker_stay, ageInTicks, 1.0F);
         }
         this.animate(entity.sitUpAnimationState, SeekerAnimations.seeker_stand, ageInTicks, 1.0F);
-
     }
 
     private void applyHeadRotation(float pNetHeadYaw, float pHeadPitch) {

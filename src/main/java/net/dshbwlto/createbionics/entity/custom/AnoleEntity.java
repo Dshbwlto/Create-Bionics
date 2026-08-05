@@ -237,16 +237,18 @@ public class AnoleEntity extends AbstractRobot {
                 return InteractionResult.SUCCESS;
             } else if (itemStack.is(AllItems.ANDESITE_ALLOY)
                     || itemStack.is(AllItems.BRASS_INGOT)
-                    || itemStack.is(Items.NETHERITE_INGOT)
-                    || itemStack.is(Items.SPONGE)
-                    || itemStack.is(Items.WET_SPONGE)) {
+                    || itemStack.is(Items.NETHERITE_INGOT)) {
                 dropIngot(getVariant());
                 setTypeVariant(itemStack);
                 if (level().isClientSide) {
-                    return InteractionResult.SUCCESS;
-                } else if (!itemStack.is(Items.SPONGE) && !itemStack.is(Items.WET_SPONGE)) {
+                    return InteractionResult.CONSUME;
+                } else {
                     itemStack.shrink(1);
                 }
+                return InteractionResult.SUCCESS;
+            } else if (itemStack.is(Items.SPONGE) || itemStack.is(Items.WET_SPONGE)) {
+                setTypeVariant(itemStack);
+                return InteractionResult.SUCCESS;
             } else if (itemStack.is(Items.REDSTONE)
                     || itemStack.is(Items.GOLD_INGOT)
                     || itemStack.is(Items.DIAMOND)
@@ -256,6 +258,7 @@ public class AnoleEntity extends AbstractRobot {
                 if (!itemStack.is(Items.BRUSH)) {
                     itemStack.shrink(1);
                 }
+                return InteractionResult.CONSUME;
             } else if (itemStack.is(AllItems.WRENCH)) {
                 if (player.isShiftKeyDown()) {
                     spawnAtLocation(anoleItem());
@@ -278,7 +281,11 @@ public class AnoleEntity extends AbstractRobot {
                 }
             } else if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL)){
                 setFuel(10000);
+                if (!player.getAbilities().instabuild) {
+                    itemStack.shrink(1);
+                }
                 playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+                return InteractionResult.CONSUME;
             } else {
                 updateCommand(player);
                 return InteractionResult.SUCCESS;

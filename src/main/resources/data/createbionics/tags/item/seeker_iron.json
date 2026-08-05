@@ -1,0 +1,13 @@
+{
+  "values": [
+    "minecraft:iron_ore",
+    "minecraft:deepslate_iron_ore",
+    "minecraft:raw_iron",
+    "create:crushed_raw_iron",
+    "minecraft:raw_iron_block",
+    "minecraft:iron_ingot",
+    "minecraft:iron_block",
+    "minecraft:iron_nugget",
+    "create:iron_sheet"
+  ]
+}

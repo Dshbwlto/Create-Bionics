@@ -1,0 +1,75 @@
+{
+  "values": [
+    "minecraft:coal_ore",
+    "minecraft:deepslate_coal_ore",
+    "minecraft:coal_block",
+
+    "minecraft:iron_ore",
+    "minecraft:deepslate_iron_ore",
+    "minecraft:raw_iron",
+    "create:crushed_raw_iron",
+    "minecraft:raw_iron_block",
+    "minecraft:iron_ingot",
+    "minecraft:iron_block",
+    "minecraft:iron_nugget",
+    "create:iron_sheet",
+
+    "minecraft:copper_ore",
+    "minecraft:deepslate_copper_ore",
+    "minecraft:raw_copper",
+    "create:crushed_raw_copper",
+    "minecraft:raw_copper_block",
+    "minecraft:copper_ingot",
+    "minecraft:copper_block",
+    "create:copper_nugget",
+    "create:copper_sheet",
+
+    "minecraft:gold_ore",
+    "minecraft:deepslate_gold_ore",
+    "minecraft:raw_gold",
+    "minecraft:raw_gold_block",
+    "create:crushed_raw_gold",
+    "minecraft:gold_ingot",
+    "minecraft:gold_nugget",
+    "minecraft:gold_block",
+    "create:golden_sheet",
+
+    "minecraft:emerald_ore",
+    "minecraft:deepslate_emerald_ore",
+    "minecraft:emerald",
+    "minecraft:emerald_block",
+
+    "minecraft:lapis_ore",
+    "minecraft:deepslate_lapis_ore",
+    "minecraft:lapis_lazuli",
+    "minecraft:lapis_block",
+
+    "minecraft:diamond_ore",
+    "minecraft:deepslate_diamond_ore",
+    "minecraft:diamond",
+    "minecraft:diamond_block",
+
+    "minecraft:nether_quartz_ore",
+    "minecraft:quartz",
+    "minecraft:quartz_block",
+
+    "minecraft:redstone_ore",
+    "minecraft:deepslate_redstone_ore",
+    "minecraft:redstone",
+    "minecraft:redstone_block",
+
+    "minecraft:netherite_scrap",
+    "minecraft:ancient_debris",
+    "minecraft:netherite_ingot",
+    "minecraft:netherite_block",
+
+    "create:zinc_ore",
+    "create:deepslate_zinc_ore",
+    "create:raw_zinc",
+    "create:crushed_raw_zinc",
+    "create:zinc_ingot",
+    "create:zinc_nugget",
+    "create:zinc_block",
+    "create:raw_zinc_block"
+  ]
+}

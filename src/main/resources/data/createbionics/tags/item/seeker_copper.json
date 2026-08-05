@@ -1,0 +1,13 @@
+{
+  "values": [
+    "minecraft:copper_ore",
+    "minecraft:deepslate_copper_ore",
+    "minecraft:raw_copper",
+    "create:crushed_raw_copper",
+    "minecraft:raw_copper_block",
+    "minecraft:copper_ingot",
+    "minecraft:copper_block",
+    "create:copper_nugget",
+    "create:copper_sheet"
+  ]
+}

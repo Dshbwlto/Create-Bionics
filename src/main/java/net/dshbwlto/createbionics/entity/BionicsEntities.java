@@ -32,7 +32,7 @@ public class BionicsEntities {
 
     public static final DeferredHolder<EntityType<?>, EntityType<MultiPartRobot<?>>> ORGAN = ENTITIES.register("organ",
             () -> EntityType.Builder.of(OrganEntity::new, MobCategory.CREATURE)
-                    .sized(4f, 6f).build("organ"));
+                    .sized(3f, 6f).build("organ"));
 
     public static final Supplier<EntityType<SeekerEntity>> SEEKER =
             ENTITIES.register("seeker", () -> EntityType.Builder.of(SeekerEntity::new, MobCategory.CREATURE)

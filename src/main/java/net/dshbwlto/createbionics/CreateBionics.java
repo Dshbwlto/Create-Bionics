@@ -3,9 +3,7 @@ package net.dshbwlto.createbionics;
 import com.simibubi.create.foundation.item.ItemDescription;
 import com.simibubi.create.foundation.item.KineticStats;
 import com.simibubi.create.foundation.item.TooltipModifier;
-import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.lang.FontHelper;
-import net.createmod.ponder.foundation.PonderIndex;
 import net.dshbwlto.createbionics.Util.BionicsEntityDataSerializers;
 import net.dshbwlto.createbionics.Util.BionicsPartialModels;
 import net.dshbwlto.createbionics.block.BionicsBlocks;
@@ -20,12 +18,10 @@ import net.dshbwlto.createbionics.entity.client.seeker.SeekerRenderer;
 import net.dshbwlto.createbionics.entity.client.stalker.StalkerRenderer;
 import net.dshbwlto.createbionics.entity.client.stalker_captain.StalkerCaptainRenderer;
 import net.dshbwlto.createbionics.item.BionicsItems;
-import net.dshbwlto.createbionics.ponder.registry.BionicsPonderPlugin;
 import net.dshbwlto.createbionics.registry.custom.BionicsRegistrate;
 import net.dshbwlto.createbionics.screen.BionicsMenuTypes;
 import net.dshbwlto.createbionics.screen.custom.OxhaulerScreen;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -56,8 +52,6 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-
-import java.io.ObjectInputFilter;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(CreateBionics.MOD_ID)

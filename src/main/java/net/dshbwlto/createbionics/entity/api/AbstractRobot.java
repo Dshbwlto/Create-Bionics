@@ -119,7 +119,9 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
             if (this.getCommand() > 2) {
                 this.setCommand(0);
             }
-            player.displayClientMessage(Component.translatable("entity.createbionics.all.command_" + this.getCommand(), this.getName()), true);
+            if (player != null) {
+                player.displayClientMessage(Component.translatable("entity.createbionics.all.command_" + this.getCommand(), this.getName()), true);
+            }
             boolean sit = this.getCommand() == 2;
             if (sit) {
                 sitDown(player);

@@ -2,19 +2,25 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
+import dev.engine_room.flywheel.lib.visual.component.ShadowComponent;
 import net.dshbwlto.createbionics.component.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
 import net.dshbwlto.createbionics.entity.client.seeker.SeekerPickaxe;
 import net.dshbwlto.createbionics.entity.client.seeker.SeekerVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
-import net.dshbwlto.createbionics.item.custom.SeekerItem;
+import net.dshbwlto.createbionics.Util.BionicsTags;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -33,14 +39,39 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
+
+import javax.sound.midi.MidiSystem;
 
 public class SeekerEntity extends AbstractRobot {
 
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
+    private int x = -1;
+    private int y;
+    private int z = -1;
+    private int particleCountdown = -1;
+    private int invisCountdown = -1;
+    private int digCountdown = -1;
+    private int itemDropCountdown = -1;
+    public boolean scanning = false;
+    public boolean invisible = false;
+    public boolean isDigging;
+    public TagKey<Block> target;
+    public AnimationState digAnimationState = new AnimationState();
+    public AnimationState returnAnimationState = new AnimationState();
+    public ItemStack foundItem;
+    public Player user;
+
+    private BlockPos foundBlock;
 
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
@@ -70,26 +101,26 @@ public class SeekerEntity extends AbstractRobot {
         this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0d, 10f, 5f) {
             @Override
             public boolean canUse() {
-                return super.canUse() && isFueled() && getCommand() == 0;
+                return super.canUse() && isFueled() && getCommand() == 0 && !isDigging;
             }
         });
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D) {
             @Override
             public boolean canUse() {
-                return super.canUse() && isTame() && isFueled();
+                return super.canUse() && isTame() && isFueled() && !isDigging;
             }
         });
 
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 4f) {
             @Override
             public boolean canUse() {
-                return super.canUse() && isTame() && isFueled();
+                return super.canUse() && isTame() && isFueled() && !isDigging;
             }
         });
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this) {
             @Override
             public boolean canUse() {
-                return super.canUse() && isTame() && isFueled();
+                return super.canUse() && isTame() && isFueled() && !isDigging;
             }
         });
     }
@@ -124,7 +155,7 @@ public class SeekerEntity extends AbstractRobot {
     }
 
     public void aiStep() {
-        if (this.level().isClientSide && isFueled() && getFuel() > 0) {
+        if (this.level().isClientSide && isFueled() && digCountdown == -1) {
             this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX(0.5F), this.getRandomY(), this.getRandomZ(0.5F), 0.0F, 0.0F, 0.0F);
         }
         super.aiStep();
@@ -138,7 +169,7 @@ public class SeekerEntity extends AbstractRobot {
     /* ANIMATIONS */
     private void setupAnimationStates() {
         if (this.idleAnimationTimeout <= 0) {
-            this.idleAnimationTimeout = 40;
+            this.idleAnimationTimeout = 100;
             this.idleAnimationState.start(this.tickCount);
         } else {
             --this.idleAnimationTimeout;
@@ -164,11 +195,56 @@ public class SeekerEntity extends AbstractRobot {
     public void tick() {
         super.tick();
 
+        if (x != -1 && z < 101 && scanning) {
+            searchArea(x, y, z);
+            x += 5;
+            if (x == 100) {
+                z += 5;
+                x = 0;
+            }
+        } else if (z > 100) {
+            if (scanning) {
+                failSearch();
+            }
+        }
+
+        if (particleCountdown > 0) {
+            particleCountdown -= 1;
+        } else if (particleCountdown == 0) {
+            for (int i = 0; i < 100; i++) {
+                spawnSprintParticle();
+            }
+            particleCountdown = -1;
+            digCountdown = getPickaxe() == SeekerPickaxe.IRON ? 500 : getPickaxe() == SeekerPickaxe.DIAMOND ? 300 : 100;
+        }
+
+        if (invisCountdown > 0) {
+            invisCountdown -= 1;
+        } else if (invisCountdown == 0) {
+            invisible = true;
+            invisCountdown = -1;
+        }
+
+        if (digCountdown > 0) {
+            digCountdown -= 1;
+        } else if (digCountdown == 0) {
+            finishDig();
+            digCountdown = -1;
+            playSound(AllSoundEvents.CONFIRM.getMainEvent());
+        }
+
+        if (itemDropCountdown > 0) {
+            itemDropCountdown -= 1;
+        } else if (itemDropCountdown == 0) {
+            spawnAtLocation(foundItem);
+            itemDropCountdown = -1;
+        }
+
         if (this.level().isClientSide()) {
             this.setupAnimationStates();
         }
 
-        if (isFueled()) {
+        if (isFueled() && digCountdown == -1) {
             playSoundScape(1, 1);
         }
 
@@ -201,7 +277,14 @@ public class SeekerEntity extends AbstractRobot {
             }
             return InteractionResult.SUCCESS;
         }
-
+        if (itemStack.is(BionicsTags.SEEKER_ACCEPTABLE) && getFuel() > 2000) {
+            playSound(AllSoundEvents.CONFIRM.getMainEvent());
+            user = player;
+            beginSearch(itemStack);
+            return InteractionResult.SUCCESS;
+        } else if ( itemStack.is(BionicsTags.SEEKER_ACCEPTABLE) && getFuel() <= 2000) {
+            player.displayClientMessage(Component.translatable("entity.createbionics.all.fuel_warning"), true);
+        }
         if (isTame() && isOwnedBy(player)) {
             if (itemStack.is(AllItems.ANDESITE_ALLOY)
                     || itemStack.is(AllItems.BRASS_INGOT)) {
@@ -213,15 +296,23 @@ public class SeekerEntity extends AbstractRobot {
                     itemStack.shrink(1);
                 }
             } else if ((itemStack.is(Items.DIAMOND_PICKAXE) && getPickaxe() == SeekerPickaxe.IRON) ||
-                    (itemStack.is(Items.NETHERITE_INGOT) && getPickaxe() == SeekerPickaxe.DIAMOND)) {
+                    (itemStack.is(Items.NETHERITE_PICKAXE) && getPickaxe() == SeekerPickaxe.DIAMOND)) {
+                spawnAtLocation(new ItemStack(itemStack.is(Items.DIAMOND_PICKAXE) ? Items.IRON_PICKAXE : Items.DIAMOND_PICKAXE));
                 setTypePickaxe(itemStack);
                 player.playSound(SoundEvents.SMITHING_TABLE_USE);
                 if (level().isClientSide) {
-                    return InteractionResult.SUCCESS;
+                    return InteractionResult.CONSUME;
                 }
+                return InteractionResult.SUCCESS;
             } else if (itemStack.is(AllItems.WRENCH)) {
-                spawnAtLocation(seekerItem());
-                remove(RemovalReason.DISCARDED);
+                if (player.isShiftKeyDown()) {
+                    spawnAtLocation(seekerItem());
+                    remove(RemovalReason.DISCARDED);
+                } else {
+                    dropIngot();
+                    setVariant(SeekerVariant.COPPER);
+                }
+                return InteractionResult.SUCCESS;
             } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE)) {
                 if (hasBlazeCake()) {
                     entityData.set(CREATIVE_BLAZE_CAKE, false);
@@ -230,11 +321,18 @@ public class SeekerEntity extends AbstractRobot {
                     entityData.set(CREATIVE_BLAZE_CAKE, true);
                     playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
                 }
+                return InteractionResult.SUCCESS;
             } else if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL)) {
                 setFuel(10000);
                 playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+                if (!player.getAbilities().instabuild) {
+                    itemStack.shrink(1);
+                }
+                return InteractionResult.CONSUME;
             } else {
-                updateCommand(player);
+                if (!isDigging) {
+                    updateCommand(player);
+                }
                 return InteractionResult.SUCCESS;
             }
         }
@@ -254,7 +352,7 @@ public class SeekerEntity extends AbstractRobot {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         /// just stop.
-        builder.define(PICK_MAP, 0);
+        //builder.define(PICK_MAP, 0);
     }
 
     @Override
@@ -287,7 +385,7 @@ public class SeekerEntity extends AbstractRobot {
             if (!level().isClientSide) {
                 itemStack.shrink(1);
             }
-        } else if (itemStack.is(Items.NETHERITE_INGOT) && getPickaxe() == SeekerPickaxe.DIAMOND) {
+        } else if (itemStack.is(Items.NETHERITE_PICKAXE) && getPickaxe() == SeekerPickaxe.DIAMOND) {
             setPickaxe(SeekerPickaxe.NETHERITE);
             if (!level().isClientSide) {
                 itemStack.shrink(1);
@@ -331,4 +429,91 @@ public class SeekerEntity extends AbstractRobot {
         this.entityData.set(VARIANT, variant.getId() & 255);
     }
 
+    // SEARCHING
+
+    public void beginSearch(ItemStack itemStack) {
+        if (getCommand() == 2) {
+            updateCommand(null);
+        } else if (getCommand() == 1) {
+            updateCommand(null);
+            updateCommand(null);
+        }
+        target = getTag(itemStack);
+        scanning = true;
+        isDigging = true;
+        this.x = 0;
+        this.z = 0;
+    }
+
+    public void searchSuccess(BlockPos blockPos) {
+        foundBlock = blockPos;
+        playSound(AllSoundEvents.CONFIRM_2.getMainEvent());
+        scanning = false;
+        x = -1;
+        y = -1;
+        digAnimationState.start(tickCount);
+        idleAnimationTimeout = 40;
+        particleCountdown = 27;
+        invisCountdown = 30;
+    }
+
+    public void failSearch() {
+        foundBlock = null;
+        playSound(AllSoundEvents.DENY.getMainEvent());
+        scanning = false;
+        isDigging = false;
+        target = null;
+        x = -1;
+        y = -1;
+    }
+
+    public void searchArea(int x, int y, int z) {
+        for (int i = 0; i <= 5; i++) {
+            for (int j = 0; j <= 6; j++) {
+                for (int k = 0; k <= 50; k++) {
+                    BlockPos blockPos = this.getOnPos().west(50 - i).north(50 - j).above(25-k).east(x).south(z);
+                    if (level().getBlockState(blockPos).is(target)) {
+                        searchSuccess(blockPos);
+                    }
+                }
+            }
+        }
+    }
+
+    public void finishDig() {
+        BlockPos blockPos = user.getOnPos().above(1);
+        moveTo(blockPos, 0, 0);
+        invisible = false;
+        isDigging = false;
+        foundItem = new ItemStack(level().getBlockState(foundBlock).getBlock());
+        level().setBlock(foundBlock, Blocks.GRAVEL.defaultBlockState(), 11);
+        returnAnimationState.start(tickCount);
+        idleAnimationTimeout = 20;
+        itemDropCountdown = 20;
+    }
+
+    @Override
+    public boolean canBeCollidedWith() {
+        return this.scanning || this.digCountdown != -1 || this.particleCountdown != -1;
+    }
+
+    public TagKey<Block> getTag(ItemStack itemStack) {
+        return itemStack.is(BionicsTags.SEEKER_COAL) ? BionicsTags.SEEKER_COAL_ACCEPTABLE :
+                itemStack.is(BionicsTags.SEEKER_IRON) ? BionicsTags.SEEKER_IRON_ACCEPTABLE :
+                itemStack.is(BionicsTags.SEEKER_COPPER) ? BionicsTags.SEEKER_COPPER_ACCEPTABLE :
+                itemStack.is(BionicsTags.SEEKER_GOLD) ? BionicsTags.SEEKER_GOLD_ACCEPTABLE :
+                itemStack.is(BionicsTags.SEEKER_EMERALD) ? BionicsTags.SEEKER_EMERALD_ACCEPTABLE :
+                itemStack.is(BionicsTags.SEEKER_LAPIS_LAZULI) ? BionicsTags.SEEKER_LAPIS_LAZULI_ACCEPTABLE :
+                itemStack.is(BionicsTags.SEEKER_DIAMOND) ? BionicsTags.SEEKER_DIAMOND_ACCEPTABLE :
+                itemStack.is(BionicsTags.SEEKER_QUARTZ) ? BionicsTags.SEEKER_QUARTZ_ACCEPTABLE :
+                itemStack.is(BionicsTags.SEEKER_REDSTONE) ? BionicsTags.SEEKER_REDSTONE_ACCEPTABLE :
+                itemStack.is(BionicsTags.SEEKER_ANCIENT_DEBRIS) ? BionicsTags.SEEKER_ANCIENT_DEBRIS_ACCEPTABLE :
+                itemStack.is(BionicsTags.SEEKER_ZINC) ? BionicsTags.SEEKER_ZINC_ACCEPTABLE :
+                null;
+    }
+
+    @Override
+    public boolean isInvisible() {
+        return invisible;
+    }
 }

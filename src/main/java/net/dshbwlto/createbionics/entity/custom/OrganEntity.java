@@ -4,6 +4,7 @@ package net.dshbwlto.createbionics.entity.custom;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
+import net.dshbwlto.createbionics.entity.part.GroundLevelSamplerPartEntity;
 import net.dshbwlto.createbionics.entity.part.RobotPartEntity;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganGlow;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
@@ -60,6 +61,11 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
     public RobotPartEntity<OrganEntity> tail2b;
     public RobotPartEntity<OrganEntity> tail2c;
 
+    public GroundLevelSamplerPartEntity leg_l1;
+    public GroundLevelSamplerPartEntity leg_r1;
+    public GroundLevelSamplerPartEntity leg_l2;
+    public GroundLevelSamplerPartEntity leg_r2;
+
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
     public final AnimationState sitUpAnimationState = new AnimationState();
@@ -87,7 +93,12 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
         this.tail2b = new RobotPartEntity<>(this, 2f, 2f, 0f, 4f, -9.9f, BionicsItems.ORGAN_TAIL_END.get(), false);
         this.tail2c = new RobotPartEntity<>(this, 2f, 2f, 0f, 4.1f, -11.9f, BionicsItems.ORGAN_TAIL_END.get(), false);
 
-        return new RobotPartEntity[] {this.chest, this.neck, this.head, this.tail1a, this.tail1b, this.tail2a, this.tail2b, this.tail2c};
+        this.leg_l1 = new GroundLevelSamplerPartEntity(this, 1, 1, 2, 0, 0, getPickResult().getItem());
+        this.leg_r1 = new GroundLevelSamplerPartEntity(this, 1, 1, -2, 0, 0, getPickResult().getItem());
+        this.leg_l2 = new GroundLevelSamplerPartEntity(this, 1, 1, 2, 1, 0, getPickResult().getItem());
+        this.leg_r2 = new GroundLevelSamplerPartEntity(this, 1, 1, -2, 1, 0, getPickResult().getItem());
+
+        return new RobotPartEntity[] {this.chest, this.neck, this.head, this.tail1a, this.tail1b, this.tail2a, this.tail2b, this.tail2c, this.leg_l1, this.leg_r1, this.leg_l2, this.leg_r2};
     }
 
     public int blinkCountdown = 0;
@@ -100,7 +111,6 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
     @Override
     public void registerGoals() {
         this.lookControl = new SmoothSwimmingLookControl(this, 1);
-        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 2, 1, 1, true);
 
         this.goalSelector.addGoal(0, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(1, new FloatGoal(this));
@@ -110,13 +120,12 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
                 return super.canUse() && getCommand() == 0 && getAssembly() >= 21 && isTame();
             }
         });
-        /*this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D, 70) {
+        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D, 70) {
             @Override
             public boolean canUse() {
                 return super.canUse() && getAssembly() >= 21;
             }
         });
-        */
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
     }
@@ -213,7 +222,6 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
             head.setDimensions(0, 0);
         }
 
-
         idlePoseTimeout = idlePoseTimeout - 1;
 
         if (this.level().isClientSide()) {
@@ -221,6 +229,16 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
         }
 
         playSoundScape(5, 5);
+
+        this.chest.offsetFromParent(0f, 3f + y0, 3.5f);
+        this.neck.offsetFromParent(0f, 3.3f + y0, 6.7f);
+        this.head.offsetFromParent(0f, 3f + y0, 9.8f);
+
+        this.tail1a.offsetFromParent(0f, 3.8f + y0, -3.2f);
+        this.tail1b.offsetFromParent(0f, 3.6f + y0, -5.7f);
+        this.tail2a.offsetFromParent(0f, 3.9f + y0, -7.9f);
+        this.tail2b.offsetFromParent(0f, 4f + y0, -9.9f);
+        this.tail2c.offsetFromParent(0f, 4.1f + y0, -11.9f);
 
         /* BLINKING */
         if (Math.random() < 0.01f) {
@@ -282,7 +300,7 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         ///   Not yet, hotshot
-        builder.define(GLOW_COLOR, 0);
+        //builder.define(GLOW_COLOR, 0);
     }
 
     @Override
@@ -295,6 +313,9 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         entityData.set(GLOW_COLOR, compound.getInt("Glow_Color"));
+        if (getCommand() == 3) {
+            y0 = 47;
+        }
     }
 
     /* INTERACT */

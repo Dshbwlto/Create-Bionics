@@ -1,0 +1,13 @@
+{
+  "values": [
+    "minecraft:gold_ore",
+    "minecraft:deepslate_gold_ore",
+    "minecraft:raw_gold",
+    "minecraft:raw_gold_block",
+    "create:crushed_raw_gold",
+    "minecraft:gold_ingot",
+    "minecraft:gold_nugget",
+    "minecraft:gold_block",
+    "create:golden_sheet"
+  ]
+}

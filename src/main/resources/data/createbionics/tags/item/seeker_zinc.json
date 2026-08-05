@@ -1,0 +1,12 @@
+{
+  "values": [
+    "create:zinc_ore",
+    "create:deepslate_zinc_ore",
+    "create:raw_zinc",
+    "create:crushed_raw_zinc",
+    "create:zinc_ingot",
+    "create:zinc_nugget",
+    "create:zinc_block",
+    "create:raw_zinc_block"
+  ]
+}

@@ -9,9 +9,9 @@
 	},
 	"elements": [
 		{
-			"from": [-3, -7, -3],
-			"to": [3, 14, 3],
-			"rotation": {"angle": 0, "axis": "y", "origin": [-8, 115, -24]},
+			"from": [-3, -10, -3],
+			"to": [3, 11, 3],
+			"rotation": {"angle": 0, "axis": "y", "origin": [-8, 112, -24]},
 			"faces": {
 				"north": {"uv": [10.82813, 2.32813, 10.92188, 2.65625], "texture": "#1"},
 				"east": {"uv": [10.73438, 2.32813, 10.82813, 2.65625], "texture": "#1"},
@@ -23,14 +23,14 @@
 		},
 		{
 			"name": "Whistle Large Base",
-			"from": [-4, 7, -4],
+			"from": [-4, 4, -4],
 			"to": [4, 16, 4],
-			"rotation": {"angle": 0, "axis": "y", "origin": [-16, 115, -32]},
+			"rotation": {"angle": 0, "axis": "y", "origin": [-16, 112, -32]},
 			"faces": {
-				"north": {"uv": [9, 5.25, 11, 7.5], "texture": "#0"},
-				"east": {"uv": [5, 5.25, 7, 7.5], "texture": "#0"},
-				"south": {"uv": [9, 5.25, 11, 7.5], "texture": "#0"},
-				"west": {"uv": [5, 5.25, 7, 7.5], "texture": "#0"},
+				"north": {"uv": [11, 4.5, 9, 7.5], "texture": "#0"},
+				"east": {"uv": [7, 4.5, 5, 7.5], "texture": "#0"},
+				"south": {"uv": [11, 4.5, 9, 7.5], "texture": "#0"},
+				"west": {"uv": [7, 4.5, 5, 7.5], "texture": "#0"},
 				"up": {"uv": [15, 15, 13, 13], "texture": "#0"},
 				"down": {"uv": [15, 13, 13, 15], "texture": "#0"}
 			}

@@ -3,10 +3,7 @@ package net.dshbwlto.createbionics.entity.client.organ;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.createmod.catnip.animation.AnimationTickHolder;
-import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
-import net.dshbwlto.createbionics.entity.client.stalker.StalkerAnimations;
 import net.dshbwlto.createbionics.entity.custom.OrganEntity;
-import net.dshbwlto.createbionics.entity.custom.StalkerEntity;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -22,10 +19,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
     private final ModelPart head;
     public final ModelPart tail1;
     public final ModelPart tail2;
-    private final ModelPart leg_l;
+    private final ModelPart leg_l_p;
     private final ModelPart leg_l2;
     private final ModelPart foot_l;
-    private final ModelPart leg_r;
+    private final ModelPart leg_r_p;
     private final ModelPart leg_r2;
     private final ModelPart foot_r;
 
@@ -67,12 +64,12 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         this.head = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("neck").getChild("head");
         this.tail1 = this.root.getChild("root_util").getChild("body").getChild("tail1");
         this.tail2 = this.root.getChild("root_util").getChild("body").getChild("tail1").getChild("tail2");
-        this.leg_l = this.root.getChild("root_util").getChild("leg_l");
-        this.leg_l2 = this.root.getChild("root_util").getChild("leg_l").getChild("leg_l2");
-        this.foot_l = this.root.getChild("root_util").getChild("leg_l").getChild("leg_l2").getChild("foot_l");
-        this.leg_r = this.root.getChild("root_util").getChild("leg_r");
-        this.leg_r2 = this.root.getChild("root_util").getChild("leg_r").getChild("leg_r2");
-        this.foot_r = this.root.getChild("root_util").getChild("leg_r").getChild("leg_r2").getChild("foot_r");
+        this.leg_l_p = this.root.getChild("root_util").getChild("leg_l_p");
+        this.leg_l2 = this.root.getChild("root_util").getChild("leg_l_p").getChild("leg_l").getChild("leg_l2");
+        this.foot_l = this.root.getChild("root_util").getChild("leg_l_p").getChild("leg_l").getChild("leg_l2").getChild("foot_l");
+        this.leg_r_p = this.root.getChild("root_util").getChild("leg_r_p");
+        this.leg_r2 = this.root.getChild("root_util").getChild("leg_r_p").getChild("leg_r").getChild("leg_r2");
+        this.foot_r = this.root.getChild("root_util").getChild("leg_r_p").getChild("leg_r").getChild("leg_r2").getChild("foot_r");
 
         this.piston_l1 = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("piston_parent_l").getChild("piston_l1");
         this.piston_l2 = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("piston_parent_l").getChild("piston_l2");
@@ -210,8 +207,8 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition neck = chest.addOrReplaceChild("neck", CubeListBuilder.create().texOffs(48, 814).addBox(-10.0F, 12.0F, -19.0F, 20.0F, 27.0F, 3.0F, new CubeDeformation(0.0F))
                 .texOffs(283, 38).addBox(-10.0F, -3.0F, -52.0F, 20.0F, 15.0F, 69.0F, new CubeDeformation(0.0F))
-                .texOffs(48, 814).addBox(-10.0F, 12.0F, 1.0F, 20.0F, 27.0F, 3.0F, new CubeDeformation(0.0F))
-                .texOffs(48, 814).addBox(-10.0F, 12.0F, -39.0F, 20.0F, 27.0F, 3.0F, new CubeDeformation(0.0F))
+                .texOffs(48, 814).addBox(-10.0F, 12.0F, 0.0F, 20.0F, 27.0F, 3.0F, new CubeDeformation(0.0F))
+                .texOffs(48, 814).addBox(-10.0F, 12.0F, -38.0F, 20.0F, 27.0F, 3.0F, new CubeDeformation(0.0F))
                 .texOffs(388, 520).addBox(-6.0F, 16.0F, -52.0F, 12.0F, 12.0F, 69.0F, new CubeDeformation(0.0F))
                 .texOffs(328, 601).addBox(-2.0F, 12.0F, -52.0F, 4.0F, 4.0F, 69.0F, new CubeDeformation(0.0F))
                 .texOffs(550, 589).addBox(-2.0F, 28.0F, -52.0F, 4.0F, 8.0F, 69.0F, new CubeDeformation(0.0F))
@@ -620,7 +617,9 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition stand = body.addOrReplaceChild("stand", CubeListBuilder.create().texOffs(528, 311).addBox(-16.0F, -64.0F, -16.0F, 32.0F, 64.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 80.0F, 2.0F));
 
-        PartDefinition leg_l = root_util.addOrReplaceChild("leg_l", CubeListBuilder.create().texOffs(370, 341).addBox(20.25F, -17.0F, -13.0F, 8.0F, 33.0F, 36.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -80.0F, 0.0F, -0.3491F, 0.0F, 0.0F));
+        PartDefinition leg_l_p = root_util.addOrReplaceChild("leg_l_p", CubeListBuilder.create(), PartPose.offset(0.0F, -80.0F, 0.0F));
+
+        PartDefinition leg_l = leg_l_p.addOrReplaceChild("leg_l", CubeListBuilder.create().texOffs(370, 341).addBox(20.25F, -17.0F, -13.0F, 8.0F, 33.0F, 36.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.3491F, 0.0F, 0.0F));
 
         PartDefinition cube_r77 = leg_l.addOrReplaceChild("cube_r77", CubeListBuilder.create().texOffs(0, 652).addBox(-18.0F, -4.0F, -13.0F, 18.0F, 46.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(31.0F, -14.0F, 2.0F, 0.0F, 0.0F, -0.1745F));
 
@@ -641,7 +640,9 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition toe_rear_l = foot_l.addOrReplaceChild("toe_rear_l", CubeListBuilder.create().texOffs(133, 284).addBox(-4.0F, -2.0F, -2.0F, 8.0F, 9.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.5F, 9.5F));
 
-        PartDefinition leg_r = root_util.addOrReplaceChild("leg_r", CubeListBuilder.create().texOffs(370, 341).mirror().addBox(-28.25F, -17.0F, -13.0F, 8.0F, 33.0F, 36.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -80.0F, 0.0F, -0.3491F, 0.0F, 0.0F));
+        PartDefinition leg_r_p = root_util.addOrReplaceChild("leg_r_p", CubeListBuilder.create(), PartPose.offset(0.0F, -80.0F, 0.0F));
+
+        PartDefinition leg_r = leg_r_p.addOrReplaceChild("leg_r", CubeListBuilder.create().texOffs(370, 341).mirror().addBox(-28.25F, -17.0F, -13.0F, 8.0F, 33.0F, 36.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.3491F, 0.0F, 0.0F));
 
         PartDefinition cube_r81 = leg_r.addOrReplaceChild("cube_r81", CubeListBuilder.create().texOffs(0, 652).addBox(0.0F, -4.0F, -13.0F, 18.0F, 46.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-31.0F, -14.0F, 2.0F, 0.0F, 0.0F, 0.1745F));
 
@@ -668,6 +669,8 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         PartDefinition steam_foot_r2 = steam_foot.addOrReplaceChild("steam_foot_r2", CubeListBuilder.create().texOffs(-16, 0).addBox(-8.0F, 0.0F, 0.0F, 16.0F, 0.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 2.1817F, -1.0472F, -1.5708F));
 
+        PartDefinition leg_r3 = partdefinition.addOrReplaceChild("leg_r3", CubeListBuilder.create(), PartPose.offsetAndRotation(30.0F, -28.0F, -5.0F, 0.6109F, 0.0F, 0.0F));
+
         return LayerDefinition.create(meshdefinition, 1024, 1024);
     }
 
@@ -691,7 +694,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         this.animateWalk(OrganAnimations.organ_walk_forward, limbSwing, limbSwingAmount, 1f, 2f);
 
         if (entity.getAssembly() > 20) {
-            this.animate(entity.idleAnimationState, OrganAnimations.organ_playing, ageInTicks, 1f);
+            this.animate(entity.idleAnimationState, OrganAnimations.organ_idle, ageInTicks, 1f);
         } else {
             this.animate(entity.idleAnimationState, OrganAnimations.organ_assembly, ageInTicks, 1f);
         }
@@ -707,8 +710,8 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         blink.visible = entity.blinkCountdown == 0;
         blink2.visible = entity.blinkCountdown > 0;
 
-        leg_l.visible = entity.getAssembly() > 0;
-        leg_r.visible = entity.getAssembly() > 1;
+        leg_l_p.visible = entity.getAssembly() > 0;
+        leg_r_p.visible = entity.getAssembly() > 1;
         leg_l2.visible = entity.getAssembly() > 2;
         leg_r2.visible = entity.getAssembly() > 3;
         foot_l.visible = entity.getAssembly() > 4;
@@ -730,6 +733,8 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         head.visible = entity.getAssembly() > 20;
 
         stand.visible = entity.getAssembly() < 21;
+
+        leg_l_p.y = !entity.leg_l1.isColliding() ? -64 : entity.leg_l1.isColliding() && !entity.leg_l2.isColliding() ? -80 : -96;
 
         float animationTick = (AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 10;
         float oscillation = Mth.sin(animationTick + Mth.PI / 2);
