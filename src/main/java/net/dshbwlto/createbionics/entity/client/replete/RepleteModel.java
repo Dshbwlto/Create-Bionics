@@ -4,6 +4,7 @@ package net.dshbwlto.createbionics.entity.client.replete;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.createmod.catnip.animation.AnimationTickHolder;
+import net.dshbwlto.createbionics.BionicsClientConfig;
 import net.dshbwlto.createbionics.entity.custom.RepleteEntity;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -13,6 +14,8 @@ import net.minecraft.util.Mth;
 
 public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> {
     private final ModelPart root;
+    private final ModelPart root_alt;
+    private final ModelPart root_util;
     private final ModelPart body;
     private final ModelPart stand;
 
@@ -59,6 +62,8 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
 
     public RepleteModel(ModelPart root) {
         this.root = root.getChild("root");
+        this.root_util = this.root.getChild("root_util");
+        this.root_alt = this.root.getChild("alt");
         this.body = this.root.getChild("root_util").getChild("body");
         this.stand = this.root.getChild("root_util").getChild("body").getChild("stand");
 
@@ -571,8 +576,30 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
                 .texOffs(36, 0).addBox(15.5F, -8.0F, -4.0F, 0.0F, 12.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(36, 0).addBox(-15.5F, -8.0F, -4.0F, 0.0F, 12.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 16.0F, 0.0F));
 
+        PartDefinition alt = root.addOrReplaceChild("alt", CubeListBuilder.create().texOffs(0, 44).addBox(-10.0F, -30.0F, -3.0F, 20.0F, 29.0F, 20.0F, new CubeDeformation(0.0F))
+                .texOffs(94, 28).addBox(-5.0F, -28.0F, -8.0F, 10.0F, 8.0F, 5.0F, new CubeDeformation(0.0F))
+                .texOffs(124, 28).addBox(5.0F, -30.0F, -6.0F, 10.0F, 12.0F, 3.0F, new CubeDeformation(0.0F))
+                .texOffs(124, 137).addBox(-15.0F, -30.0F, -6.0F, 10.0F, 12.0F, 3.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 0).addBox(-13.0F, -53.0F, -7.0F, 26.0F, 23.0F, 21.0F, new CubeDeformation(0.0F))
+                .texOffs(44, 93).addBox(-6.0F, -40.0F, -11.0F, 12.0F, 10.0F, 4.0F, new CubeDeformation(0.0F))
+                .texOffs(78, 93).addBox(-4.0F, -41.0F, -12.0F, 8.0F, 5.0F, 5.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 93).addBox(-17.0F, -57.0F, 1.0F, 13.0F, 19.0F, 9.0F, new CubeDeformation(0.0F))
+                .texOffs(94, 0).addBox(4.0F, -57.0F, 1.0F, 13.0F, 19.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 14.0F, 13.0F));
+
+        PartDefinition cube_r22 = alt.addOrReplaceChild("cube_r22", CubeListBuilder.create().texOffs(124, 114).addBox(-17.0F, -17.0F, -20.0F, 15.0F, 17.0F, 6.0F, new CubeDeformation(0.0F))
+                .texOffs(80, 44).addBox(-15.0F, -11.0F, -14.0F, 11.0F, 11.0F, 24.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, 0.0F, 2.0F, 0.0F, 0.3491F, 0.0F));
+
+        PartDefinition cube_r23 = alt.addOrReplaceChild("cube_r23", CubeListBuilder.create().texOffs(0, 121).addBox(2.0F, -17.0F, -20.0F, 15.0F, 17.0F, 6.0F, new CubeDeformation(0.0F))
+                .texOffs(80, 79).addBox(4.0F, -11.0F, -14.0F, 11.0F, 11.0F, 24.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, 0.0F, 2.0F, 0.0F, -0.3491F, 0.0F));
+
+        PartDefinition cube_r24 = alt.addOrReplaceChild("cube_r24", CubeListBuilder.create().texOffs(84, 114).addBox(-6.0F, -5.0F, -5.0F, 10.0F, 19.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(13.0F, -26.0F, 7.0F, 0.0F, 0.0F, -0.3491F));
+
+        PartDefinition cube_r25 = alt.addOrReplaceChild("cube_r25", CubeListBuilder.create().texOffs(44, 114).addBox(-4.0F, -5.0F, -5.0F, 10.0F, 19.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-13.0F, -26.0F, 7.0F, 0.0F, 0.0F, 0.3491F));
+
         return LayerDefinition.create(meshdefinition, 256, 256);
     }
+
+
 
     @Override
     public void setupAnim(RepleteEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
@@ -592,6 +619,9 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
         this.animate(entity.sitPoseAnimationState, RepleteAnimations.replete_stay, ageInTicks, 1.0F);
 
         this.animate(entity.sitUpAnimationState, RepleteAnimations.replete_stand, ageInTicks, 1.0F);
+
+        root_util.visible = !BionicsClientConfig.arachnophobia;
+        root_alt.visible = BionicsClientConfig.arachnophobia;
 
         leg_l1.visible = entity.leg_l1.isColliding() && !entity.leg_l2.isColliding();
         leg_l2.visible = !entity.leg_l1.isColliding();

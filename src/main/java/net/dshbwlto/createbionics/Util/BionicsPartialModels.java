@@ -9,7 +9,7 @@ public class BionicsPartialModels {
             OXHAULER_SOUL_FIRE = part("oxhauler_soul_fire"),
 
     WHISTLE_BASE_MIDDLE_LARGE0 = part("whistle_base_middle_large0"),
-        WHISTLE_BASE_MIDDLE_LARGE1 = part("whistle_base_middle_large1"),
+            WHISTLE_BASE_MIDDLE_LARGE1 = part("whistle_base_middle_large1"),
             WHISTLE_BASE_MIDDLE_LARGE2 = part("whistle_base_middle_large2"),
             WHISTLE_BASE_MIDDLE_LARGE3 = part("whistle_base_middle_large3"),
             WHISTLE_BASE_MIDDLE_LARGE4 = part("whistle_base_middle_large4"),
@@ -208,7 +208,12 @@ public class BionicsPartialModels {
 
     SEEKER_PICKAXE_0 = part("seeker_pickaxe_item_0"),
             SEEKER_PICKAXE_1 = part("seeker_pickaxe_item_1"),
-            SEEKER_PICKAXE_2 = part("seeker_pickaxe_item_2");
+            SEEKER_PICKAXE_2 = part("seeker_pickaxe_item_2"),
+
+    MATCHBOX_ITEM_0 = part("matchbox_item_0"),
+            MATCHBOX_ITEM_1 = part("matchbox_item_1"),
+            MATCHBOX_ITEM_2 = part("matchbox_item_2");
+
 
     private static PartialModel part(String path) {
         return PartialModel.of(CreateBionics.asResource("item/" + path));
@@ -240,5 +245,6 @@ public class BionicsPartialModels {
         return part("whistle_end_" + x + y);
     }
 
-    public static void init() {}
+    public static void init() {
+    }
 }

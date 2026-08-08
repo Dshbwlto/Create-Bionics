@@ -11,14 +11,14 @@
     "C": {
       "item": "create:mechanical_pump"
     },
-    "E": {
-      "item": "createbionics:simple_engine"
+    "I": {
+      "item": "minecraft:iron_ingot"
     }
   },
   "pattern": [
-    "EAE",
-    "EBE",
-    "ECE"
+    "IAI",
+    "IBI",
+    "ICI"
   ],
   "result": {
     "count": 1,

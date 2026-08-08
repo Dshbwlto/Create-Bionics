@@ -2,7 +2,6 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
-import dev.engine_room.flywheel.lib.visual.component.ShadowComponent;
 import net.dshbwlto.createbionics.component.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
 import net.dshbwlto.createbionics.entity.client.seeker.SeekerPickaxe;
@@ -10,7 +9,6 @@ import net.dshbwlto.createbionics.entity.client.seeker.SeekerVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.Util.BionicsTags;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -20,12 +18,14 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.Mth;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
@@ -34,22 +34,18 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CropBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
-
-import javax.sound.midi.MidiSystem;
 
 public class SeekerEntity extends AbstractRobot {
 
@@ -62,16 +58,19 @@ public class SeekerEntity extends AbstractRobot {
     private int invisCountdown = -1;
     private int digCountdown = -1;
     private int itemDropCountdown = -1;
+    private int collapseCountdown = -1;
     public boolean scanning = false;
     public boolean invisible = false;
     public boolean isDigging;
+    private BlockPos foundBlock;
     public TagKey<Block> target;
     public AnimationState digAnimationState = new AnimationState();
     public AnimationState returnAnimationState = new AnimationState();
+    public AnimationState deployAnimationState = new AnimationState();
+    public AnimationState collapseAnimationState = new AnimationState();
     public ItemStack foundItem;
     public Player user;
-
-    private BlockPos foundBlock;
+    public ItemStack displayStack;
 
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
@@ -88,17 +87,14 @@ public class SeekerEntity extends AbstractRobot {
     protected void registerGoals() {
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
         this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 1, 1, true);
-
         this.goalSelector.addGoal(0, new FloatGoal(this) {
             @Override
             public boolean canUse() {
                 return super.canUse() && isFueled();
             }
         });
-
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
-
-        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0d, 10f, 5f) {
+        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0d, 7f, 3f) {
             @Override
             public boolean canUse() {
                 return super.canUse() && isFueled() && getCommand() == 0 && !isDigging;
@@ -110,7 +106,6 @@ public class SeekerEntity extends AbstractRobot {
                 return super.canUse() && isTame() && isFueled() && !isDigging;
             }
         });
-
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 4f) {
             @Override
             public boolean canUse() {
@@ -133,7 +128,7 @@ public class SeekerEntity extends AbstractRobot {
                 .add(Attributes.MAX_HEALTH, 5D)
                 .add(Attributes.MOVEMENT_SPEED, 0.4)
                 .add(Attributes.ATTACK_DAMAGE, 2f)
-                .add(Attributes.FOLLOW_RANGE, 24D)
+                .add(Attributes.FOLLOW_RANGE, 7D)
                 .add(Attributes.SAFE_FALL_DISTANCE, 200D)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 200f);
     }
@@ -147,7 +142,6 @@ public class SeekerEntity extends AbstractRobot {
     protected @Nullable SoundEvent getHurtSound(DamageSource damageSource) {
         return SoundEvents.ANVIL_PLACE;
     }
-
 
     @Override
     public @Nullable ItemStack getPickResult() {
@@ -222,6 +216,7 @@ public class SeekerEntity extends AbstractRobot {
             invisCountdown -= 1;
         } else if (invisCountdown == 0) {
             invisible = true;
+            spawnAtLocation(displayStack);
             invisCountdown = -1;
         }
 
@@ -238,6 +233,13 @@ public class SeekerEntity extends AbstractRobot {
         } else if (itemDropCountdown == 0) {
             spawnAtLocation(foundItem);
             itemDropCountdown = -1;
+        }
+
+        if (collapseCountdown > 0) {
+            collapseCountdown -= 1;
+        } else if (collapseCountdown == 0) {
+            spawnAtLocation(seekerItem());
+            remove(RemovalReason.DISCARDED);
         }
 
         if (this.level().isClientSide()) {
@@ -277,16 +279,20 @@ public class SeekerEntity extends AbstractRobot {
             }
             return InteractionResult.SUCCESS;
         }
-        if (itemStack.is(BionicsTags.SEEKER_ACCEPTABLE) && getFuel() > 2000) {
+        if (itemStack.is(BionicsTags.SEEKER_ACCEPTABLE) && getFuel() > 2000 && !player.isShiftKeyDown()) {
             playSound(AllSoundEvents.CONFIRM.getMainEvent());
             user = player;
+            displayStack = new ItemStack(itemStack.getItem());
             beginSearch(itemStack);
+            if (!level().isClientSide) {
+                itemStack.shrink(1);
+            }
             return InteractionResult.SUCCESS;
-        } else if ( itemStack.is(BionicsTags.SEEKER_ACCEPTABLE) && getFuel() <= 2000) {
-            player.displayClientMessage(Component.translatable("entity.createbionics.all.fuel_warning"), true);
+        } else if ( itemStack.is(BionicsTags.SEEKER_ACCEPTABLE) && getFuel() <= 2000 && !player.isShiftKeyDown()) {
+            player.displayClientMessage(Component.translatable("entity.createbionics.all.fuel_warning2"), true);
         }
         if (isTame() && isOwnedBy(player)) {
-            if (itemStack.is(AllItems.ANDESITE_ALLOY)
+            if (itemStack.is(Items.COPPER_INGOT)
                     || itemStack.is(AllItems.BRASS_INGOT)) {
                 dropIngot();
                 setTypeVariant(itemStack);
@@ -295,9 +301,8 @@ public class SeekerEntity extends AbstractRobot {
                 } else {
                     itemStack.shrink(1);
                 }
-            } else if ((itemStack.is(Items.DIAMOND_PICKAXE) && getPickaxe() == SeekerPickaxe.IRON) ||
-                    (itemStack.is(Items.NETHERITE_PICKAXE) && getPickaxe() == SeekerPickaxe.DIAMOND)) {
-                spawnAtLocation(new ItemStack(itemStack.is(Items.DIAMOND_PICKAXE) ? Items.IRON_PICKAXE : Items.DIAMOND_PICKAXE));
+            } else if (itemStack.is(Items.IRON_PICKAXE) || itemStack.is(Items.DIAMOND_PICKAXE) || itemStack.is(Items.NETHERITE_PICKAXE)) {
+                spawnAtLocation(getPickaxeItem());
                 setTypePickaxe(itemStack);
                 player.playSound(SoundEvents.SMITHING_TABLE_USE);
                 if (level().isClientSide) {
@@ -306,11 +311,11 @@ public class SeekerEntity extends AbstractRobot {
                 return InteractionResult.SUCCESS;
             } else if (itemStack.is(AllItems.WRENCH)) {
                 if (player.isShiftKeyDown()) {
-                    spawnAtLocation(seekerItem());
-                    remove(RemovalReason.DISCARDED);
+                    collapseCountdown = 30;
+                    collapseAnimationState.start(tickCount);
                 } else {
                     dropIngot();
-                    setVariant(SeekerVariant.COPPER);
+                    setVariant(SeekerVariant.ANDESITE);
                 }
                 return InteractionResult.SUCCESS;
             } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE)) {
@@ -370,9 +375,9 @@ public class SeekerEntity extends AbstractRobot {
     //VARIANT//
 
     private void setTypeVariant(ItemStack itemStack) {
-        if (itemStack.is(AllItems.ANDESITE_ALLOY)
-                && getVariant() != SeekerVariant.ANDESITE) {
-            setVariant(SeekerVariant.ANDESITE);
+        if (itemStack.is(Items.COPPER_INGOT)
+                && getVariant() != SeekerVariant.COPPER) {
+            setVariant(SeekerVariant.COPPER);
         } else if (itemStack.is(AllItems.BRASS_INGOT)
                 && getVariant() != SeekerVariant.BRASS) {
             setVariant(SeekerVariant.BRASS);
@@ -380,12 +385,17 @@ public class SeekerEntity extends AbstractRobot {
     }
 
     private void setTypePickaxe(ItemStack itemStack) {
-        if (itemStack.is(Items.DIAMOND_PICKAXE) && getPickaxe() == SeekerPickaxe.IRON) {
+        if (itemStack.is(Items.IRON_PICKAXE)) {
+            setPickaxe(SeekerPickaxe.IRON);
+            if (!level().isClientSide) {
+                itemStack.shrink(1);
+            }
+        } else if (itemStack.is(Items.DIAMOND_PICKAXE)) {
             setPickaxe(SeekerPickaxe.DIAMOND);
             if (!level().isClientSide) {
                 itemStack.shrink(1);
             }
-        } else if (itemStack.is(Items.NETHERITE_PICKAXE) && getPickaxe() == SeekerPickaxe.DIAMOND) {
+        } else if (itemStack.is(Items.NETHERITE_PICKAXE)) {
             setPickaxe(SeekerPickaxe.NETHERITE);
             if (!level().isClientSide) {
                 itemStack.shrink(1);
@@ -395,6 +405,18 @@ public class SeekerEntity extends AbstractRobot {
 
     public int getTypePickaxe() {
         return this.entityData.get(PICK_MAP);
+    }
+
+    public ItemStack getPickaxeItem() {
+        Item pickaxe;
+        if (getPickaxe() == SeekerPickaxe.IRON) {
+            pickaxe = Items.IRON_PICKAXE;
+        } else if (getPickaxe() == SeekerPickaxe.DIAMOND) {
+            pickaxe = Items.DIAMOND_PICKAXE;
+        } else {
+            pickaxe = Items.NETHERITE_PICKAXE;
+        }
+        return new ItemStack(pickaxe);
     }
 
     public SeekerPickaxe getPickaxe() {
@@ -412,8 +434,8 @@ public class SeekerEntity extends AbstractRobot {
     private void dropIngot() {
         if (getVariant() == SeekerVariant.BRASS) {
             spawnAtLocation(new ItemStack(AllItems.BRASS_INGOT.asItem()));
-        } else if (getVariant() == SeekerVariant.ANDESITE) {
-            spawnAtLocation(new ItemStack(AllItems.ANDESITE_ALLOY.asItem()));
+        } else if (getVariant() == SeekerVariant.COPPER) {
+            spawnAtLocation(new ItemStack(Items.COPPER_INGOT.asItem()));
         }
     }
 
@@ -460,6 +482,7 @@ public class SeekerEntity extends AbstractRobot {
     public void failSearch() {
         foundBlock = null;
         playSound(AllSoundEvents.DENY.getMainEvent());
+        level().addParticle(ParticleTypes.ANGRY_VILLAGER, this.getX(), this.getY(), this.getZ(), 0, 0.1, 0);
         scanning = false;
         isDigging = false;
         target = null;
@@ -492,11 +515,6 @@ public class SeekerEntity extends AbstractRobot {
         itemDropCountdown = 20;
     }
 
-    @Override
-    public boolean canBeCollidedWith() {
-        return this.scanning || this.digCountdown != -1 || this.particleCountdown != -1;
-    }
-
     public TagKey<Block> getTag(ItemStack itemStack) {
         return itemStack.is(BionicsTags.SEEKER_COAL) ? BionicsTags.SEEKER_COAL_ACCEPTABLE :
                 itemStack.is(BionicsTags.SEEKER_IRON) ? BionicsTags.SEEKER_IRON_ACCEPTABLE :
@@ -515,5 +533,10 @@ public class SeekerEntity extends AbstractRobot {
     @Override
     public boolean isInvisible() {
         return invisible;
+    }
+
+    @Override
+    public boolean canBeCollidedWith() {
+        return scanning;
     }
 }

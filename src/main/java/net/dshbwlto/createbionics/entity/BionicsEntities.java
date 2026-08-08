@@ -6,6 +6,7 @@ import net.dshbwlto.createbionics.entity.api.GolemEntity;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
 import net.dshbwlto.createbionics.entity.custom.*;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.bus.api.IEventBus;
@@ -17,7 +18,6 @@ import java.util.function.Supplier;
 public class BionicsEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES =
             DeferredRegister.create(Registries.ENTITY_TYPE, CreateBionics.MOD_ID);
-
     public static final Supplier<EntityType<AnoleEntity>> ANOLE =
             ENTITIES.register("anole", () -> EntityType.Builder.of(AnoleEntity::new, MobCategory.CREATURE)
                     .sized(0.5f, 0.25f).build("anole"));
@@ -37,6 +37,10 @@ public class BionicsEntities {
     public static final Supplier<EntityType<SeekerEntity>> SEEKER =
             ENTITIES.register("seeker", () -> EntityType.Builder.of(SeekerEntity::new, MobCategory.CREATURE)
                     .sized(1f, 0.3f).build("seeker"));
+
+    public static final Supplier<EntityType<MatchboxEntity>> MATCHBOX =
+            ENTITIES.register("matchbox", () -> EntityType.Builder.of(MatchboxEntity::new, MobCategory.CREATURE)
+                    .sized(1.2f, 0.75f).build("matchbox"));
 
     /// These are for future updates, just pretend they don't exist
     public static final Supplier<EntityType<StalkerEntity>> STALKER =

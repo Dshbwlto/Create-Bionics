@@ -4,7 +4,7 @@
   "category": "misc",
   "key": {
     "I": {
-      "tag": "createbionics:seeker_acceptable"
+      "item": "create:brass_ingot"
     },
     "B": {
       "item": "create:brass_sheet"

@@ -7,6 +7,7 @@ import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.platform.NeoForgeCatnipServices;
 import net.createmod.catnip.render.CachedBuffers;
+import net.dshbwlto.createbionics.BionicsClientConfig;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
 
@@ -24,6 +25,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Map;
@@ -48,7 +50,7 @@ public class RepleteRenderer extends MobRenderer {
     @Override
     public ResourceLocation getTextureLocation(Entity entity) {
         RepleteEntity replete = (RepleteEntity) entity;
-        return LOCATION_BY_VARIANT.get(replete.getVariant());
+        return !BionicsClientConfig.arachnophobia ? LOCATION_BY_VARIANT.get(replete.getVariant()) : ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_alt.png");
     }
 
     @Override

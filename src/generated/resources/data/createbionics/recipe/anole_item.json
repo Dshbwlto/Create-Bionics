@@ -3,16 +3,16 @@
   "category": "misc",
   "key": {
     "A": {
-      "item": "createbionics:anole_body_item"
+      "item": "create:andesite_alloy"
     },
     "B": {
-      "item": "createbionics:anole_head_item"
+      "item": "create:transmitter"
     },
     "C": {
-      "item": "createbionics:anole_leg_item"
+      "item": "minecraft:copper_ingot"
     },
     "D": {
-      "item": "createbionics:anole_tail_item"
+      "item": "create:iron_sheet"
     }
   },
   "pattern": [

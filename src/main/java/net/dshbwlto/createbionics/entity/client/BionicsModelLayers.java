@@ -29,6 +29,11 @@ public class BionicsModelLayers {
     public static final ModelLayerLocation SEEKER_PICKAXE = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "seeker"), "pickaxe");
 
+    public static final ModelLayerLocation MATCHBOX = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "matchbox"), "main");
+    public static final ModelLayerLocation MATCHBOX_GLOW = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "matchbox"), "glow");
+
     public static final ModelLayerLocation STALKER = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "stalker"), "main");
     public static final ModelLayerLocation STALKER_GLOW = new ModelLayerLocation(

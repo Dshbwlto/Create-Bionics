@@ -6,6 +6,7 @@ import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleModel;
 import net.dshbwlto.createbionics.entity.client.golem.GolemModel;
+import net.dshbwlto.createbionics.entity.client.matchbox.MatchboxModel;
 import net.dshbwlto.createbionics.entity.client.organ.OrganModel;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerModel;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteModel;
@@ -48,6 +49,9 @@ public class BionicsEventBusEvents {
         event.registerLayerDefinition(BionicsModelLayers.SEEKER_GLOW, SeekerModel::createBodyLayer);
         event.registerLayerDefinition(BionicsModelLayers.SEEKER_PICKAXE, SeekerModel::createBodyLayer);
 
+        event.registerLayerDefinition(BionicsModelLayers.MATCHBOX, MatchboxModel::createBodyLayer);
+        event.registerLayerDefinition(BionicsModelLayers.MATCHBOX_GLOW, MatchboxModel::createBodyLayer);
+
         event.registerLayerDefinition(BionicsModelLayers.STALKER, StalkerModel::createBodyLayer);
         event.registerLayerDefinition(BionicsModelLayers.STALKER_GLOW, StalkerModel::createBodyLayer);
         event.registerLayerDefinition(BionicsModelLayers.STALKER_CAPTAIN, StalkerCaptainModel::createBodyLayer);
@@ -72,6 +76,7 @@ public class BionicsEventBusEvents {
         event.put(BionicsEntities.OXHAULER.get(), OxhaulerEntity.createAttributes().build());
         event.put(BionicsEntities.REPLETE.get(), RepleteEntity.createAttributes().build());
         event.put(BionicsEntities.SEEKER.get(), SeekerEntity.createAttributes().build());
+        event.put(BionicsEntities.MATCHBOX.get(), MatchboxEntity.createAttributes().build());
         event.put(BionicsEntities.STALKER.get(), StalkerEntity.createAttributes().build());
         event.put(BionicsEntities.STALKER_CAPTAIN.get(), StalkerCaptainEntity.createAttributes().build());
         event.put(BionicsEntities.ORGAN.get(), OrganEntity.createAttributes().build());
@@ -112,6 +117,16 @@ public class BionicsEventBusEvents {
                     return super.canUse() && (toAvoid.getMainHandItem().is(BionicsItems.ANOLE) || toAvoid.getOffhandItem().is(BionicsItems.ANOLE));
                 }
             });
+        }
+    }
+
+    @SubscribeEvent
+    public static void deployAnimation(EntityJoinLevelEvent event) {
+        if (event.getEntity() instanceof SeekerEntity seekerEntity) {
+            seekerEntity.deployAnimationState.start(seekerEntity.tickCount);
+        }
+        if (event.getEntity() instanceof MatchboxEntity matchboxEntity) {
+            matchboxEntity.deployAnimationState.start(matchboxEntity.tickCount);
         }
     }
 }

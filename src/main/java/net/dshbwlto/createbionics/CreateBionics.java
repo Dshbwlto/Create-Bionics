@@ -11,6 +11,7 @@ import net.dshbwlto.createbionics.component.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleRenderer;
 import net.dshbwlto.createbionics.entity.client.golem.GolemRenderer;
+import net.dshbwlto.createbionics.entity.client.matchbox.MatchboxRenderer;
 import net.dshbwlto.createbionics.entity.client.organ.OrganRenderer;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerRenderer;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteRenderer;
@@ -33,14 +34,14 @@ import net.minecraft.world.level.ItemLike;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -71,8 +72,19 @@ public class CreateBionics {
                 .andThen(TooltipModifier.mapNull(KineticStats.create(item))));
     }
 
+    public static final BionicsClientConfig CLIENT_CONFIG;
+    public static final ModConfigSpec CLIENT_CONFIG_SPEC;
+
+    static {
+        final Pair<BionicsClientConfig, ModConfigSpec> clientPair = new ModConfigSpec.Builder()
+                .configure(BionicsClientConfig::new);
+        CLIENT_CONFIG = clientPair.getLeft();
+        CLIENT_CONFIG_SPEC = clientPair.getRight();
+    }
+
     private static final ItemLike[] excludedItemsList = new ItemLike[]{
             BionicsItems.SEEKER,
+            BionicsItems.MATCHBOX,
             BionicsItems.ORGAN_MIDDLE,
             BionicsItems.ORGAN_FOOT,
             BionicsItems.ORGAN_TAIL_BASE,
@@ -109,10 +121,10 @@ public class CreateBionics {
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public CreateBionics(IEventBus modEventBus, ModContainer modContainer) {
-        // Register the commonSetup method for modloading
-
         REGISTRATE.registerEventListeners(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
+
+        modContainer.registerConfig(ModConfig.Type.CLIENT, CLIENT_CONFIG_SPEC, "createbionics-client.toml");
 
         modEventBus.addListener(this::commonSetup);
 
@@ -139,17 +151,11 @@ public class CreateBionics {
         modEventBus.addListener(this::addCreative);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
-
-        if (Config.logDirtBlock)
-            LOGGER.info("DIRT BLOCK >> {}", BuiltInRegistries.BLOCK.getKey(Blocks.DIRT));
-
-        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
     }
 
     // Add the example block item to the building blocks tab
@@ -180,6 +186,7 @@ public class CreateBionics {
             EntityRenderers.register(BionicsEntities.OXHAULER.get(), OxhaulerRenderer::new);
             EntityRenderers.register(BionicsEntities.REPLETE.get(), RepleteRenderer::new);
             EntityRenderers.register(BionicsEntities.SEEKER.get(), SeekerRenderer::new);
+            EntityRenderers.register(BionicsEntities.MATCHBOX.get(), MatchboxRenderer::new);
             EntityRenderers.register(BionicsEntities.STALKER.get(), StalkerRenderer::new);
             EntityRenderers.register(BionicsEntities.STALKER_CAPTAIN.get(), StalkerCaptainRenderer::new);
             EntityRenderers.register(BionicsEntities.ORGAN.get(), OrganRenderer::new);

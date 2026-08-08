@@ -95,7 +95,10 @@ public class SeekerModel<T extends SeekerEntity> extends HierarchicalModel<T> {
         }
         this.animate(entity.digAnimationState, SeekerAnimations.seeker_find, ageInTicks, 1.0F);
         this.animate(entity.returnAnimationState, SeekerAnimations.seeker_return, ageInTicks, 1.0F);
+
         this.animate(entity.sitDownAnimationState, SeekerAnimations.seeker_sit, ageInTicks, 1.0F);
+        this.animate(entity.deployAnimationState, SeekerAnimations.seeker_deploy, ageInTicks, 1.0F);
+        this.animate(entity.collapseAnimationState, SeekerAnimations.seeker_collapse, ageInTicks, 1.0F);
         if (!entity.isPassenger()) {
             this.animate(entity.sitPoseAnimationState, SeekerAnimations.seeker_stay, ageInTicks, 1.0F);
         }

@@ -58,6 +58,20 @@ public class SeekerRenderer extends MobRenderer<SeekerEntity, SeekerModel<Seeker
         if (entity.invisible) {
             poseStack.scale(0, 0, 0);
         }
+        ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+        ItemStack stack = entity.displayStack;
+
+        poseStack.pushPose();
+        poseStack.translate(0, 1, 0);
+        poseStack.scale(0.5f, 0.5f, 0.5f);
+        poseStack.mulPose(Axis.YP.rotationDegrees(AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()));
+
+        if (stack != null && entity.scanning) {
+            itemRenderer.renderStatic(stack, ItemDisplayContext.FIXED, packedLight,
+                    OverlayTexture.NO_OVERLAY, poseStack, buffer, entity.level(), 1);
+        }
+        poseStack.popPose();
+
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
 }
