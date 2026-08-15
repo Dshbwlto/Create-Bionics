@@ -2,7 +2,8 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
-import net.dshbwlto.createbionics.component.BionicsDataComponentTypes;
+import com.simibubi.create.content.logistics.packagerLink.WiFiParticle;
+import net.dshbwlto.createbionics.Util.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
 import net.dshbwlto.createbionics.entity.client.seeker.SeekerPickaxe;
 import net.dshbwlto.createbionics.entity.client.seeker.SeekerVariant;
@@ -18,14 +19,11 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
@@ -34,13 +32,11 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
@@ -125,7 +121,7 @@ public class SeekerEntity extends AbstractRobot {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Animal.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 5D)
+                .add(Attributes.MAX_HEALTH, 10D)
                 .add(Attributes.MOVEMENT_SPEED, 0.4)
                 .add(Attributes.ATTACK_DAMAGE, 2f)
                 .add(Attributes.FOLLOW_RANGE, 7D)
@@ -250,10 +246,8 @@ public class SeekerEntity extends AbstractRobot {
             playSoundScape(1, 1);
         }
 
-        if (!isSitting() && !isPassenger() && !hasBlazeCake()) {
-            if (getFuel() > 0) {
-                setFuel(getFuel() - 1);
-            }
+        if (!isSitting() && !isPassenger() && getFuel() > 0) {
+            setFuel(getFuel() - 1);
         }
 
         if (this.horizontalCollision) {
@@ -279,17 +273,21 @@ public class SeekerEntity extends AbstractRobot {
             }
             return InteractionResult.SUCCESS;
         }
-        if (itemStack.is(BionicsTags.SEEKER_ACCEPTABLE) && getFuel() > 2000 && !player.isShiftKeyDown()) {
-            playSound(AllSoundEvents.CONFIRM.getMainEvent());
-            user = player;
-            displayStack = new ItemStack(itemStack.getItem());
-            beginSearch(itemStack);
-            if (!level().isClientSide) {
-                itemStack.shrink(1);
+        if (itemStack.is(BionicsTags.SEEKER_ACCEPTABLE) && !player.isShiftKeyDown()) {
+            if (getFuel() > 2000) {
+                playSound(AllSoundEvents.CONFIRM.getMainEvent());
+                user = player;
+                displayStack = new ItemStack(itemStack.getItem());
+                beginSearch(itemStack);
+                setFuel(getFuel() - 2000);
+                if (!level().isClientSide) {
+                    itemStack.shrink(1);
+                }
+            } else {
+                player.displayClientMessage(Component.translatable("entity.createbionics.all.fuel_warning2"), true);
+                playSound(AllSoundEvents.DENY.getMainEvent());
             }
             return InteractionResult.SUCCESS;
-        } else if ( itemStack.is(BionicsTags.SEEKER_ACCEPTABLE) && getFuel() <= 2000 && !player.isShiftKeyDown()) {
-            player.displayClientMessage(Component.translatable("entity.createbionics.all.fuel_warning2"), true);
         }
         if (isTame() && isOwnedBy(player)) {
             if (itemStack.is(Items.COPPER_INGOT)
@@ -311,6 +309,12 @@ public class SeekerEntity extends AbstractRobot {
                 return InteractionResult.SUCCESS;
             } else if (itemStack.is(AllItems.WRENCH)) {
                 if (player.isShiftKeyDown()) {
+                    if (getCommand() == 2) {
+                        updateCommand(null);
+                    } else if (getCommand() == 1) {
+                        updateCommand(null);
+                        updateCommand(null);
+                    }
                     collapseCountdown = 30;
                     collapseAnimationState.start(tickCount);
                 } else {
@@ -318,22 +322,33 @@ public class SeekerEntity extends AbstractRobot {
                     setVariant(SeekerVariant.ANDESITE);
                 }
                 return InteractionResult.SUCCESS;
-            } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE)) {
-                if (hasBlazeCake()) {
-                    entityData.set(CREATIVE_BLAZE_CAKE, false);
-                } else {
-                    setFuel(10000);
-                    entityData.set(CREATIVE_BLAZE_CAKE, true);
-                    playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+            } else if (itemStack.is(AllItems.ANDESITE_ALLOY) && getHealth() < getMaxHealth()) {
+                setHealth(getHealth() + 2);
+                if (!level().isClientSide) {
+                    itemStack.shrink(1);
                 }
                 return InteractionResult.SUCCESS;
             } else if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL)) {
-                setFuel(10000);
-                playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+                setFuel(12000);
                 if (!player.getAbilities().instabuild) {
                     itemStack.shrink(1);
                 }
+                playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+                spawnFireParticles(false, 3);
                 return InteractionResult.CONSUME;
+            } else if (itemStack.is(AllItems.BLAZE_CAKE)) {
+                setFuel(24000);
+                if (!player.getAbilities().instabuild) {
+                    itemStack.shrink(1);
+                }
+                playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+                spawnFireParticles(true, 3);
+                return InteractionResult.CONSUME;
+            } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE)) {
+                setFuel(getFuel() == -1 ? 24000 : -1);
+                playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+                spawnFireParticles(true, 3);
+                return InteractionResult.SUCCESS;
             } else {
                 if (!isDigging) {
                     updateCommand(player);
@@ -341,15 +356,18 @@ public class SeekerEntity extends AbstractRobot {
                 return InteractionResult.SUCCESS;
             }
         }
-
         return super.mobInteract(player, hand);
     }
 
     public ItemStack seekerItem() {
+        int i = getFuel() >= 0 ? getFuel() : 24001;
         ItemStack item = new ItemStack(BionicsItems.SEEKER.get());
         item.set(BionicsDataComponentTypes.VARIANT, getTypeVariant());
-        item.set(BionicsDataComponentTypes.MARKING, getTypePickaxe());
-        item.set(BionicsDataComponentTypes.FUEL, getFuel());
+        item.set(BionicsDataComponentTypes.MISC_INT, getTypePickaxe());
+        item.set(BionicsDataComponentTypes.FUEL, i);
+        if (hasCustomName()) {
+            item.set(BionicsDataComponentTypes.NAME, getDisplayName().getString());
+        }
         return item;
     }
 
@@ -357,7 +375,7 @@ public class SeekerEntity extends AbstractRobot {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         /// just stop.
-        //builder.define(PICK_MAP, 0);
+        builder.define(PICK_MAP, 0);
     }
 
     @Override
@@ -501,6 +519,9 @@ public class SeekerEntity extends AbstractRobot {
                 }
             }
         }
+        if (tickCount % 23 == 0) {
+            level().addParticle(new WiFiParticle.Data(), getX(), getY() + 0.25, getZ(), 0, 0, 0);
+        }
     }
 
     public void finishDig() {
@@ -521,7 +542,7 @@ public class SeekerEntity extends AbstractRobot {
                 itemStack.is(BionicsTags.SEEKER_COPPER) ? BionicsTags.SEEKER_COPPER_ACCEPTABLE :
                 itemStack.is(BionicsTags.SEEKER_GOLD) ? BionicsTags.SEEKER_GOLD_ACCEPTABLE :
                 itemStack.is(BionicsTags.SEEKER_EMERALD) ? BionicsTags.SEEKER_EMERALD_ACCEPTABLE :
-                itemStack.is(BionicsTags.SEEKER_LAPIS_LAZULI) ? BionicsTags.SEEKER_LAPIS_LAZULI_ACCEPTABLE :
+                itemStack.is(BionicsTags.SEEKER_LAPIS) ? BionicsTags.SEEKER_LAPIS_ACCEPTABLE :
                 itemStack.is(BionicsTags.SEEKER_DIAMOND) ? BionicsTags.SEEKER_DIAMOND_ACCEPTABLE :
                 itemStack.is(BionicsTags.SEEKER_QUARTZ) ? BionicsTags.SEEKER_QUARTZ_ACCEPTABLE :
                 itemStack.is(BionicsTags.SEEKER_REDSTONE) ? BionicsTags.SEEKER_REDSTONE_ACCEPTABLE :

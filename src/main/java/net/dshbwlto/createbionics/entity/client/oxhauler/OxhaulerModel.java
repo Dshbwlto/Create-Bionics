@@ -378,7 +378,7 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
         this.piston3.y = piston3;
         this.piston6.y = piston3;
 
-        stand.visible = entity.getFuel() == 0;
+        stand.visible = entity.isAddedToLevel() && entity.getFuel() == 0;
 
         dial.yRot = (float) entity.getFuel() / 25000 * (Mth.PI / 2) - Mth.PI / 2;
         if (entity.isVehicle()) {

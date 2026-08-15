@@ -46,13 +46,13 @@ public class SeekerModel<T extends SeekerEntity> extends HierarchicalModel<T> {
 
         PartDefinition cube_r3 = bone.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(32, 1).mirror().addBox(-4.0F, -1.0F, 0.0F, 4.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-3.0F, 0.0F, 0.0F, 0.0F, 1.5708F, 0.0F));
 
-        PartDefinition arm_l = body_front.addOrReplaceChild("arm_l", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(0.0F, -0.5F, -1.0F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(3.0F, 0.0F, 0.0F, 0.0F, -0.3054F, 0.2182F));
+        PartDefinition arm_l = body_front.addOrReplaceChild("arm_l", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(0.0F, -0.5F, -1.0F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(3.0F, 0.0F, 0.0F, 0.0F, -0.3054F, 0.2618F));
 
         PartDefinition arm_l2 = arm_l.addOrReplaceChild("arm_l2", CubeListBuilder.create().texOffs(32, 5).mirror().addBox(0.0F, -0.5F, -2.0F, 6.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(0, 32).mirror().addBox(0.0F, -1.0F, -1.0F, 5.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(0, 6).addBox(5.0F, -0.5F, 1.0F, 1.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.0F, -0.025F, 0.0F, 0.0F, 1.0472F, 0.0F));
 
-        PartDefinition arm_r = body_front.addOrReplaceChild("arm_r", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -0.5F, -1.0F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, 0.0F, 0.0F, 0.0F, 0.3054F, -0.2182F));
+        PartDefinition arm_r = body_front.addOrReplaceChild("arm_r", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -0.5F, -1.0F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, 0.0F, 0.0F, 0.0F, 0.3054F, -0.2618F));
 
         PartDefinition arm_r2 = arm_r.addOrReplaceChild("arm_r2", CubeListBuilder.create().texOffs(32, 5).addBox(-6.0F, -0.5F, -2.0F, 6.0F, 1.0F, 3.0F, new CubeDeformation(0.0F))
                 .texOffs(0, 32).addBox(-5.0F, -1.0F, -1.0F, 5.0F, 2.0F, 3.0F, new CubeDeformation(0.0F))
@@ -64,22 +64,23 @@ public class SeekerModel<T extends SeekerEntity> extends HierarchicalModel<T> {
 
         PartDefinition handle = tail.addOrReplaceChild("handle", CubeListBuilder.create().texOffs(24, 28).addBox(-1.0F, 0.0F, -5.0F, 2.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.0F, 8.0F));
 
-        PartDefinition leg_l = body_rear.addOrReplaceChild("leg_l", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(0.0F, -0.5F, -1.0F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(2.5F, 0.0F, 1.0F, 0.0F, 0.3054F, 0.2182F));
+        PartDefinition leg_l = body_rear.addOrReplaceChild("leg_l", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(0.0F, -0.5F, -1.0F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(2.5F, 0.0F, 1.0F, 0.0F, 0.3054F, 0.3054F));
 
         PartDefinition leg_l2 = leg_l.addOrReplaceChild("leg_l2", CubeListBuilder.create().texOffs(24, 18).mirror().addBox(0.0F, -0.5F, -2.0F, 5.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(0, 32).mirror().addBox(0.0F, -1.0F, -1.0F, 4.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
+                .texOffs(0, 11).mirror().addBox(0.0F, -1.0F, -1.0F, 4.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(0, 6).addBox(4.0F, -0.5F, 1.0F, 1.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.0F, 0.0F, 0.0F, 0.0F, -1.0472F, 0.0F));
 
-        PartDefinition leg_r = body_rear.addOrReplaceChild("leg_r", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -0.5F, -1.0F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.5F, 0.0F, 1.0F, 0.0F, -0.3054F, -0.2182F));
+        PartDefinition leg_r = body_rear.addOrReplaceChild("leg_r", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -0.5F, -1.0F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.5F, 0.0F, 1.0F, 0.0F, -0.3054F, -0.3054F));
 
         PartDefinition leg_r2 = leg_r.addOrReplaceChild("leg_r2", CubeListBuilder.create().texOffs(24, 18).addBox(-5.0F, -0.5F, -2.0F, 5.0F, 1.0F, 3.0F, new CubeDeformation(0.0F))
-                .texOffs(0, 32).addBox(-4.0F, -1.0F, -1.0F, 4.0F, 2.0F, 3.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 11).addBox(-4.0F, -1.0F, -1.0F, 4.0F, 2.0F, 3.0F, new CubeDeformation(0.0F))
                 .texOffs(0, 6).mirror().addBox(-5.0F, -0.5F, 1.0F, 1.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-4.0F, 0.0F, 0.0F, 0.0F, 1.0472F, 0.0F));
 
         PartDefinition bolt_rear = body_rear.addOrReplaceChild("bolt_rear", CubeListBuilder.create().texOffs(0, 21).addBox(-1.0F, -2.0F, -1.5F, 2.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 1.0F));
 
         return LayerDefinition.create(meshdefinition, 64, 64);
     }
+
 
     @Override
     public void setupAnim(SeekerEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {

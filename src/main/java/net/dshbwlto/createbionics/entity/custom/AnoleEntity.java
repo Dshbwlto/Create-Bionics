@@ -2,8 +2,7 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
-import net.dshbwlto.createbionics.component.BionicsDataComponentTypes;
-import net.dshbwlto.createbionics.entity.BionicsEntities;
+import net.dshbwlto.createbionics.Util.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleMarkings;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleVariant;
@@ -14,7 +13,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -148,7 +146,7 @@ public class AnoleEntity extends AbstractRobot {
     }
 
     public void aiStep() {
-        if (this.level().isClientSide && isFueled() && getFuel() > 100) {
+        if (this.level().isClientSide && isFueled()) {
             this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX(0.5F), this.getRandomY(), this.getRandomZ(0.5F), 0.0F, 0.0F, 0.0F);
         }
         super.aiStep();
@@ -196,10 +194,8 @@ public class AnoleEntity extends AbstractRobot {
             playSoundScape(1, 1);
         }
 
-        if (!isSitting() && !isPassenger() && !hasBlazeCake()) {
-            if (getFuel() > 0) {
-                setFuel(getFuel() - 1);
-            }
+        if (!isSitting() && !isPassenger() && getFuel() > 0) {
+            setFuel(getFuel() - 1);
         }
 
         if (this.horizontalCollision) {
@@ -271,21 +267,27 @@ public class AnoleEntity extends AbstractRobot {
                     setMarking(AnoleMarkings.DEFAULT);
                     return InteractionResult.SUCCESS;
                 }
-            } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE)) {
-                if (hasBlazeCake()) {
-                    entityData.set(CREATIVE_BLAZE_CAKE, false);
-                } else {
-                    setFuel(10000);
-                    entityData.set(CREATIVE_BLAZE_CAKE, true);
-                    playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
-                }
-            } else if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL)){
-                setFuel(10000);
+            } else if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL)) {
+                setFuel(12000);
                 if (!player.getAbilities().instabuild) {
                     itemStack.shrink(1);
                 }
                 playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+                spawnFireParticles(false, 1);
                 return InteractionResult.CONSUME;
+            } else if (itemStack.is(AllItems.BLAZE_CAKE)) {
+                setFuel(24000);
+                if (!player.getAbilities().instabuild) {
+                    itemStack.shrink(1);
+                }
+                playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+                spawnFireParticles(true, 1);
+                return InteractionResult.CONSUME;
+            } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE)) {
+                setFuel(getFuel() == -1 ? 24000 : -1);
+                playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+                spawnFireParticles(true, 3);
+                return InteractionResult.SUCCESS;
             } else {
                 updateCommand(player);
                 return InteractionResult.SUCCESS;
@@ -296,10 +298,11 @@ public class AnoleEntity extends AbstractRobot {
     }
 
     public ItemStack anoleItem() {
+        int i = getFuel() >= 0 ? getFuel() : 24001;
         ItemStack item = new ItemStack(BionicsItems.ANOLE.get());
         item.set(BionicsDataComponentTypes.VARIANT, getTypeVariant());
-        item.set(BionicsDataComponentTypes.MARKING, getTypeMarkings());
-        item.set(BionicsDataComponentTypes.FUEL, getFuel());
+        item.set(BionicsDataComponentTypes.MISC_INT, getTypeMarkings());
+        item.set(BionicsDataComponentTypes.FUEL, i);
         if (hasCustomName()) {
             item.set(BionicsDataComponentTypes.NAME, getDisplayName().getString());
         }

@@ -86,7 +86,7 @@ public class StalkerEntity extends AbstractRobot {
     protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
         super.dropCustomDeathLoot(level, damageSource, recentlyHit);
         if (random.nextFloat() < 0.2) {
-            spawnAtLocation(new ItemStack((ItemLike) BionicsItems.STALKER_BODY));
+            spawnAtLocation(new ItemStack((ItemLike) BionicsItems.ANOLE));
         }
     }
 

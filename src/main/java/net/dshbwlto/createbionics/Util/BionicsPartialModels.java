@@ -212,8 +212,13 @@ public class BionicsPartialModels {
 
     MATCHBOX_ITEM_0 = part("matchbox_item_0"),
             MATCHBOX_ITEM_1 = part("matchbox_item_1"),
-            MATCHBOX_ITEM_2 = part("matchbox_item_2");
+            MATCHBOX_ITEM_2 = part("matchbox_item_2"),
 
+    MATCHBOX_ITEM_GLOW_1 = part("matchbox_item_glow1"),
+            MATCHBOX_GLOW_ITEM_2 = part("matchbox_item_glow2"),
+            MATCHBOX_GLOW_ITEM_3 = part("matchbox_item_glow3"),
+
+    MATCHBOX_PREVIEW_TORCH = part("matchbox_preview_torch");
 
     private static PartialModel part(String path) {
         return PartialModel.of(CreateBionics.asResource("item/" + path));

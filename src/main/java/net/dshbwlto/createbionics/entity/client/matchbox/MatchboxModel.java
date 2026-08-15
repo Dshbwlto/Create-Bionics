@@ -20,6 +20,15 @@ public class MatchboxModel<T extends MatchboxEntity> extends HierarchicalModel<T
     private final ModelPart root_util;
     private final ModelPart root_alt;
 
+    private final ModelPart torch1;
+    private final ModelPart torch2;
+    private final ModelPart torch3;
+    private final ModelPart torch4;
+    private final ModelPart torch5;
+    private final ModelPart torch6;
+    private final ModelPart torch7;
+    private final ModelPart torch8;
+
     public MatchboxModel(ModelPart root) {
         this.root = root.getChild("root");
         this.root_util = this.root.getChild("root_util");
@@ -29,6 +38,15 @@ public class MatchboxModel<T extends MatchboxEntity> extends HierarchicalModel<T
 
         this.abdomen1 = this.root.getChild("root_util").getChild("body").getChild("abdomen1");
         this.abdomen2 = this.root.getChild("root_util").getChild("body").getChild("abdomen2");
+
+        this.torch1 = this.root.getChild("root_util").getChild("body").getChild("abdomen1").getChild("torch1");
+        this.torch2 = this.root.getChild("root_util").getChild("body").getChild("abdomen1").getChild("torch2");
+        this.torch3 = this.root.getChild("root_util").getChild("body").getChild("abdomen1").getChild("torch3");
+        this.torch4 = this.root.getChild("root_util").getChild("body").getChild("abdomen1").getChild("torch4");
+        this.torch5 = this.root.getChild("root_util").getChild("body").getChild("abdomen1").getChild("torch5");
+        this.torch6 = this.root.getChild("root_util").getChild("body").getChild("abdomen1").getChild("torch6");
+        this.torch7 = this.root.getChild("root_util").getChild("body").getChild("abdomen1").getChild("torch7");
+        this.torch8 = this.root.getChild("root_util").getChild("body").getChild("abdomen1").getChild("torch8");
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -107,6 +125,38 @@ public class MatchboxModel<T extends MatchboxEntity> extends HierarchicalModel<T
                 .texOffs(0, 14).addBox(-2.5F, -0.5F, 1.5F, 5.0F, 1.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(45, 3).addBox(-3.0F, -10.5F, 0.0F, 6.0F, 10.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offset(-5.0F, -0.5F, 10.75F));
 
+        PartDefinition torch1 = abdomen1.addOrReplaceChild("torch1", CubeListBuilder.create(), PartPose.offset(1.5F, -1.5F, 2.5F));
+
+        PartDefinition cube_r2 = torch1.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(42, 25).addBox(1.0F, -1.0F, -2.0F, 2.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, 0.0F, 0.0F, 0.0F, 0.0436F, 0.0F));
+
+        PartDefinition torch2 = abdomen1.addOrReplaceChild("torch2", CubeListBuilder.create(), PartPose.offset(-1.5F, -1.5F, 2.5F));
+
+        PartDefinition cube_r3 = torch2.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(42, 25).addBox(1.0F, -1.0F, -2.0F, 2.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.75F, 0.0F, 0.0F, 0.0F, -0.0436F, 0.0F));
+
+        PartDefinition torch3 = abdomen1.addOrReplaceChild("torch3", CubeListBuilder.create(), PartPose.offset(1.5F, -3.5F, 2.5F));
+
+        PartDefinition cube_r4 = torch3.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(42, 25).addBox(1.0F, -1.0F, -2.0F, 2.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, 0.0F, 0.0F, 0.0F, -0.0873F, 0.0F));
+
+        PartDefinition torch4 = abdomen1.addOrReplaceChild("torch4", CubeListBuilder.create(), PartPose.offset(-1.5F, -3.5F, 2.5F));
+
+        PartDefinition cube_r5 = torch4.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(42, 25).addBox(1.0F, -1.0F, -2.0F, 2.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.25F, 0.0F, 0.0F, 0.0F, 0.0436F, 0.0F));
+
+        PartDefinition torch5 = abdomen1.addOrReplaceChild("torch5", CubeListBuilder.create(), PartPose.offset(1.5F, -5.5F, 2.5F));
+
+        PartDefinition cube_r6 = torch5.addOrReplaceChild("cube_r6", CubeListBuilder.create().texOffs(42, 25).addBox(1.0F, -1.0F, -2.0F, 2.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.75F, 0.0F, 0.0F, 0.0F, -0.0436F, 0.0F));
+
+        PartDefinition torch6 = abdomen1.addOrReplaceChild("torch6", CubeListBuilder.create(), PartPose.offset(-1.5F, -5.5F, 2.5F));
+
+        PartDefinition cube_r7 = torch6.addOrReplaceChild("cube_r7", CubeListBuilder.create().texOffs(42, 25).addBox(1.0F, -1.0F, -2.0F, 2.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.25F, 0.0F, 0.0F, 0.0F, 0.1309F, 0.0F));
+
+        PartDefinition torch7 = abdomen1.addOrReplaceChild("torch7", CubeListBuilder.create(), PartPose.offset(1.5F, -7.5F, 2.5F));
+
+        PartDefinition cube_r8 = torch7.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(42, 25).addBox(1.0F, -1.0F, -2.0F, 2.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, 0.0F, 0.0F, 0.0F, -0.0873F, 0.0F));
+
+        PartDefinition torch8 = abdomen1.addOrReplaceChild("torch8", CubeListBuilder.create(), PartPose.offset(-1.5F, -7.5F, 2.5F));
+
+        PartDefinition cube_r9 = torch8.addOrReplaceChild("cube_r9", CubeListBuilder.create().texOffs(42, 25).addBox(1.0F, -1.0F, -2.0F, 2.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, 0.0F, 0.0F, 0.0F, 0.0436F, 0.0F));
+
         PartDefinition abdomen2 = body.addOrReplaceChild("abdomen2", CubeListBuilder.create().texOffs(14, 14).addBox(-3.5F, -0.5F, -0.5F, 7.0F, 2.0F, 12.0F, new CubeDeformation(0.0F))
                 .texOffs(5, 40).addBox(0.0F, -1.0F, -1.0F, 4.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
                 .texOffs(5, 40).mirror().addBox(-4.0F, -1.0F, -1.0F, 4.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
@@ -141,6 +191,15 @@ public class MatchboxModel<T extends MatchboxEntity> extends HierarchicalModel<T
 
         abdomen1.visible = entity.isPlaceable();
         abdomen2.visible = !entity.isPlaceable();
+
+        torch1.visible = entity.torchCount() > 0;
+        torch2.visible = entity.torchCount() >= (entity.maxCount / 8);
+        torch3.visible = entity.torchCount() >= (entity.maxCount / 8) * 2;
+        torch4.visible = entity.torchCount() >= (entity.maxCount / 8) * 3;
+        torch5.visible = entity.torchCount() >= (entity.maxCount / 8) * 4;
+        torch6.visible = entity.torchCount() >= (entity.maxCount / 8) * 5;
+        torch7.visible = entity.torchCount() >= (entity.maxCount / 8) * 6;
+        torch8.visible = entity.torchCount() >= (entity.maxCount / 8) * 7;
     }
 
     private void applyHeadRotation(float pNetHeadYaw, float pHeadPitch) {

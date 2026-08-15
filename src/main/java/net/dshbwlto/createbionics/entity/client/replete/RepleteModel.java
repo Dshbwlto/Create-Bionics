@@ -623,6 +623,13 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
         root_util.visible = !BionicsClientConfig.arachnophobia;
         root_alt.visible = BionicsClientConfig.arachnophobia;
 
+        leg3_l.visible = entity.getAssembly() >= 1;
+        leg3_r.visible = entity.getAssembly() >= 2;
+        leg2_l.visible = entity.getAssembly() >= 3;
+        leg2_r.visible = entity.getAssembly() >= 4;
+        leg_l.visible = entity.getAssembly() >= 5;
+        leg_r.visible = entity.getAssembly() >= 6;
+
         leg_l1.visible = entity.leg_l1.isColliding() && !entity.leg_l2.isColliding();
         leg_l2.visible = !entity.leg_l1.isColliding();
         leg_l3.visible = entity.leg_l1.isColliding() && entity.leg_l2.isColliding();

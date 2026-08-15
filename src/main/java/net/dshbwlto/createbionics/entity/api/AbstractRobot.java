@@ -3,11 +3,14 @@ package net.dshbwlto.createbionics.entity.api;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
+import com.simibubi.create.AllParticleTypes;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.api.equipment.goggles.IHaveHoveringInformation;
 import com.simibubi.create.foundation.sound.SoundScapes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -52,18 +55,13 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
         entityData.set(FUEL_TIME, fuel);
     }
     public boolean isFueled() {
-        return getFuel() > 0;
-    }
-    public static final EntityDataAccessor<Boolean> CREATIVE_BLAZE_CAKE =
-            SynchedEntityData.defineId(AbstractRobot.class, EntityDataSerializers.BOOLEAN);
-    public boolean hasBlazeCake() {
-        return entityData.get(CREATIVE_BLAZE_CAKE);
+        return getFuel() > 0 || getFuel() == -1;
     }
 
     public static final EntityDataAccessor<Integer> ASSEMBLY =
             SynchedEntityData.defineId(AbstractRobot.class, EntityDataSerializers.INT);
     public int getAssembly() {
-        return this.entityData.get(ASSEMBLY);
+        return isAddedToLevel() ? this.entityData.get(ASSEMBLY) : 1000;
     }
     public void setAssembly(int assembly) {
         this.entityData.set(ASSEMBLY, assembly);
@@ -175,7 +173,6 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
         builder.define(ASSEMBLY, 0);
         builder.define(VARIANT, 0);
         builder.define(FUEL_TIME, 0);
-        builder.define(CREATIVE_BLAZE_CAKE, false);
     }
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -185,7 +182,6 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
         compound.putInt("Assembly", this.entityData.get(ASSEMBLY));
         compound.putInt("Variant", this.entityData.get(VARIANT));
         compound.putInt("RefuelTime", this.getFuel());
-        compound.putBoolean("CreativeCake", this.hasBlazeCake());
     }
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
@@ -199,11 +195,10 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
         entityData.set(ASSEMBLY, compound.getInt("Assembly"));
         entityData.set(VARIANT, compound.getInt("Variant"));
         entityData.set(FUEL_TIME, compound.getInt("RefuelTime"));
-        entityData.set(CREATIVE_BLAZE_CAKE, compound.getBoolean("CreativeCake"));
     }
 
     public void sendFuelError(Player player) {
-        player.displayClientMessage(Component.translatable("entity.createbionics.all.fuel_warning"), true);
+        player.displayClientMessage(Component.translatable("entity.createbionics.all.fuel_warning1"), true);
         playSound(AllSoundEvents.DENY.getMainEvent(), 1, 0.2f);
 
     }
@@ -230,14 +225,13 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
         }
     }
 
-    //LEGS//
-
-    public BlockPos legPos() {
-        return this.getOnPos().north(4);
-    }
-
-    public float leg_y() {
-        return 0;
+    public void spawnFireParticles (boolean blue, int radius) {
+        ParticleOptions particle = blue ? ParticleTypes.SOUL_FIRE_FLAME : ParticleTypes.FLAME;
+        for (int i = -2; i <= 2; i++) {
+            for (int k = -2; k <= 2; k++) {
+                level().addParticle(particle, getX(), getY(), getZ(), i / 50f * radius, random.nextFloat() / 10, k/50f * radius);
+            }
+        }
     }
 
     //HOVER//

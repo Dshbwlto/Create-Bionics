@@ -1,0 +1,7 @@
+{
+	"parent": "createbionics:item/matchbox_item_glow1",
+	"textures": {
+		"1": "createbionics:item/entity/matchbox/matchbox_glow3",
+		"particle": "createbionics:item/entity/matchbox/matchbox_glow3"
+	}
+}

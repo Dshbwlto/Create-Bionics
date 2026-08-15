@@ -732,7 +732,7 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         neck.visible = entity.getAssembly() > 19;
         head.visible = entity.getAssembly() > 20;
 
-        stand.visible = entity.getAssembly() < 21;
+        stand.visible = entity.isAddedToLevel() && entity.getAssembly() < 21;
 
         leg_l_p.y = !entity.leg_l1.isColliding() ? -64 : entity.leg_l1.isColliding() && !entity.leg_l2.isColliding() ? -80 : -96;
 

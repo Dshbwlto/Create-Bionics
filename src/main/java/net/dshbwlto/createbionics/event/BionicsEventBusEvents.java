@@ -1,6 +1,7 @@
 
 package net.dshbwlto.createbionics.event;
 
+import net.createmod.catnip.animation.AnimationTickHolder;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
@@ -15,6 +16,7 @@ import net.dshbwlto.createbionics.entity.client.stalker.StalkerModel;
 import net.dshbwlto.createbionics.entity.client.stalker_captain.StalkerCaptainModel;
 import net.dshbwlto.createbionics.entity.custom.*;
 import net.dshbwlto.createbionics.item.BionicsItems;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.animal.Sheep;
@@ -122,10 +124,10 @@ public class BionicsEventBusEvents {
 
     @SubscribeEvent
     public static void deployAnimation(EntityJoinLevelEvent event) {
-        if (event.getEntity() instanceof SeekerEntity seekerEntity) {
+        if (event.getEntity() instanceof SeekerEntity seekerEntity && AnimationTickHolder.getTicks() != 0) {
             seekerEntity.deployAnimationState.start(seekerEntity.tickCount);
         }
-        if (event.getEntity() instanceof MatchboxEntity matchboxEntity) {
+        if (event.getEntity() instanceof MatchboxEntity matchboxEntity && AnimationTickHolder.getTicks() != 0) {
             matchboxEntity.deployAnimationState.start(matchboxEntity.tickCount);
         }
     }

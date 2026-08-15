@@ -230,7 +230,7 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity<RepleteEntity>
     }
 
     public void aiStep() {
-        if (getFuel() > 0 && getAssembly() == 12 && this.level().isClientSide) {
+        if (isFueled() && this.level().isClientSide) {
             for (int i = 0; i < 1; ++i) {
                 this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX((double) 0.5F), this.getRandomY(), this.getRandomZ((double) 0.5F), (double) 0.0F, (double) 0.0F, (double) 0.0F);
             }
@@ -248,16 +248,6 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity<RepleteEntity>
                     level().setBlock(blockpos, Blocks.AIR.defaultBlockState(), 11);
                     FLUID_TANK.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
                     playSound(SoundEvents.BUCKET_FILL);
-                }
-            }
-        }
-
-        if (!getSynchedFluid().isEmpty() && getSynchedFluid().getAmount() > 0) {
-            AABB aabb = this.getBoundingBox().inflate(0.2);
-            for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
-                    Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-                if (level().getBlockEntity(blockpos) instanceof ItemDrainBlockEntity itemDrainBlock && !level().getCapability(Capabilities.FluidHandler.BLOCK, blockpos, Direction.DOWN).getFluidInTank(0).isEmpty()) {
-                    level().getCapability(Capabilities.FluidHandler.BLOCK, blockpos, Direction.DOWN).drain(getSynchedFluid(), IFluidHandler.FluidAction.EXECUTE);
                 }
             }
         }
@@ -322,8 +312,8 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity<RepleteEntity>
             this.setupAnimationStates();
         }
 
-        if (isFueled() || hasBlazeCake()) {
-            playSoundScape(2, 6);
+        if (!isSitting() && !isPassenger() && getFuel() > 0) {
+            setFuel(getFuel() - 1);
         }
 
         if (!isSitting() && !isPassenger()) {
@@ -426,28 +416,27 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity<RepleteEntity>
             } else {
                 itemStack.shrink(1);
             }
+        } else if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL)) {
+            setFuel(12000);
+            if (!player.getAbilities().instabuild) {
+                itemStack.shrink(1);
+            }
+            playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+            spawnFireParticles(false, 3);
+            return InteractionResult.CONSUME;
+        } else if (itemStack.is(AllItems.BLAZE_CAKE)) {
+            setFuel(24000);
+            if (!player.getAbilities().instabuild) {
+                itemStack.shrink(1);
+            }
+            playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+            spawnFireParticles(true, 3);
+            return InteractionResult.CONSUME;
         } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE)) {
-            if (hasBlazeCake()) {
-                entityData.set(CREATIVE_BLAZE_CAKE, false);
-            } else {
-                setFuel(25000);
-                entityData.set(CREATIVE_BLAZE_CAKE, true);
-                playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
-            }
-        } else if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL) || itemStack.is(AllItems.BLAZE_CAKE) && !isInWater()) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                if (!player.getAbilities().instabuild) {
-                    itemStack.shrink(1);
-                }
-                if (itemStack.is(AllItems.BLAZE_CAKE)) {
-                    setFuel(25000);
-                } else {
-                    setFuel(10000);
-                }
-                makeSound(SoundEvents.FIRECHARGE_USE);
-            }
+            setFuel(getFuel() == -1 ? 24000 : -1);
+            playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+            spawnFireParticles(true, 3);
+            return InteractionResult.SUCCESS;
         } else if (itemStack.is(AllItems.WRENCH)) {
             if (!level().isClientSide) {
                 if (getVariant() != RepleteVariant.COPPER) {

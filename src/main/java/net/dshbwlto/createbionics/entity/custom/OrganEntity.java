@@ -83,15 +83,15 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
 
     @Override
     protected RobotPartEntity<OrganEntity>[] createParts() {
-        this.chest = new RobotPartEntity<>(this, 3f, 3f, 0f, 3f, 3.5f, BionicsItems.ORGAN_CHEST.get(), false);
-        this.neck = new RobotPartEntity<>(this, 2.5f, 2.5f, 0f, 3.3f, 6.7f, BionicsItems.ORGAN_NECK.get(), false);
-        this.head = new RobotPartEntity<>(this, 2.5f, 2f, 0f, 3f, 9.8f, BionicsItems.ORGAN_HEAD.get(), false);
+        this.chest = new RobotPartEntity<>(this, 3f, 3f, 0f, 3f, 3.5f, BionicsItems.ANOLE.get(), false);
+        this.neck = new RobotPartEntity<>(this, 2.5f, 2.5f, 0f, 3.3f, 6.7f, BionicsItems.ANOLE.get(), false);
+        this.head = new RobotPartEntity<>(this, 2.5f, 2f, 0f, 3f, 9.8f, BionicsItems.ANOLE.get(), false);
 
-        this.tail1a = new RobotPartEntity<>(this, 2.5f, 2.5f, 0f, 3.8f, -3.2f, BionicsItems.ORGAN_TAIL_BASE.get(), false);
-        this.tail1b = new RobotPartEntity<>(this, 2.5f, 2.5f, 0f, 3.6f, -5.7f, BionicsItems.ORGAN_TAIL_BASE.get(), false);
-        this.tail2a = new RobotPartEntity<>(this, 2f, 2f, 0f, 3.9f, -7.9f, BionicsItems.ORGAN_TAIL_END.get(), false);
-        this.tail2b = new RobotPartEntity<>(this, 2f, 2f, 0f, 4f, -9.9f, BionicsItems.ORGAN_TAIL_END.get(), false);
-        this.tail2c = new RobotPartEntity<>(this, 2f, 2f, 0f, 4.1f, -11.9f, BionicsItems.ORGAN_TAIL_END.get(), false);
+        this.tail1a = new RobotPartEntity<>(this, 2.5f, 2.5f, 0f, 3.8f, -3.2f, BionicsItems.ANOLE.get(), false);
+        this.tail1b = new RobotPartEntity<>(this, 2.5f, 2.5f, 0f, 3.6f, -5.7f, BionicsItems.ANOLE.get(), false);
+        this.tail2a = new RobotPartEntity<>(this, 2f, 2f, 0f, 3.9f, -7.9f, BionicsItems.ANOLE.get(), false);
+        this.tail2b = new RobotPartEntity<>(this, 2f, 2f, 0f, 4f, -9.9f, BionicsItems.ANOLE.get(), false);
+        this.tail2c = new RobotPartEntity<>(this, 2f, 2f, 0f, 4.1f, -11.9f, BionicsItems.ANOLE.get(), false);
 
         this.leg_l1 = new GroundLevelSamplerPartEntity(this, 1, 1, 2, 0, 0, getPickResult().getItem());
         this.leg_r1 = new GroundLevelSamplerPartEntity(this, 1, 1, -2, 0, 0, getPickResult().getItem());
@@ -158,7 +158,7 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
 
     @Override
     public @Nullable ItemStack getPickResult() {
-        return BionicsItems.ORGAN_MIDDLE.asStack();
+        return BionicsItems.ANOLE.asStack();
     }
 
     /* ANIMATIONS */
@@ -300,7 +300,7 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         ///   Not yet, hotshot
-        //builder.define(GLOW_COLOR, 0);
+        builder.define(GLOW_COLOR, 0);
     }
 
     @Override
@@ -426,7 +426,7 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
                     head.setDimensions(0, 0);
                 }
             } else {
-                spawnAtLocation(new ItemStack(BionicsItems.ORGAN_MIDDLE.get()));
+                spawnAtLocation(new ItemStack(BionicsItems.ANOLE.get()));
                 remove(RemovalReason.DISCARDED);
             }
             return InteractionResult.SUCCESS;
@@ -519,13 +519,13 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
         } else if (getAssembly() == 2 || getAssembly() == 3) {
             return (AllBlocks.METAL_GIRDER.asItem());
         } else if (getAssembly() == 4 || getAssembly() == 5) {
-            return BionicsItems.ORGAN_FOOT.get();
+            return BionicsItems.ANOLE.get();
         } else if (getAssembly() == 6) {
-            return BionicsItems.ORGAN_TAIL_BASE.get();
+            return BionicsItems.ANOLE.get();
         } else if (getAssembly() == 7) {
-            return BionicsItems.ORGAN_TAIL_END.get();
+            return BionicsItems.ANOLE.get();
         } else if (getAssembly() == 8) {
-            return BionicsItems.ORGAN_CHEST.get();
+            return BionicsItems.ANOLE.get();
         } else if (getAssembly() == 9 ||
                 getAssembly() == 10 ||
                 getAssembly() == 11 ||
@@ -534,13 +534,13 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
                 getAssembly() == 14 ||
                 getAssembly() == 15 ||
                 getAssembly() == 16) {
-            return BionicsItems.ORGAN_PISTON.get();
+            return BionicsItems.ANOLE.get();
         } else if (getAssembly() == 17 || getAssembly() == 18) {
-            return BionicsItems.ORGAN_BELLOWS.get();
+            return BionicsItems.ANOLE.get();
         } else if (getAssembly() == 19) {
-            return BionicsItems.ORGAN_NECK.get();
+            return BionicsItems.ANOLE.get();
         } else if (getAssembly() == 20) {
-            return BionicsItems.ORGAN_HEAD.get();
+            return BionicsItems.ANOLE.get();
         } else {
             return (AllBlocks.STEAM_WHISTLE.asItem());
         }

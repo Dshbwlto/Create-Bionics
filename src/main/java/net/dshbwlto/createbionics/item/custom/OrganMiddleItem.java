@@ -1,18 +1,11 @@
 
 package net.dshbwlto.createbionics.item.custom;
 
-import com.simibubi.create.foundation.item.render.SimpleCustomRenderer;
-import net.dshbwlto.createbionics.component.BionicsDataComponentTypes;
-import net.dshbwlto.createbionics.entity.api.AbstractRobot;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
-import net.dshbwlto.createbionics.entity.custom.AnoleEntity;
 import net.dshbwlto.createbionics.entity.custom.OrganEntity;
 import net.dshbwlto.createbionics.item.api.RobotSpawnerItem;
-import net.dshbwlto.createbionics.item.client.AnoleItemRenderer;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;

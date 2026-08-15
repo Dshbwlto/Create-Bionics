@@ -175,7 +175,7 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntit
 
     @Override
     protected @Nullable SoundEvent getAmbientSound() {
-        if (getFuel() > 0) {
+        if (isFueled()) {
             if (tickCount % 2 == 0) {
                 if (tickCount % 4 == 0) {
                     return BionicsSounds.OXHAULER_BELLOW_1.get();
@@ -234,14 +234,6 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntit
         }
     }
 
-    public Item randomSalvage() {
-        if (random.nextBoolean()) {
-            return AllItems.ANDESITE_ALLOY.get();
-        } else {
-            return AllBlocks.SHAFT.asItem();
-        }
-    }
-
     public static AttributeSupplier.Builder createAttributes() {
         return Animal.createLivingAttributes()
                 .add(Attributes.MAX_HEALTH, 50D)
@@ -259,7 +251,7 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntit
         } else {
             --this.idleAnimationTimeout;
         }
-        if (random.nextFloat() < 0.001 && getFuel() > 0) {
+        if (random.nextFloat() < 0.001 && isFueled()) {
             if (tickCount % 3 == 0) {
                 this.idleAnimation1.start(this.tickCount);
                 idleAnimationTimeout = 220;
@@ -273,12 +265,6 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntit
         }
     }
 
-    public void sendFuelError(Player player) {
-        player.displayClientMessage(Component.translatable("entity.createbionics.all.fuel_warning"), true);
-        playSound(AllSoundEvents.DENY.getMainEvent(), 1, 0.2f);
-
-    }
-
     public long getPoseTime() {
         return this.level().getGameTime() - Math.abs(this.entityData.get(LAST_POSE_CHANGE_TICK));
     }
@@ -287,14 +273,14 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntit
     public void tick() {
         super.tick();
 
-        if (isInWater() && getFuel() > 0) {
+        if (isInWater() && isFueled()) {
             setFuel(0);
             playSound(SoundEvents.FIRE_EXTINGUISH);
             ejectPassengers();
         }
-        if (getFuel() > 0) {
+        if (isFueled()) {
             playSoundScape(2, 3);
-            if (isVehicle() && !hasBlazeCake()) {
+            if (isVehicle() && getFuel() > 0) {
                 setFuel(getFuel() - 1);
             }
             if (isInWater()) {
@@ -330,31 +316,27 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntit
                 itemStack.shrink(1);
                 player.addItem(new ItemStack(BionicsItems.WALTZ_2_MUSIC_DISC.get()));
             }
-        } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE) && getAssembly() == 3) {
-            if (hasBlazeCake()) {
-                entityData.set(CREATIVE_BLAZE_CAKE, false);
-            } else {
-                setFuel(10000);
-                entityData.set(CREATIVE_BLAZE_CAKE, true);
-                playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+        } else if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL)) {
+            setFuel(12000);
+            if (!player.getAbilities().instabuild) {
+                itemStack.shrink(1);
             }
-        } else if ((itemStack.is(Items.COAL)
-                || itemStack.is(Items.CHARCOAL)
-                || itemStack.is(AllItems.BLAZE_CAKE))
-                && !isInWater() && getAssembly() == 3) {
-            if (this.level().isClientSide()) {
-                return InteractionResult.CONSUME;
-            } else {
-                if (!player.getAbilities().instabuild) {
-                    itemStack.shrink(1);
-                }
-                if (itemStack.is(AllItems.BLAZE_CAKE)) {
-                    setFuel(25000);
-                } else {
-                    setFuel(10000);
-                }
-                makeSound(SoundEvents.FIRECHARGE_USE);
+            playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+            spawnFireParticles(false, 3);
+            return InteractionResult.CONSUME;
+        } else if (itemStack.is(AllItems.BLAZE_CAKE)) {
+            setFuel(24000);
+            if (!player.getAbilities().instabuild) {
+                itemStack.shrink(1);
             }
+            playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+            spawnFireParticles(true, 3);
+            return InteractionResult.CONSUME;
+        } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE)) {
+            setFuel(getFuel() == -1 ? 24000 : -1);
+            playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+            spawnFireParticles(true, 3);
+            return InteractionResult.SUCCESS;
         } else if (itemStack.is(AllBlocks.MECHANICAL_HARVESTER.asItem()) && !isPlough() && !isHarvester()) {
             if (this.level().isClientSide) {
                 return InteractionResult.CONSUME;
@@ -375,7 +357,7 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntit
                 itemStack.shrink(1);
             }
             playSound(SoundEvents.NETHERITE_BLOCK_PLACE);
-            if (getAssembly() < 7) {
+            if (getAssembly() < 3) {
                 player.displayClientMessage(Component.translatable("entity.createbionics.all.assembly", getPart().getDescription().getString()), true);
             }
             return InteractionResult.SUCCESS;
@@ -424,7 +406,7 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntit
             } else {
                 itemStack.shrink(1);
             }
-        } else if (getFuel() > 0) {
+        } else if (isFueled()) {
             if (player.isShiftKeyDown()){
                 openCustomInventoryScreen(player);
             } else {
@@ -576,7 +558,7 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntit
             return BionicsItems.OXHAULER_REAR.get();
         } else if (getAssembly() == 1) {
             return BionicsItems.OXHAULER_FRONT.get();
-        } else  {
+        } else {
             return BionicsItems.OXHAULER_HEAD.get();
         }
     }

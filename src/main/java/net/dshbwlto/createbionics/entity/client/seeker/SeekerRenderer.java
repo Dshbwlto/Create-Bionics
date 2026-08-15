@@ -62,7 +62,7 @@ public class SeekerRenderer extends MobRenderer<SeekerEntity, SeekerModel<Seeker
         ItemStack stack = entity.displayStack;
 
         poseStack.pushPose();
-        poseStack.translate(0, 1, 0);
+        poseStack.translate(0, 0.75 + Math.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 12) / 16, 0);
         poseStack.scale(0.5f, 0.5f, 0.5f);
         poseStack.mulPose(Axis.YP.rotationDegrees(AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()));
 

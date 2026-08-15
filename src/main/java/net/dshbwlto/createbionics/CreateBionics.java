@@ -7,7 +7,7 @@ import net.createmod.catnip.lang.FontHelper;
 import net.dshbwlto.createbionics.Util.BionicsEntityDataSerializers;
 import net.dshbwlto.createbionics.Util.BionicsPartialModels;
 import net.dshbwlto.createbionics.block.BionicsBlocks;
-import net.dshbwlto.createbionics.component.BionicsDataComponentTypes;
+import net.dshbwlto.createbionics.Util.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleRenderer;
 import net.dshbwlto.createbionics.entity.client.golem.GolemRenderer;
@@ -83,23 +83,6 @@ public class CreateBionics {
     }
 
     private static final ItemLike[] excludedItemsList = new ItemLike[]{
-            BionicsItems.SEEKER,
-            BionicsItems.MATCHBOX,
-            BionicsItems.ORGAN_MIDDLE,
-            BionicsItems.ORGAN_FOOT,
-            BionicsItems.ORGAN_TAIL_BASE,
-            BionicsItems.ORGAN_TAIL_END,
-            BionicsItems.ORGAN_CHEST,
-            BionicsItems.ORGAN_PISTON,
-            BionicsItems.ORGAN_BELLOWS,
-            BionicsItems.ORGAN_NECK,
-            BionicsItems.ORGAN_HEAD,
-            BionicsItems.ORGAN_CHIMNEY,
-            BionicsItems.STALKER_BODY,
-            BionicsItems.STALKER_ANTENNA,
-            BionicsItems.STALKER_HEAD,
-            BionicsItems.STALKER_LEG,
-            BionicsItems.STALKER_TAIL,
             BionicsItems.INVENTORY_PREVIEW,
     };
 

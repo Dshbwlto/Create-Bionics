@@ -1,8 +1,6 @@
-package net.dshbwlto.createbionics.component;
+package net.dshbwlto.createbionics.Util;
 
-import com.mojang.serialization.Codec;
 import net.dshbwlto.createbionics.CreateBionics;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.ExtraCodecs;
@@ -19,7 +17,7 @@ public class BionicsDataComponentTypes {
     public static DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> VARIANT = register("variant",
             buider -> buider.persistent(ExtraCodecs.NON_NEGATIVE_INT));
 
-    public static DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MARKING = register("marking",
+    public static DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MISC_INT = register("misc_int",
             buider -> buider.persistent(ExtraCodecs.NON_NEGATIVE_INT));
 
     public static DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FUEL = register("fuel",
@@ -27,6 +25,9 @@ public class BionicsDataComponentTypes {
 
     public static DeferredHolder<DataComponentType<?>, DataComponentType<String>> NAME = register("name",
             buider -> buider.persistent(ExtraCodecs.NON_EMPTY_STRING));
+
+    public static DeferredHolder<DataComponentType<?>, DataComponentType<String>> PLAYER = register("player",
+            buider -> buider.persistent(ExtraCodecs.RESOURCE_PATH_CODEC));
 
     private static <T>DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
         return DATA_COMPONENT_TYPES.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());

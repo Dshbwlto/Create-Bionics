@@ -49,6 +49,7 @@ public class BionicsItems {
     public static final ItemEntry<Item> REPLETE_LEG = REGISTRATE.item("replete_leg_item",
             Item::new).properties(properties -> properties.stacksTo(16)).register();
 
+    /*
     public static final ItemEntry<SpawnEggItem> STALKER_BODY = REGISTRATE.item("stalker_body_item",
             properties -> new SpawnEggItem(BionicsEntities.STALKER.get(), 0xFFFFFF, 0xFFFFFF, properties.stacksTo(1))).register();
     public static final ItemEntry<Item> STALKER_LEG = REGISTRATE.item("stalker_leg_item",
@@ -80,7 +81,7 @@ public class BionicsItems {
             .properties(properties -> properties.stacksTo(1)).register();
     public static final ItemEntry<Item> ORGAN_CHIMNEY = REGISTRATE.item("organ_chimney_item", Item::new)
             .properties(properties -> properties.stacksTo(1)).register();
-
+*/
     public static final ItemEntry<Item> OXHAULER_ENGINE = REGISTRATE.item("oxhauler_engine_item",
             Item::new).properties(properties -> properties.stacksTo(1)).register();
 

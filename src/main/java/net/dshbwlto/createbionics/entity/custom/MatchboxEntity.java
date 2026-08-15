@@ -2,7 +2,7 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
-import net.dshbwlto.createbionics.component.BionicsDataComponentTypes;
+import net.dshbwlto.createbionics.Util.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
 import net.dshbwlto.createbionics.entity.client.matchbox.MatchboxVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -41,6 +42,7 @@ public class MatchboxEntity extends AbstractRobot {
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
     private int collapseCountdown = -1;
+    public int maxCount = 256;
 
     public final AnimationState sitDownAnimationState = new AnimationState();
     public final AnimationState sitPoseAnimationState = new AnimationState();
@@ -62,6 +64,15 @@ public class MatchboxEntity extends AbstractRobot {
         if (level().isClientSide) {
             player.displayClientMessage(Component.translatable("entity.createbionics.all.place." + isPlaceable(), this.getDisplayName()), true);
         }
+    }
+
+    public static final EntityDataAccessor<Integer> TORCHES =
+            SynchedEntityData.defineId(MatchboxEntity.class, EntityDataSerializers.INT);
+    public int torchCount() {
+        return entityData.get(TORCHES);
+    }
+    public void setTorchCount(int count) {
+        entityData.set(TORCHES, count);
     }
 
     public MatchboxEntity(EntityType<? extends AbstractRobot> entityType, Level level) {
@@ -109,7 +120,7 @@ public class MatchboxEntity extends AbstractRobot {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Animal.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 5D)
+                .add(Attributes.MAX_HEALTH, 10D)
                 .add(Attributes.MOVEMENT_SPEED, 0.4)
                 .add(Attributes.ATTACK_DAMAGE, 2f)
                 .add(Attributes.FOLLOW_RANGE, 7D)
@@ -189,6 +200,7 @@ public class MatchboxEntity extends AbstractRobot {
                     }
                     if (!level().getBlockState(blockPos.below()).isAir()) {
                         level().setBlock(blockPos, Blocks.TORCH.defaultBlockState(), 11);
+                        setTorchCount(torchCount() - 1);
                     }
                 }
             }
@@ -198,11 +210,10 @@ public class MatchboxEntity extends AbstractRobot {
             this.setupAnimationStates();
         }
 
-        if (!isSitting() && !isPassenger() && !hasBlazeCake()) {
-            if (getFuel() > 0) {
-                setFuel(getFuel() - 1);
-            }
+        if (!isSitting() && !isPassenger() && getFuel() > 0) {
+            setFuel(getFuel() - 1);
         }
+
 
         if (this.horizontalCollision) {
             Vec3 initialVec = this.getDeltaMovement();
@@ -247,22 +258,50 @@ public class MatchboxEntity extends AbstractRobot {
                     setVariant(MatchboxVariant.ANDESITE);
                 }
                 return InteractionResult.SUCCESS;
-            } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE)) {
-                if (hasBlazeCake()) {
-                    entityData.set(CREATIVE_BLAZE_CAKE, false);
-                } else {
-                    setFuel(10000);
-                    entityData.set(CREATIVE_BLAZE_CAKE, true);
-                    playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
-                }
-                return InteractionResult.SUCCESS;
             } else if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL)) {
-                setFuel(10000);
-                playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+                setFuel(12000);
                 if (!player.getAbilities().instabuild) {
                     itemStack.shrink(1);
                 }
+                playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+                spawnFireParticles(false, 3);
                 return InteractionResult.CONSUME;
+            } else if (itemStack.is(AllItems.BLAZE_CAKE)) {
+                setFuel(24000);
+                if (!player.getAbilities().instabuild) {
+                    itemStack.shrink(1);
+                }
+                playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+                spawnFireParticles(true, 3);
+                return InteractionResult.CONSUME;
+            } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE)) {
+                setFuel(getFuel() == -1 ? 24000 : -1);
+                playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
+                spawnFireParticles(true, 3);
+                return InteractionResult.SUCCESS;
+            } else if (itemStack.is(Items.TORCH)) {
+                int size = itemStack.getCount();
+                int space = maxCount - torchCount();
+                if (space < size) {
+                    size = space;
+                }
+                if (space != 0) {
+                    setTorchCount(torchCount() + size);
+                    if (!player.getAbilities().instabuild) {
+                        itemStack.shrink(size);
+                    }
+                    int color = torchCount() == maxCount ? 5635925 : 16777215;
+                    player.displayClientMessage(Component.translatable("entity.createbionics.all.torch").setStyle(Style.EMPTY.withColor(color))
+                            .append("" + torchCount()).setStyle(Style.EMPTY.withColor(color)), true);
+                    if (torchCount() == maxCount) {
+                        playSound(AllSoundEvents.CONFIRM.getMainEvent());
+                    }
+                    return InteractionResult.SUCCESS;
+                } else {
+                    player.displayClientMessage(Component.translatable("entity.createbionics.all.torch_full"), true);
+                    playSound(AllSoundEvents.DENY.getMainEvent());
+                    return InteractionResult.SUCCESS;
+                }
             } else {
                 if (player.isShiftKeyDown()) {
                     togglePlaceable(player);
@@ -277,16 +316,22 @@ public class MatchboxEntity extends AbstractRobot {
     }
 
     public ItemStack matchboxItem() {
+        int i = getFuel() >= 0 ? getFuel() : 24001;
         ItemStack item = new ItemStack(BionicsItems.MATCHBOX.get());
         item.set(BionicsDataComponentTypes.VARIANT, getTypeVariant());
-        item.set(BionicsDataComponentTypes.FUEL, getFuel());
+        item.set(BionicsDataComponentTypes.MISC_INT, torchCount());
+        item.set(BionicsDataComponentTypes.FUEL, i);
+        if (hasCustomName()) {
+            item.set(BionicsDataComponentTypes.NAME, getDisplayName().getString());
+        }
         return item;
     }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        //builder.define(PLACEABLE, true);
+        builder.define(PLACEABLE, true);
+        builder.define(TORCHES, 0);
         /// just stop.
     }
 
@@ -294,12 +339,14 @@ public class MatchboxEntity extends AbstractRobot {
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("Placeable", this.isPlaceable());
+        compound.putInt("Torches", this.torchCount());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.entityData.set(PLACEABLE, compound.getBoolean("Placeable"));
+        this.entityData.set(TORCHES, compound.getInt("Torches"));
     }
 
     //VARIANT//

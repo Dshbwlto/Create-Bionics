@@ -9,13 +9,11 @@ import com.simibubi.create.foundation.item.render.PartialItemModelRenderer;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.dshbwlto.createbionics.CreateBionics;
-import net.dshbwlto.createbionics.component.BionicsDataComponentTypes;
+import net.dshbwlto.createbionics.Util.BionicsDataComponentTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-
-import java.util.Objects;
 
 public class AnoleItemRenderer extends CustomRenderedItemModelRenderer {
 
@@ -25,7 +23,7 @@ public class AnoleItemRenderer extends CustomRenderedItemModelRenderer {
         float tailYaw = Mth.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 20) / 10;
 
         int variant = stack.get(BionicsDataComponentTypes.VARIANT.get()) != null ? stack.get(BionicsDataComponentTypes.VARIANT.get()) : 0;
-        int marking = stack.get(BionicsDataComponentTypes.MARKING.get()) != null ? stack.get(BionicsDataComponentTypes.MARKING.get()) : 0;
+        int marking = stack.get(BionicsDataComponentTypes.MISC_INT.get()) != null ? stack.get(BionicsDataComponentTypes.MISC_INT.get()) : 0;
         String s = stack.get(BionicsDataComponentTypes.NAME.get());
         int hat = ("Distinguished Gentleman".equals(s) || "Bill".equals(s)) ? 1
                 : "Timmy".equals(s) ? 2
