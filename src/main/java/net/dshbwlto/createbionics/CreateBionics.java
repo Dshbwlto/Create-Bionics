@@ -84,6 +84,8 @@ public class CreateBionics {
 
     private static final ItemLike[] excludedItemsList = new ItemLike[]{
             BionicsItems.INVENTORY_PREVIEW,
+            BionicsItems.MATCHBOX,
+            BionicsItems.SEEKER,
     };
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);

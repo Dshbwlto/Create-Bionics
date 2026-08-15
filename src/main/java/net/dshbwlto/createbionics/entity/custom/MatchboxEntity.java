@@ -330,9 +330,9 @@ public class MatchboxEntity extends AbstractRobot {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(PLACEABLE, true);
-        builder.define(TORCHES, 0);
         /// just stop.
+        //builder.define(PLACEABLE, true);
+        //builder.define(TORCHES, 0);
     }
 
     @Override
