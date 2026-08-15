@@ -3,6 +3,7 @@ package net.dshbwlto.createbionics.entity.part;
 import com.simibubi.create.AllBlocks;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
 import net.dshbwlto.createbionics.entity.custom.OxhaulerEntity;
+import net.dshbwlto.createbionics.integration.FarmersDelight;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -63,6 +64,10 @@ public class OxhaulerPloughPartEntity extends RobotPartEntity{
                 Block block = blockstate.getBlock();
                 if (block.equals(Blocks.DIRT) || block.equals(Blocks.GRASS_BLOCK) || block.equals(Blocks.DIRT_PATH) || block.equals(Blocks.COARSE_DIRT)) {
                     level().setBlock(blockpos, Blocks.FARMLAND.defaultBlockState(), 11);
+                    playSound(SoundEvents.HOE_TILL);
+                }
+                if (FarmersDelight.isLoaded() && blockstate.is(FarmersDelight.richSoil())) {
+                    level().setBlock(blockpos, FarmersDelight.richSoilFarmland().defaultBlockState(), 11);
                     playSound(SoundEvents.HOE_TILL);
                 }
             }
