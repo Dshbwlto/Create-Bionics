@@ -4,12 +4,6 @@
   "item.createbionics.robot_builder.tooltip.condition1": "When used on an incomplete robot",
   "item.createbionics.robot_builder.tooltip.behaviour1": "Advances the construction sequence by _one_",
 
-
-  "item.createbionics.anole_body_item": "Anole Body",
-  "item.createbionics.anole_head_item": "Anole Head",
-  "item.createbionics.anole_leg_item": "Anole Leg",
-  "item.createbionics.anole_tail_item": "Anole Tail",
-
   "item.createbionics.anole_item": "Anole",
   "item.createbionics.anole_item.tooltip.summary": "A small robot that _scares bugs_ and uses _charcoal_ as fuel.",
   "item.createbionics.anole_item.tooltip.condition1": "R-Click item on ground",
@@ -85,7 +79,6 @@
 
   "item.createbionics.waltz_2_music_disc": "Music Disc",
   "item.createbionics.waltz_2_music_disc.desc": "Dmitri Shostakovich - Waltz No. 2",
-  "item.createbionics.simple_engine": "Simple Engine",
 
   "painting.createbionics.ares.title": "Ares",
   "painting.createbionics.ares.author": "Dshbwlto",

@@ -4,11 +4,6 @@
   "item.createbionics.robot_builder.tooltip.condition1": "При использовании на незавершенном роботе",
   "item.createbionics.robot_builder.tooltip.behaviour1": "Продвигает последовательность сборки на _один_ этап.",
 
-  "item.createbionics.anole_body_item": "Туловище Анолиса",
-  "item.createbionics.anole_head_item": "Голова Анолиса",
-  "item.createbionics.anole_leg_item": "Нога Анолиса",
-  "item.createbionics.anole_tail_item": "Хвост Анолиса",
-
   "item.createbionics.anole_item": "Анолис",
   "item.createbionics.anole_item.tooltip.summary": "Маленький робот, который _отпугивает насекомых_ и использует _древесный уголь_ в качестве топлива.",
   "item.createbionics.anole_item.tooltip.condition1": "Когда использован по поверхности",
@@ -84,7 +79,6 @@
 
   "item.createbionics.waltz_2_music_disc": "Пластинка",
   "item.createbionics.waltz_2_music_disc.desc": "Дмитрий Шостакович — Вальс № 2",
-  "item.createbionics.simple_engine": "Простой двигатель",
 
   "painting.createbionics.ares.title": "Арес",
   "painting.createbionics.ares.author": "Dshbwlto",
