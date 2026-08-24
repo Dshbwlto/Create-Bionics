@@ -37,9 +37,9 @@ public class BionicsItems {
 
     public static final ItemEntry<OxhaulerMiddleItem> OXHAULER_MIDDLE = REGISTRATE.item("oxhauler_middle_item",
             properties -> new OxhaulerMiddleItem(BionicsEntities.OXHAULER.get(), 0xFFFFFF, 0xFFFFFF, properties.stacksTo(1))).register();
-    public static final ItemEntry<Item> OXHAULER_FRONT = REGISTRATE.item("oxhauler_front_item",
-            Item::new).properties(properties -> properties.stacksTo(1)).register();
     public static final ItemEntry<Item> OXHAULER_REAR = REGISTRATE.item("oxhauler_rear_item",
+            Item::new).properties(properties -> properties.stacksTo(1)).register();
+    public static final ItemEntry<Item> OXHAULER_FRONT = REGISTRATE.item("oxhauler_front_item",
             Item::new).properties(properties -> properties.stacksTo(1)).register();
     public static final ItemEntry<OxhaulerHeadItem> OXHAULER_HEAD = REGISTRATE.item("oxhauler_head_item",
             OxhaulerHeadItem::new).properties(properties -> properties.stacksTo(1)).register();

@@ -1,5 +1,5 @@
 {
-
+  "item.createbionics.robot_builder": "Robot Builder",
   "item.createbionics.robot_builder.tooltip.summary": "A quick way to _construct robots_ in creative mode.",
   "item.createbionics.robot_builder.tooltip.condition1": "When used on an incomplete robot",
   "item.createbionics.robot_builder.tooltip.behaviour1": "Advances the construction sequence by _one_",
@@ -60,11 +60,11 @@
   "item.createbionics.oxhauler_head_item.tooltip.condition1": "When used on an incomplete Oxhauler",
   "item.createbionics.oxhauler_head_item.tooltip.behaviour1": "Advances the construction sequence by _one_.",
   "item.createbionics.oxhauler_front_item": "Oxhauler Front",
-  "item.createbionics.oxhauler_front_item.tooltip.summary": "The _First_ part of the _Oxhauler_ build sequence.",
+  "item.createbionics.oxhauler_front_item.tooltip.summary": "The _Second_ part of the _Oxhauler_ build sequence.",
   "item.createbionics.oxhauler_front_item.tooltip.condition1": "When used on an incomplete Oxhauler",
   "item.createbionics.oxhauler_front_item.tooltip.behaviour1": "Advances the construction sequence by _one_.",
   "item.createbionics.oxhauler_rear_item": "Oxhauler Rear",
-  "item.createbionics.oxhauler_rear_item.tooltip.summary": "The _Second_ part of the _Oxhauler_ build sequence.",
+  "item.createbionics.oxhauler_rear_item.tooltip.summary": "The _First_ part of the _Oxhauler_ build sequence.",
   "item.createbionics.oxhauler_rear_item.tooltip.condition1": "When used on an incomplete Oxhauler",
   "item.createbionics.oxhauler_rear_item.tooltip.behaviour1": "Advances the construction sequence by _one_.",
   "item.createbionics.oxhauler_engine_item": "Oxhauler Engine",
