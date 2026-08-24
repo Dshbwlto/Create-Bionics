@@ -1,7 +1,4 @@
 {
-  "item.createbionics.silent_piston": "Тихий Поршень",
-  "item.createbionics.sheet_music": "Ноты",
-  "item.createbionics.robot_builder": "Строитель роботов",
   "item.createbionics.robot_builder.tooltip.summary": "Быстры способ _постройки роботов_ в режиме креатива.",
   "item.createbionics.robot_builder.tooltip.condition1": "Когда использован на незавершённом роботе",
   "item.createbionics.robot_builder.tooltip.behaviour1": "Продвигает последовательность строительства на _один_ шаг вперед",
