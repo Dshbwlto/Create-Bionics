@@ -234,8 +234,6 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
         }
     }
 
-    //HOVER//
-
     @Override
     public boolean isFood(ItemStack itemStack) {
         return false;

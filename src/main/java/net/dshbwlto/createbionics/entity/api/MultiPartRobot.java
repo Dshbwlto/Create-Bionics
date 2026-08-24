@@ -6,7 +6,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class MultiPartRobot<T extends RobotPartEntity<?>> extends AbstractRobot {
+public abstract class MultiPartRobot<T extends RobotPartEntity> extends AbstractRobot {
     public T[] parts; //Must be set in the constructor
 
     /**

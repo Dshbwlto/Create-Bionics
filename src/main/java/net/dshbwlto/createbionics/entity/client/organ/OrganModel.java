@@ -46,7 +46,8 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
     private final ModelPart piston_r4;
     private final ModelPart bellows_l;
     private final ModelPart bellows_r;
-    private final ModelPart blink;
+    private final ModelPart blink0;
+    private final ModelPart blink1;
     private final ModelPart blink2;
     private final ModelPart dial;
 
@@ -88,7 +89,8 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         this.idle = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("chest_mechanism").getChild("blaze").getChild("idle");
         this.piston = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("chest_mechanism").getChild("piston");
         this.linkage = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("chest_mechanism").getChild("piston").getChild("linkage");
-        this.blink = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("neck").getChild("head").getChild("blink");
+        this.blink0 = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("neck").getChild("head").getChild("blink0");
+        this.blink1 = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("neck").getChild("head").getChild("blink1");
         this.blink2 = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("neck").getChild("head").getChild("blink2");
         this.dial = this.root.getChild("root_util").getChild("body").getChild("chest").getChild("dial");
 
@@ -235,9 +237,11 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         PartDefinition head = neck.addOrReplaceChild("head", CubeListBuilder.create().texOffs(150, 159).addBox(-14.0F, -6.0F, -24.0F, 28.0F, 26.0F, 24.0F, new CubeDeformation(0.0F))
                 .texOffs(259, 379).addBox(-12.0F, -12.0F, -38.0F, 24.0F, 20.0F, 36.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 21.0F, -41.0F, 0.5236F, 0.0F, 0.0F));
 
-        PartDefinition blink = head.addOrReplaceChild("blink", CubeListBuilder.create().texOffs(734, 470).addBox(-14.0F, 0.0F, 13.0F, 28.0F, 16.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -6.0F, -51.0F));
+        PartDefinition blink0 = head.addOrReplaceChild("blink0", CubeListBuilder.create().texOffs(734, 470).addBox(-14.0F, 0.0F, 13.0F, 28.0F, 16.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -6.0F, -51.0F));
 
-        PartDefinition blink2 = head.addOrReplaceChild("blink2", CubeListBuilder.create().texOffs(818, 470).addBox(-14.0F, 0.0F, 13.0F, 28.0F, 16.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -6.0F, -51.0F));
+        PartDefinition blink1 = head.addOrReplaceChild("blink1", CubeListBuilder.create().texOffs(818, 470).addBox(-14.0F, 0.0F, 13.0F, 28.0F, 16.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -6.0F, -51.0F));
+
+        PartDefinition blink2 = head.addOrReplaceChild("blink2", CubeListBuilder.create().texOffs(902, 470).addBox(-14.0F, 0.0F, 13.0F, 28.0F, 16.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -6.0F, -51.0F));
 
         PartDefinition exhaust = head.addOrReplaceChild("exhaust", CubeListBuilder.create().texOffs(135, 30).addBox(-24.0F, -31.0F, -4.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(135, 8).addBox(-24.0F, -7.0F, -4.0F, 10.0F, 14.0F, 8.0F, new CubeDeformation(0.0F))
@@ -707,8 +711,9 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         this.animate(entity.shakeAnimationState, OrganAnimations.sit_shake, ageInTicks, 1.0f);
         this.animate(entity.yawnAnimationState, OrganAnimations.sit_yawn, ageInTicks, 1.0f);
 
-        blink.visible = entity.blinkCountdown == 0;
-        blink2.visible = entity.blinkCountdown > 0;
+        blink0.visible = entity.blinkCountdown == 0;
+        blink1.visible = entity.blinkCountdown == 1 || entity.inbetween;
+        blink2.visible = entity.blinkCountdown > 1 && !entity.inbetween;
 
         leg_l_p.visible = entity.getAssembly() > 0;
         leg_r_p.visible = entity.getAssembly() > 1;

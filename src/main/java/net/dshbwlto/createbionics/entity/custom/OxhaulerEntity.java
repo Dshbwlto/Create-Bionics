@@ -54,7 +54,7 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
 
-public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntity>> implements ContainerListener, HasCustomInventoryScreen, OwnableEntity, PlayerRideableJumping, Saddleable {
+public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements ContainerListener, HasCustomInventoryScreen, OwnableEntity, PlayerRideableJumping, Saddleable {
     public final AnimationState idleAnimationState = new AnimationState();
     private int x0;
     public float y0;
@@ -63,7 +63,7 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntit
     protected float playerJumpPendingScale;
     protected boolean canGallop = true;
 
-    public RobotPartEntity<OxhaulerEntity> harvester;
+    public RobotPartEntity harvester;
     public OxhaulerPloughPartEntity plough;
 
     public final AnimationState idleAnimation1 = new AnimationState();
@@ -148,9 +148,9 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntit
     }
 
     @Override
-    protected RobotPartEntity<OxhaulerEntity>[] createParts() {
-        this.harvester = new OxhaulerHarvesterPartEntity(this, 3f, 1f, 0f, -0.5f, 3f, AllBlocks.MECHANICAL_HARVESTER.asItem(), false);
-        this.plough = new OxhaulerPloughPartEntity(this, 3f, 1f, 0f, -0.5f, -3f, AllBlocks.MECHANICAL_PLOUGH.asItem(), false);
+    protected RobotPartEntity[] createParts() {
+        this.harvester = new OxhaulerHarvesterPartEntity(this, this, 3f, 1f, 0f, -0.5f, 3f, AllBlocks.MECHANICAL_HARVESTER.asItem(), false);
+        this.plough = new OxhaulerPloughPartEntity(this, this, 3f, 1f, 0f, -0.5f, -3f, AllBlocks.MECHANICAL_PLOUGH.asItem(), false);
 
         return new RobotPartEntity[] {this.harvester, this.plough};
     }
@@ -567,7 +567,6 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity<OxhaulerEntit
 
     @Override
     public void containerChanged(Container container) {
-
     }
 
     @Override

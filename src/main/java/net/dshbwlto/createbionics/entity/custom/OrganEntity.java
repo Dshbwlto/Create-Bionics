@@ -39,7 +39,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
+public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
     private boolean isInIdlePose() {
@@ -49,17 +49,18 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
     public float x0 = (float) this.lerpYHeadRot;
     public float y0;
     public float z0;
+    public boolean inbetween;
 
     protected int pitch;
 
-    public RobotPartEntity<OrganEntity> chest;
-    public RobotPartEntity<OrganEntity> neck;
-    public RobotPartEntity<OrganEntity> head;
-    public RobotPartEntity<OrganEntity> tail1a;
-    public RobotPartEntity<OrganEntity> tail1b;
-    public RobotPartEntity<OrganEntity> tail2a;
-    public RobotPartEntity<OrganEntity> tail2b;
-    public RobotPartEntity<OrganEntity> tail2c;
+    public RobotPartEntity chest;
+    public RobotPartEntity neck;
+    public RobotPartEntity head;
+    public RobotPartEntity tail1a;
+    public RobotPartEntity tail1b;
+    public RobotPartEntity tail2a;
+    public RobotPartEntity tail2b;
+    public RobotPartEntity tail2c;
 
     public GroundLevelSamplerPartEntity leg_l1;
     public GroundLevelSamplerPartEntity leg_r1;
@@ -82,21 +83,21 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
     }
 
     @Override
-    protected RobotPartEntity<OrganEntity>[] createParts() {
-        this.chest = new RobotPartEntity<>(this, 3f, 3f, 0f, 3f, 3.5f, BionicsItems.ANOLE.get(), false);
-        this.neck = new RobotPartEntity<>(this, 2.5f, 2.5f, 0f, 3.3f, 6.7f, BionicsItems.ANOLE.get(), false);
-        this.head = new RobotPartEntity<>(this, 2.5f, 2f, 0f, 3f, 9.8f, BionicsItems.ANOLE.get(), false);
+    protected RobotPartEntity[] createParts() {
+        this.chest = new RobotPartEntity(this, this, 3f, 3f, 0f, 3f, 3.5f, BionicsItems.ANOLE.get(), false);
+        this.neck = new RobotPartEntity(this, chest, 2.5f, 2.5f, 0f, 3.3f, 6.7f, BionicsItems.ANOLE.get(), false);
+        this.head = new RobotPartEntity(this, neck, 2.5f, 2f, 0f, 3f, 9.8f, BionicsItems.ANOLE.get(), false);
 
-        this.tail1a = new RobotPartEntity<>(this, 2.5f, 2.5f, 0f, 3.8f, -3.2f, BionicsItems.ANOLE.get(), false);
-        this.tail1b = new RobotPartEntity<>(this, 2.5f, 2.5f, 0f, 3.6f, -5.7f, BionicsItems.ANOLE.get(), false);
-        this.tail2a = new RobotPartEntity<>(this, 2f, 2f, 0f, 3.9f, -7.9f, BionicsItems.ANOLE.get(), false);
-        this.tail2b = new RobotPartEntity<>(this, 2f, 2f, 0f, 4f, -9.9f, BionicsItems.ANOLE.get(), false);
-        this.tail2c = new RobotPartEntity<>(this, 2f, 2f, 0f, 4.1f, -11.9f, BionicsItems.ANOLE.get(), false);
+        this.tail1a = new RobotPartEntity(this, this, 2.5f, 2.5f, 0f, 3.8f, -3.2f, BionicsItems.ANOLE.get(), false);
+        this.tail1b = new RobotPartEntity(this, tail1a, 2.5f, 2.5f, 0f, 3.6f, -5.7f, BionicsItems.ANOLE.get(), false);
+        this.tail2a = new RobotPartEntity(this, tail1b, 2f, 2f, 0f, 3.9f, -7.9f, BionicsItems.ANOLE.get(), false);
+        this.tail2b = new RobotPartEntity(this, tail2a, 2f, 2f, 0f, 4f, -9.9f, BionicsItems.ANOLE.get(), false);
+        this.tail2c = new RobotPartEntity(this, tail2b, 2f, 2f, 0f, 4.1f, -11.9f, BionicsItems.ANOLE.get(), false);
 
-        this.leg_l1 = new GroundLevelSamplerPartEntity(this, 1, 1, 2, 0, 0, getPickResult().getItem());
-        this.leg_r1 = new GroundLevelSamplerPartEntity(this, 1, 1, -2, 0, 0, getPickResult().getItem());
-        this.leg_l2 = new GroundLevelSamplerPartEntity(this, 1, 1, 2, 1, 0, getPickResult().getItem());
-        this.leg_r2 = new GroundLevelSamplerPartEntity(this, 1, 1, -2, 1, 0, getPickResult().getItem());
+        this.leg_l1 = new GroundLevelSamplerPartEntity(this, this, 1, 1, 2, 0, 0, getPickResult().getItem());
+        this.leg_r1 = new GroundLevelSamplerPartEntity(this, this, 1, 1, -2, 0, 0, getPickResult().getItem());
+        this.leg_l2 = new GroundLevelSamplerPartEntity(this, this, 1, 1, 2, 1, 0, getPickResult().getItem());
+        this.leg_r2 = new GroundLevelSamplerPartEntity(this, this, 1, 1, -2, 1, 0, getPickResult().getItem());
 
         return new RobotPartEntity[] {this.chest, this.neck, this.head, this.tail1a, this.tail1b, this.tail2a, this.tail2b, this.tail2c, this.leg_l1, this.leg_r1, this.leg_l2, this.leg_r2};
     }
@@ -195,6 +196,7 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
                 this.yawnAnimationState.start(this.tickCount);
                 idlePoseTimeout = 220;
                 blinkCountdown = 90;
+                inbetween = true;
             }
         }
     }
@@ -241,11 +243,14 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
         this.tail2c.offsetFromParent(0f, 4.1f + y0, -11.9f);
 
         /* BLINKING */
-        if (Math.random() < 0.01f) {
-            blinkCountdown = blinkCountdown + 6;
-        }
+
         if (blinkCountdown > 0) {
             blinkCountdown = blinkCountdown - 1;
+            inbetween = false;
+        }
+        if (Math.random() < 0.01f) {
+            blinkCountdown = blinkCountdown + 6;
+            inbetween = true;
         }
 
         /* STEAM EFFECTS */
@@ -300,7 +305,7 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity<OrganEntity>> {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         ///   Not yet, hotshot
-        //builder.define(GLOW_COLOR, 0);
+        builder.define(GLOW_COLOR, 0);
     }
 
     @Override

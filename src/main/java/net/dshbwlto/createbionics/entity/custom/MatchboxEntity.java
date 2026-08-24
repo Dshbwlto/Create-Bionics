@@ -6,6 +6,7 @@ import net.dshbwlto.createbionics.Util.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
 import net.dshbwlto.createbionics.entity.client.matchbox.MatchboxVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
+import net.dshbwlto.createbionics.sound.BionicsSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -14,13 +15,16 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -32,7 +36,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
@@ -51,19 +60,19 @@ public class MatchboxEntity extends AbstractRobot {
     public AnimationState deployAnimationState = new AnimationState();
     public AnimationState collapseAnimationState = new AnimationState();
 
-    public static final EntityDataAccessor<Boolean> PLACEABLE =
-            SynchedEntityData.defineId(MatchboxEntity.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Integer> PLACEABLE =
+            SynchedEntityData.defineId(MatchboxEntity.class, EntityDataSerializers.INT);
     public boolean isPlaceable() {
-        return entityData.get(PLACEABLE);
-    }
-    public void setPlaceable(boolean placeable) {
-        entityData.set(PLACEABLE, placeable);
+        return entityData.get(PLACEABLE) != 0;
     }
     public void togglePlaceable(Player player) {
-        setPlaceable(!isPlaceable());
-        if (level().isClientSide) {
-            player.displayClientMessage(Component.translatable("entity.createbionics.all.place." + isPlaceable(), this.getDisplayName()), true);
+        if (entityData.get(PLACEABLE) != 2) {
+            entityData.set(PLACEABLE, entityData.get(PLACEABLE) + 1);
+        } else {
+            entityData.set(PLACEABLE, 0);
         }
+        player.displayClientMessage(Component.translatable("entity.createbionics.all.place.tooltip")
+                .append(Component.translatable("entity.createbionics.all.place." + entityData.get(PLACEABLE))), true);
     }
 
     public static final EntityDataAccessor<Integer> TORCHES =
@@ -129,13 +138,34 @@ public class MatchboxEntity extends AbstractRobot {
     }
 
     @Override
+    protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
+        super.dropCustomDeathLoot(level, damageSource, recentlyHit);
+        if (getVariant() != MatchboxVariant.ANDESITE) {
+            dropIngot();
+        }
+        for (int i = 0; i < torchCount(); i++) {
+            if (random.nextFloat() > 0.7f) {
+                spawnAtLocation(new ItemStack(Items.TORCH.asItem()));
+            }
+        }
+    }
+
+    @Override
     protected @Nullable SoundEvent getDeathSound() {
-        return SoundEvents.ITEM_BREAK;
+        return BionicsSounds.MATCHBOX_IDLE_4.get();
+    }
+    @Override
+    protected @Nullable SoundEvent getAmbientSound() {
+        int i = Mth.clamp(random.nextInt(), 1, 4);
+        return (i == 1 ? BionicsSounds.MATCHBOX_IDLE_1
+                : i == 2 ? BionicsSounds.MATCHBOX_IDLE_2
+                : i == 3 ? BionicsSounds.MATCHBOX_IDLE_3
+                : BionicsSounds.MATCHBOX_IDLE_4).get();
     }
 
     @Override
     protected @Nullable SoundEvent getHurtSound(DamageSource damageSource) {
-        return SoundEvents.ANVIL_PLACE;
+        return BionicsSounds.MATCHBOX_DAMAGE.get();
     }
 
     @Override
@@ -148,6 +178,65 @@ public class MatchboxEntity extends AbstractRobot {
             this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX(0.5F), this.getRandomY(), this.getRandomZ(0.5F), 0.0F, 0.0F, 0.0F);
         }
         super.aiStep();
+    }
+
+    @Override
+    public void makeStuckInBlock(BlockState state, Vec3 motionMultiplier) {
+    }
+
+    @Override
+    public void tryToTeleportToOwner() {
+        LivingEntity livingentity = this.getOwner();
+        if (livingentity != null) {
+            this.teleportToAroundBlockPos(livingentity.blockPosition());
+        }
+
+    }
+    @Override
+    public boolean shouldTryTeleportToOwner() {
+        LivingEntity livingentity = this.getOwner();
+        return livingentity != null && this.distanceToSqr(this.getOwner()) >= (double)144.0F;
+    }
+
+    private void teleportToAroundBlockPos(BlockPos pos) {
+        for(int i = 0; i < 10; ++i) {
+            int j = this.random.nextIntBetweenInclusive(-3, 3);
+            int k = this.random.nextIntBetweenInclusive(-3, 3);
+            if (Math.abs(j) >= 2 || Math.abs(k) >= 2) {
+                int l = this.random.nextIntBetweenInclusive(-1, 1);
+                if (this.maybeTeleportTo(pos.getX() + j, pos.getY() + l, pos.getZ() + k)) {
+                    return;
+                }
+            }
+        }
+
+    }
+
+    private boolean maybeTeleportTo(int x, int y, int z) {
+        if (!this.canTeleportTo(new BlockPos(x, y, z))) {
+            return false;
+        } else if (level().getBlockState(new BlockPos(x, y, z)).isAir()){
+            this.moveTo((double)x + (double)0.5F, (double)y, (double)z + (double)0.5F, this.getYRot(), this.getXRot());
+            this.navigation.stop();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean canTeleportTo(BlockPos pos) {
+        PathType pathtype = WalkNodeEvaluator.getPathTypeStatic(this, pos);
+        if (pathtype != PathType.WALKABLE) {
+            return false;
+        } else {
+            BlockState blockstate = this.level().getBlockState(pos.below());
+            if (!this.canFlyToOwner() && blockstate.getBlock() instanceof LeavesBlock) {
+                return false;
+            } else {
+                BlockPos blockpos = pos.subtract(this.blockPosition());
+                return this.level().noCollision(this, this.getBoundingBox().move(blockpos));
+            }
+        }
     }
 
     @Override
@@ -184,26 +273,19 @@ public class MatchboxEntity extends AbstractRobot {
     public void tick() {
         super.tick();
 
+        if (isTame() && getBrightness(getOwner().getOnPos()) < 2 && getCommand() != 2) {
+            this.navigation.createPath(getOwner().getOnPos(), 0);
+        }
+
+        if (!level().isClientSide && torchCount() > 0 && getBrightness(getOnPos()) < 3 && isFueled()) {
+            placeTorch();
+        }
+
         if (collapseCountdown > 0) {
             collapseCountdown -= 1;
         } else if (collapseCountdown == 0) {
             spawnAtLocation(matchboxItem());
             remove(RemovalReason.DISCARDED);
-        }
-
-        if (!level().isClientSide && isPlaceable()) {
-            if (level().getBrightness(LightLayer.BLOCK, blockPosition()) < 3 && level().getBrightness(LightLayer.SKY, blockPosition()) < 3) {
-                if (getBlockStateOn().isCollisionShapeFullBlock(level(), blockPosition().below()) && !getBlockStateOn().isAir()) {
-                    BlockPos blockPos = blockPosition();
-                    if (level().getBlockState(blockPos.below()).isAir()) {
-                        blockPos = blockPos.below();
-                    }
-                    if (!level().getBlockState(blockPos.below()).isAir()) {
-                        level().setBlock(blockPos, Blocks.TORCH.defaultBlockState(), 11);
-                        setTorchCount(torchCount() - 1);
-                    }
-                }
-            }
         }
 
         if (this.level().isClientSide()) {
@@ -214,8 +296,7 @@ public class MatchboxEntity extends AbstractRobot {
             setFuel(getFuel() - 1);
         }
 
-
-        if (this.horizontalCollision) {
+        if (this.horizontalCollision && navigation.getPath() != null && !navigation.getPath().canReach()) {
             Vec3 initialVec = this.getDeltaMovement();
             Vec3 climbVec = new Vec3(initialVec.x, 0.2D, initialVec.z);
             this.setDeltaMovement(climbVec.scale(0.96D));
@@ -253,6 +334,12 @@ public class MatchboxEntity extends AbstractRobot {
                 if (player.isShiftKeyDown()) {
                     collapseCountdown = 15;
                     collapseAnimationState.start(tickCount);
+                    if (getCommand() == 2) {
+                        updateCommand(null);
+                    } else if (getCommand() == 1) {
+                        updateCommand(null);
+                        updateCommand(null);
+                    }
                 } else {
                     dropIngot();
                     setVariant(MatchboxVariant.ANDESITE);
@@ -331,21 +418,21 @@ public class MatchboxEntity extends AbstractRobot {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         /// just stop.
-        //builder.define(PLACEABLE, true);
-        //builder.define(TORCHES, 0);
+        builder.define(PLACEABLE, 1);
+        builder.define(TORCHES, 0);
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putBoolean("Placeable", this.isPlaceable());
+        compound.putInt("Placeable", this.entityData.get(PLACEABLE));
         compound.putInt("Torches", this.torchCount());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        this.entityData.set(PLACEABLE, compound.getBoolean("Placeable"));
+        this.entityData.set(PLACEABLE, compound.getInt("Placeable"));
         this.entityData.set(TORCHES, compound.getInt("Torches"));
     }
 
@@ -379,5 +466,33 @@ public class MatchboxEntity extends AbstractRobot {
 
     public void setVariant(MatchboxVariant variant) {
         this.entityData.set(VARIANT, variant.getId() & 255);
+    }
+
+    // Torches //
+
+    public int getBrightness (BlockPos pos) {
+        int x = entityData.get(PLACEABLE);
+        int sky = level().getBrightness(LightLayer.SKY, pos.above());
+        int block = level().getBrightness(LightLayer.BLOCK, pos.above());
+        if (x == 0) {
+            return 15;
+        } else if (x == 1) {
+            return block;
+        } else {
+            return Math.max(block, sky);
+        }
+    }
+
+
+    public void placeTorch() {
+        if (!level().getBlockState(blockPosition()).isAir()) {
+            return;
+        }
+        if (level().getBlockState(blockPosition().below()).isAir() || !level().getBlockState(blockPosition().below()).isCollisionShapeFullBlock(level(), blockPosition().below())) {
+            return;
+        } else {
+            level().setBlock(blockPosition(), Blocks.TORCH.defaultBlockState(), 11);
+            setTorchCount(torchCount() - 1);
+        }
     }
 }

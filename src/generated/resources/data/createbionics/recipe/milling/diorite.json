@@ -5,10 +5,10 @@
       "item": "minecraft:diorite"
     }
   ],
-  "processingTime": 200,
+  "processing_time": 200,
   "results": [
     {
-      "item": "minecraft:quartz"
+      "id": "minecraft:quartz"
     }
   ]
 }

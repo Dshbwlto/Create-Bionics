@@ -1,6 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "createbionics:anole_item"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
     "has_copper": {
       "conditions": {
         "items": [
@@ -10,18 +16,12 @@
         ]
       },
       "trigger": "minecraft:inventory_changed"
-    },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "createbionics:anole_item"
-      },
-      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_anole_body"
+      "has_copper"
     ]
   ],
   "rewards": {

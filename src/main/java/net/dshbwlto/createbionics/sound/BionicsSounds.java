@@ -18,6 +18,15 @@ public class BionicsSounds {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS =
             DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, CreateBionics.MOD_ID);
 
+    public static final Supplier<SoundEvent> MATCHBOX_DAMAGE = registerSoundEvent("matchbox_damage");
+    public static final Supplier<SoundEvent> MATCHBOX_IDLE_1 = registerSoundEvent("matchbox_idle_1");
+    public static final Supplier<SoundEvent> MATCHBOX_IDLE_2 = registerSoundEvent("matchbox_idle_2");
+    public static final Supplier<SoundEvent> MATCHBOX_IDLE_3 = registerSoundEvent("matchbox_idle_3");
+    public static final Supplier<SoundEvent> MATCHBOX_IDLE_4 = registerSoundEvent("matchbox_idle_4");
+    public static final Supplier<SoundEvent> MATCHBOX_IDLE_5 = registerSoundEvent("matchbox_idle_5");
+    public static final Supplier<SoundEvent> MATCHBOX_IDLE_6 = registerSoundEvent("matchbox_idle_6");
+    public static final Supplier<SoundEvent> MATCHBOX_IDLE_7 = registerSoundEvent("matchbox_idle_7");
+
     public static final Supplier<SoundEvent> OXHAULER_BELLOW_1 = registerSoundEvent("oxhauler_bellow_1");
     public static final Supplier<SoundEvent> OXHAULER_BELLOW_2 = registerSoundEvent("oxhauler_bellow_2");
     public static final Supplier<SoundEvent> OXHAULER_BELLOW_3 = registerSoundEvent("oxhauler_bellow_3");

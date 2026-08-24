@@ -54,7 +54,7 @@ public class BionicsEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<MultiPartRobot<?>>> GOLEM = ENTITIES.register("golem",
             () -> EntityType.Builder.of(GolemEntity::new, MobCategory.CREATURE)
                     .sized(1.25f, 3f).build("golem"));
-
+    
     public static void register(IEventBus eventBus) {
         ENTITIES.register(eventBus);
     }

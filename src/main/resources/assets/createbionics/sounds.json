@@ -7,6 +7,70 @@
       }
     ]
   },
+  "matchbox_damage": {
+    "sounds": [
+      {
+        "name": "createbionics:matchbox_damage",
+        "stream": true
+      }
+    ]
+  },
+  "matchbox_idle_1": {
+    "sounds": [
+      {
+        "name": "createbionics:matchbox_idle_1",
+        "stream": true
+      }
+    ]
+  },
+  "matchbox_idle_2": {
+    "sounds": [
+      {
+        "name": "createbionics:matchbox_idle_2",
+        "stream": true
+      }
+    ]
+  },
+  "matchbox_idle_3": {
+    "sounds": [
+      {
+        "name": "createbionics:matchbox_idle_3",
+        "stream": true
+      }
+    ]
+  },
+  "matchbox_idle_4": {
+    "sounds": [
+      {
+        "name": "createbionics:matchbox_idle_4",
+        "stream": true
+      }
+    ]
+  },
+  "matchbox_idle_5": {
+    "sounds": [
+      {
+        "name": "createbionics:matchbox_idle_5",
+        "stream": true
+      }
+    ]
+  },
+  "matchbox_idle_6": {
+    "sounds": [
+      {
+        "name": "createbionics:matchbox_idle_6",
+        "stream": true
+      }
+    ]
+  },
+  "matchbox_idle_7": {
+    "sounds": [
+      {
+        "name": "createbionics:matchbox_idle_7",
+        "stream": true
+      }
+    ]
+  },
   "oxhauler_bellow_2": {
     "sounds": [
       {

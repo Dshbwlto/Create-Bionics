@@ -13,6 +13,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -123,6 +124,17 @@ public class AnoleEntity extends AbstractRobot {
                 .add(Attributes.ATTACK_DAMAGE, 2f)
                 .add(Attributes.FOLLOW_RANGE, 24D)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 200f);
+    }
+
+    @Override
+    protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
+        super.dropCustomDeathLoot(level, damageSource, recentlyHit);
+        if (getVariant() != AnoleVariant.COPPER) {
+            dropIngot(getVariant());
+        }
+        if (getMarkings() != AnoleMarkings.DEFAULT) {
+            dropMaterial(getMarkings());
+        }
     }
 
     @Override

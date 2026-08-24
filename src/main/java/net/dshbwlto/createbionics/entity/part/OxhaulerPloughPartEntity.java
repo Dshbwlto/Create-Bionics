@@ -10,6 +10,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -33,8 +34,8 @@ public class OxhaulerPloughPartEntity extends RobotPartEntity{
      * @param pickResult
      * @apiNote Where ever offset is used it assumes that the mob is facing the default direction when spawned. Mob rotating is handled by api.
      */
-    public OxhaulerPloughPartEntity(@NotNull MultiPartRobot parent, float width, float height, double xOffset, double yOffset, double zOffset, Item pickResult, boolean collision) {
-        super(parent, width, height, xOffset, yOffset, zOffset, pickResult, collision);
+    public OxhaulerPloughPartEntity(@NotNull MultiPartRobot parent, Entity connectedTo, float width, float height, double xOffset, double yOffset, double zOffset, Item pickResult, boolean collision) {
+        super(parent, connectedTo, width, height, xOffset, yOffset, zOffset, pickResult, collision);
     }
 
     @Override

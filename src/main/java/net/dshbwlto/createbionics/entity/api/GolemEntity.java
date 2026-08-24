@@ -15,19 +15,19 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class GolemEntity extends MultiPartRobot<RobotPartEntity<GolemEntity>> {
-    public RobotPartEntity<GolemEntity> leftArm;
-    public RobotPartEntity<GolemEntity> rightArm;
-    public RobotPartEntity<GolemEntity> torso;
+public class GolemEntity extends MultiPartRobot<RobotPartEntity> {
+    public RobotPartEntity leftArm;
+    public RobotPartEntity rightArm;
+    public RobotPartEntity torso;
 
     public GolemEntity(EntityType<MultiPartRobot<?>> entityType, Level level) {
         super(entityType, level);
     }
 
     @Override
-    protected RobotPartEntity<GolemEntity>[] createParts() {
-        this.leftArm = new RobotPartEntity<>(this, 0.8f, 2.1f, 1.2f, 0.4f, 0f, null, false);
-        this.rightArm = new RobotPartEntity<>(this, 0.8f, 2.1f, -1.2f, 0.4f, 0f, null, false);
+    protected RobotPartEntity[] createParts() {
+        this.leftArm = new RobotPartEntity(this, this, 0.8f, 2.1f, 1.2f, 0.4f, 0f, null, false);
+        this.rightArm = new RobotPartEntity(this, this, 0.8f, 2.1f, -1.2f, 0.4f, 0f, null, false);
         return new RobotPartEntity[]{this.leftArm, this.rightArm, this.torso};
     }
 
@@ -39,7 +39,7 @@ public class GolemEntity extends MultiPartRobot<RobotPartEntity<GolemEntity>> {
     }
 
     @Override
-    public boolean hurtPart(RobotPartEntity<GolemEntity> part, DamageSource source, float damage) {
+    public boolean hurtPart(RobotPartEntity part, DamageSource source, float damage) {
         if (part == rightArm) return hurt(source, 100000f);
         return super.hurtPart(part, source, damage);
     }

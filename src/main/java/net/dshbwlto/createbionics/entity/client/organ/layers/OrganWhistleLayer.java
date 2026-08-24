@@ -2,8 +2,13 @@ package net.dshbwlto.createbionics.entity.client.organ.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.simibubi.create.Create;
+import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.render.CachedBuffers;
+import net.createmod.catnip.render.SpriteShiftEntry;
+import net.createmod.catnip.render.SpriteShifter;
+import net.createmod.catnip.render.SuperByteBuffer;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.Util.BionicsPartialModels;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
@@ -23,6 +28,7 @@ import java.util.Map;
 
 public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<OrganEntity>> {
     private final OrganModel<OrganEntity> model;
+
     public Map<Integer, ResourceLocation> EXHAUST_MAP_1 = Map.of(
             0, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/exhaust/steam0.png"),
             1, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/exhaust/steam1.png"),

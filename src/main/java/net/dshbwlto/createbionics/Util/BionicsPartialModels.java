@@ -218,10 +218,16 @@ public class BionicsPartialModels {
             MATCHBOX_GLOW_ITEM_2 = part("matchbox_item_glow2"),
             MATCHBOX_GLOW_ITEM_3 = part("matchbox_item_glow3"),
 
-    MATCHBOX_PREVIEW_TORCH = part("matchbox_preview_torch");
+    MATCHBOX_PREVIEW_TORCH = part("matchbox_preview_torch"),
+
+    ORB_OF_CONFUSION = block("orb_of_confusion/block");
 
     private static PartialModel part(String path) {
         return PartialModel.of(CreateBionics.asResource("item/" + path));
+    }
+
+    private static PartialModel block(String path) {
+        return PartialModel.of(CreateBionics.asResource("block/" + path));
     }
 
     public static PartialModel whistleBase(boolean middle, int size, int variant, boolean glow) {

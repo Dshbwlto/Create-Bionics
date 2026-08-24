@@ -5,6 +5,7 @@ import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.content.logistics.packagerLink.WiFiParticle;
 import net.dshbwlto.createbionics.Util.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
+import net.dshbwlto.createbionics.entity.client.matchbox.MatchboxVariant;
 import net.dshbwlto.createbionics.entity.client.seeker.SeekerPickaxe;
 import net.dshbwlto.createbionics.entity.client.seeker.SeekerVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
@@ -16,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
@@ -93,13 +95,13 @@ public class SeekerEntity extends AbstractRobot {
         this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0d, 7f, 3f) {
             @Override
             public boolean canUse() {
-                return super.canUse() && isFueled() && getCommand() == 0 && !isDigging;
+                return super.canUse() && isFueled() && getCommand() == 0 && !isDigging && collapseCountdown == -1;
             }
         });
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D) {
             @Override
             public boolean canUse() {
-                return super.canUse() && isTame() && isFueled() && !isDigging;
+                return super.canUse() && isTame() && isFueled() && !isDigging && collapseCountdown != -1;
             }
         });
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 4f) {
@@ -127,6 +129,17 @@ public class SeekerEntity extends AbstractRobot {
                 .add(Attributes.FOLLOW_RANGE, 7D)
                 .add(Attributes.SAFE_FALL_DISTANCE, 200D)
                 .add(Attributes.WATER_MOVEMENT_EFFICIENCY, 200f);
+    }
+
+    @Override
+    protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
+        super.dropCustomDeathLoot(level, damageSource, recentlyHit);
+        if (getVariant() != SeekerVariant.ANDESITE) {
+            dropIngot();
+        }
+        if (getPickaxe() != SeekerPickaxe.IRON) {
+            spawnAtLocation(getPickaxeItem());
+        }
     }
 
     @Override
@@ -375,7 +388,7 @@ public class SeekerEntity extends AbstractRobot {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         /// just stop.
-        //builder.define(PICK_MAP, 0);
+        builder.define(PICK_MAP, 0);
     }
 
     @Override

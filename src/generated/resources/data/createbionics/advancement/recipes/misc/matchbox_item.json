@@ -1,32 +1,32 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_copper": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "createbionics:matchbox_item"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_andesite_alloy": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:copper_ingot"
+            "items": "create:andesite_alloy"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
-    },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "createbionics:simple_engine"
-      },
-      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_coal"
+      "has_andesite_alloy"
     ]
   ],
   "rewards": {
     "recipes": [
-      "createbionics:simple_engine"
+      "createbionics:matchbox_item"
     ]
   }
 }

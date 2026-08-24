@@ -5,6 +5,7 @@ import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.content.fluids.drain.ItemDrainBlockEntity;
+import com.simibubi.create.foundation.item.TooltipHelper;
 import net.dshbwlto.createbionics.Util.BionicsEntityDataSerializers;
 import net.dshbwlto.createbionics.entity.part.GroundLevelSamplerPartEntity;
 import net.dshbwlto.createbionics.entity.part.RobotPartEntity;
@@ -56,14 +57,16 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Objects;
 
-public class RepleteEntity extends MultiPartRobot<RobotPartEntity<RepleteEntity>> implements MenuProvider {
+public class RepleteEntity extends MultiPartRobot<RobotPartEntity> implements MenuProvider {
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
     public int countdown = 0;
+    int tooltipWarmup;
 
-    public RobotPartEntity<RepleteEntity> tank;
+    public RobotPartEntity tank;
     public GroundLevelSamplerPartEntity leg_l1;
     public GroundLevelSamplerPartEntity leg_l2;
     public GroundLevelSamplerPartEntity leg_r1;
@@ -97,26 +100,27 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity<RepleteEntity>
 
     public RepleteEntity(EntityType<MultiPartRobot<?>> entityType, Level level) {
         super(entityType, level);
+        tooltipWarmup = 15;
     }
 
     @Override
-    protected RobotPartEntity<RepleteEntity>[] createParts() {
-        this.tank = new RobotPartEntity<>(this, 2.2f, 5.2f, 0f, 2f, -0.9f, AllBlocks.FLUID_TANK.asItem(), false);
+    protected RobotPartEntity[] createParts() {
+        this.tank = new RobotPartEntity(this, this, 2.2f, 5.2f, 0f, 2f, -0.9f, AllBlocks.FLUID_TANK.asItem(), false);
 
-        this.leg_l1 = new GroundLevelSamplerPartEntity(this, 1, 1, 3f, 0f, -2f, BionicsItems.REPLETE_BODY.asItem());
-        this.leg_l2 = new GroundLevelSamplerPartEntity(this, 1, 1, 3f, 1f, -2f, BionicsItems.REPLETE_BODY.asItem());
-        this.leg_r1 = new GroundLevelSamplerPartEntity(this, 1, 1, -3f, 0f, -2f, BionicsItems.REPLETE_BODY.asItem());
-        this.leg_r2 = new GroundLevelSamplerPartEntity(this, 1, 1, -3f, 1f, -2f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg_l1 = new GroundLevelSamplerPartEntity(this, this, 1, 1, 3f, 0f, -2f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg_l2 = new GroundLevelSamplerPartEntity(this, this, 1, 1, 3f, 1f, -2f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg_r1 = new GroundLevelSamplerPartEntity(this, this, 1, 1, -3f, 0f, -2f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg_r2 = new GroundLevelSamplerPartEntity(this, this, 1, 1, -3f, 1f, -2f, BionicsItems.REPLETE_BODY.asItem());
 
-        this.leg2_l1 = new GroundLevelSamplerPartEntity(this, 1, 1, 2f, 0f, 1f, BionicsItems.REPLETE_BODY.asItem());
-        this.leg2_l2 = new GroundLevelSamplerPartEntity(this, 1, 1, 2f, 1f, 1f, BionicsItems.REPLETE_BODY.asItem());
-        this.leg2_r1 = new GroundLevelSamplerPartEntity(this, 1, 1, -2f, 0f, 1f, BionicsItems.REPLETE_BODY.asItem());
-        this.leg2_r2 = new GroundLevelSamplerPartEntity(this, 1, 1, -2f, 1f, 1f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg2_l1 = new GroundLevelSamplerPartEntity(this, this, 1, 1, 2f, 0f, 1f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg2_l2 = new GroundLevelSamplerPartEntity(this, this, 1, 1, 2f, 1f, 1f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg2_r1 = new GroundLevelSamplerPartEntity(this, this, 1, 1, -2f, 0f, 1f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg2_r2 = new GroundLevelSamplerPartEntity(this, this, 1, 1, -2f, 1f, 1f, BionicsItems.REPLETE_BODY.asItem());
 
-        this.leg3_l1 = new GroundLevelSamplerPartEntity(this, 1, 1, 33/16f, 0f, 40/16f, BionicsItems.REPLETE_BODY.asItem());
-        this.leg3_l2 = new GroundLevelSamplerPartEntity(this, 1, 1, 33/16f, 1f, 40/16f, BionicsItems.REPLETE_BODY.asItem());
-        this.leg3_r1 = new GroundLevelSamplerPartEntity(this, 1, 1, -33/16f, 0f, 40/16f, BionicsItems.REPLETE_BODY.asItem());
-        this.leg3_r2 = new GroundLevelSamplerPartEntity(this, 1, 1, -33/16f, 1f, 40/16f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg3_l1 = new GroundLevelSamplerPartEntity(this, this, 1, 1, 33/16f, 0f, 40/16f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg3_l2 = new GroundLevelSamplerPartEntity(this, this, 1, 1, 33/16f, 1f, 40/16f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg3_r1 = new GroundLevelSamplerPartEntity(this, this, 1, 1, -33/16f, 0f, 40/16f, BionicsItems.REPLETE_BODY.asItem());
+        this.leg3_r2 = new GroundLevelSamplerPartEntity(this, this, 1, 1, -33/16f, 1f, 40/16f, BionicsItems.REPLETE_BODY.asItem());
         return new RobotPartEntity[]{this.tank, this.leg_l1, this.leg_l2, this.leg_r1, this.leg_r2, this.leg2_l1, this.leg2_l2, this.leg2_r1, this.leg2_r2, this.leg3_l1, this.leg3_l2, this.leg3_r1, this.leg3_r2};
     }
 
@@ -303,7 +307,8 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity<RepleteEntity>
     @Override
     public void tick() {
         super.tick();
-
+        if (tooltipWarmup > 0)
+            tooltipWarmup--;
         if (getYOffs() != 1 && getYOffs() != 0) {
             tank.offsetFromParent(0, 2 - getYOffs(), -0.9f);
         }
@@ -622,4 +627,5 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity<RepleteEntity>
     public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
         return null;
     }
+
 }
