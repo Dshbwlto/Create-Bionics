@@ -82,18 +82,4 @@ public class ClientEvents {
         RenderSystem.disableBlend();
     }
 
-    @SubscribeEvent
-    public static void addToItemTooltip(ItemTooltipEvent event) {
-        if (!AllConfigs.client().tooltips.get())
-            return;
-        if (event.getEntity() == null)
-            return;
-
-        Item item = event.getItemStack().getItem();
-        TooltipModifier modifier = TooltipModifier.REGISTRY.get(item);
-        if (modifier != null && modifier != TooltipModifier.EMPTY) {
-            modifier.modify(event);
-        }
-        SequencedAssemblyRecipe.addToTooltip(event);
-    }
 }
