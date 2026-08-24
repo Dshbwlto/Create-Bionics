@@ -1,7 +1,4 @@
 {
-  "item.createbionics.silent_piston": "Silent Piston",
-  "item.createbionics.sheet_music": "Sheet Music",
-  "item.createbionics.robot_builder": "Robot Builder",
   "item.createbionics.robot_builder.tooltip.summary": "A quick way to _construct robots_ in creative mode.",
   "item.createbionics.robot_builder.tooltip.condition1": "When used on an incomplete robot",
   "item.createbionics.robot_builder.tooltip.behaviour1": "Advances the construction sequence by _one_",
