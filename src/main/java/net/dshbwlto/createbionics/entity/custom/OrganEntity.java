@@ -305,7 +305,7 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         ///   Not yet, hotshot
-        builder.define(GLOW_COLOR, 0);
+        //builder.define(GLOW_COLOR, 0);
     }
 
     @Override
