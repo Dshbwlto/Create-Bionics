@@ -44,8 +44,11 @@ public class BionicsPonderPlugin implements PonderPlugin {
 
     public static void register(PonderSceneRegistrationHelper<ResourceLocation> helper) {
         PonderSceneRegistrationHelper<ItemProviderEntry<?, ?>> SCENE_HELPER = helper.withKeyFunction(RegistryEntry::getId);
+/*
+        SCENE_HELPER.forComponents(BionicsItems.OXHAULER_MIDDLE).addStoryBoard("oxhauler_constructing", OxhaulerScenes::oxhaulerBuildSequence)
+                .addStoryBoard("oxhauler_farming", OxhaulerScenes::oxhaulerFarming);
 
-        //SCENE_HELPER.forComponents(BionicsItems.OXHAULER_MIDDLE).addStoryBoard("oxhauler", OxhaulerScenes::oxhaulerBuildSequence, AllCreatePonderTags.LOGISTICS);
+ */
     }
 
     public static void register(PonderTagRegistrationHelper<ResourceLocation> helper) {

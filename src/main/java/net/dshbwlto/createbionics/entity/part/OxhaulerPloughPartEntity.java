@@ -21,7 +21,7 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class OxhaulerPloughPartEntity extends RobotPartEntity{
+public class OxhaulerPloughPartEntity extends RobotPartEntity {
     /**
      * Creates a new part for an entity to use, does not need to be registered as an entity type
      *

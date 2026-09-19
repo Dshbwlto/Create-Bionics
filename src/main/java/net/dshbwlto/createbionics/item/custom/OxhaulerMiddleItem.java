@@ -1,41 +1,35 @@
 
 package net.dshbwlto.createbionics.item.custom;
 
-import com.simibubi.create.foundation.item.render.SimpleCustomRenderer;
-import net.dshbwlto.createbionics.entity.custom.AnoleEntity;
+import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
+import net.dshbwlto.createbionics.entity.custom.OrganEntity;
+import net.dshbwlto.createbionics.entity.custom.OxhaulerEntity;
+import net.dshbwlto.createbionics.item.api.RobotSpawnerItem;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.Spawner;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-import java.util.function.Consumer;
+public class OxhaulerMiddleItem extends RobotSpawnerItem {
 
-public class OxhaulerMiddleItem extends SpawnEggItem {
+    public EntityType<MultiPartRobot<?>> type;
 
-    public OxhaulerMiddleItem(EntityType<? extends Mob> defaultType, int backgroundColor, int highlightColor, Properties properties) {
-        super(defaultType, backgroundColor, highlightColor, properties);
+    public OxhaulerMiddleItem(EntityType<MultiPartRobot<?>> defaultType, Properties properties) {
+        super(defaultType, properties);
+        this.type = defaultType;
     }
 
-    public InteractionResult useOn(UseOnContext context) {
-        context.getPlayer().displayClientMessage(Component.translatable("entity.createbionics.all.assembly",
-                Component.translatable("item.createbionics.oxhauler_rear_item")), true);
-        return super.useOn(context);
+    @Override
+    public void spawnEntity(Level level, BlockPos blockPos, InteractionHand hand, Player player) {
+        ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
+
+        OxhaulerEntity oxhaulerEntity = new OxhaulerEntity(type, level);
+        oxhaulerEntity.setPos(blockPos.getCenter().add(0, -0.5f, 0));
+        oxhaulerEntity.showRear = true;
+        oxhaulerEntity.showFront = true;
+        oxhaulerEntity.showHead = true;
+        level.addFreshEntity(oxhaulerEntity);
     }
 }

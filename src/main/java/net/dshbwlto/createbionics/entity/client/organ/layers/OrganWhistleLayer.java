@@ -65,8 +65,8 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
 
     public void renderWhistles(OrganEntity entity, float netHeadYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float yoffset,
                                int count, int size, int height, float separation, float xPos, float yPos, float zPos, float angle, int index) {
-        float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yoffset / 16;
-        int build = entity.getAssembly() - 22;
+        float bodyYOffset = (entity.getAssembly() >= 11 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yoffset / 16;
+        int build = entity.getAssembly() - 12;
 
         for ( int i = 0; i < count && index + i <= build; i++) {
             CachedBuffers.partial(BionicsPartialModels.whistleBase(xPos == 0, size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
@@ -108,15 +108,15 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
 
     public void renderWhistlesTail1(OrganEntity entity, float netHeadYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float yoffset,
                                     int count, int size, int height, float separation, float xPos, float yPos, float zPos, float angle, int index) {
-        float ySwing = entity.getAssembly() >= 21 ? (float) Math.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / -16) * 3.55f : 0;
-        float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yoffset/16;
-        int build = entity.getAssembly() - 22;
+        float ySwing = entity.getAssembly() >= 11 ? (float) Math.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / -16) * 3.55f : 0;
+        float bodyYOffset = (entity.getAssembly() >= 11 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yoffset/16;
+        int build = entity.getAssembly() - 12;
         netHeadYaw = Mth.clamp(netHeadYaw, -60.0F, 60.0F) / 6;
 
         for (int i = 0; i < count && index + i <= build; i++) {
             CachedBuffers.partial(BionicsPartialModels.whistleBase(xPos == 0, size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
-                    .translate(0, 0, -2 - 1 / 8f)
+                    .translate(0, 0, -2 + 1/4f)
                     .rotateYDegrees(ySwing + netHeadYaw)
                     .translate(xPos + xPos == 0 ? 0 : xPos > 0 ? 1 : -1, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
                     .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? i * 0.1f + angle : -i * 0.1f - angle)
@@ -126,7 +126,7 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
 
             CachedBuffers.partial(BionicsPartialModels.whistleFace(xPos == 0, size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
-                    .translate(0, 0, -2 - 1 / 8f)
+                    .translate(0, 0, -2 + 1/4f)
                     .rotateYDegrees(ySwing + netHeadYaw)
                     .translate(xPos + xPos == 0 ? 0 : xPos > 0 ? 1 : -1, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
                     .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? i * 0.1f + angle : -i * 0.1f - angle)
@@ -136,7 +136,7 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
 
             CachedBuffers.partial(BionicsPartialModels.whistleEnd( size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
-                    .translate(0, 0, -2 - 1 / 8f)
+                    .translate(0, 0, -2 + 1/4f)
                     .rotateYDegrees(ySwing + netHeadYaw)
                     .translate(xPos + xPos == 0 ? 0 : xPos > 0 ? 1 : -1, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
                     .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? i * 0.1f + angle : -i * 0.1f - angle)
@@ -146,7 +146,7 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
 
             CachedBuffers.partial(BionicsPartialModels.whistleExtension(size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
-                    .translate(0, 0, -2 - 1 / 8f)
+                    .translate(0, 0, -2 + 1/4f)
                     .rotateYDegrees(ySwing + netHeadYaw)
                     .translate(xPos + xPos == 0 ? 0 : xPos > 0 ? 1 : -1, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
                     .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? i * 0.1f + angle : -i * 0.1f - angle)
@@ -158,7 +158,7 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
             for (int j = 0; j < i / 2 + height; j++) {
                 CachedBuffers.partial(BionicsPartialModels.whistleExtension(size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                         .rotate(Direction.Axis.X, (float)Math.PI)
-                        .translate(0, 0, -2 - 1 / 8f)
+                        .translate(0, 0, -2 + 1/4f)
                         .rotateYDegrees(ySwing + netHeadYaw)
                         .translate(xPos + xPos == 0 ? 0 : xPos > 0 ? 1 : -1, 7 + bodyYOffset + yPos + i * 0.1, zPos - separation * i)
                         .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos > 0 ? i * 0.1f + angle : -i * 0.1f - angle)
@@ -171,8 +171,8 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
 
     public void renderWhistlesChest(OrganEntity entity, float netHeadYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float yOffset,
                                     int count, int size, int height, float separation, float xPos, float yPos, float zPos, float angle, int index) {
-        float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yOffset / 16;
-        int build = entity.getAssembly() - 22;
+        float bodyYOffset = (entity.getAssembly() >= 11 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yOffset / 16;
+        int build = entity.getAssembly() - 12;
         netHeadYaw = Mth.clamp(netHeadYaw, -60.0F, 60.0F) / 6;
 
         for (int i = 0; i < count && index + i <= build; i++) {
@@ -233,18 +233,18 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
 
     public void renderWhistlesTail2(OrganEntity entity, float netHeadYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float yoffset,
                                     int count, int size, int height, float separation, float xPos, float yPos, float zPos, float angle, int index) {
-        float ySwing = entity.getAssembly() >= 21 ? (float) Math.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / -16) * 3.55f : 0;
-        float ySwing2 = entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / -16) + 2) * 3.55f : 0;
-        float bodyYOffset = (entity.getAssembly() >= 21 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yoffset / 16;
-        int build = entity.getAssembly() - 22;
+        float ySwing = entity.getAssembly() >= 11 ? (float) Math.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / -16) * 3.55f : 0;
+        float ySwing2 = entity.getAssembly() >= 11 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / -16) + 2) * 3.55f : 0;
+        float bodyYOffset = (entity.getAssembly() >= 11 ? (float) Math.sin(((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 22)) / -32 : 0) - yoffset / 16;
+        int build = entity.getAssembly() - 12;
         netHeadYaw = Mth.clamp(netHeadYaw, -60.0F, 60.0F) / 6;
 
         for (int i = 0; i < count && index + i <= build; i++) {
             CachedBuffers.partial(BionicsPartialModels.whistleBase(xPos == 0, size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
-                    .translate(0, 0, -2 - 1 / 8f)
+                    .translate(0, 0, -2 + 1/4f)
                     .rotateYDegrees(ySwing + netHeadYaw)
-                    .translate(0, 0, -76.5/16f)
+                    .translate(0, 0, -70.5/16f - 3/8f)
                     .rotateYDegrees(ySwing2 + netHeadYaw)
                     .translate(xPos == 0 ? 0 : xPos > 0 ? xPos - i / 16f + 1/8f : xPos + i / 16f - 1/8f, separation < 0 ? 7 + bodyYOffset + yPos - i * 0.04 : 7 + bodyYOffset + yPos - i * 0.02, zPos - separation * i)
                     .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos < 0 ? i * 0.1f + angle : -i * 0.1f - angle)
@@ -254,9 +254,9 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
 
             CachedBuffers.partial(BionicsPartialModels.whistleFace(xPos == 0, size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
-                    .translate(0, 0, -2 - 1 / 8f)
+                    .translate(0, 0, -2 + 1/4f)
                     .rotateYDegrees(ySwing + netHeadYaw)
-                    .translate(0, 0, -76.5/16f)
+                    .translate(0, 0, -70.5/16f - 3/8f)
                     .rotateYDegrees(ySwing2 + netHeadYaw)
                     .translate(xPos == 0 ? 0 : xPos > 0 ? xPos - i / 16f + 1/8f : xPos + i / 16f - 1/8f, separation < 0 ? 7 + bodyYOffset + yPos - i * 0.04 : 7 + bodyYOffset + yPos - i * 0.02, zPos - separation * i)
                     .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos < 0 ? i * 0.1f + angle : -i * 0.1f - angle)
@@ -266,9 +266,9 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
 
             CachedBuffers.partial(BionicsPartialModels.whistleExtension(size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
-                    .translate(0, 0, -2 - 1 / 8f)
+                    .translate(0, 0, -2 + 1/4f)
                     .rotateYDegrees(ySwing + netHeadYaw)
-                    .translate(0, 0, -76.5/16f)
+                    .translate(0, 0, -70.5/16f - 3/8f)
                     .rotateYDegrees(ySwing2 + netHeadYaw)
                     .translate(xPos == 0 ? 0 : xPos > 0 ? xPos - i / 16f + 1/8f : xPos + i / 16f - 1/8f, separation < 0 ? 7 + bodyYOffset + yPos - i * 0.04 : 7 + bodyYOffset + yPos - i * 0.02, zPos - separation * i)
                     .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos < 0 ? i * 0.1f + angle : -i * 0.1f - angle)
@@ -279,9 +279,9 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
 
             CachedBuffers.partial(BionicsPartialModels.whistleEnd(size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                     .rotate(Direction.Axis.X, (float)Math.PI)
-                    .translate(0, 0, -2 - 1 / 8f)
+                    .translate(0, 0, -2 + 1/4f)
                     .rotateYDegrees(ySwing + netHeadYaw)
-                    .translate(0, 0, -76.5/16f)
+                    .translate(0, 0, -70.5/16f - 3/8f)
                     .rotateYDegrees(ySwing2 + netHeadYaw)
                     .translate(xPos == 0 ? 0 : xPos > 0 ? xPos - i / 16f + 1/8f : xPos + i / 16f - 1/8f, separation < 0 ? 7 + bodyYOffset + yPos - i * 0.04 : 7 + bodyYOffset + yPos - i * 0.02, zPos - separation * i)
                     .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos < 0 ? i * 0.1f + angle : -i * 0.1f - angle)
@@ -293,9 +293,9 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
             for (int j = 0; j < i / 2 + height; j++) {
                 CachedBuffers.partial(BionicsPartialModels.whistleExtension(size, entity.getTypeVariant(), entity.getGlowColor() == 2), entity.getBlockStateOn())
                         .rotate(Direction.Axis.X, (float)Math.PI)
-                        .translate(0, 0, -2 - 1 / 8f)
+                        .translate(0, 0, -2 + 1/4f)
                         .rotateYDegrees(ySwing + netHeadYaw)
-                        .translate(0, 0, -76.5/16f)
+                        .translate(0, 0, -70.5/16f - 3/8f)
                         .rotateYDegrees(ySwing2 + netHeadYaw)
                         .translate(xPos == 0 ? 0 : xPos > 0 ? xPos - i / 16f + 1/8f: xPos + i / 16f - 1/8f, separation < 0 ? 7 + bodyYOffset + yPos - i * 0.04 : 7 + bodyYOffset + yPos - i * 0.02, zPos - separation * i)
                         .rotate(Direction.Axis.Z, xPos == 0 ? 0 : xPos < 0 ? i * 0.1f + angle : -i * 0.1f - angle)
@@ -339,23 +339,23 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
 
         //back middle
         renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                4, 3, 4, 7/8f, 0, -1.3f, 0.5f, 0, 0);
+                4, 3, 4, 7/8f, 0, -1.3f, 0.515f + 3/8f, 0, 0);
 
         //back right
         renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                4, 3, 1, -7/8f, -1.2f, -2.15f, -2 - 1/8f, -0.1f, 4);
+                4, 3, 1, -7/8f, -1.2f, -2.15f, -2.15f + 1/4f + 3/16f, -0.1f, 4);
         renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                4, 3, 1, -7/8f, -1.8f, -2.95f, -17/8f, 0.3f, 8);
+                4, 3, 1, -7/8f, -1.8f, -2.95f, -14/8f + 0.015f, 0.3f, 8);
 
         //back left
         renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                4, 3, 1, -7/8f, 1.2f, -2.15f, -2 - 1/8f, -0.1f, 12);
+                4, 3, 1, -7/8f, 1.2f, -2.15f, -2.15f + 1/4f + 3/16f, -0.1f, 12);
         renderWhistles(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                4, 3, 1, -7/8f, 1.8f, -2.95f, -17/8f, 0.3f, 16);
+                4, 3, 1, -7/8f, 1.8f, -2.95f, -14/8f + 0.015f, 0.3f, 16);
 
         //chest middle
         renderWhistlesChest(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                6, 2, 1, 12/16f, 0, -2.3f, 4, 0, 20);
+                6, 2, 1, 12/16f, 0, -2.3f, 4.015f + 3/8f, 0, 20);
 
         //tail 1 middle
         renderWhistlesTail1(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
@@ -379,18 +379,18 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
 
         //tail 2 middle
         renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                8, 1, 2, -10/16f, 0, -2.3f, -4 - 14/16f, 0, 48);
+                8, 1, 2, -10/16f, 0, -2.3f, -4 - 14/16f + 1/8f, 0, 48);
 
         //tail 2 down
         renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                6, 1, 2, 10/16f, 0.8f, -3.4f + 1/5f, -1 - 13/16f, 0.0872665f, 56);
+                6, 1, 2, 10/16f, 0.8f, -3.4f + 1/5f, -1 - 13/16f + 3/16f, 0.0872665f, 56);
         renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                6, 1, 2, 10/16f, -0.8f, -3.4f + 1/5f, -1 - 13/16f, 0.0872665f, 62);
+                6, 1, 2, 10/16f, -0.8f, -3.4f + 1/5f, -1 - 13/16f + 3/16f, 0.0872665f, 62);
 
         //tail 2 up
         renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                8, 1, 2, 10/16f, 0.8f, -4f - 1/16f, -9/16f, 0.1872665f, 68);
+                8, 1, 2, 10/16f, 0.8f, -4f - 1/16f, -9/16f + 3/16f, 0.1872665f, 68);
         renderWhistlesTail2(entity, netHeadYaw, partialTicks, poseStack, buffer, packedLight, entity.z0,
-                8, 1, 2, 10/16f, -0.8f, -4f - 1/16f, -9/16f, 0.1872665f, 76);
+                8, 1, 2, 10/16f, -0.8f, -4f - 1/16f, -9/16f + 3/16f, 0.1872665f, 76);
     }
 }

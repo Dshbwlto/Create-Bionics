@@ -3,12 +3,15 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
+import com.simibubi.create.AllSoundEvents;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
+import net.dshbwlto.createbionics.entity.api.music.MusicHandler;
 import net.dshbwlto.createbionics.entity.part.GroundLevelSamplerPartEntity;
 import net.dshbwlto.createbionics.entity.part.RobotPartEntity;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganGlow;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
+import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -23,7 +26,6 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
-import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
@@ -33,6 +35,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
@@ -48,6 +51,7 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
     private int idlePoseTimeout = 0;
     public float x0 = (float) this.lerpYHeadRot;
     public float y0;
+    public float serverYOffs;
     public float z0;
     public boolean inbetween;
 
@@ -74,6 +78,8 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
     public final AnimationState lookAnimationState = new AnimationState();
     public final AnimationState shakeAnimationState = new AnimationState();
     public final AnimationState yawnAnimationState = new AnimationState();
+
+    public MusicHandler musicHandler = new MusicHandler();
 
     public static final EntityDataAccessor<Integer> GLOW_COLOR =
             SynchedEntityData.defineId(OrganEntity.class, EntityDataSerializers.INT);
@@ -118,13 +124,13 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
         this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 1d, 15, 10) {
             @Override
             public boolean canUse() {
-                return super.canUse() && getCommand() == 0 && getAssembly() >= 21 && isTame();
+                return super.canUse() && getCommand() == 0 && getAssembly() >= 11 && isTame();
             }
         });
         this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D, 70) {
             @Override
             public boolean canUse() {
-                return super.canUse() && getAssembly() >= 21;
+                return super.canUse() && getAssembly() >= 11;
             }
         });
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
@@ -146,6 +152,11 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
                 .add(Attributes.ENTITY_INTERACTION_RANGE, 40);
     }
 
+    public void setVisualSitting() {
+        this.serverYOffs = 5/2f;
+        this.z0 = 47;
+    }
+
     @Override
     public boolean isFood(ItemStack itemStack) {
         return false;
@@ -164,7 +175,7 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
 
     /* ANIMATIONS */
 
-    private void setUpAnimationStates() {
+    public void setUpAnimationStates() {
         if (this.idleAnimationTimeout <= 0) {
             this.idleAnimationTimeout = 78;
             this.idleAnimationState.start(this.tickCount);
@@ -185,7 +196,7 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
             this.sitPoseAnimationState.stop();
             this.sitUpAnimationState.animateWhen(this.isInPoseTransition() && this.getPoseTime() >= 0L, this.tickCount);
         }
-        if (random.nextFloat() < 0.005 && getCommand() == 2 && !isInIdlePose()) {
+        if (random.nextFloat() < 0.005 && getCommand() == 2 && !isInIdlePose() && getAssembly() >= 11) {
             if (tickCount % 3 == 0) {
                 this.shakeAnimationState.start(this.tickCount);
                 idlePoseTimeout = 220;
@@ -204,7 +215,24 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
     @Override
     public void tick() {
         super.tick();
+
+        if (tickCount == 1 && !isTame()) {
+            setVisualSitting();
+            playSound(AllSoundEvents.CONFIRM.getMainEvent());
+        }
+
+        if (this.isSitting()) {
+            if (this.serverYOffs < 5.2/2f) {
+                this.serverYOffs += 0.1f;
+            }
+        } else {
+            if (this.serverYOffs > 0) {
+                this.serverYOffs -= 0.1f;
+            }
+        }
+
         setFuel(1);
+        this.yBodyRot = Mth.approachDegrees(this.yBodyRotO, this.getYRot(), 2);
         if (getAssembly() < 7) {
             tail1a.setDimensions(0, 0);
             tail1b.setDimensions(0, 0);
@@ -217,10 +245,10 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
         if (getAssembly() < 9) {
             chest.setDimensions(0, 0);
         }
-        if (getAssembly() < 20) {
+        if (getAssembly() < 10) {
             neck.setDimensions(0, 0);
         }
-        if (getAssembly() < 21) {
+        if (getAssembly() < 11) {
             head.setDimensions(0, 0);
         }
 
@@ -232,15 +260,15 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
 
         playSoundScape(5, 5);
 
-        this.chest.offsetFromParent(0f, 3f + y0, 3.5f);
-        this.neck.offsetFromParent(0f, 3.3f + y0, 6.7f);
-        this.head.offsetFromParent(0f, 3f + y0, 9.8f);
+        this.chest.offsetFromParent(0f + headTurnXOffset(0.5f), 3f - this.serverYOffs, 3.5f - headTurnZOffset(0.3f));
+        this.neck.offsetFromParent(0f + headTurnXOffset(2f), 3.3f - (this.serverYOffs * 0.8), 6.7f - headTurnZOffset(0.8f));
+        this.head.offsetFromParent(0f + headTurnXOffset(4), 3f - (this.serverYOffs * 0.5), 9.8f - headTurnZOffset(1));
 
-        this.tail1a.offsetFromParent(0f, 3.8f + y0, -3.2f);
-        this.tail1b.offsetFromParent(0f, 3.6f + y0, -5.7f);
-        this.tail2a.offsetFromParent(0f, 3.9f + y0, -7.9f);
-        this.tail2b.offsetFromParent(0f, 4f + y0, -9.9f);
-        this.tail2c.offsetFromParent(0f, 4.1f + y0, -11.9f);
+        this.tail1a.offsetFromParent(0f, 3.8f - this.serverYOffs, -3.2f);
+        this.tail1b.offsetFromParent(0f + headTurnXOffset(1f), 3.6f - this.serverYOffs, -5.7f);
+        this.tail2a.offsetFromParent(0f + headTurnXOffset(2), 3.9f - this.serverYOffs, -7.9f);
+        this.tail2b.offsetFromParent(0f + headTurnXOffset(3f), 4f - this.serverYOffs, -9.9f);
+        this.tail2c.offsetFromParent(0f + headTurnXOffset(4), 4.1f - this.serverYOffs, -11.9f);
 
         /* BLINKING */
 
@@ -272,24 +300,11 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
         //CatnipServices.PLATFORM.executeOnClientOnly(() -> () -> this.tickAudio(1, isSitting()));
     }
 
-    protected float rotlerp(float in, float target, float maxShift) {
-        float f = Mth.wrapDegrees(target - in);
-        if (f > maxShift) {
-            f = maxShift;
-        }
-
-        if (f < -maxShift) {
-            f = -maxShift;
-        }
-
-        float f1 = in + f;
-        if (f1 < 0.0F) {
-            f1 += 360.0F;
-        } else if (f1 > 360.0F) {
-            f1 -= 360.0F;
-        }
-
-        return f1;
+    float headTurnXOffset(float distance) {
+        return Mth.clamp(yBodyRotO - yHeadRotO, -distance, distance);
+    }
+    float headTurnZOffset(float distance) {
+        return Mth.abs(Mth.clamp(yBodyRotO - yHeadRotO, -distance, distance));
     }
 
     //test
@@ -318,9 +333,6 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         entityData.set(GLOW_COLOR, compound.getInt("Glow_Color"));
-        if (getCommand() == 3) {
-            y0 = 47;
-        }
     }
 
     /* INTERACT */
@@ -331,7 +343,7 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
 
         /* TAME */
         if (!isTame()) {
-            if (getAssembly() > 20) {
+            if (getAssembly() > 10) {
                 if (this.level().isClientSide()) {
                     return InteractionResult.CONSUME;
                 } else {
@@ -367,17 +379,23 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
                 itemStack.shrink(1);
             }
 
-        } else if ((itemStack.is(BionicsItems.ROBOT_BUILDER) || (itemStack.is(getPart()))) && getAssembly() < 105) {
+        } else if ((itemStack.is(BionicsItems.ROBOT_BUILDER) || (itemStack.is(getPart()))) && getAssembly() < 95) {
             setAssembly(getAssembly() + 1);
             if (!itemStack.is(BionicsItems.ROBOT_BUILDER.get())) {
                 itemStack.shrink(1);
             }
-            if (getAssembly() <= 21) {
+            if (getAssembly() <= 10) {
                 playSound(SoundEvents.NETHERITE_BLOCK_PLACE);
+                player.displayClientMessage(Component.translatable("entity.createbionics.all.assembly", getPart().getDescription().getString()), true);
             } else {
                 playSound(SoundEvents.NETHERITE_BLOCK_PLACE, 1, (float) getAssembly() / 50);
+                if (getAssembly() < 95) {
+                    player.displayClientMessage(Component.translatable("entity.createbionics.all.assembly", getPart().getDescription().getString())
+                            .append(Component.literal(" x" + (95 - getAssembly()))), true);
+                } else {
+                    player.displayClientMessage(Component.literal(" "), true);
+                }
             }
-            player.displayClientMessage(Component.translatable("entity.createbionics.all.assembly", getPart().getDescription().getString()), true);
             if (getAssembly() == 7) {
                 this.tail1a.setDimensions(2.5f, 2.5f);
                 this.tail1b.setDimensions(2.5f, 2.5f);
@@ -390,10 +408,10 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
             if (getAssembly() == 9) {
                 this.chest.setDimensions(3, 3);
             }
-            if (getAssembly() == 20) {
+            if (getAssembly() == 10) {
                 this.neck.setDimensions(2.5f, 2.5f);
             }
-            if (getAssembly() == 21) {
+            if (getAssembly() == 11) {
                 this.head.setDimensions(2.5f, 2.5f);
             }
             return InteractionResult.SUCCESS;
@@ -403,41 +421,45 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
             heal(50);
             playSound(SoundEvents.SMITHING_TABLE_USE);
             return InteractionResult.CONSUME;
-        } else if (itemStack.is(AllItems.WRENCH) && (isOwnedBy(player) || getAssembly() < 21)) {
-            if (getAssembly() > 0) {
-                setAssembly(getAssembly() - 1);
-                spawnAtLocation(new ItemStack(getPart()));
-                if (getAssembly() <= 21) {
-                    playSound(SoundEvents.NETHERITE_BLOCK_PLACE);
+        } else if (itemStack.is(AllItems.WRENCH) && (isOwnedBy(player) || getAssembly() < 11)) {
+            if (player.isShiftKeyDown()) {
+                if (getAssembly() > 0) {
+                    setAssembly(getAssembly() - 1);
+                    spawnAtLocation(new ItemStack(getPart()));
+                    if (getAssembly() <= 11) {
+                        playSound(SoundEvents.NETHERITE_BLOCK_PLACE);
+                    } else {
+                        playSound(SoundEvents.NETHERITE_BLOCK_PLACE, 1, (float) getAssembly() / 50);
+                    }
+                    if (getAssembly() == 6) {
+                        tail1a.setDimensions(0, 0);
+                        tail1b.setDimensions(0, 0);
+                    }
+                    if (getAssembly() == 7) {
+                        tail2a.setDimensions(0, 0);
+                        tail2b.setDimensions(0, 0);
+                        tail2c.setDimensions(0, 0);
+                    }
+                    if (getAssembly() == 8) {
+                        chest.setDimensions(0, 0);
+                    }
+                    if (getAssembly() == 9) {
+                        neck.setDimensions(0, 0);
+                    }
+                    if (getAssembly() == 10) {
+                        head.setDimensions(0, 0);
+                    }
                 } else {
-                    playSound(SoundEvents.NETHERITE_BLOCK_PLACE, 1, (float) getAssembly() / 50);
-                }
-                if (getAssembly() == 6) {
-                    tail1a.setDimensions(0, 0);
-                    tail1b.setDimensions(0, 0);
-                }
-                if (getAssembly() == 7) {
-                    tail2a.setDimensions(0, 0);
-                    tail2b.setDimensions(0, 0);
-                    tail2c.setDimensions(0, 0);
-                }
-                if (getAssembly() == 8) {
-                    chest.setDimensions(0, 0);
-                }
-                if (getAssembly() == 19) {
-                    neck.setDimensions(0, 0);
-                }
-                if (getAssembly() == 20) {
-                    head.setDimensions(0, 0);
+                    spawnAtLocation(new ItemStack(BionicsItems.ANOLE.get()));
+                    remove(RemovalReason.DISCARDED);
                 }
             } else {
-                spawnAtLocation(new ItemStack(BionicsItems.ANOLE.get()));
-                remove(RemovalReason.DISCARDED);
+                lookAt(EntityAnchorArgument.Anchor.EYES, player.getEyePosition());
             }
             return InteractionResult.SUCCESS;
 
         } else {
-            if (getAssembly() >= 20 && isOwnedBy(player)) {
+            if (isOwnedBy(player)) {
                 if (!isInPoseTransition()) {
                     updateCommand(player);
                 }
@@ -531,52 +553,58 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
             return BionicsItems.ANOLE.get();
         } else if (getAssembly() == 8) {
             return BionicsItems.ANOLE.get();
-        } else if (getAssembly() == 9 ||
-                getAssembly() == 10 ||
-                getAssembly() == 11 ||
-                getAssembly() == 12 ||
-                getAssembly() == 13 ||
-                getAssembly() == 14 ||
-                getAssembly() == 15 ||
-                getAssembly() == 16) {
+        } else if (getAssembly() == 9) {
             return BionicsItems.ANOLE.get();
-        } else if (getAssembly() == 17 || getAssembly() == 18) {
-            return BionicsItems.ANOLE.get();
-        } else if (getAssembly() == 19) {
-            return BionicsItems.ANOLE.get();
-        } else if (getAssembly() == 20) {
+        } else if (getAssembly() == 10) {
             return BionicsItems.ANOLE.get();
         } else {
-            return (AllBlocks.STEAM_WHISTLE.asItem());
+            return AllBlocks.STEAM_WHISTLE.asItem();
         }
     }
 
     //MUSIC//
 
     /*
-    @OnlyIn(Dist.CLIENT)
-    protected OrganSoundInstance soundInstance;
 
-    public void tickAudio(int size, boolean powered) {
-        if (!powered) {
-            if (soundInstance != null) {
-                soundInstance.fadeOut();
-                soundInstance = null;
-            }
-            return;
-        }
+    Instruments:
+        Organ
+        Kick*
+        Snare*
+        Hi hat*
+        Ride*
+        Tamb
+        Shaker
 
-        float f = (float) Math.pow(2, -pitch / 12.0);
-        boolean particle = level().getGameTime() % 8 == 0;
-        float maxVolume = (float) Mth.clamp(10, 0, 1);
-        if (soundInstance == null || soundInstance.isStopped() || soundInstance.getOctave() != size) {
-            Minecraft.getInstance()
-                    .getSoundManager()
-                    .play(soundInstance = new OrganSoundInstance(size, this.getOnPos()));
-            AllSoundEvents.WHISTLE_CHIFF.playAt(level(), this.getOnPos(), maxVolume * .175f,
-                    size = (int)f, false);
-            particle = true;
-        }
-    }
+    Song settings:
+        Song name
+        Author
+        Should play randomly
+        Date threshold for random playing
+        Time signature
+        BPM
+        Target (Copper Organ, Redstone Organ, etc.)
+
+    Note settings:
+        Time code
+        Pitch
+        Duration
+        Volume
+        Vibrato
+        Sustain
+
+    Viewport Settings:
+        Zoom
+        Octave
+        Highlight notes in key
+        Cursor location
+        Play/pause
+
+     Music Editor:
+        Show 2 full octaves
+        Show highlighted notes in key
+        Highlight note when hovering
+        Play note when pressed
+        Dynamic beat subdivision display
+
      */
 }

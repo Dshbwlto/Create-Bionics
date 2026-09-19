@@ -350,19 +350,23 @@ public class OxhaulerModel <T extends OxhaulerEntity> extends  HierarchicalModel
         this.applyHeadRotation(netHeadYaw, headPitch);
 
         this.animateWalk(OxhaulerAnimations.oxhauler_walk, limbSwing, limbSwingAmount, 4f, 2.5f);
-        this.animate(entity.idleAnimationState, OxhaulerAnimations.oxhauler_assembly, ageInTicks, 1f);
+        if (entity.animateVisualWalk) {
+            this.animate(entity.idleAnimationState, OxhaulerAnimations.oxhauler_walk, ageInTicks, 1f);
+        } else {
+            this.animate(entity.idleAnimationState, OxhaulerAnimations.oxhauler_assembly, ageInTicks, 1f);
+        }
 
         this.animate(entity.idleAnimation1, OxhaulerAnimations.oxhauler_idle1, ageInTicks, 1f);
         this.animate(entity.idleAnimation2, OxhaulerAnimations.oxhauler_idle2, ageInTicks, 1f);
         this.animate(entity.idleAnimation3, OxhaulerAnimations.oxhauler_idle3, ageInTicks, 1f);
 
-        float piston1 = entity.getFuel() > 0 ? Mth.sin(AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) + 1 : 1;
-        float piston2 = entity.getFuel() > 0 ? Mth.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) + (Mth.PI * 2/3)) + 1 : 1;
-        float piston3 = entity.getFuel() > 0 ? Mth.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) - (Mth.PI * 2/3)) + 1 : 1;
+        float piston1 = entity.getFuel() > 0 ? Mth.sin(entity.y0) + 1 : 1;
+        float piston2 = entity.getFuel() > 0 ? Mth.sin((entity.y0) + (Mth.PI * 2/3)) + 1 : 1;
+        float piston3 = entity.getFuel() > 0 ? Mth.sin((entity.y0) - (Mth.PI * 2/3)) + 1 : 1;
 
-        back_master.visible = entity.getAssembly() > 0;
-        front_master.visible = entity.getAssembly() > 1;
-        neck_master.visible = entity.getAssembly() > 2;
+        back_master.visible = !entity.isInPonderScene ? entity.getAssembly() > 0 : entity.showRear;
+        front_master.visible = !entity.isInPonderScene ? entity.getAssembly() > 1 : entity.showFront;
+        neck_master.visible =  !entity.isInPonderScene ? entity.getAssembly() > 2 : entity.showHead;
 
         combine.visible = entity.isHarvester();
         plough.visible = entity.isPlough();

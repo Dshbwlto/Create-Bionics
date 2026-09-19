@@ -46,6 +46,9 @@ public class BionicsSounds {
     public static final Supplier<SoundEvent> WALTZ_2 = registerSoundEvent("waltz_2");
     public static final ResourceKey<JukeboxSong> WALTZ_2_KEY = createSong("waltz_2");
 
+    public static final Supplier<SoundEvent> FUGUE_7 = registerSoundEvent("fugue_7");
+    public static final ResourceKey<JukeboxSong> FUGUE_7_KEY = createSong("fugue_7");
+
     private static ResourceKey<JukeboxSong> createSong(String name) {
         return ResourceKey.create(Registries.JUKEBOX_SONG, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, name));
     }

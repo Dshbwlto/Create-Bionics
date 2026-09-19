@@ -20,6 +20,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -79,6 +80,9 @@ public class SeekerEntity extends AbstractRobot {
 
     public SeekerEntity(EntityType<? extends AbstractRobot> entityType, Level level) {
         super(entityType, level);
+        if (!isAddedToLevel()) {
+            setVariant(SeekerVariant.ANDESITE);
+        }
     }
 
     @Override
@@ -362,6 +366,13 @@ public class SeekerEntity extends AbstractRobot {
                 playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
                 spawnFireParticles(true, 3);
                 return InteractionResult.SUCCESS;
+            } else if (itemStack.is(ItemTags.CREEPER_DROP_MUSIC_DISCS)) {
+                if (level().isClientSide) {
+                    return InteractionResult.SUCCESS;
+                } else {
+                    itemStack.shrink(1);
+                    player.addItem(new ItemStack(BionicsItems.FUGUE_7_MUSIC_DISC.get()));
+                }
             } else {
                 if (!isDigging) {
                     updateCommand(player);
@@ -387,7 +398,6 @@ public class SeekerEntity extends AbstractRobot {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        /// just stop.
         builder.define(PICK_MAP, 0);
     }
 

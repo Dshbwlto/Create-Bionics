@@ -24,8 +24,8 @@ public class RepleteBodyItem extends SpawnEggItem {
      * @param properties
      * @deprecated
      */
-    public RepleteBodyItem(EntityType<? extends Mob> defaultType, int backgroundColor, int highlightColor, Properties properties) {
-        super(defaultType, backgroundColor, highlightColor, properties);
+    public RepleteBodyItem(EntityType<? extends Mob> defaultType, Properties properties) {
+        super(defaultType, 0, 0, properties);
     }
 
     @Override

@@ -53,6 +53,7 @@ neoForge {
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            programArguments.addAll '--username', 'Dshbwlto', '--uuid', 'a9306bed-edc6-433f-8ca9-e5fc1e6e9bf0'
         }
 
         server {

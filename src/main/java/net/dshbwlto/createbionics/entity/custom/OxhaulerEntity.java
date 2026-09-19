@@ -63,6 +63,13 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
     protected float playerJumpPendingScale;
     protected boolean canGallop = true;
 
+    public boolean showRear;
+    public boolean showFront;
+    public boolean showHead;
+    public boolean showStand;
+    public boolean isInPonderScene = false;
+    public boolean animateVisualWalk = false;
+
     public RobotPartEntity harvester;
     public OxhaulerPloughPartEntity plough;
 
@@ -120,9 +127,9 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
         }
     }
 
-    private static final EntityDataAccessor<Boolean> HARVESTER =
+    public static final EntityDataAccessor<Boolean> HARVESTER =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> PLOUGH =
+    public static final EntityDataAccessor<Boolean> PLOUGH =
             SynchedEntityData.defineId(OxhaulerEntity.class, EntityDataSerializers.BOOLEAN);
 
     @Override
@@ -246,7 +253,7 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
 
     private void setupAnimationStates() {
         if (this.idleAnimationTimeout <= 0) {
-            this.idleAnimationTimeout = 60;
+            this.idleAnimationTimeout = animateVisualWalk ? 80 : 60;
             this.idleAnimationState.start(this.tickCount);
         } else {
             --this.idleAnimationTimeout;
@@ -272,11 +279,22 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
     @Override
     public void tick() {
         super.tick();
+        this.yBodyRot = Mth.approachDegrees(this.yBodyRotO, this.getYRot(), 4);
 
         if (isInWater() && isFueled()) {
             setFuel(0);
             playSound(SoundEvents.FIRE_EXTINGUISH);
             ejectPassengers();
+        }
+        if (!isPlough()) {
+            this.plough.setDimensions(0, 0);
+        } else {
+            this.plough.setDimensions(3, 1);
+        }
+        if (!isHarvester()) {
+            this.harvester.setDimensions(0, 0);
+        } else {
+            this.harvester.setDimensions(3, 1);
         }
         if (isFueled()) {
             playSoundScape(2, 3);
@@ -299,7 +317,6 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
             this.setupAnimationStates();
         }
     }
-
 
     @Override
     public boolean canUseSlot(EquipmentSlot slot) {
@@ -450,7 +467,6 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-
         this.entityData.set(COLOR, compound.getInt("Color"));
         this.entityData.set(HARVESTER, compound.getBoolean("Harvester"));
         this.entityData.set(PLOUGH, compound.getBoolean("Plough"));
@@ -796,4 +812,5 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
     private boolean isWoodSoundType(SoundType soundType) {
         return soundType == SoundType.WOOD || soundType == SoundType.NETHER_WOOD || soundType == SoundType.STEM || soundType == SoundType.CHERRY_WOOD || soundType == SoundType.BAMBOO_WOOD;
     }
+
 }

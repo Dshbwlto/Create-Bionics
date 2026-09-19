@@ -10,6 +10,7 @@ import net.dshbwlto.createbionics.block.BionicsBlocks;
 import net.dshbwlto.createbionics.Util.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleRenderer;
+import net.dshbwlto.createbionics.entity.client.shark.SharkRenderer;
 import net.dshbwlto.createbionics.entity.client.golem.GolemRenderer;
 import net.dshbwlto.createbionics.entity.client.matchbox.MatchboxRenderer;
 import net.dshbwlto.createbionics.entity.client.organ.OrganRenderer;
@@ -173,6 +174,7 @@ public class CreateBionics {
             EntityRenderers.register(BionicsEntities.STALKER.get(), StalkerRenderer::new);
             EntityRenderers.register(BionicsEntities.STALKER_CAPTAIN.get(), StalkerCaptainRenderer::new);
             EntityRenderers.register(BionicsEntities.ORGAN.get(), OrganRenderer::new);
+            EntityRenderers.register(BionicsEntities.SHARK.get(), SharkRenderer::new);
             EntityRenderers.register(BionicsEntities.GOLEM.get(), GolemRenderer::new);
 
             BionicsPartialModels.init();

@@ -6,6 +6,7 @@ import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleModel;
+import net.dshbwlto.createbionics.entity.client.shark.SharkModel;
 import net.dshbwlto.createbionics.entity.client.golem.GolemModel;
 import net.dshbwlto.createbionics.entity.client.matchbox.MatchboxModel;
 import net.dshbwlto.createbionics.entity.client.organ.OrganModel;
@@ -16,7 +17,6 @@ import net.dshbwlto.createbionics.entity.client.stalker.StalkerModel;
 import net.dshbwlto.createbionics.entity.client.stalker_captain.StalkerCaptainModel;
 import net.dshbwlto.createbionics.entity.custom.*;
 import net.dshbwlto.createbionics.item.BionicsItems;
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.animal.Sheep;
@@ -26,7 +26,6 @@ import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
@@ -63,6 +62,8 @@ public class BionicsEventBusEvents {
         event.registerLayerDefinition(BionicsModelLayers.ORGAN_GLOW, OrganModel::createBodyLayer);
         event.registerLayerDefinition(BionicsModelLayers.ORGAN_EXHAUST, OrganModel::createBodyLayer);
 
+        event.registerLayerDefinition(BionicsModelLayers.SHARK, SharkModel::createBodyLayer);
+
         event.registerLayerDefinition(BionicsModelLayers.GOLEM, GolemModel::createBodyLayer);
 
     }
@@ -82,6 +83,7 @@ public class BionicsEventBusEvents {
         event.put(BionicsEntities.STALKER.get(), StalkerEntity.createAttributes().build());
         event.put(BionicsEntities.STALKER_CAPTAIN.get(), StalkerCaptainEntity.createAttributes().build());
         event.put(BionicsEntities.ORGAN.get(), OrganEntity.createAttributes().build());
+        event.put(BionicsEntities.SHARK.get(), SharkEntity.createAttributes().build());
 
         event.put(BionicsEntities.GOLEM.get(), Sheep.createAttributes().build());
     }

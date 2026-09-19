@@ -1,0 +1,29 @@
+{
+	"title": "My Song",
+	"author": "Dshbwlto",
+	"should_play_randomly": false,
+	"random_play_start": 330,
+	"random_play_end": 359,
+	"time_numerator": 4,
+	"time_denominator": 4,
+	"bpm": 180,
+	"length": 2,
+	"notes": [
+		{
+			"pitch" : 34,
+			"volume" : 10,
+			"start_time" : 2.563,
+			"duration" : 3.8,
+			"vibrato": false,
+			"sustain": true
+		},
+		{
+			"pitch" : 37,
+			"volume" : 10,
+			"start_time" : 5.219,
+			"duration" : 5,
+			"vibrato": true,
+			"sustain": false
+		}
+	]
+}

@@ -50,6 +50,9 @@ public class BionicsModelLayers {
     public static final ModelLayerLocation ORGAN_EXHAUST = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "organ"), "exhaust");
 
+    public static final ModelLayerLocation SHARK = new ModelLayerLocation(
+            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "shark"), "main");
+
     public static final ModelLayerLocation GOLEM = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "golem"), "main"
     );

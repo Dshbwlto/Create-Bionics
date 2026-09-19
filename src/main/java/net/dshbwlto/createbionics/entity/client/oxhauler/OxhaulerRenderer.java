@@ -76,14 +76,9 @@ public class OxhaulerRenderer extends MobRenderer {
     @Override
     public void render(LivingEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         OxhaulerEntity oxhauler = (OxhaulerEntity) entity;
-        /*
-        CachedBuffers.partial(PartialModel.of(CreateBionics.asResource("item/debug_arrow")), entity.getBlockStateOn())
-                .translate(0, 3, 0)
-                .rotate(Direction.Axis.Y, (-entity.getPreciseBodyRotation(partialTicks) * Mth.PI / 180) + Mth.PI)
-                .scale(2)
-                .light(15728880)
-                .renderInto(poseStack, buffer.getBuffer(RenderType.cutout()));
-         */
+
+        oxhauler.y0 += 0.3f;
+
         if (entity.isPassenger()) {
             poseStack.translate(0, -6 / 16f, 0);
         }

@@ -174,5 +174,13 @@
         "stream": true
       }
     ]
+  },
+  "fugue_7": {
+    "sounds": [
+      {
+        "name": "createbionics:fugue_7",
+        "stream": true
+      }
+    ]
   }
 }

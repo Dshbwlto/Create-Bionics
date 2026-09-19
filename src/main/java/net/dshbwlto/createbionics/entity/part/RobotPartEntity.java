@@ -91,7 +91,7 @@ public class RobotPartEntity extends PartEntity<MultiPartRobot> {
      * @see RobotPartEntity#offsetFromParentAndUpdate(double, double, double)
      */
     public void offsetFromParent(double x, double y, double z) {
-        double rot = Math.toRadians(getParent().getYRot());
+        double rot = Math.toRadians(getParent().yBodyRot);
         double newX = x * Math.cos(rot) - z * Math.sin(rot);
         double newZ = z * Math.cos(rot) + x * Math.sin(rot);
 

@@ -18,6 +18,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -43,6 +44,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 
@@ -273,7 +275,7 @@ public class MatchboxEntity extends AbstractRobot {
     public void tick() {
         super.tick();
 
-        if (isTame() && getBrightness(getOwner().getOnPos()) < 2 && getCommand() != 2) {
+        if (isTame() && getOwner() != null && getBrightness(getOwner().getOnPos()) < 2 && getCommand() != 2) {
             this.navigation.createPath(getOwner().getOnPos(), 0);
         }
 
@@ -389,6 +391,13 @@ public class MatchboxEntity extends AbstractRobot {
                     playSound(AllSoundEvents.DENY.getMainEvent());
                     return InteractionResult.SUCCESS;
                 }
+            } else if (itemStack.is(ItemTags.CREEPER_DROP_MUSIC_DISCS)) {
+                if (level().isClientSide) {
+                    return InteractionResult.SUCCESS;
+                } else {
+                    itemStack.shrink(1);
+                    player.addItem(new ItemStack(BionicsItems.FUGUE_7_MUSIC_DISC.get()));
+                }
             } else {
                 if (player.isShiftKeyDown()) {
                     togglePlaceable(player);
@@ -417,7 +426,6 @@ public class MatchboxEntity extends AbstractRobot {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        /// just stop.
         builder.define(PLACEABLE, 1);
         builder.define(TORCHES, 0);
     }

@@ -6,7 +6,6 @@ import net.dshbwlto.createbionics.entity.api.GolemEntity;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
 import net.dshbwlto.createbionics.entity.custom.*;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.bus.api.IEventBus;
@@ -32,7 +31,11 @@ public class BionicsEntities {
 
     public static final DeferredHolder<EntityType<?>, EntityType<MultiPartRobot<?>>> ORGAN = ENTITIES.register("organ",
             () -> EntityType.Builder.of(OrganEntity::new, MobCategory.CREATURE)
-                    .sized(3f, 6f).build("organ"));
+                    .sized(2.5f, 6f).build("organ"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<MultiPartRobot<?>>> SHARK = ENTITIES.register("shark",
+            () -> EntityType.Builder.of(SharkEntity::new, MobCategory.CREATURE)
+                    .sized(6f, 3f).build("shark"));
 
     public static final Supplier<EntityType<SeekerEntity>> SEEKER =
             ENTITIES.register("seeker", () -> EntityType.Builder.of(SeekerEntity::new, MobCategory.CREATURE)
