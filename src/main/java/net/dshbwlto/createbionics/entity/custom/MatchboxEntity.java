@@ -428,6 +428,7 @@ public class MatchboxEntity extends AbstractRobot {
         super.defineSynchedData(builder);
         builder.define(PLACEABLE, 1);
         builder.define(TORCHES, 0);
+        builder.define(VARIANT, 0);
     }
 
     @Override

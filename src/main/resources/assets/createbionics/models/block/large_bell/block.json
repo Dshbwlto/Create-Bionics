@@ -1,0 +1,23 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made by Dshbwlto",
+	"textures": {
+		"0": "create:block/copper_redstone_plate",
+		"1": "create:block/copper_underside",
+		"particle": "create:block/copper_redstone_plate"
+	},
+	"elements": [
+		{
+			"from": [1, 13, 1],
+			"to": [15, 16, 15],
+			"faces": {
+				"north": {"uv": [1, 13, 15, 16], "texture": "#0"},
+				"east": {"uv": [1, 13, 15, 16], "texture": "#0"},
+				"south": {"uv": [1, 13, 15, 16], "texture": "#0"},
+				"west": {"uv": [1, 13, 15, 16], "texture": "#0"},
+				"up": {"uv": [1, 1, 15, 15], "texture": "#1"},
+				"down": {"uv": [1, 0, 15, 14], "texture": "#0"}
+			}
+		}
+	]
+}

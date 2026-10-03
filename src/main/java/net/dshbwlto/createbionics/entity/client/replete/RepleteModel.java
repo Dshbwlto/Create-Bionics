@@ -623,12 +623,12 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
         root_util.visible = !BionicsClientConfig.arachnophobia;
         root_alt.visible = BionicsClientConfig.arachnophobia;
 
-        leg3_l.visible = entity.getAssembly() >= 1;
-        leg3_r.visible = entity.getAssembly() >= 2;
-        leg2_l.visible = entity.getAssembly() >= 3;
-        leg2_r.visible = entity.getAssembly() >= 4;
-        leg_l.visible = entity.getAssembly() >= 5;
-        leg_r.visible = entity.getAssembly() >= 6;
+        leg3_l.visible = !entity.isInPonderScene ? entity.getAssembly() >= 1 : entity.showleg3L;
+        leg3_r.visible = !entity.isInPonderScene ? entity.getAssembly() >= 2 : entity.showleg3R;
+        leg2_l.visible = !entity.isInPonderScene ? entity.getAssembly() >= 3 : entity.showleg2L;
+        leg2_r.visible = !entity.isInPonderScene ? entity.getAssembly() >= 4 : entity.showleg2R;
+        leg_l.visible = !entity.isInPonderScene ? entity.getAssembly() >= 5 : entity.showleg1L;
+        leg_r.visible = !entity.isInPonderScene ? entity.getAssembly() >= 6 : entity.showleg1R;
 
         leg_l1.visible = entity.leg_l1.isColliding() && !entity.leg_l2.isColliding();
         leg_l2.visible = !entity.leg_l1.isColliding();
@@ -651,16 +651,16 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
         leg3_r2.visible = !entity.leg3_r1.isColliding();
         leg3_r3.visible = entity.leg3_r1.isColliding() && entity.leg3_r2.isColliding();
 
-        tank.visible = entity.getAssembly() > 7;
-        tank_single.visible = entity.getAssembly() == 8;
-        tank_bottom.visible = entity.getAssembly() >= 9;
-        tank_top.visible = entity.getAssembly() >= 9;
-        tank_3.visible = entity.getAssembly() >= 10;
-        tank_4.visible = entity.getAssembly() >= 11;
-        tank_5.visible = entity.getAssembly() >= 12;
-        tank_cap.y = (-(entity.getAssembly() * 16) + 108);
-        pump.visible = entity.getAssembly() > 6;
-        stand.visible = entity.getAssembly() < 12;
+        tank.visible = !entity.isInPonderScene ? entity.getAssembly() > 7 : entity.showTank;
+        tank_single.visible = !entity.isInPonderScene ? entity.getAssembly() == 8 : entity.showTankSingle;
+        tank_bottom.visible = !entity.isInPonderScene ? entity.getAssembly() >= 9 : entity.showTankBottom;
+        tank_top.visible = !entity.isInPonderScene ? entity.getAssembly() >= 9 : entity.showTankTop;
+        tank_3.visible = !entity.isInPonderScene ? entity.getAssembly() >= 10 : entity.showTank3;
+        tank_4.visible = !entity.isInPonderScene ? entity.getAssembly() >= 11 : entity.showTank4;
+        tank_5.visible = !entity.isInPonderScene ? entity.getAssembly() >= 12 : entity.showTank5;
+        tank_cap.y = !entity.isInPonderScene ? (-(entity.getAssembly() * 16) + 108) : entity.ponderTankOffset;
+        pump.visible = !entity.isInPonderScene ? entity.getAssembly() > 6 : entity.showPump;
+        stand.visible = !entity.isInPonderScene ? entity.getAssembly() < 12 : !entity.showleg1R;
 
         tank.y = entity.getYOffs() * 16 - 20;
 

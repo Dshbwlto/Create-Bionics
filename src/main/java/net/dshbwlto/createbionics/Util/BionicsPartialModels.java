@@ -196,6 +196,7 @@ public class BionicsPartialModels {
             TAIL2_4 = part("anole_item_tail2_4"),
             TAIL2_5 = part("anole_item_tail2_5"),
             TAIL2_6 = part("anole_item_tail2_6"),
+            TAIL2_7 = part("anole_item_tail2_7"),
 
     TAIL2_MARKING_0 = part("anole_marking_tail2_0"),
             TAIL2_MARKING_1 = part("anole_marking_tail2_1"),

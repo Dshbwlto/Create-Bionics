@@ -38,7 +38,7 @@ public class AnoleItem extends RobotSpawnerItem {
     @Override
     public void spawnEntity(Level level, BlockPos blockPos, InteractionHand hand, Player player) {
         ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
-        int variant = stack.get(BionicsDataComponentTypes.VARIANT.get()) != null ? stack.get(BionicsDataComponentTypes.VARIANT.get()) : 0;
+        int variant = stack.get(BionicsDataComponentTypes.VARIANT.get()) != null ? stack.get(BionicsDataComponentTypes.VARIANT.get()) : 2;
         int fuel = stack.get(BionicsDataComponentTypes.FUEL.get()) != null ? stack.get(BionicsDataComponentTypes.FUEL.get()) : 0;
         int marking = stack.get(BionicsDataComponentTypes.MISC_INT.get()) != null ? stack.get(BionicsDataComponentTypes.MISC_INT.get()) : 0;
         String name = stack.get(BionicsDataComponentTypes.NAME.get());

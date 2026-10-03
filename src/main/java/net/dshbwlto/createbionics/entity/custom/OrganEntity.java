@@ -222,7 +222,7 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
         }
 
         if (this.isSitting()) {
-            if (this.serverYOffs < 5.2/2f) {
+            if (this.serverYOffs < 2.6f) {
                 this.serverYOffs += 0.1f;
             }
         } else {
@@ -320,7 +320,8 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         ///   Not yet, hotshot
-        //builder.define(GLOW_COLOR, 0);
+        builder.define(GLOW_COLOR, 0);
+        builder.define(VARIANT, 0);
     }
 
     @Override
@@ -333,6 +334,7 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         entityData.set(GLOW_COLOR, compound.getInt("Glow_Color"));
+        setVisualSitting();
     }
 
     /* INTERACT */

@@ -101,7 +101,7 @@ public class OxhaulerScenes {
                 .pointAt(util.vector().topOf(middle))
                 .attachKeyFrame()
                 .placeNearTarget()
-                .text("Parts must be placed in the correct order to assemble.");
+                .text("Parts must be placed in the correct order.");
 
         scene.idle(80);
 

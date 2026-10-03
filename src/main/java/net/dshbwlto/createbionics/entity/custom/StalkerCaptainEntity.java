@@ -158,6 +158,7 @@ public class StalkerCaptainEntity extends StalkerEntity {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         /// Nope
         //super.defineSynchedData(builder);
+        builder.define(VARIANT, 0);
     }
 
     @Override

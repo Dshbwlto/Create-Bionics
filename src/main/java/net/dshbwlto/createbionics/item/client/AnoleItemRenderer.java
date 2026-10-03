@@ -22,7 +22,7 @@ public class AnoleItemRenderer extends CustomRenderedItemModelRenderer {
         float headYaw = Mth.sin(Mth.cos((AnimationTickHolder.getPartialTicks() + AnimationTickHolder.getTicks()) / 100f) * 1.6f);
         float tailYaw = Mth.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 20) / 10;
 
-        int variant = stack.get(BionicsDataComponentTypes.VARIANT.get()) != null ? stack.get(BionicsDataComponentTypes.VARIANT.get()) : 0;
+        int variant = stack.get(BionicsDataComponentTypes.VARIANT.get()) != null ? stack.get(BionicsDataComponentTypes.VARIANT.get()) : 2;
         int marking = stack.get(BionicsDataComponentTypes.MISC_INT.get()) != null ? stack.get(BionicsDataComponentTypes.MISC_INT.get()) : 0;
         String s = stack.get(BionicsDataComponentTypes.NAME.get());
         int hat = ("Distinguished Gentleman".equals(s) || "Bill".equals(s)) ? 1

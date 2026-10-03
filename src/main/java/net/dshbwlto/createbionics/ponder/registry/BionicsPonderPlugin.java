@@ -9,6 +9,7 @@ import net.createmod.ponder.api.registration.*;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.ponder.custom.OxhaulerScenes;
+import net.dshbwlto.createbionics.ponder.custom.RepleteScenes;
 import net.minecraft.resources.ResourceLocation;
 
 public class BionicsPonderPlugin implements PonderPlugin {
@@ -44,11 +45,10 @@ public class BionicsPonderPlugin implements PonderPlugin {
 
     public static void register(PonderSceneRegistrationHelper<ResourceLocation> helper) {
         PonderSceneRegistrationHelper<ItemProviderEntry<?, ?>> SCENE_HELPER = helper.withKeyFunction(RegistryEntry::getId);
-/*
         SCENE_HELPER.forComponents(BionicsItems.OXHAULER_MIDDLE).addStoryBoard("oxhauler_constructing", OxhaulerScenes::oxhaulerBuildSequence)
                 .addStoryBoard("oxhauler_farming", OxhaulerScenes::oxhaulerFarming);
 
- */
+        SCENE_HELPER.forComponents(BionicsItems.REPLETE_BODY).addStoryBoard("replete_constructing", RepleteScenes::repleteBuildSequence);
     }
 
     public static void register(PonderTagRegistrationHelper<ResourceLocation> helper) {

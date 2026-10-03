@@ -156,6 +156,7 @@ public class SharkEntity extends MultiPartRobot<RobotPartEntity> {
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(VARIANT, 0);
         //super.defineSynchedData(builder);
     }
 

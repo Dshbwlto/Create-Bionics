@@ -171,7 +171,6 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
         builder.define(LAST_POSE_CHANGE_TICK, 0L);
         builder.define(COMMAND, 0);
         builder.define(ASSEMBLY, 0);
-        builder.define(VARIANT, 0);
         builder.define(FUEL_TIME, 0);
     }
     @Override

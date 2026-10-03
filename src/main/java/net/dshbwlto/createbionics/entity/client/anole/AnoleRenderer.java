@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
+import net.dshbwlto.createbionics.entity.client.RobotVariant;
 import net.dshbwlto.createbionics.entity.custom.AnoleEntity;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -14,21 +15,23 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.Map;
 
 public class AnoleRenderer extends MobRenderer<AnoleEntity, AnoleModel<AnoleEntity>> {
-    private final Map<AnoleVariant, ResourceLocation> LOCATION_BY_VARIANT =
-            Util.make(Maps.newEnumMap(AnoleVariant.class),map -> {
-                map.put(AnoleVariant.COPPER,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole.png"));
-                map.put(AnoleVariant.BRASS,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_brass.png"));
-                map.put(AnoleVariant.NETHERITE,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_netherite.png"));
-                map.put(AnoleVariant.ANDESITE,
+    private final Map<RobotVariant, ResourceLocation> LOCATION_BY_VARIANT =
+            Util.make(Maps.newEnumMap(RobotVariant.class),map -> {
+                map.put(RobotVariant.ANDESITE,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_andesite.png"));
-                map.put(AnoleVariant.EXPOSED,
+                map.put(RobotVariant.BRASS,
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_brass.png"));
+                map.put(RobotVariant.COPPER,
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_copper.png"));
+                map.put(RobotVariant.STURDY_SHEET,
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_sturdy_sheet.png"));
+                map.put(RobotVariant.NETHERITE,
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_netherite.png"));
+                map.put(RobotVariant.EXPOSED,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_exposed.png"));
-                map.put(AnoleVariant.WEATHERED,
+                map.put(RobotVariant.WEATHERED,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_weathered.png"));
-                map.put(AnoleVariant.OXIDIZED,
+                map.put(RobotVariant.OXIDIZED,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_oxidized.png"));
             });
 

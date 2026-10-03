@@ -441,6 +441,7 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
         builder.define(COLOR, 5);
         builder.define(HARVESTER, false);
         builder.define(PLOUGH, false);
+        builder.define(VARIANT, 0);
     }
 
 

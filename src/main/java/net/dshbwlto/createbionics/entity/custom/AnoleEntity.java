@@ -4,6 +4,7 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
 import net.dshbwlto.createbionics.Util.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
+import net.dshbwlto.createbionics.entity.client.RobotVariant;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleMarkings;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
@@ -129,7 +130,7 @@ public class AnoleEntity extends AbstractRobot {
     @Override
     protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
         super.dropCustomDeathLoot(level, damageSource, recentlyHit);
-        if (getVariant() != AnoleVariant.COPPER) {
+        if (getVariant() != RobotVariant.COPPER) {
             dropIngot(getVariant());
         }
         if (getMarkings() != AnoleMarkings.DEFAULT) {
@@ -275,7 +276,7 @@ public class AnoleEntity extends AbstractRobot {
                 } else {
                     dropIngot(getVariant());
                     dropMaterial(getMarkings());
-                    setVariant(AnoleVariant.COPPER);
+                    setVariant(RobotVariant.COPPER);
                     setMarking(AnoleMarkings.DEFAULT);
                     return InteractionResult.SUCCESS;
                 }
@@ -324,8 +325,8 @@ public class AnoleEntity extends AbstractRobot {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
+        builder.define(VARIANT, 2);
         builder.define(MARKING_MAP, 0);
-
     }
 
     @Override
@@ -344,32 +345,35 @@ public class AnoleEntity extends AbstractRobot {
 
     private void setTypeVariant(ItemStack itemStack) {
         if (itemStack.getItem() == Items.COPPER_INGOT &&
-                getVariant() != AnoleVariant.COPPER &&
-                getVariant() != AnoleVariant.EXPOSED &&
-                getVariant() != AnoleVariant.WEATHERED &&
-                getVariant() != AnoleVariant.OXIDIZED) {
-            setVariant(AnoleVariant.COPPER);
+                getVariant() != RobotVariant.COPPER &&
+                getVariant() != RobotVariant.EXPOSED &&
+                getVariant() != RobotVariant.WEATHERED &&
+                getVariant() != RobotVariant.OXIDIZED) {
+            setVariant(RobotVariant.COPPER);
         } else if (itemStack.is(AllItems.ANDESITE_ALLOY)
-                && getVariant() != AnoleVariant.ANDESITE) {
-            setVariant(AnoleVariant.ANDESITE);
+                && getVariant() != RobotVariant.ANDESITE) {
+            setVariant(RobotVariant.ANDESITE);
         } else if (itemStack.is(AllItems.BRASS_INGOT)
-                && getVariant() != AnoleVariant.BRASS) {
-            setVariant(AnoleVariant.BRASS);
+                && getVariant() != RobotVariant.BRASS) {
+            setVariant(RobotVariant.BRASS);
         } else if (itemStack.is(Items.NETHERITE_INGOT)
-                && getVariant() != AnoleVariant.NETHERITE) {
-            setVariant(AnoleVariant.NETHERITE);
+                && getVariant() != RobotVariant.NETHERITE) {
+            setVariant(RobotVariant.NETHERITE);
+        } else if (itemStack.is(AllItems.STURDY_SHEET)
+                && getVariant() != RobotVariant.STURDY_SHEET) {
+            setVariant(RobotVariant.STURDY_SHEET);
         } else if (itemStack.is(Items.WET_SPONGE)) {
-            if (getVariant() == AnoleVariant.COPPER) {
-                setVariant(AnoleVariant.EXPOSED);
-            } else if (getVariant() == AnoleVariant.EXPOSED) {
-                setVariant(AnoleVariant.WEATHERED);
-            } else if (getVariant() == AnoleVariant.WEATHERED) {
-                setVariant(AnoleVariant.OXIDIZED);
+            if (getVariant() == RobotVariant.COPPER) {
+                setVariant(RobotVariant.EXPOSED);
+            } else if (getVariant() == RobotVariant.EXPOSED) {
+                setVariant(RobotVariant.WEATHERED);
+            } else if (getVariant() == RobotVariant.WEATHERED) {
+                setVariant(RobotVariant.OXIDIZED);
             }
-        } else if (itemStack.is(Items.SPONGE) && (getVariant() == AnoleVariant.EXPOSED
-                || getVariant() == AnoleVariant.WEATHERED
-                || getVariant() == AnoleVariant.OXIDIZED)) {
-            setVariant(AnoleVariant.COPPER);
+        } else if (itemStack.is(Items.SPONGE) && (getVariant() == RobotVariant.EXPOSED
+                || getVariant() == RobotVariant.WEATHERED
+                || getVariant() == RobotVariant.OXIDIZED)) {
+            setVariant(RobotVariant.COPPER);
         }
     }
 
@@ -390,12 +394,12 @@ public class AnoleEntity extends AbstractRobot {
         entityData.set(MARKING_MAP, marking);
     }
 
-    private void dropIngot(AnoleVariant variant) {
-        if (getVariant() == AnoleVariant.BRASS) {
+    private void dropIngot(RobotVariant variant) {
+        if (getVariant() == RobotVariant.BRASS) {
             spawnAtLocation(new ItemStack(AllItems.BRASS_INGOT.asItem()));
-        } else if (getVariant() == AnoleVariant.ANDESITE) {
+        } else if (getVariant() == RobotVariant.ANDESITE) {
             spawnAtLocation(new ItemStack(AllItems.ANDESITE_ALLOY.asItem()));
-        } else if (getVariant() == AnoleVariant.NETHERITE) {
+        } else if (getVariant() == RobotVariant.NETHERITE) {
             spawnAtLocation(new ItemStack(Items.NETHERITE_INGOT));
         }
     }
@@ -418,15 +422,15 @@ public class AnoleEntity extends AbstractRobot {
         return this.entityData.get(MARKING_MAP);
     }
 
-    public AnoleVariant getVariant() {
-        return AnoleVariant.byId(this.getTypeVariant() & 255);
+    public RobotVariant getVariant() {
+        return RobotVariant.byId(this.getTypeVariant() & 255);
     }
 
     public AnoleMarkings getMarkings() {
         return AnoleMarkings.byId(this.getTypeMarkings() & 255);
     }
 
-    public void setVariant(AnoleVariant variant) {
+    public void setVariant(RobotVariant variant) {
         this.entityData.set(VARIANT, variant.getId() & 255);
     }
 

@@ -1,8 +1,11 @@
 
 package net.dshbwlto.createbionics.registry.custom;
 
+import com.simibubi.create.foundation.data.CreateBlockEntityBuilder;
 import com.simibubi.create.foundation.data.CreateRegistrate;
+import com.tterrag.registrate.builders.BlockEntityBuilder;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import javax.sound.midi.MidiFileFormat;
 import java.util.function.Supplier;

@@ -82,6 +82,24 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity> implements Me
     public GroundLevelSamplerPartEntity leg3_r1;
     public GroundLevelSamplerPartEntity leg3_r2;
 
+    public boolean isInPonderScene = false;
+    public boolean showleg1L;
+    public boolean showleg1R;
+    public boolean showleg2L;
+    public boolean showleg2R;
+    public boolean showleg3L;
+    public boolean showleg3R;
+    public boolean showPump;
+    public boolean showTank;
+    public boolean showTankSingle;
+    public boolean showTankBottom;
+    public boolean showTank3;
+    public boolean showTank4;
+    public boolean showTank5;
+    public boolean showTankTop;
+    public boolean showTankCap;
+    public int ponderTankOffset = 0;
+
     public static final EntityDataAccessor<FluidStack> TANK_FLUID =
             SynchedEntityData.defineId(RepleteEntity.class, BionicsEntityDataSerializers.FLUID_STACK.get());
 
@@ -487,6 +505,7 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity> implements Me
         super.defineSynchedData(builder);
         builder.define(TANK_FLUID, FluidStack.EMPTY);
         builder.define(Y, 0f);
+        builder.define(VARIANT, 0);
     }
 
     @Override
