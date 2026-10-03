@@ -246,6 +246,7 @@ public class AnoleEntity extends AbstractRobot {
                 return InteractionResult.SUCCESS;
             } else if (itemStack.is(AllItems.ANDESITE_ALLOY)
                     || itemStack.is(AllItems.BRASS_INGOT)
+                    || itemStack.is(AllItems.STURDY_SHEET)
                     || itemStack.is(Items.NETHERITE_INGOT)) {
                 dropIngot(getVariant());
                 setTypeVariant(itemStack);
