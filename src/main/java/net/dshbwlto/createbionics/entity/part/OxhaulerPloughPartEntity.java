@@ -3,7 +3,7 @@ package net.dshbwlto.createbionics.entity.part;
 import com.simibubi.create.AllBlocks;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
 import net.dshbwlto.createbionics.entity.custom.OxhaulerEntity;
-import net.dshbwlto.createbionics.integration.FarmersDelight;
+import net.dshbwlto.createbionics.compat.FarmersDelight;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;

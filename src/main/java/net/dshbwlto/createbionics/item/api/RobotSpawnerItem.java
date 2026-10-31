@@ -59,6 +59,17 @@ public class RobotSpawnerItem extends Item {
         }
     }
 
+    public int variantColor(int variant) {
+        return variant == 0 ? 11184810
+                : variant == 1 ? 0xF1DD79
+                : variant == 2 ? 0xC9974C
+                : variant == 3 ? 0x4f5656
+                : variant == 4 ? 0x6d585d
+                : variant == 5 ? 0x937661
+                : variant == 6 ? 0x738b55
+                : 0x58af92;
+    }
+
     public void spawnEntity(Level level, BlockPos blockpos, InteractionHand hand, Player player) {
     }
 }

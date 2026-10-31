@@ -4,6 +4,7 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
 import net.dshbwlto.createbionics.Util.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
+import net.dshbwlto.createbionics.entity.client.RobotVariant;
 import net.dshbwlto.createbionics.entity.client.matchbox.MatchboxVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
@@ -142,7 +143,7 @@ public class MatchboxEntity extends AbstractRobot {
     @Override
     protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
         super.dropCustomDeathLoot(level, damageSource, recentlyHit);
-        if (getVariant() != MatchboxVariant.ANDESITE) {
+        if (getVariant() != RobotVariant.ANDESITE) {
             dropIngot();
         }
         for (int i = 0; i < torchCount(); i++) {
@@ -344,7 +345,7 @@ public class MatchboxEntity extends AbstractRobot {
                     }
                 } else {
                     dropIngot();
-                    setVariant(MatchboxVariant.ANDESITE);
+                    setVariant(RobotVariant.ANDESITE);
                 }
                 return InteractionResult.SUCCESS;
             } else if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL)) {
@@ -449,18 +450,18 @@ public class MatchboxEntity extends AbstractRobot {
 
     private void setTypeVariant(ItemStack itemStack) {
         if (itemStack.is(Items.COPPER_INGOT)
-                && getVariant() != MatchboxVariant.COPPER) {
-            setVariant(MatchboxVariant.COPPER);
+                && getVariant() != RobotVariant.COPPER) {
+            setVariant(RobotVariant.COPPER);
         } else if (itemStack.is(AllItems.BRASS_INGOT)
-                && getVariant() != MatchboxVariant.BRASS) {
-            setVariant(MatchboxVariant.BRASS);
+                && getVariant() != RobotVariant.BRASS) {
+            setVariant(RobotVariant.BRASS);
         }
     }
 
     private void dropIngot() {
-        if (getVariant() == MatchboxVariant.BRASS) {
+        if (getVariant() == RobotVariant.BRASS) {
             spawnAtLocation(new ItemStack(AllItems.BRASS_INGOT.asItem()));
-        } else if (getVariant() == MatchboxVariant.COPPER) {
+        } else if (getVariant() == RobotVariant.COPPER) {
             spawnAtLocation(new ItemStack(Items.COPPER_INGOT));
         }
     }
@@ -469,11 +470,11 @@ public class MatchboxEntity extends AbstractRobot {
         return this.entityData.get(VARIANT);
     }
 
-    public MatchboxVariant getVariant() {
-        return MatchboxVariant.byId(this.getTypeVariant() & 255);
+    public RobotVariant getVariant() {
+        return RobotVariant.byId(this.getTypeVariant() & 255);
     }
 
-    public void setVariant(MatchboxVariant variant) {
+    public void setVariant(RobotVariant variant) {
         this.entityData.set(VARIANT, variant.getId() & 255);
     }
 
@@ -491,7 +492,6 @@ public class MatchboxEntity extends AbstractRobot {
             return Math.max(block, sky);
         }
     }
-
 
     public void placeTorch() {
         if (!level().getBlockState(blockPosition()).isAir()) {

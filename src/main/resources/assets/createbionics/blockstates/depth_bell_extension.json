@@ -1,0 +1,83 @@
+{
+  "variants": {
+    "size=1,shape=single": {
+      "model": "createbionics:block/depth_bell/extension_1_1"
+    },
+    "size=1,shape=double": {
+      "model": "createbionics:block/depth_bell/extension_1_2"
+    },
+    "size=1,shape=triple": {
+      "model": "createbionics:block/depth_bell/extension_1_3"
+    },
+    "size=1,shape=quadruple": {
+      "model": "createbionics:block/depth_bell/extension_1_4"
+    },
+    "size=1,shape=quadruple_connected": {
+      "model": "createbionics:block/depth_bell/extension_1_5"
+    },
+
+    "size=2,shape=single": {
+      "model": "createbionics:block/depth_bell/extension_2_1"
+    },
+    "size=2,shape=double": {
+      "model": "createbionics:block/depth_bell/extension_2_2"
+    },
+    "size=2,shape=triple": {
+      "model": "createbionics:block/depth_bell/extension_2_3"
+    },
+    "size=2,shape=quadruple": {
+      "model": "createbionics:block/depth_bell/extension_2_4"
+    },
+    "size=2,shape=quadruple_connected": {
+      "model": "createbionics:block/depth_bell/extension_2_5"
+    },
+
+    "size=3,shape=single": {
+      "model": "createbionics:block/depth_bell/extension_3_1"
+    },
+    "size=3,shape=double": {
+      "model": "createbionics:block/depth_bell/extension_3_2"
+    },
+    "size=3,shape=triple": {
+      "model": "createbionics:block/depth_bell/extension_3_3"
+    },
+    "size=3,shape=quadruple": {
+      "model": "createbionics:block/depth_bell/extension_3_4"
+    },
+    "size=3,shape=quadruple_connected": {
+      "model": "createbionics:block/depth_bell/extension_3_5"
+    },
+
+    "size=4,shape=single": {
+      "model": "createbionics:block/depth_bell/extension_4_1"
+    },
+    "size=4,shape=double": {
+      "model": "createbionics:block/depth_bell/extension_4_2"
+    },
+    "size=4,shape=triple": {
+      "model": "createbionics:block/depth_bell/extension_4_3"
+    },
+    "size=4,shape=quadruple": {
+      "model": "createbionics:block/depth_bell/extension_4_4"
+    },
+    "size=4,shape=quadruple_connected": {
+      "model": "createbionics:block/depth_bell/extension_4_5"
+    },
+
+    "size=5,shape=single": {
+      "model": "createbionics:block/depth_bell/extension_5_1"
+    },
+    "size=5,shape=double": {
+      "model": "createbionics:block/depth_bell/extension_5_2"
+    },
+    "size=5,shape=triple": {
+      "model": "createbionics:block/depth_bell/extension_5_3"
+    },
+    "size=5,shape=quadruple": {
+      "model": "createbionics:block/depth_bell/extension_5_4"
+    },
+    "size=5,shape=quadruple_connected": {
+      "model": "createbionics:block/depth_bell/extension_5_5"
+    }
+  }
+}

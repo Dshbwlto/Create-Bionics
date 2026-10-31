@@ -38,7 +38,7 @@ public class SeekerItem extends RobotSpawnerItem {
     @Override
     public void spawnEntity(Level level, BlockPos blockPos, InteractionHand hand, Player player) {
         ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
-        int variant = stack.get(BionicsDataComponentTypes.VARIANT.get()) != null ? stack.get(BionicsDataComponentTypes.VARIANT.get()) : 2;
+        int variant = stack.get(BionicsDataComponentTypes.VARIANT.get()) != null ? stack.get(BionicsDataComponentTypes.VARIANT.get()) : 0;
         int fuel = stack.get(BionicsDataComponentTypes.FUEL.get()) != null ? stack.get(BionicsDataComponentTypes.FUEL.get()) : 0;
         int pickaxe = stack.get(BionicsDataComponentTypes.MISC_INT.get()) != null ? stack.get(BionicsDataComponentTypes.MISC_INT.get()) : 0;
         String name = stack.get(BionicsDataComponentTypes.NAME.get());
@@ -57,17 +57,16 @@ public class SeekerItem extends RobotSpawnerItem {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        int variant = stack.get(BionicsDataComponentTypes.VARIANT.get()) != null ? stack.get(BionicsDataComponentTypes.VARIANT.get()) : 2;
+        int variant = stack.get(BionicsDataComponentTypes.VARIANT.get()) != null ? stack.get(BionicsDataComponentTypes.VARIANT.get()) : 0;
         int fuel = stack.get(BionicsDataComponentTypes.FUEL.get()) != null ? stack.get(BionicsDataComponentTypes.FUEL.get()) : 0;
         int pickaxe = stack.get(BionicsDataComponentTypes.MISC_INT.get()) != null ? stack.get(BionicsDataComponentTypes.MISC_INT.get()) : 0;
         String name = stack.get(BionicsDataComponentTypes.NAME.get());
 
-        int variantColor = variant == 0 ? 0xC9974C : variant == 1 ? 0xF1DD79 : 11184810;
         int pickaxeColor = pickaxe == 0 ? 0xFFFFFF : pickaxe == 1 ? 0x4aedd9 : 0x6d585d;
         int fuelColor = fuel > 24000 ? 16733695 : fuel > 12000 ? 0x93ebff : fuel > 0 ? 0xfc9903 : 5592405;
         tooltipComponents.add(Component.literal(""));
 
-        tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.variant").append(Component.translatable("entity.createbionics.tooltip.variant_" + variant).setStyle(Style.EMPTY.withColor(variantColor))));
+        tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.variant").append(Component.translatable("entity.createbionics.tooltip.variant_" + variant).setStyle(Style.EMPTY.withColor(variantColor(variant)))));
         tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.pickaxe").append(Component.translatable("entity.createbionics.tooltip.pickaxe_" + pickaxe).setStyle(Style.EMPTY.withColor(pickaxeColor))));
         if (fuel != 0) {
             tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.fuel").append(fuel == 24001 ? Component.translatable("entity.createbionics.tooltip.infinite").getString() : TimeUtil.ticksToMinutes(fuel)).setStyle(Style.EMPTY.withColor(fuelColor)));

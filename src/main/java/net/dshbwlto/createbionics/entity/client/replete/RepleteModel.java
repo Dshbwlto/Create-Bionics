@@ -599,8 +599,6 @@ public class RepleteModel<T extends RepleteEntity> extends HierarchicalModel<T> 
         return LayerDefinition.create(meshdefinition, 256, 256);
     }
 
-
-
     @Override
     public void setupAnim(RepleteEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.root().getAllParts().forEach(ModelPart::resetPose);

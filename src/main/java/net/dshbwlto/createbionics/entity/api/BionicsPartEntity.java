@@ -50,7 +50,6 @@ public abstract class BionicsPartEntity<T extends Entity> extends PartEntity<T> 
         return parent != null && parent.isPickable();
     }
 
-
     @Override
     public boolean hurt(DamageSource source, float amount) {
         Entity parent = this.getParent();

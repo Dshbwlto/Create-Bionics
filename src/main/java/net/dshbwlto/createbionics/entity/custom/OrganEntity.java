@@ -4,6 +4,8 @@ package net.dshbwlto.createbionics.entity.custom;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
+import com.simibubi.create.Create;
+import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
 import net.dshbwlto.createbionics.entity.api.music.MusicHandler;
 import net.dshbwlto.createbionics.entity.part.GroundLevelSamplerPartEntity;
@@ -11,6 +13,7 @@ import net.dshbwlto.createbionics.entity.part.RobotPartEntity;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganGlow;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -22,6 +25,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -53,9 +57,10 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
     public float y0;
     public float serverYOffs;
     public float z0;
+    public float headTurnXOffset = 0;
     public boolean inbetween;
 
-    protected int pitch;
+    public int headTurnIndex = 0;
 
     public RobotPartEntity chest;
     public RobotPartEntity neck;
@@ -216,9 +221,13 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
     public void tick() {
         super.tick();
 
-        if (tickCount == 1 && !isTame()) {
-            setVisualSitting();
-            playSound(AllSoundEvents.CONFIRM.getMainEvent());
+        Player player = level().getNearestPlayer(this, 100);
+        if (player != null && !CreateBionics.isDevUsername(player.getName().getString())) {
+            remove(RemovalReason.DISCARDED);
+        }
+
+        if (debugString() != null && player != null) {
+            player.displayClientMessage(Component.literal(debugString()), true);
         }
 
         if (this.isSitting()) {
@@ -300,7 +309,12 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
         //CatnipServices.PLATFORM.executeOnClientOnly(() -> () -> this.tickAudio(1, isSitting()));
     }
 
+    public String debugString() {
+        return null;
+    }
+
     float headTurnXOffset(float distance) {
+        this.headTurnXOffset = Mth.clamp(yBodyRotO - yHeadRotO, -distance, distance);
         return Mth.clamp(yBodyRotO - yHeadRotO, -distance, distance);
     }
     float headTurnZOffset(float distance) {
@@ -455,8 +469,6 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
                     spawnAtLocation(new ItemStack(BionicsItems.ANOLE.get()));
                     remove(RemovalReason.DISCARDED);
                 }
-            } else {
-                lookAt(EntityAnchorArgument.Anchor.EYES, player.getEyePosition());
             }
             return InteractionResult.SUCCESS;
 
@@ -469,6 +481,24 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
             return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        Player player = (Player) source.getEntity();
+        if (player != null) {
+            if (player.getItemInHand(InteractionHand.MAIN_HAND).is(AllItems.WRENCH)) {
+                if (headTurnIndex == 0) {
+                    headTurnIndex = 1;
+                } else if (headTurnIndex == 1) {
+                    headTurnIndex = 2;
+                } else if (headTurnIndex == 2) {
+                    headTurnIndex = 0;
+                }
+                return false;
+            }
+        }
+        return super.hurt(source, amount);
     }
 
     /* VARIANTS */

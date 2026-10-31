@@ -34,26 +34,10 @@ public class BionicsModelLayers {
     public static final ModelLayerLocation MATCHBOX_GLOW = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "matchbox"), "glow");
 
-    public static final ModelLayerLocation STALKER = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "stalker"), "main");
-    public static final ModelLayerLocation STALKER_GLOW = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "stalker"), "glow");
-    public static final ModelLayerLocation STALKER_CAPTAIN = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "stalker_captain"), "main");
-    public static final ModelLayerLocation STALKER_CAPTAIN_GLOW = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "stalker_captain"), "glow");
-
     public static final ModelLayerLocation ORGAN = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "organ"), "main");
     public static final ModelLayerLocation ORGAN_GLOW = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "organ"), "glow");
     public static final ModelLayerLocation ORGAN_EXHAUST = new ModelLayerLocation(
             ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "organ"), "exhaust");
-
-    public static final ModelLayerLocation SHARK = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "shark"), "main");
-
-    public static final ModelLayerLocation GOLEM = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "golem"), "main"
-    );
 }

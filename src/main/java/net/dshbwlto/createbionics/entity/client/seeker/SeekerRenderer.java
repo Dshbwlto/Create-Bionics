@@ -8,6 +8,7 @@ import dev.engine_room.flywheel.lib.transform.TransformStack;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
+import net.dshbwlto.createbionics.entity.client.RobotVariant;
 import net.dshbwlto.createbionics.entity.custom.SeekerEntity;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -32,13 +33,13 @@ import net.minecraft.world.phys.Vec3;
 import java.util.Map;
 
 public class SeekerRenderer extends MobRenderer<SeekerEntity, SeekerModel<SeekerEntity>> {
-    private final Map<SeekerVariant, ResourceLocation> LOCATION_BY_VARIANT =
-            Util.make(Maps.newEnumMap(SeekerVariant.class),map -> {
-                map.put(SeekerVariant.COPPER,
+    private final Map<RobotVariant, ResourceLocation> LOCATION_BY_VARIANT =
+            Util.make(Maps.newEnumMap(RobotVariant.class),map -> {
+                map.put(RobotVariant.COPPER,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/seeker/seeker_copper.png"));
-                map.put(SeekerVariant.BRASS,
+                map.put(RobotVariant.BRASS,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/seeker/seeker_brass.png"));
-                map.put(SeekerVariant.ANDESITE,
+                map.put(RobotVariant.ANDESITE,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/seeker/seeker_andesite.png"));
             });
 

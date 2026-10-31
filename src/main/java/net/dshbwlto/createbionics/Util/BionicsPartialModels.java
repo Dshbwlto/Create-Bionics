@@ -126,6 +126,7 @@ public class BionicsPartialModels {
             BODY_4 = part("anole_item_4"),
             BODY_5 = part("anole_item_5"),
             BODY_6 = part("anole_item_6"),
+            BODY_7 = part("anole_item_7"),
 
     MARKING_1 = part("anole_marking_1"),
             MARKING_2 = part("anole_marking_2"),
@@ -138,6 +139,7 @@ public class BionicsPartialModels {
             CHEST_4 = part("anole_item_chest_4"),
             CHEST_5 = part("anole_item_chest_5"),
             CHEST_6 = part("anole_item_chest_6"),
+            CHEST_7 = part("anole_item_chest_7"),
 
     CHEST_MARKING_0 = part("anole_marking_chest_0"),
             CHEST_MARKING_1 = part("anole_marking_chest_1"),
@@ -151,6 +153,7 @@ public class BionicsPartialModels {
             NECK_4 = part("anole_item_neck_4"),
             NECK_5 = part("anole_item_neck_5"),
             NECK_6 = part("anole_item_neck_6"),
+            NECK_7 = part("anole_item_neck_7"),
 
     HEAD_0 = part("anole_item_head_0"),
             HEAD_1 = part("anole_item_head_1"),
@@ -159,6 +162,7 @@ public class BionicsPartialModels {
             HEAD_4 = part("anole_item_head_4"),
             HEAD_5 = part("anole_item_head_5"),
             HEAD_6 = part("anole_item_head_6"),
+            HEAD_7 = part("anole_item_head_7"),
 
     HAT_0 = part("anole_item_hat_0"),
             HAT_1 = part("anole_item_hat_1"),
@@ -183,6 +187,7 @@ public class BionicsPartialModels {
             TAIL1_4 = part("anole_item_tail1_4"),
             TAIL1_5 = part("anole_item_tail1_5"),
             TAIL1_6 = part("anole_item_tail1_6"),
+            TAIL1_7 = part("anole_item_tail1_7"),
 
     TAIL1_MARKING_0 = part("anole_marking_tail1_0"),
             TAIL1_MARKING_1 = part("anole_marking_tail1_1"),
@@ -221,7 +226,17 @@ public class BionicsPartialModels {
 
     MATCHBOX_PREVIEW_TORCH = part("matchbox_preview_torch"),
 
-    ORB_OF_CONFUSION = block("orb_of_confusion/block");
+    DEPTH_BELL_CAP_1 = block("depth_bell/cap_1"),
+            DEPTH_BELL_CAP_2 = block("depth_bell/cap_2"),
+            DEPTH_BELL_CAP_3 = block("depth_bell/cap_3"),
+            DEPTH_BELL_CAP_4 = block("depth_bell/cap_4"),
+            DEPTH_BELL_CAP_5 = block("depth_bell/cap_5"),
+
+    DEPTH_BELL_EXTENSION_1 = block("depth_bell/extension_1"),
+            DEPTH_BELL_EXTENSION_2 = block("depth_bell/extension_2"),
+            DEPTH_BELL_EXTENSION_3 = block("depth_bell/extension_3"),
+            DEPTH_BELL_EXTENSION_4 = block("depth_bell/extension_4"),
+            DEPTH_BELL_EXTENSION_5 = block("depth_bell/extension_5");
 
     private static PartialModel part(String path) {
         return PartialModel.of(CreateBionics.asResource("item/" + path));
@@ -229,6 +244,13 @@ public class BionicsPartialModels {
 
     private static PartialModel block(String path) {
         return PartialModel.of(CreateBionics.asResource("block/" + path));
+    }
+
+    public static PartialModel depthBellCap(int size) {
+        return block("depth_bell/cap_" + size);
+    }
+    public static PartialModel depthBellExtension(int size) {
+        return block("depth_bell/extension_" + size);
     }
 
     public static PartialModel whistleBase(boolean middle, int size, int variant, boolean glow) {

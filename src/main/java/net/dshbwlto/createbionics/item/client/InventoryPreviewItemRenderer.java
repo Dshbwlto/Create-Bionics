@@ -16,52 +16,62 @@ import net.minecraft.world.item.ItemStack;
 
 public class InventoryPreviewItemRenderer extends CustomRenderedItemModelRenderer {
 
+    public void transformAnole(PoseStack ms) {
+        ms.mulPose(Axis.XP.rotationDegrees(30));
+        ms.mulPose(Axis.YP.rotationDegrees(135));
+        ms.translate(1.5/16f, 0, 0);
+    }
+    public void transformSeeker(PoseStack ms) {
+        ms.mulPose(Axis.XP.rotationDegrees(30));
+        ms.mulPose(Axis.YP.rotationDegrees(135));
+        ms.translate(0, 5/16f, 0);
+        //ms.scale(0.73f, 0.73f, 0.73f);
+    }
+    public void transformMatchbox(PoseStack ms) {
+        ms.mulPose(Axis.XP.rotationDegrees(30));
+        ms.mulPose(Axis.YP.rotationDegrees(135));
+        ms.translate(1.5/16f, 0, 0);
+        ms.scale(0.73f, 0.73f, 0.73f);
+    }
+    public void transformOxhauler(PoseStack ms) {
+        ms.mulPose(Axis.XP.rotationDegrees(30));
+        ms.mulPose(Axis.YP.rotationDegrees(135));
+        ms.translate(-0.2, 0, 0);
+        ms.scale(0.5f, 0.5f, 0.5f);
+    }
+    public void transformReplete(PoseStack ms) {
+        ms.mulPose(Axis.XP.rotationDegrees(30));
+        ms.mulPose(Axis.YP.rotationDegrees(135));
+        ms.translate(0.1, -0.2, 0);
+        ms.scale(0.3f, 0.3f, 0.3f);
+    }
+
     @Override
     protected void render(ItemStack stack, CustomRenderedItemModel model, PartialItemModelRenderer renderer, ItemDisplayContext transformType, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
         InventoryPreviewItem item = (InventoryPreviewItem) stack.getItem();
-        float tailYaw = Mth.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 20) / 10;
+        AnoleItemRenderer anoleItemRenderer = new AnoleItemRenderer();
+        MatchboxItemRenderer matchboxItemRenderer = new MatchboxItemRenderer();
+        SeekerItemRenderer seekerItemRenderer = new SeekerItemRenderer();
+        RepleteBodyItemRenderer repleteBodyItemRenderer = new RepleteBodyItemRenderer();
+        OxhaulerHeadItemRenderer oxhaulerHeadItemRenderer = new OxhaulerHeadItemRenderer();
 
-        if (((int) (AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks())) * 20 % 1200 == 0) {
-            item.advanceRobot();
+        int i = AnimationTickHolder.getTicks() % 200 < 40 ? 1 : AnimationTickHolder.getTicks() % 200 < 80 ? 2 : AnimationTickHolder.getTicks() % 200 < 120 ? 3 : AnimationTickHolder.getTicks() % 200 < 160 ? 4 : 5;
+
+        if (i == 1) {
+            transformAnole(ms);
+            anoleItemRenderer.render(stack, model, renderer, transformType, ms, buffer, light, overlay);
+        } else if (i == 2) {
+            transformSeeker(ms);
+            seekerItemRenderer.render(stack, model, renderer, transformType, ms, buffer, light, overlay);
+        } else if (i == 3) {
+            transformMatchbox(ms);
+            matchboxItemRenderer.render(stack, model, renderer, transformType, ms, buffer, light, overlay);
+        } else if (i == 4) {
+            transformOxhauler(ms);
+            oxhaulerHeadItemRenderer.render(stack, model, renderer, transformType, ms, buffer, light, overlay);
+        } else {
+            transformReplete(ms);
+            repleteBodyItemRenderer.render(stack, model, renderer, transformType, ms, buffer, light, overlay);
         }
-
-        ms.mulPose(Axis.XN.rotation(-30 * Mth.PI / 180));
-        ms.mulPose(Axis.YN.rotation(-135 * Mth.PI / 180));
-        ms.translate(1.75f / 16, 0, 0);
-        PartialModel body = PartialModel.of(CreateBionics.asResource("item/anole_item_" + item.variant));
-        PartialModel body_marking = PartialModel.of(CreateBionics.asResource("item/anole_marking_" + item.marking));
-        PartialModel chest = PartialModel.of(CreateBionics.asResource("item/anole_item_chest_" + item.variant));
-        PartialModel chest_marking = PartialModel.of(CreateBionics.asResource("item/anole_marking_chest_" + item.marking));
-
-        PartialModel neck = PartialModel.of(CreateBionics.asResource("item/anole_item_neck_" + item.variant));
-
-        PartialModel head = PartialModel.of(CreateBionics.asResource("item/anole_item_head_" + item.variant));
-        PartialModel head_marking = PartialModel.of(CreateBionics.asResource("item/anole_marking_head_" + item.marking));
-
-        PartialModel tail1 = PartialModel.of(CreateBionics.asResource("item/anole_item_tail1_" + item.variant));
-        PartialModel tail1_marking = PartialModel.of(CreateBionics.asResource("item/anole_marking_tail1_" + item.marking));
-
-        PartialModel tail2 = PartialModel.of(CreateBionics.asResource("item/anole_item_tail2_" + item.variant));
-        PartialModel tail2_marking = PartialModel.of(CreateBionics.asResource("item/anole_marking_tail2_" + item.marking));
-
-        renderer.render(body.get(), light);
-        ms.mulPose(Axis.YP.rotation(tailYaw - Mth.PI / 4));
-        ms.translate(0,0.001f, 0);
-        renderer.render(tail1.get(), light);
-        ms.translate(0, 0.001f, 5 / 16f);
-        ms.mulPose(Axis.YP.rotation(tailYaw - Mth.PI / 3.5f));
-        renderer.render(tail2.get(), light);
-        ms.mulPose(Axis.YP.rotation(-tailYaw + Mth.PI /  3.5f));
-        ms.translate(0, -0.002f, -5 / 16f);
-        ms.mulPose(Axis.YP.rotation(-tailYaw + Mth.PI / 4));
-        ms.translate(0, 0, -3 / 16f);
-        ms.mulPose(Axis.YP.rotation(Mth.PI / 8));
-        renderer.render(chest.get(), light);
-        ms.translate(0, 0, -3 / 16f);
-        ms.mulPose(Axis.YP.rotation(Mth.PI / 8));
-        renderer.render(neck.get(), light);
-        ms.translate(0, 0, -1 / 8f);
-        ms.mulPose(Axis.YP.rotation(Mth.PI / 8));
-        renderer.render(head.get(), light);
     }
 }

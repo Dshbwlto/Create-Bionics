@@ -5,9 +5,9 @@ import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.content.logistics.packagerLink.WiFiParticle;
 import net.dshbwlto.createbionics.Util.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
+import net.dshbwlto.createbionics.entity.client.RobotVariant;
 import net.dshbwlto.createbionics.entity.client.matchbox.MatchboxVariant;
 import net.dshbwlto.createbionics.entity.client.seeker.SeekerPickaxe;
-import net.dshbwlto.createbionics.entity.client.seeker.SeekerVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.Util.BionicsTags;
 import net.minecraft.core.BlockPos;
@@ -81,7 +81,7 @@ public class SeekerEntity extends AbstractRobot {
     public SeekerEntity(EntityType<? extends AbstractRobot> entityType, Level level) {
         super(entityType, level);
         if (!isAddedToLevel()) {
-            setVariant(SeekerVariant.ANDESITE);
+            setVariant(RobotVariant.ANDESITE);
         }
     }
 
@@ -138,7 +138,7 @@ public class SeekerEntity extends AbstractRobot {
     @Override
     protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
         super.dropCustomDeathLoot(level, damageSource, recentlyHit);
-        if (getVariant() != SeekerVariant.ANDESITE) {
+        if (getVariant() != RobotVariant.ANDESITE) {
             dropIngot();
         }
         if (getPickaxe() != SeekerPickaxe.IRON) {
@@ -336,7 +336,7 @@ public class SeekerEntity extends AbstractRobot {
                     collapseAnimationState.start(tickCount);
                 } else {
                     dropIngot();
-                    setVariant(SeekerVariant.ANDESITE);
+                    setVariant(RobotVariant.ANDESITE);
                 }
                 return InteractionResult.SUCCESS;
             } else if (itemStack.is(AllItems.ANDESITE_ALLOY) && getHealth() < getMaxHealth()) {
@@ -418,11 +418,11 @@ public class SeekerEntity extends AbstractRobot {
 
     private void setTypeVariant(ItemStack itemStack) {
         if (itemStack.is(Items.COPPER_INGOT)
-                && getVariant() != SeekerVariant.COPPER) {
-            setVariant(SeekerVariant.COPPER);
+                && getVariant() != RobotVariant.COPPER) {
+            setVariant(RobotVariant.COPPER);
         } else if (itemStack.is(AllItems.BRASS_INGOT)
-                && getVariant() != SeekerVariant.BRASS) {
-            setVariant(SeekerVariant.BRASS);
+                && getVariant() != RobotVariant.BRASS) {
+            setVariant(RobotVariant.BRASS);
         }
     }
 
@@ -474,9 +474,9 @@ public class SeekerEntity extends AbstractRobot {
     }
 
     private void dropIngot() {
-        if (getVariant() == SeekerVariant.BRASS) {
+        if (getVariant() == RobotVariant.BRASS) {
             spawnAtLocation(new ItemStack(AllItems.BRASS_INGOT.asItem()));
-        } else if (getVariant() == SeekerVariant.COPPER) {
+        } else if (getVariant() == RobotVariant.COPPER) {
             spawnAtLocation(new ItemStack(Items.COPPER_INGOT.asItem()));
         }
     }
@@ -485,11 +485,11 @@ public class SeekerEntity extends AbstractRobot {
         return this.entityData.get(VARIANT);
     }
 
-    public SeekerVariant getVariant() {
-        return SeekerVariant.byId(this.getTypeVariant() & 255);
+    public RobotVariant getVariant() {
+        return RobotVariant.byId(this.getTypeVariant() & 255);
     }
 
-    public void setVariant(SeekerVariant variant) {
+    public void setVariant(RobotVariant variant) {
         this.entityData.set(VARIANT, variant.getId() & 255);
     }
 

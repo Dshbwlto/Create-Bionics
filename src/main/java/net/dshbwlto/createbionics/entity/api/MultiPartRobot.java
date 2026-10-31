@@ -33,7 +33,7 @@ public abstract class MultiPartRobot<T extends RobotPartEntity> extends Abstract
      * @param damage the amount of damage dealt
      * @return true if damage was taken, false otherwise
      */
-    public boolean hurtPart(T part, DamageSource source, float damage) {
+    public boolean hurtPart(RobotPartEntity part, DamageSource source, float damage) {
         return this.hurt(source, damage);
     }
 

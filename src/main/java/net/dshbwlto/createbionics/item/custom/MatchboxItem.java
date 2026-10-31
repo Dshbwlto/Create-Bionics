@@ -38,7 +38,7 @@ public class MatchboxItem extends RobotSpawnerItem {
     @Override
     public void spawnEntity(Level level, BlockPos blockPos, InteractionHand hand, Player player) {
         ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
-        int variant = stack.get(BionicsDataComponentTypes.VARIANT.get()) != null ? stack.get(BionicsDataComponentTypes.VARIANT.get()) : 2;
+        int variant = stack.get(BionicsDataComponentTypes.VARIANT.get()) != null ? stack.get(BionicsDataComponentTypes.VARIANT.get()) : 0;
         int fuel = stack.get(BionicsDataComponentTypes.FUEL.get()) != null ? stack.get(BionicsDataComponentTypes.FUEL.get()) : 0;
         int torches = stack.get(BionicsDataComponentTypes.MISC_INT.get()) != null ? stack.get(BionicsDataComponentTypes.MISC_INT.get()) : 0;
         String name = stack.get(BionicsDataComponentTypes.NAME.get());
@@ -57,17 +57,16 @@ public class MatchboxItem extends RobotSpawnerItem {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        int variant = stack.get(BionicsDataComponentTypes.VARIANT.get()) != null ? stack.get(BionicsDataComponentTypes.VARIANT.get()) : 2;
+        int variant = stack.get(BionicsDataComponentTypes.VARIANT.get()) != null ? stack.get(BionicsDataComponentTypes.VARIANT.get()) : 0;
         int fuel = stack.get(BionicsDataComponentTypes.FUEL.get()) != null ? stack.get(BionicsDataComponentTypes.FUEL.get()) : 0;
         int torches = stack.get(BionicsDataComponentTypes.MISC_INT.get()) != null ? stack.get(BionicsDataComponentTypes.MISC_INT.get()) : 0;
         String name = stack.get(BionicsDataComponentTypes.NAME.get());
-        int variantColor = variant == 0 ? 0xC9974C : variant == 1 ? 0xF1DD79 : 11184810;
         int fuelColor = fuel > 24000 ? 16733695 : fuel > 12000 ? 0x93ebff : fuel > 0 ? 0xfc9903 : 5592405;
         int torchColor = torches == 0 ? 5592405 : 16777215;
 
         tooltipComponents.add(Component.literal(""));
 
-        tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.variant").append(Component.translatable("entity.createbionics.tooltip.variant_" + variant).setStyle(Style.EMPTY.withColor(variantColor))));
+        tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.variant").append(Component.translatable("entity.createbionics.tooltip.variant_" + variant).setStyle(Style.EMPTY.withColor(variantColor(variant)))));
         tooltipComponents.add(Component.translatable("entity.createbionics.tooltip.torches").append(Component.literal("" + torches).setStyle(Style.EMPTY.withColor(torchColor))));
 
         if (fuel != 0) {

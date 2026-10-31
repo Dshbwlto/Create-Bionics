@@ -98,3 +98,11 @@ type = "optional"
 versionRange = "[1.3.2,)"
 ordering = "NONE"
 side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "journeymap"
+type = "optional"
+reason = "Versions before 1.21.1-6.0.0-beta.46 do not contain the APIs Create requires to work with JourneyMap."
+versionRange = "[1.21.1-6.0.0-beta.46,)"
+ordering = "NONE"
+side = "CLIENT"

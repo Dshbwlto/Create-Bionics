@@ -2,11 +2,7 @@ package net.dshbwlto.createbionics.item.custom;
 
 import com.simibubi.create.foundation.item.render.SimpleCustomRenderer;
 import net.createmod.catnip.animation.AnimationTickHolder;
-import net.dshbwlto.createbionics.item.client.AnoleItemRenderer;
 import net.dshbwlto.createbionics.item.client.InventoryPreviewItemRenderer;
-import net.dshbwlto.createbionics.item.client.OrganHeadItemRenderer;
-import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -22,17 +18,27 @@ public class InventoryPreviewItem extends Item {
         super(properties);
     }
 
+    public int robotCount = 3;
     public int currentRobot = 1;
-    public int robotCount = 6;
-    public int variant = 0;
     public int marking = 0;
     public int countdown = 0;
 
     public void advanceRobot() {
-        if (variant < robotCount) {
-            variant += 1;
+        if (currentRobot < robotCount) {
+            currentRobot += 1;
         } else {
-            variant = 0;
+            currentRobot = 1;
+        }
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
+        super.inventoryTick(stack, level, entity, slotId, isSelected);
+        if (countdown > 0) {
+            countdown -= 1;
+        } else {
+            countdown = 60;
+            advanceRobot();
         }
     }
 

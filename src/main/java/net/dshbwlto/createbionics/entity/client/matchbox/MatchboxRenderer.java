@@ -7,6 +7,7 @@ import net.dshbwlto.createbionics.BionicsClientConfig;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.Util.BionicsPartialModels;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
+import net.dshbwlto.createbionics.entity.client.RobotVariant;
 import net.dshbwlto.createbionics.entity.client.seeker.SeekerGlowLayer;
 import net.dshbwlto.createbionics.entity.custom.MatchboxEntity;
 import net.minecraft.Util;
@@ -23,13 +24,13 @@ import net.minecraft.world.item.ItemStack;
 import java.util.Map;
 
 public class MatchboxRenderer extends MobRenderer<MatchboxEntity, MatchboxModel<MatchboxEntity>> {
-    private final Map<MatchboxVariant, ResourceLocation> LOCATION_BY_VARIANT =
-            Util.make(Maps.newEnumMap(MatchboxVariant.class),map -> {
-                map.put(MatchboxVariant.COPPER,
+    private final Map<RobotVariant, ResourceLocation> LOCATION_BY_VARIANT =
+            Util.make(Maps.newEnumMap(RobotVariant.class),map -> {
+                map.put(RobotVariant.COPPER,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/matchbox/matchbox_copper.png"));
-                map.put(MatchboxVariant.BRASS,
+                map.put(RobotVariant.BRASS,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/matchbox/matchbox_brass.png"));
-                map.put(MatchboxVariant.ANDESITE,
+                map.put(RobotVariant.ANDESITE,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/matchbox/matchbox_andesite.png"));
             });
 

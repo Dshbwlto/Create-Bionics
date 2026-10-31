@@ -6,19 +6,16 @@ import com.simibubi.create.foundation.item.TooltipModifier;
 import net.createmod.catnip.lang.FontHelper;
 import net.dshbwlto.createbionics.Util.BionicsEntityDataSerializers;
 import net.dshbwlto.createbionics.Util.BionicsPartialModels;
+import net.dshbwlto.createbionics.block.BionicsBlockEntityTypes;
 import net.dshbwlto.createbionics.block.BionicsBlocks;
 import net.dshbwlto.createbionics.Util.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleRenderer;
-import net.dshbwlto.createbionics.entity.client.shark.SharkRenderer;
-import net.dshbwlto.createbionics.entity.client.golem.GolemRenderer;
 import net.dshbwlto.createbionics.entity.client.matchbox.MatchboxRenderer;
 import net.dshbwlto.createbionics.entity.client.organ.OrganRenderer;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerRenderer;
 import net.dshbwlto.createbionics.entity.client.replete.RepleteRenderer;
 import net.dshbwlto.createbionics.entity.client.seeker.SeekerRenderer;
-import net.dshbwlto.createbionics.entity.client.stalker.StalkerRenderer;
-import net.dshbwlto.createbionics.entity.client.stalker_captain.StalkerCaptainRenderer;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.registry.custom.BionicsRegistrate;
 import net.dshbwlto.createbionics.screen.BionicsMenuTypes;
@@ -33,6 +30,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -91,19 +89,24 @@ public class CreateBionics {
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN_TAB = CREATIVE_MODE_TABS.register(MOD_ID, () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
-            .icon(() -> BionicsItems.ANOLE.asItem().getDefaultInstance())
+            .icon(() -> BionicsItems.INVENTORY_PREVIEW.asItem().getDefaultInstance())
             .title(Component.translatable("itemGroup.createbionics.create_bionics_tab"))
-            .displayItems((itemDisplayParameters, output) -> REGISTRATE.getAll(Registries.ITEM).forEach((item -> {
+            .displayItems((itemDisplayParameters, output) ->
+                    REGISTRATE.getAll(Registries.ITEM).forEach((item -> {
                 for (ItemLike excluded : excludedItemsList) {
                     if (item.is(excluded.asItem())) {
                         return;
                     }
                 }
                 output.accept(item.get());
+                output.accept(BionicsBlocks.DEPTH_BELL_BLOCK);
             })))
             .build());
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
+
+    public static String[] DEV_USERNAMES;
+
     public CreateBionics(IEventBus modEventBus, ModContainer modContainer) {
         REGISTRATE.registerEventListeners(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
@@ -115,6 +118,8 @@ public class CreateBionics {
         BionicsItems.register();
 
         BionicsBlocks.register();
+
+        BionicsBlockEntityTypes.register();
 
         BionicsSounds.register(modEventBus);
 
@@ -133,6 +138,8 @@ public class CreateBionics {
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
+
+        this.DEV_USERNAMES = new String[]{"Dshbwlto", "ilikefrogs31"};
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
     }
@@ -171,11 +178,7 @@ public class CreateBionics {
             EntityRenderers.register(BionicsEntities.REPLETE.get(), RepleteRenderer::new);
             EntityRenderers.register(BionicsEntities.SEEKER.get(), SeekerRenderer::new);
             EntityRenderers.register(BionicsEntities.MATCHBOX.get(), MatchboxRenderer::new);
-            EntityRenderers.register(BionicsEntities.STALKER.get(), StalkerRenderer::new);
-            EntityRenderers.register(BionicsEntities.STALKER_CAPTAIN.get(), StalkerCaptainRenderer::new);
             EntityRenderers.register(BionicsEntities.ORGAN.get(), OrganRenderer::new);
-            EntityRenderers.register(BionicsEntities.SHARK.get(), SharkRenderer::new);
-            EntityRenderers.register(BionicsEntities.GOLEM.get(), GolemRenderer::new);
 
             BionicsPartialModels.init();
         }
@@ -188,6 +191,19 @@ public class CreateBionics {
         @SubscribeEvent
         public static void onClientExtensions(RegisterClientExtensionsEvent event) {
         }
+
+        @SubscribeEvent
+        public static void onClientTick(ClientTickEvent.Pre event) {
+            ChorDataMathUtil.tick();
+        }
+    }
+
+    public static boolean isDevUsername(String username) {
+        for (String devUsername : DEV_USERNAMES) {
+            if (username.equals(devUsername))
+                return true;
+        }
+        return false;
     }
 }
 

@@ -2,7 +2,6 @@
 package net.dshbwlto.createbionics.entity;
 
 import net.dshbwlto.createbionics.CreateBionics;
-import net.dshbwlto.createbionics.entity.api.GolemEntity;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
 import net.dshbwlto.createbionics.entity.custom.*;
 import net.minecraft.core.registries.Registries;
@@ -33,10 +32,6 @@ public class BionicsEntities {
             () -> EntityType.Builder.of(OrganEntity::new, MobCategory.CREATURE)
                     .sized(2.5f, 6f).build("organ"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<MultiPartRobot<?>>> SHARK = ENTITIES.register("shark",
-            () -> EntityType.Builder.of(SharkEntity::new, MobCategory.CREATURE)
-                    .sized(6f, 3f).build("shark"));
-
     public static final Supplier<EntityType<SeekerEntity>> SEEKER =
             ENTITIES.register("seeker", () -> EntityType.Builder.of(SeekerEntity::new, MobCategory.CREATURE)
                     .sized(1f, 0.3f).build("seeker"));
@@ -45,19 +40,6 @@ public class BionicsEntities {
             ENTITIES.register("matchbox", () -> EntityType.Builder.of(MatchboxEntity::new, MobCategory.CREATURE)
                     .sized(1.2f, 0.75f).build("matchbox"));
 
-    /// These are for future updates, just pretend they don't exist
-    public static final Supplier<EntityType<StalkerEntity>> STALKER =
-            ENTITIES.register("stalker", () -> EntityType.Builder.of(StalkerEntity::new, MobCategory.CREATURE)
-                    .sized(1.5f, 1f).build("stalker"));
-
-    public static final Supplier<EntityType<StalkerCaptainEntity>> STALKER_CAPTAIN =
-            ENTITIES.register("stalker_captain", () -> EntityType.Builder.of(StalkerCaptainEntity::new, MobCategory.CREATURE)
-                    .sized(1.5f, 1f).build("stalker_captain"));
-
-    public static final DeferredHolder<EntityType<?>, EntityType<MultiPartRobot<?>>> GOLEM = ENTITIES.register("golem",
-            () -> EntityType.Builder.of(GolemEntity::new, MobCategory.CREATURE)
-                    .sized(1.25f, 3f).build("golem"));
-    
     public static void register(IEventBus eventBus) {
         ENTITIES.register(eventBus);
     }

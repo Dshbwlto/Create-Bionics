@@ -21,7 +21,6 @@ public class AnoleItemRenderer extends CustomRenderedItemModelRenderer {
     protected void render(ItemStack stack, CustomRenderedItemModel model, PartialItemModelRenderer renderer, ItemDisplayContext transformType, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
         float headYaw = Mth.sin(Mth.cos((AnimationTickHolder.getPartialTicks() + AnimationTickHolder.getTicks()) / 100f) * 1.6f);
         float tailYaw = Mth.sin((AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 20) / 10;
-
         int variant = stack.get(BionicsDataComponentTypes.VARIANT.get()) != null ? stack.get(BionicsDataComponentTypes.VARIANT.get()) : 2;
         int marking = stack.get(BionicsDataComponentTypes.MISC_INT.get()) != null ? stack.get(BionicsDataComponentTypes.MISC_INT.get()) : 0;
         String s = stack.get(BionicsDataComponentTypes.NAME.get());

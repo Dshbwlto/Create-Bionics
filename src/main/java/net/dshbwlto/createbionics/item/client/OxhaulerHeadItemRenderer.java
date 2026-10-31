@@ -14,13 +14,14 @@ import net.minecraft.world.item.ItemStack;
 
 public class OxhaulerHeadItemRenderer extends CustomRenderedItemModelRenderer {
 
-    private static PartialModel OXHAULER_HORNL1 = PartialModel.of(CreateBionics.asResource("item/oxhauler_head_hornl1"));
-    private static PartialModel OXHAULER_HORNR1 = PartialModel.of(CreateBionics.asResource("item/oxhauler_head_hornr1"));
-    private static PartialModel OXHAULER_HORNL2 = PartialModel.of(CreateBionics.asResource("item/oxhauler_head_hornl2"));
-    private static PartialModel OXHAULER_HORNR2 = PartialModel.of(CreateBionics.asResource("item/oxhauler_head_hornr2"));
+    private static final PartialModel OXHAULER_HEAD = PartialModel.of(CreateBionics.asResource("item/oxhauler_head_item"));
+    private static final PartialModel OXHAULER_HORNL1 = PartialModel.of(CreateBionics.asResource("item/oxhauler_head_hornl1"));
+    private static final PartialModel OXHAULER_HORNR1 = PartialModel.of(CreateBionics.asResource("item/oxhauler_head_hornr1"));
+    private static final PartialModel OXHAULER_HORNL2 = PartialModel.of(CreateBionics.asResource("item/oxhauler_head_hornl2"));
+    private static final PartialModel OXHAULER_HORNR2 = PartialModel.of(CreateBionics.asResource("item/oxhauler_head_hornr2"));
     @Override
     protected void render(ItemStack stack, CustomRenderedItemModel model, PartialItemModelRenderer renderer, ItemDisplayContext transformType, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
-        renderer.render(model.getOriginalModel(), light);
+        renderer.render(OXHAULER_HEAD.get(), light);
 
         ms.mulPose(Axis.ZP.rotationDegrees(-12.5f));
         ms.mulPose(Axis.YP.rotationDegrees(-10f));

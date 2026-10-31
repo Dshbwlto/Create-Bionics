@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "size=1": {
+      "model": "createbionics:block/depth_bell/block_1_off"
+    },
+    "size=2": {
+      "model": "createbionics:block/depth_bell/block_2_off"
+    },
+    "size=3": {
+      "model": "createbionics:block/depth_bell/block_3_off"
+    },
+    "size=4": {
+      "model": "createbionics:block/depth_bell/block_4_off"
+    },
+    "size=5": {
+      "model": "createbionics:block/depth_bell/block_5_off"
+    }
+  }
+
+}

@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class RepleteBodyItemRenderer extends CustomRenderedItemModelRenderer {
 
+    private static final PartialModel BODY = PartialModel.of(CreateBionics.asResource("item/replete_body_item"));
     private static final PartialModel REAR = PartialModel.of(CreateBionics.asResource("item/replete_body_item_rear"));
     private static final PartialModel CARAPACE_FRONT_L = PartialModel.of(CreateBionics.asResource("item/replete_body_item_carapace_front_l"));
     private static final PartialModel CARAPACE_FRONT_R = PartialModel.of(CreateBionics.asResource("item/replete_body_item_carapace_front_r"));
@@ -24,7 +25,7 @@ public class RepleteBodyItemRenderer extends CustomRenderedItemModelRenderer {
 
     @Override
     protected void render(ItemStack stack, CustomRenderedItemModel model, PartialItemModelRenderer renderer, ItemDisplayContext transformType, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
-        renderer.render(model.getOriginalModel(), light);
+        renderer.render(BODY.get(), light);
 
         ms.translate(0, 0, 2);
         renderer.render(REAR.get(), light);

@@ -49,21 +49,13 @@ public class AnoleItem extends RobotSpawnerItem {
         anoleEntity.setVariantNumber(variant);
         anoleEntity.setMarkingNumber(marking);
         anoleEntity.setFuel(i);
-        if (name != null) {
+        if (!getName(player.getItemInHand(hand)).contains(Component.translatable("item.createbionics.anole_item"))) {
+            anoleEntity.setCustomName(Component.literal("" + getName(player.getItemInHand(hand))));
+            player.displayClientMessage(Component.literal("" + getName(player.getItemInHand(hand))), true);
+        } else if (name != null) {
             anoleEntity.setCustomName(Component.literal(name));
         }
         level.addFreshEntity(anoleEntity);
-    }
-
-    public int variantColor(int variant) {
-        return variant == 0 ? 11184810
-                : variant == 1 ? 0xF1DD79
-                : variant == 2 ? 0xC9974C
-                : variant == 3 ? 0x4f5656
-                : variant == 4 ? 0x6d585d
-                : variant == 5 ? 0x937661
-                : variant == 6 ? 0x738b55
-                : 0x58af92;
     }
 
     @Override
