@@ -83,6 +83,13 @@ public class CreateBionics {
 
     private static final ItemLike[] excludedItemsList = new ItemLike[]{
             BionicsItems.INVENTORY_PREVIEW,
+            BionicsItems.ORGAN_MIDDLE,
+            BionicsItems.ORGAN_FOOT,
+            BionicsItems.ORGAN_TAIL_BASE,
+            BionicsItems.ORGAN_TAIL_END,
+            BionicsItems.ORGAN_CHEST,
+            BionicsItems.ORGAN_NECK,
+            BionicsItems.ORGAN_HEAD,
     };
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
@@ -99,7 +106,7 @@ public class CreateBionics {
                     }
                 }
                 output.accept(item.get());
-                output.accept(BionicsBlocks.DEPTH_BELL_BLOCK);
+                //output.accept(BionicsBlocks.DEPTH_BELL_BLOCK);
             })))
             .build());
     // The constructor for the mod class is the first code that is run when your mod is loaded.

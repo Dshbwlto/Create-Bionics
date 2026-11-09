@@ -33,7 +33,7 @@ public class DepthBellBlockEntity extends SmartBlockEntity implements IHaveGoggl
     public BlockState blockAbove() {
         return level.getBlockState(getBlockPos().above());
     }
-
+/*
     public void updatePitch() {
         BlockPos currentPos = worldPosition.above();
         int newPitch;
@@ -55,7 +55,7 @@ public class DepthBellBlockEntity extends SmartBlockEntity implements IHaveGoggl
 
         notifyUpdate();
     }
-
+ */
 
     @Override
     protected void write(CompoundTag tag, HolderLookup.Provider registries, boolean clientPacket) {

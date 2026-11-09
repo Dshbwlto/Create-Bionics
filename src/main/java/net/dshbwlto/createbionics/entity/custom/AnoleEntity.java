@@ -2,17 +2,17 @@ package net.dshbwlto.createbionics.entity.custom;
 
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
-import net.createmod.catnip.animation.AnimationTickHolder;
 import net.dshbwlto.createbionics.Util.BionicsDataComponentTypes;
+import net.dshbwlto.createbionics.Util.TimeUtil;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
 import net.dshbwlto.createbionics.entity.client.RobotVariant;
 import net.dshbwlto.createbionics.entity.client.anole.AnoleMarkings;
-import net.dshbwlto.createbionics.entity.client.anole.AnoleVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -44,6 +44,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 @EventBusSubscriber
 public class AnoleEntity extends AbstractRobot {
@@ -142,6 +144,9 @@ public class AnoleEntity extends AbstractRobot {
 
     @Override
     public @Nullable ItemStack getPickResult() {
+        if (!isAddedToLevel()) {
+            return BionicsItems.ANOLE.asStack();
+        }
         return anoleItem();
     }
 
@@ -478,5 +483,29 @@ public class AnoleEntity extends AbstractRobot {
     public boolean hat9() {
         String s = ChatFormatting.stripFormatting(this.getName().getString());
         return "Scallywag".equals(s);
+    }
+
+    @Override
+    public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
+        int markingColor = getTypeMarkings() == 0 ? 0x555555
+                : getTypeMarkings() == 1 ? 0xc61501
+                : getTypeMarkings() == 2 ? 0xfad43d
+                : getTypeMarkings() == 3 ? 0x55FFFF
+                : 0xff00bf;
+        tooltip.add(Component.literal("    ").append(Component.translatable("createbionics.gui.goggles.entity")));
+
+        tooltip.add(Component.literal("     ")
+                .append(Component.translatable("entity.createbionics.tooltip.variant")
+                        .append(Component.translatable("entity.createbionics.tooltip.variant_" + getTypeVariant())
+                                .setStyle(Style.EMPTY.withColor(variantColor(getTypeVariant()))))));
+        tooltip.add(Component.literal("     ")
+                .append((Component.translatable("entity.createbionics.tooltip.marking").append(Component.translatable("entity.createbionics.tooltip.marking_" + getTypeMarkings())
+                        .setStyle(Style.EMPTY.withColor(markingColor))))));
+
+        tooltip.add(Component.literal("     ")
+                .append(Component.translatable("entity.createbionics.tooltip.fuel")
+                        .append(getFuel() == 24001 ? Component.translatable("entity.createbionics.tooltip.infinite").getString()
+                                : TimeUtil.ticksToMinutes(getFuel())).setStyle(Style.EMPTY.withColor(fuelColor(getFuel())))));
+        return true;
     }
 }

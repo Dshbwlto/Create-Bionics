@@ -2,9 +2,12 @@ package net.dshbwlto.createbionics.entity.part;
 
 import com.simibubi.create.AllBlocks;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
+import net.dshbwlto.createbionics.entity.custom.OrganEntity;
 import net.dshbwlto.createbionics.entity.custom.OxhaulerEntity;
+import net.dshbwlto.createbionics.entity.custom.RepleteEntity;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -21,7 +24,9 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class GroundLevelSamplerPartEntity extends RobotPartEntity{
+import java.util.List;
+
+public class GroundLevelSamplerPartEntity extends RobotPartEntity {
     /**
      * Creates a new part for an entity to use, does not need to be registered as an entity type
      *
@@ -42,4 +47,5 @@ public class GroundLevelSamplerPartEntity extends RobotPartEntity{
         BlockState blockState = level().getBlockState(this.blockPosition().below());
         return !(blockState.getBlock() instanceof AirBlock || !blockState.canOcclude());
     }
+
 }

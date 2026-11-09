@@ -1,6 +1,9 @@
 
 package net.dshbwlto.createbionics.entity.api;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.datafixers.util.Either;
+import com.mojang.math.Axis;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllParticleTypes;
@@ -8,34 +11,72 @@ import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.api.equipment.goggles.IHaveHoveringInformation;
 import com.simibubi.create.foundation.sound.SoundScapes;
+import net.createmod.catnip.lang.FontHelper;
+import net.dshbwlto.createbionics.CreateBionics;
+import net.dshbwlto.createbionics.Util.TimeUtil;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.font.FontSet;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.client.ClientHooks;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformation, IHaveHoveringInformation {
+
+    public List<Component> tooltipComponent = new ArrayList<Component>();
+
+    public int variantColor(int variant) {
+        return variant == 0 ? 11184810
+                : variant == 1 ? 0xF1DD79
+                : variant == 2 ? 0xC9974C
+                : variant == 3 ? 0x4f5656
+                : variant == 4 ? 0x6d585d
+                : variant == 5 ? 0x937661
+                : variant == 6 ? 0x738b55
+                : 0x58af92;
+    }
+
+    public int fuelColor(int fuel) {
+        return getFuel() > 24000 ? 16733695
+                : getFuel() > 12000 ? 0x93ebff
+                : getFuel() > 0 ? 0xfc9903
+                : 5592405;
+    }
     public AbstractRobot(EntityType<? extends TamableAnimal> entityType, Level level) {
         super(entityType, level);
     }
@@ -72,6 +113,7 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
     public void resetLastPoseChangeTick(long lastPoseChangeTick) {
         this.entityData.set(LAST_POSE_CHANGE_TICK, lastPoseChangeTick);
     }
+
     public long getPoseTime() {
         return this.level().getGameTime() - Math.abs(this.entityData.get(LAST_POSE_CHANGE_TICK));
     }
@@ -172,6 +214,8 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
         builder.define(COMMAND, 0);
         builder.define(ASSEMBLY, 0);
         builder.define(FUEL_TIME, 0);
+
+
     }
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -192,6 +236,9 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
         this.resetLastPoseChangeTick(i);
         entityData.set(COMMAND, compound.getInt("Command"));
         entityData.set(ASSEMBLY, compound.getInt("Assembly"));
+        if (compound.getInt("Variant") == 4) {
+            compound.putInt("Variant", 0);
+        }
         entityData.set(VARIANT, compound.getInt("Variant"));
         entityData.set(FUEL_TIME, compound.getInt("RefuelTime"));
     }
@@ -237,6 +284,7 @@ public class AbstractRobot extends TamableAnimal implements IHaveGoggleInformati
     public boolean isFood(ItemStack itemStack) {
         return false;
     }
+
     @Override
     public @Nullable AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
         return null;

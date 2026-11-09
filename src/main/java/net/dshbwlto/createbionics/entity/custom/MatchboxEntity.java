@@ -3,9 +3,9 @@ package net.dshbwlto.createbionics.entity.custom;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
 import net.dshbwlto.createbionics.Util.BionicsDataComponentTypes;
+import net.dshbwlto.createbionics.Util.TimeUtil;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
 import net.dshbwlto.createbionics.entity.client.RobotVariant;
-import net.dshbwlto.createbionics.entity.client.matchbox.MatchboxVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
 import net.minecraft.core.BlockPos;
@@ -18,7 +18,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -38,16 +37,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class MatchboxEntity extends AbstractRobot {
 
@@ -175,7 +174,7 @@ public class MatchboxEntity extends AbstractRobot {
     public @Nullable ItemStack getPickResult() {
         return matchboxItem();
     }
-
+    
     public void aiStep() {
         if (this.level().isClientSide && isFueled()) {
             this.level().addParticle(ParticleTypes.SMOKE, this.getRandomX(0.5F), this.getRandomY(), this.getRandomZ(0.5F), 0.0F, 0.0F, 0.0F);
@@ -380,9 +379,6 @@ public class MatchboxEntity extends AbstractRobot {
                     if (!player.getAbilities().instabuild) {
                         itemStack.shrink(size);
                     }
-                    int color = torchCount() == maxCount ? 5635925 : 16777215;
-                    player.displayClientMessage(Component.translatable("entity.createbionics.all.torch").setStyle(Style.EMPTY.withColor(color))
-                            .append("" + torchCount()).setStyle(Style.EMPTY.withColor(color)), true);
                     if (torchCount() == maxCount) {
                         playSound(AllSoundEvents.CONFIRM.getMainEvent());
                     }
@@ -503,5 +499,26 @@ public class MatchboxEntity extends AbstractRobot {
             level().setBlock(blockPosition(), Blocks.TORCH.defaultBlockState(), 11);
             setTorchCount(torchCount() - 1);
         }
+    }
+
+    @Override
+    public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
+        tooltip.add(Component.literal("    ").append(Component.translatable("createbionics.gui.goggles.entity")));
+
+        tooltip.add(Component.literal("     ")
+                .append(Component.translatable("entity.createbionics.tooltip.variant")
+                        .append(Component.translatable("entity.createbionics.tooltip.variant_" + getTypeVariant())
+                                .setStyle(Style.EMPTY.withColor(variantColor(getTypeVariant()))))));
+
+        tooltip.add(Component.literal("     ")
+                .append(Component.translatable("entity.createbionics.tooltip.torches")
+                        .append(Component.literal("" + torchCount()))));
+
+        tooltip.add(Component.literal("     ")
+                .append(Component.translatable("entity.createbionics.tooltip.fuel")
+                        .append(getFuel() == 24001 ? Component.translatable("entity.createbionics.tooltip.infinite").getString()
+                                : TimeUtil.ticksToMinutes(getFuel())).setStyle(Style.EMPTY.withColor(fuelColor(getFuel())))));
+
+        return true;
     }
 }

@@ -3,8 +3,8 @@
 	"credit": "Made by Dshbwlto",
 	"texture_size": [512, 512],
 	"textures": {
-		"0": "createbionics:item/entity/organ/organ_items_0",
-		"particle": "createbionics:item/entity/organ/organ_items_0"
+		"0": "createbionics:item/entity/organ/organ_1",
+		"particle": "createbionics:item/entity/organ/organ_1"
 	},
 	"elements": [
 		{
@@ -125,7 +125,7 @@
 		"gui": {
 			"rotation": [30, 135, 0],
 			"translation": [-3.25, -2, 0],
-			"scale": [0.35, 0.35, 0.35]
+			"scale": [0.33, 0.33, 0.33]
 		},
 		"fixed": {
 			"rotation": [-51, 0, 0],

@@ -8,6 +8,7 @@ import com.tterrag.registrate.util.entry.ItemEntry;
 import net.createmod.catnip.lang.FontHelper;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.BionicsEntities;
+import net.dshbwlto.createbionics.item.api.DevRenderedItem;
 import net.dshbwlto.createbionics.item.api.RobotSpawnerItem;
 import net.dshbwlto.createbionics.item.custom.*;
 import net.dshbwlto.createbionics.registry.custom.BionicsRegistrate;
@@ -48,22 +49,23 @@ public class BionicsItems {
             properties -> new RepleteBodyItem(BionicsEntities.REPLETE.get(), properties.stacksTo(1))).register();
     public static final ItemEntry<Item> REPLETE_LEG = REGISTRATE.item("replete_leg_item",
             Item::new).properties(properties -> properties.stacksTo(16)).register();
-/*
+
     public static final ItemEntry<OrganMiddleItem> ORGAN_MIDDLE = REGISTRATE.item("organ_middle_item",
             properties -> new OrganMiddleItem(BionicsEntities.ORGAN.get(), properties.stacksTo(1))).register();
-    public static final ItemEntry<Item> ORGAN_FOOT = REGISTRATE.item("organ_foot_item", Item::new)
+
+    public static final ItemEntry<DevRenderedItem> ORGAN_FOOT = REGISTRATE.item("organ_foot_item", DevRenderedItem::new)
             .properties(properties -> properties.stacksTo(1)).register();
-    public static final ItemEntry<Item> ORGAN_TAIL_BASE = REGISTRATE.item("organ_tail_base_item", Item::new)
+    public static final ItemEntry<DevRenderedItem> ORGAN_TAIL_BASE = REGISTRATE.item("organ_tail_base_item", DevRenderedItem::new)
             .properties(properties -> properties.stacksTo(1)).register();
-    public static final ItemEntry<Item> ORGAN_TAIL_END = REGISTRATE.item("organ_tail_end_item", Item::new)
+    public static final ItemEntry<DevRenderedItem> ORGAN_TAIL_END = REGISTRATE.item("organ_tail_end_item", DevRenderedItem::new)
             .properties(properties -> properties.stacksTo(1)).register();
     public static final ItemEntry<OrganChestItem> ORGAN_CHEST = REGISTRATE.item("organ_chest_item", OrganChestItem::new)
             .properties(properties -> properties.stacksTo(1)).register();
-    public static final ItemEntry<Item> ORGAN_NECK = REGISTRATE.item("organ_neck_item", Item::new)
+    public static final ItemEntry<DevRenderedItem> ORGAN_NECK = REGISTRATE.item("organ_neck_item", DevRenderedItem::new)
             .properties(properties -> properties.stacksTo(1)).register();
     public static final ItemEntry<OrganHeadItem> ORGAN_HEAD = REGISTRATE.item("organ_head_item", OrganHeadItem::new)
             .properties(properties -> properties.stacksTo(1)).register();
-*/
+
     public static final ItemEntry<Item> OXHAULER_ENGINE = REGISTRATE.item("oxhauler_engine_item",
             Item::new).properties(properties -> properties.stacksTo(1)).register();
 

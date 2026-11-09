@@ -12,7 +12,6 @@ public enum RobotVariant {
     EXPOSED(5),
     WEATHERED(6),
     OXIDIZED(7);
-
     private static final RobotVariant[] BY_ID = Arrays.stream(values()).sorted(
             Comparator.comparingInt(RobotVariant::getId)).toArray(RobotVariant[]::new);
     private final int id;

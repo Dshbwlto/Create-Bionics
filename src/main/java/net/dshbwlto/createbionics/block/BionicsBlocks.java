@@ -20,7 +20,7 @@ import static com.simibubi.create.foundation.data.TagGen.tagBlockAndItem;
 
 public class BionicsBlocks {
     private static final BionicsRegistrate REGISTRATE = CreateBionics.registrate();
-
+/*
     public static final BlockEntry<DepthBellBlock> DEPTH_BELL_BLOCK = REGISTRATE.block("depth_bell", DepthBellBlock::new)
             .initialProperties(() -> Blocks.ANDESITE)
             .properties(p -> p.mapColor(MapColor.STONE)
@@ -41,6 +41,6 @@ public class BionicsBlocks {
                             .forceSolidOn())
                     .transform(pickaxeOnly())
                     .register();
-
+*/
     public static void register() {}
 }

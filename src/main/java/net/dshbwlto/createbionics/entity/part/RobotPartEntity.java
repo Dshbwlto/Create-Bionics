@@ -1,7 +1,11 @@
 package net.dshbwlto.createbionics.entity.part;
 
+import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
+import net.dshbwlto.createbionics.entity.custom.OrganEntity;
+import net.dshbwlto.createbionics.entity.custom.RepleteEntity;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -18,8 +22,9 @@ import net.neoforged.neoforge.entity.PartEntity;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
-public class RobotPartEntity extends PartEntity<MultiPartRobot> {
+public class RobotPartEntity extends PartEntity<MultiPartRobot> implements IHaveGoggleInformation {
     private final Entity connectedTo;
     public EntityDimensions size;
     public Vec3 parentOffset;
@@ -215,5 +220,15 @@ public class RobotPartEntity extends PartEntity<MultiPartRobot> {
 
     @Override
     protected void addAdditionalSaveData(CompoundTag compound) {
+    }
+
+    @Override
+    public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
+        if (getParent() instanceof RepleteEntity entity) {
+            RepleteEntity.buildTooltipComponent(entity, tooltip);
+        } else if (getParent() instanceof OrganEntity entity) {
+            OrganEntity.buildTooltipComponent(entity, tooltip);
+        }
+        return true;
     }
 }

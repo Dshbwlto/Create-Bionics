@@ -6,7 +6,7 @@ public class TimeUtil {
         int second;
         int minute;
         int hour;
-        second = ticks / 20;
+        second = ticks / 40;
         minute = second / 60;
         second -= minute * 60;
         hour = minute / 60;
@@ -20,6 +20,6 @@ public class TimeUtil {
         String m = minute == 0 && hour == 0 ? "" : y + minute + ":";
         String s = second == 0 && minute == 0 ? "" : x + second;
 
-        return h +  m + s;
+        return ticks == 0 ? "0:00" : h +  m + s;
     }
 }

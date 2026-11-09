@@ -65,7 +65,7 @@ public class DepthBellBlock extends Block implements IBE<DepthBellBlockEntity>, 
         }
         return super.useWithoutItem(state, level, pos, player, hitResult);
     }
-
+/*
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         int size = state.getValue(DepthBellBlock.SIZE);
@@ -153,7 +153,7 @@ public class DepthBellBlock extends Block implements IBE<DepthBellBlockEntity>, 
             return;
         }
     }
-
+*/
     public static void queuePitchUpdate(LevelAccessor level, BlockPos pos) {
         BlockState blockState = level.getBlockState(pos);
         if (blockState.getBlock()instanceof DepthBellBlock bell && !level.getBlockTicks()
@@ -163,7 +163,7 @@ public class DepthBellBlock extends Block implements IBE<DepthBellBlockEntity>, 
 
     @Override
     public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-        withBlockEntityDo(pLevel, pPos, DepthBellBlockEntity::updatePitch);
+        //withBlockEntityDo(pLevel, pPos, DepthBellBlockEntity::updatePitch);
     }
 
     @Override
@@ -184,6 +184,7 @@ public class DepthBellBlock extends Block implements IBE<DepthBellBlockEntity>, 
 
     @Override
     public BlockEntityType<? extends DepthBellBlockEntity> getBlockEntityType() {
-        return BionicsBlockEntityTypes.DEPTH_BELL.get();
+        //return BionicsBlockEntityTypes.DEPTH_BELL.get();
+        return null;
     }
 }

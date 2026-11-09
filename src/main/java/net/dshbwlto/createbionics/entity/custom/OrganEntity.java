@@ -5,13 +5,14 @@ import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.Create;
+import com.simibubi.create.content.equipment.goggles.GoggleOverlayRenderer;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
 import net.dshbwlto.createbionics.entity.api.music.MusicHandler;
+import net.dshbwlto.createbionics.entity.client.RobotVariant;
 import net.dshbwlto.createbionics.entity.part.GroundLevelSamplerPartEntity;
 import net.dshbwlto.createbionics.entity.part.RobotPartEntity;
 import net.dshbwlto.createbionics.entity.client.organ.layers.OrganGlow;
-import net.dshbwlto.createbionics.entity.client.organ.layers.OrganVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -22,6 +23,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -35,15 +37,20 @@ import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Objects;
 
 public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
@@ -95,15 +102,15 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
 
     @Override
     protected RobotPartEntity[] createParts() {
-        this.chest = new RobotPartEntity(this, this, 3f, 3f, 0f, 3f, 3.5f, BionicsItems.ANOLE.get(), false);
-        this.neck = new RobotPartEntity(this, chest, 2.5f, 2.5f, 0f, 3.3f, 6.7f, BionicsItems.ANOLE.get(), false);
-        this.head = new RobotPartEntity(this, neck, 2.5f, 2f, 0f, 3f, 9.8f, BionicsItems.ANOLE.get(), false);
+        this.chest = new RobotPartEntity(this, this, 3f, 3f, 0f, 3f, 3.5f, BionicsItems.ORGAN_CHEST.get(), false);
+        this.neck = new RobotPartEntity(this, chest, 2.5f, 2.5f, 0f, 3.3f, 6.7f, BionicsItems.ORGAN_NECK.get(), false);
+        this.head = new RobotPartEntity(this, neck, 2.5f, 2f, 0f, 3f, 9.8f, BionicsItems.ORGAN_HEAD.get(), false);
 
-        this.tail1a = new RobotPartEntity(this, this, 2.5f, 2.5f, 0f, 3.8f, -3.2f, BionicsItems.ANOLE.get(), false);
-        this.tail1b = new RobotPartEntity(this, tail1a, 2.5f, 2.5f, 0f, 3.6f, -5.7f, BionicsItems.ANOLE.get(), false);
-        this.tail2a = new RobotPartEntity(this, tail1b, 2f, 2f, 0f, 3.9f, -7.9f, BionicsItems.ANOLE.get(), false);
-        this.tail2b = new RobotPartEntity(this, tail2a, 2f, 2f, 0f, 4f, -9.9f, BionicsItems.ANOLE.get(), false);
-        this.tail2c = new RobotPartEntity(this, tail2b, 2f, 2f, 0f, 4.1f, -11.9f, BionicsItems.ANOLE.get(), false);
+        this.tail1a = new RobotPartEntity(this, this, 2.5f, 2.5f, 0f, 3.8f, -3.2f, BionicsItems.ORGAN_TAIL_BASE.get(), false);
+        this.tail1b = new RobotPartEntity(this, tail1a, 2.5f, 2.5f, 0f, 3.6f, -5.7f, BionicsItems.ORGAN_TAIL_BASE.get(), false);
+        this.tail2a = new RobotPartEntity(this, tail1b, 2f, 2f, 0f, 3.9f, -7.9f, BionicsItems.ORGAN_TAIL_END.get(), false);
+        this.tail2b = new RobotPartEntity(this, tail2a, 2f, 2f, 0f, 4f, -9.9f, BionicsItems.ORGAN_TAIL_END.get(), false);
+        this.tail2c = new RobotPartEntity(this, tail2b, 2f, 2f, 0f, 4.1f, -11.9f, BionicsItems.ORGAN_TAIL_END.get(), false);
 
         this.leg_l1 = new GroundLevelSamplerPartEntity(this, this, 1, 1, 2, 0, 0, getPickResult().getItem());
         this.leg_r1 = new GroundLevelSamplerPartEntity(this, this, 1, 1, -2, 0, 0, getPickResult().getItem());
@@ -175,8 +182,9 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
 
     @Override
     public @Nullable ItemStack getPickResult() {
-        return BionicsItems.ANOLE.asStack();
+        return BionicsItems.ORGAN_MIDDLE.asStack();
     }
+
 
     /* ANIMATIONS */
 
@@ -310,6 +318,7 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
     }
 
     public String debugString() {
+        Player player = level().getNearestPlayer(this, 100);
         return null;
     }
 
@@ -335,7 +344,7 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
         super.defineSynchedData(builder);
         ///   Not yet, hotshot
         builder.define(GLOW_COLOR, 0);
-        builder.define(VARIANT, 0);
+        builder.define(VARIANT, 1);
     }
 
     @Override
@@ -507,17 +516,18 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
         this.entityData.set(GLOW_COLOR, typeColor);
     }
     private void setTypeVariant(ItemStack itemStack) {
-        if (itemStack.getItem() == Items.COPPER_INGOT && getVariant() != OrganVariant.COPPER) {
-            setVariant(OrganVariant.COPPER);
-        } else if (itemStack.is(AllItems.ANDESITE_ALLOY)
-                && getVariant() != OrganVariant.ANDESITE) {
-            setVariant(OrganVariant.ANDESITE);
+        if (itemStack.is(AllItems.ANDESITE_ALLOY)
+                && getVariant() != RobotVariant.ANDESITE) {
+            setVariant(RobotVariant.ANDESITE);
         } else if (itemStack.is(AllItems.BRASS_INGOT)
-                && getVariant() != OrganVariant.BRASS) {
-            setVariant(OrganVariant.BRASS);
+                && getVariant() != RobotVariant.BRASS) {
+            setVariant(RobotVariant.BRASS);
+        } else if (itemStack.getItem() == Items.COPPER_INGOT
+                && getVariant() != RobotVariant.COPPER) {
+            setVariant(RobotVariant.COPPER);
         } else if (itemStack.is(AllItems.STURDY_SHEET)
-                && getVariant() != OrganVariant.STURDY_SHEET) {
-            setVariant(OrganVariant.STURDY_SHEET);
+                && getVariant() != RobotVariant.STURDY_SHEET) {
+            setVariant(RobotVariant.STURDY_SHEET);
         }
     }
     private void setTypeGlow(ItemStack itemStack) {
@@ -530,13 +540,13 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
         }
     }
     private void dropIngot() {
-        if (getVariant() == OrganVariant.BRASS) {
+        if (getVariant() == RobotVariant.BRASS) {
             spawnAtLocation(new ItemStack(AllItems.BRASS_INGOT.asItem()));
-        } else if (getVariant() == OrganVariant.COPPER) {
+        } else if (getVariant() == RobotVariant.COPPER) {
             spawnAtLocation(new ItemStack(Items.COPPER_INGOT));
-        } else if (getVariant() == OrganVariant.ANDESITE) {
+        } else if (getVariant() == RobotVariant.ANDESITE) {
             spawnAtLocation(new ItemStack(AllItems.ANDESITE_ALLOY.asItem()));
-        } else if (getVariant() == OrganVariant.STURDY_SHEET) {
+        } else if (getVariant() == RobotVariant.STURDY_SHEET) {
             spawnAtLocation(new ItemStack(AllItems.STURDY_SHEET.asItem()));
         }
     }
@@ -556,13 +566,13 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
     public OrganGlow getGlow() {
         return OrganGlow.byId(this.getGlowColor() & 255);
     }
-    public OrganVariant getVariant() {
-        return OrganVariant.byId(this.getTypeVariant() & 255);
+    public RobotVariant getVariant() {
+        return RobotVariant.byId(this.getTypeVariant() & 255);
     }
     public void setGlow(OrganGlow glow) {
         this.entityData.set(GLOW_COLOR, glow.getId() & 255);
     }
-    public void setVariant(OrganVariant variant) {
+    public void setVariant(RobotVariant variant) {
         this.entityData.set(VARIANT, variant.getId() & 255);
     }
 
@@ -592,6 +602,19 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
         } else {
             return AllBlocks.STEAM_WHISTLE.asItem();
         }
+    }
+
+    public static void buildTooltipComponent(OrganEntity entity, List<Component> tooltip) {
+        tooltip.add(Component.literal("    Yeah you really shouldn't"));
+        tooltip.add(Component.literal("    be looking at this."));
+        tooltip.add(Component.literal(""));
+        tooltip.add(Component.literal("    Back away slowly"));
+    }
+
+    @Override
+    public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
+        buildTooltipComponent(this, tooltip);
+        return true;
     }
 
     //MUSIC//

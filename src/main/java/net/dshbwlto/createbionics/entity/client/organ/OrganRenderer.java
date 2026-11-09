@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
+import net.dshbwlto.createbionics.entity.client.RobotVariant;
 import net.dshbwlto.createbionics.entity.client.organ.layers.*;
 import net.dshbwlto.createbionics.entity.custom.OrganEntity;
 import net.minecraft.Util;
@@ -19,16 +20,16 @@ import java.util.Map;
 
 public class OrganRenderer extends MobRenderer {
 
-    private final Map<OrganVariant, ResourceLocation> LOCATION_BY_VARIANT =
-            Util.make(Maps.newEnumMap(OrganVariant.class),map -> {
-                map.put(OrganVariant.BRASS,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/organ_brass.png"));
-                map.put(OrganVariant.ANDESITE,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/organ_andesite.png"));
-                map.put(OrganVariant.COPPER,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/organ_copper.png"));
-                map.put(OrganVariant.STURDY_SHEET,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/organ_sturdy_sheet.png"));
+    private final Map<RobotVariant, ResourceLocation> LOCATION_BY_VARIANT =
+            Util.make(Maps.newEnumMap(RobotVariant.class),map -> {
+                map.put(RobotVariant.ANDESITE,
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/organ/organ_0.png"));
+                map.put(RobotVariant.BRASS,
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/organ/organ_1.png"));
+                map.put(RobotVariant.COPPER,
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/organ/organ_2.png"));
+                map.put(RobotVariant.STURDY_SHEET,
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/organ/organ_3.png"));
             });
 
     public OrganRenderer(EntityRendererProvider.Context context) {

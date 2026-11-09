@@ -1,6 +1,11 @@
 package net.dshbwlto.createbionics.entity.api;
 
+import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
+import com.simibubi.create.api.equipment.goggles.IHaveHoveringInformation;
+import net.dshbwlto.createbionics.Util.TimeUtil;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -9,7 +14,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.neoforged.neoforge.entity.PartEntity;
 
-public abstract class BionicsPartEntity<T extends Entity> extends PartEntity<T> {
+import java.util.List;
+
+public abstract class BionicsPartEntity<T extends Entity> extends PartEntity<T> implements IHaveGoggleInformation, IHaveHoveringInformation {
 
     public BionicsPartEntity(T parent) {
         super(parent);
@@ -78,5 +85,17 @@ public abstract class BionicsPartEntity<T extends Entity> extends PartEntity<T> 
 
     public boolean shouldBeSaved() {
         return false;
+    }
+
+    @Override
+    public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
+        tooltip.add(Component.literal(""));
+
+        tooltip.add(Component.translatable("entity.createbionics.tooltip.variant").append(Component.translatable("entity.createbionics.tooltip.variant_" + 4).setStyle(Style.EMPTY.withColor(16777215))));
+        tooltip.add(Component.translatable("entity.createbionics.tooltip.torches").append(Component.literal("" + 16777215).setStyle(Style.EMPTY.withColor(16777215))));
+
+        tooltip.add(Component.translatable("entity.createbionics.tooltip.fuel").append(TimeUtil.ticksToMinutes(565)).setStyle(Style.EMPTY.withColor(16777215)));
+
+        return true;
     }
 }

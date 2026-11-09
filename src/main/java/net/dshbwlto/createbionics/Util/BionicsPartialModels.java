@@ -256,6 +256,9 @@ public class BionicsPartialModels {
     public static PartialModel whistleBase(boolean middle, int size, int variant, boolean glow) {
         String x = middle ? "middle_" : "side_";
         String y = size == 1 ? "small" : size == 2 ? "medium" : "large";
+        if (variant >= 10) {
+            variant -= 10;
+        }
         int z = glow ? 4 : variant;
         return part("whistle_base_" + x + y + z);
     }
@@ -263,18 +266,27 @@ public class BionicsPartialModels {
     public static PartialModel whistleFace(boolean middle, int size, int variant, boolean glow) {
         String x = middle ? "middle_" : "side_";
         String y = size == 1 ? "small" : size == 2 ? "medium" : "large";
+        if (variant >= 10) {
+            variant -= 10;
+        }
         int z = glow ? 4 : variant;
         return part("whistle_face_" + x + y + z);
     }
 
     public static PartialModel whistleExtension(int size, int variant, boolean glow) {
         String x = size == 1 ? "small" : size == 2 ? "medium" : "large";
+        if (variant >= 10) {
+            variant -= 10;
+        }
         int y = glow ? 4 : variant;
         return part("whistle_extension_" + x + y);
     }
 
     public static PartialModel whistleEnd(int size, int variant, boolean glow) {
         String x = size == 1 ? "small" : size == 2 ? "medium" : "large";
+        if (variant >= 10) {
+            variant -= 10;
+        }
         int y = glow ? 4 : variant;
         return part("whistle_end_" + x + y);
     }

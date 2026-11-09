@@ -4,9 +4,9 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.content.logistics.packagerLink.WiFiParticle;
 import net.dshbwlto.createbionics.Util.BionicsDataComponentTypes;
+import net.dshbwlto.createbionics.Util.TimeUtil;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
 import net.dshbwlto.createbionics.entity.client.RobotVariant;
-import net.dshbwlto.createbionics.entity.client.matchbox.MatchboxVariant;
 import net.dshbwlto.createbionics.entity.client.seeker.SeekerPickaxe;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.Util.BionicsTags;
@@ -14,6 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -45,6 +46,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class SeekerEntity extends AbstractRobot {
 
@@ -158,6 +161,9 @@ public class SeekerEntity extends AbstractRobot {
 
     @Override
     public @Nullable ItemStack getPickResult() {
+        if (!isAddedToLevel()) {
+            return BionicsItems.SEEKER.asStack();
+        }
         return seekerItem();
     }
 
@@ -583,5 +589,32 @@ public class SeekerEntity extends AbstractRobot {
     @Override
     public boolean canBeCollidedWith() {
         return scanning;
+    }
+
+    @Override
+    public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
+        if (isDigging) {
+            return false;
+        }
+        int pickaxeColor = getTypePickaxe() == 0 ? 0xFFFFFF : getTypePickaxe() == 1 ? 0x4aedd9 : 0x6d585d;
+
+        tooltip.add(Component.literal("    ").append(Component.translatable("createbionics.gui.goggles.entity")));
+
+        tooltip.add(Component.literal("     ")
+                .append(Component.translatable("entity.createbionics.tooltip.variant")
+                        .append(Component.translatable("entity.createbionics.tooltip.variant_" + getTypeVariant())
+                                .setStyle(Style.EMPTY.withColor(variantColor(getTypeVariant()))))));
+
+        tooltip.add(Component.literal("     ")
+                .append(Component.translatable("entity.createbionics.tooltip.pickaxe")
+                        .append(Component.translatable("entity.createbionics.tooltip.pickaxe_" + getTypePickaxe())
+                                .setStyle(Style.EMPTY.withColor(pickaxeColor)))));
+
+        tooltip.add(Component.literal("     ")
+                .append(Component.translatable("entity.createbionics.tooltip.fuel")
+                        .append(getFuel() == 24001 ? Component.translatable("entity.createbionics.tooltip.infinite")
+                                .getString() : TimeUtil.ticksToMinutes(getFuel())).setStyle(Style.EMPTY.withColor(fuelColor(getFuel())))));
+
+        return true;
     }
 }

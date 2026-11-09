@@ -4,20 +4,23 @@ package net.dshbwlto.createbionics.entity.custom;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
-import com.simibubi.create.content.fluids.drain.ItemDrainBlockEntity;
-import com.simibubi.create.foundation.item.TooltipHelper;
+import com.simibubi.create.foundation.utility.CreateLang;
+import net.createmod.catnip.lang.LangBuilder;
 import net.dshbwlto.createbionics.Util.BionicsEntityDataSerializers;
+import net.dshbwlto.createbionics.Util.TimeUtil;
+import net.dshbwlto.createbionics.entity.client.RobotVariant;
 import net.dshbwlto.createbionics.entity.part.GroundLevelSamplerPartEntity;
 import net.dshbwlto.createbionics.entity.part.RobotPartEntity;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
-import net.dshbwlto.createbionics.entity.client.replete.RepleteVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -64,7 +67,7 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity> implements Me
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
     public int countdown = 0;
-    int tooltipWarmup;
+    public float fluidHeight = 0;
 
     public RobotPartEntity tank;
     public GroundLevelSamplerPartEntity leg_l1;
@@ -118,12 +121,17 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity> implements Me
 
     public RepleteEntity(EntityType<MultiPartRobot<?>> entityType, Level level) {
         super(entityType, level);
-        tooltipWarmup = 15;
     }
 
     @Override
     protected RobotPartEntity[] createParts() {
-        this.tank = new RobotPartEntity(this, this, 2.2f, 5.2f, 0f, 2f, -0.9f, AllBlocks.FLUID_TANK.asItem(), false);
+        this.tank = new RobotPartEntity(this, this, 2.2f, 5.2f, 0f, 2f, -0.9f, AllBlocks.FLUID_TANK.asItem(), false) {
+            @Override
+            public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
+                RepleteEntity.buildTooltipComponent((RepleteEntity) getParent(), tooltip);
+                return true;
+            }
+        };
 
         this.leg_l1 = new GroundLevelSamplerPartEntity(this, this, 1, 1, 3f, 0f, -2f, BionicsItems.REPLETE_BODY.asItem());
         this.leg_l2 = new GroundLevelSamplerPartEntity(this, this, 1, 1, 3f, 1f, -2f, BionicsItems.REPLETE_BODY.asItem());
@@ -246,7 +254,7 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity> implements Me
         spawnAtLocation(canDrop(getAssembly(), 10, AllBlocks.FLUID_TANK.asItem()));
         spawnAtLocation(canDrop(getAssembly(), 11, AllBlocks.FLUID_TANK.asItem()));
         spawnAtLocation(canDrop(getAssembly(), 12, AllBlocks.FLUID_TANK.asItem()));
-        if (getVariant() != RepleteVariant.COPPER) {
+        if (getVariant() != RobotVariant.COPPER) {
             dropIngot();
         }
     }
@@ -325,8 +333,7 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity> implements Me
     @Override
     public void tick() {
         super.tick();
-        if (tooltipWarmup > 0)
-            tooltipWarmup--;
+
         if (getYOffs() != 1 && getYOffs() != 0) {
             tank.offsetFromParent(0, 2 - getYOffs(), -0.9f);
         }
@@ -430,7 +437,7 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity> implements Me
             return InteractionResult.CONSUME;
         } else if (itemStack.is(AllItems.BRASS_INGOT)
                 || itemStack.is(AllItems.ANDESITE_ALLOY)) {
-            if (getVariant() != RepleteVariant.COPPER) {
+            if (getVariant() != RobotVariant.COPPER) {
                 dropIngot();
             }
             setTypeVariant(itemStack);
@@ -462,13 +469,13 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity> implements Me
             return InteractionResult.SUCCESS;
         } else if (itemStack.is(AllItems.WRENCH)) {
             if (!level().isClientSide) {
-                if (getVariant() != RepleteVariant.COPPER) {
+                if (getVariant() != RobotVariant.COPPER) {
                     dropIngot();
-                    setVariant(RepleteVariant.COPPER);
+                    setVariant(RobotVariant.COPPER);
                 } else if (getFluid().isEmpty() && getFluid().getAmount() == 0) {
-                    if (getVariant() != RepleteVariant.COPPER) {
+                    if (getVariant() != RobotVariant.COPPER) {
                         dropIngot();
-                        setVariant(RepleteVariant.COPPER);
+                        setVariant(RobotVariant.COPPER);
                     } else {
                         if (getAssembly() > 0) {
                             setAssembly(getAssembly() - 1);
@@ -476,7 +483,7 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity> implements Me
                             setFuel(0);
                         } else {
                             spawnAtLocation(BionicsItems.REPLETE_BODY);
-                            if (getVariant() != RepleteVariant.COPPER) {
+                            if (getVariant() != RobotVariant.COPPER) {
                                 dropIngot();
                             }
                             remove(RemovalReason.DISCARDED);
@@ -520,27 +527,28 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity> implements Me
         super.readAdditionalSaveData(compound);
         FLUID_TANK.readFromNBT(level().registryAccess(), compound);
         entityData.set(TANK_FLUID, FLUID_TANK.getFluid().copy());
+        fluidHeight = getSynchedFluid().getAmount();
         entityData.set(Y, compound.getFloat("yOffs"));
     }
 
     //VARIANT//
     private void setTypeVariant(ItemStack itemStack) {
-        if (itemStack.getItem() == Items.COPPER_INGOT && getVariant() != RepleteVariant.COPPER) {
-            setVariant(RepleteVariant.COPPER);
+        if (itemStack.getItem() == Items.COPPER_INGOT && getVariant() != RobotVariant.COPPER) {
+            setVariant(RobotVariant.COPPER);
         } else if (itemStack.is(AllItems.ANDESITE_ALLOY)
-                && getVariant() != RepleteVariant.ANDESITE) {
-            setVariant(RepleteVariant.ANDESITE);
+                && getVariant() != RobotVariant.ANDESITE) {
+            setVariant(RobotVariant.ANDESITE);
         } else if (itemStack.is(AllItems.BRASS_INGOT)
-                && getVariant() != RepleteVariant.BRASS) {
-            setVariant(RepleteVariant.BRASS);
+                && getVariant() != RobotVariant.BRASS) {
+            setVariant(RobotVariant.BRASS);
         }
     }
     private void dropIngot() {
-        if (getVariant() == RepleteVariant.BRASS) {
+        if (getVariant() == RobotVariant.BRASS) {
             spawnAtLocation(new ItemStack(AllItems.BRASS_INGOT.asItem()));
-        } else if (getVariant() == RepleteVariant.COPPER) {
+        } else if (getVariant() == RobotVariant.COPPER) {
             spawnAtLocation(new ItemStack(Items.COPPER_INGOT));
-        } else if (getVariant() == RepleteVariant.ANDESITE) {
+        } else if (getVariant() == RobotVariant.ANDESITE) {
             spawnAtLocation(new ItemStack(AllItems.ANDESITE_ALLOY.asItem()));
         }
     }
@@ -552,11 +560,11 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity> implements Me
         return this.entityData.get(VARIANT);
     }
 
-    public RepleteVariant getVariant() {
-        return RepleteVariant.byId(this.getTypeVariant() & 255);
+    public RobotVariant getVariant() {
+        return RobotVariant.byId(this.getTypeVariant() & 255);
     }
 
-    public void setVariant(RepleteVariant variant) {
+    public void setVariant(RobotVariant variant) {
         this.entityData.set(VARIANT, variant.getId() & 255);
     }
 
@@ -647,4 +655,71 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity> implements Me
         return null;
     }
 
+    @Override
+    public boolean containedFluidTooltip(List<Component> tooltip, boolean isPlayerSneaking, IFluidHandler handler) {
+        tooltip.add(Component.literal("    ").append(Component.translatable("createbionics.gui.goggles.entity")));
+
+        tooltip.add(Component.literal("    ")
+                .append(Component.translatable("entity.createbionics.tooltip.variant")
+                        .append(Component.translatable("entity.createbionics.tooltip.variant_" + getTypeVariant())
+                                .setStyle(Style.EMPTY.withColor(variantColor(getTypeVariant()))))));
+
+        tooltip.add(Component.literal("    ")
+                .append(Component.translatable("entity.createbionics.tooltip.fuel")
+                        .append(getFuel() == 24001 ? Component.translatable("entity.createbionics.tooltip.infinite")
+                            .getString() : TimeUtil.ticksToMinutes(getFuel())).setStyle(Style.EMPTY.withColor(fuelColor(getFuel())))));
+
+        return super.containedFluidTooltip(tooltip, isPlayerSneaking, handler);
+    }
+
+    public static void buildTooltipComponent(RepleteEntity entity, List<Component> tooltip) {
+        LangBuilder mb = CreateLang.translate("generic.unit.millibuckets");
+
+        tooltip.add(Component.literal("    ").append(Component.translatable("createbionics.gui.goggles.entity")));
+
+        tooltip.add(Component.literal("     ")
+                .append(Component.translatable("entity.createbionics.tooltip.variant")
+                        .append(Component.translatable("entity.createbionics.tooltip.variant_" + entity.getTypeVariant())
+                                .setStyle(Style.EMPTY.withColor(entity.variantColor(entity.getTypeVariant()))))));
+
+        tooltip.add(Component.literal("     ")
+                .append(Component.translatable("entity.createbionics.tooltip.fuel")
+                        .append(entity.getFuel() == 24001 ? Component.translatable("entity.createbionics.tooltip.infinite")
+                                .getString() : TimeUtil.ticksToMinutes(entity.getFuel())).setStyle(Style.EMPTY.withColor(entity.fuelColor(entity.getFuel())))));
+
+        tooltip.add(Component.literal("    ")
+                .append(Component.translatable("create.gui.goggles.fluid_container")));
+
+        if (entity.getSynchedFluid().isEmpty()) {
+            CreateLang.translate("gui.goggles.fluid_container.capacity")
+                    .add(CreateLang.number(entity.FLUID_TANK.getTankCapacity(0))
+                            .add(mb)
+                            .style(ChatFormatting.GOLD))
+                    .style(ChatFormatting.GRAY)
+                    .forGoggles(tooltip, 1);
+            return;
+        } else {
+            FluidStack fluidStack = entity.getSynchedFluid();
+
+            CreateLang.fluidName(fluidStack)
+                    .style(ChatFormatting.GRAY)
+                    .forGoggles(tooltip, 1);
+
+            CreateLang.builder()
+                    .add(CreateLang.number(fluidStack.getAmount())
+                            .add(mb)
+                            .style(ChatFormatting.GOLD))
+                    .text(ChatFormatting.GRAY, " / ")
+                    .add(CreateLang.number(entity.FLUID_TANK.getTankCapacity(1))
+                            .add(mb)
+                            .style(ChatFormatting.DARK_GRAY))
+                    .forGoggles(tooltip, 1);
+        }
+    }
+
+    @Override
+    public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
+        buildTooltipComponent(this, tooltip);
+        return true;
+    }
 }

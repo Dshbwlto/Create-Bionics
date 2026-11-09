@@ -6,6 +6,7 @@ import net.dshbwlto.createbionics.Util.BionicsDataComponentTypes;
 import net.dshbwlto.createbionics.Util.TimeUtil;
 import net.dshbwlto.createbionics.entity.api.AbstractRobot;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
+import net.dshbwlto.createbionics.entity.client.RobotVariant;
 import net.dshbwlto.createbionics.entity.custom.AnoleEntity;
 import net.dshbwlto.createbionics.entity.custom.OrganEntity;
 import net.dshbwlto.createbionics.item.api.RobotSpawnerItem;
@@ -43,8 +44,8 @@ public class OrganMiddleItem extends RobotSpawnerItem {
 
         OrganEntity organEntity = new OrganEntity(type, level);
         organEntity.setPos(blockPos.getCenter().add(0, -0.5f, 0));
-        organEntity.setCommand(0);
-        organEntity.sitDown(null);
+        organEntity.setVariant(RobotVariant.BRASS);
+        organEntity.setCommand(2);
         organEntity.setVisualSitting();
 
         level.addFreshEntity(organEntity);

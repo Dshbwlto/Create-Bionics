@@ -11,6 +11,7 @@ import net.dshbwlto.createbionics.BionicsClientConfig;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
 
+import net.dshbwlto.createbionics.entity.client.RobotVariant;
 import net.dshbwlto.createbionics.entity.custom.RepleteEntity;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -32,13 +33,13 @@ import java.util.Map;
 
 public class RepleteRenderer extends MobRenderer {
 
-    private static final Map<RepleteVariant, ResourceLocation> LOCATION_BY_VARIANT =
-            Util.make(Maps.newEnumMap(RepleteVariant.class), map -> {
-                map.put(RepleteVariant.COPPER,
+    private static final Map<RobotVariant, ResourceLocation> LOCATION_BY_VARIANT =
+            Util.make(Maps.newEnumMap(RobotVariant.class), map -> {
+                map.put(RobotVariant.COPPER,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_copper.png"));
-                map.put(RepleteVariant.BRASS,
+                map.put(RobotVariant.BRASS,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_brass.png"));
-                map.put(RepleteVariant.ANDESITE,
+                map.put(RobotVariant.ANDESITE,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_andesite.png"));
             });
 
@@ -90,9 +91,11 @@ public class RepleteRenderer extends MobRenderer {
             replete.setYOffs(1);
         }
 
+        replete.fluidHeight = Mth.approach(replete.fluidHeight, height, 0.01f);
+
         poseStack.pushPose();
         poseStack.mulPose(Axis.YN.rotation(replete.getPreciseBodyRotation(partialTicks) * (Mth.PI / 180)));
-        poseStack.translate(0, 38/16f - height - replete.getYOffs(), -7/8f);
+        poseStack.translate(0, 38/16f - replete.fluidHeight - replete.getYOffs(), -7/8f);
         NeoForgeCatnipServices.FLUID_RENDERER.renderFluidBox(fluidStack, -15/16f, height, -15/16f, 15/16f, 0, 15/16f, buffer,
                 poseStack, packedLight, false, true);
         poseStack.popPose();

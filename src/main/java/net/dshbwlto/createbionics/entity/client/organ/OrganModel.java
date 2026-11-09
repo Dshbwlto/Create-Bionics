@@ -242,10 +242,10 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(402, 101).addBox(-0.2635F, 34.1924F, -14.5F, 6.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
                 .texOffs(400, 122).addBox(-0.1421F, 35.1421F, -13.5F, 8.0F, 4.0F, 2.0F, new CubeDeformation(0.0F))
                 .texOffs(400, 101).addBox(-0.1421F, 39.1421F, -14.5F, 8.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
-                .texOffs(382, 48).addBox(15.0F, 12.0F, -17.5F, 8.0F, 14.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(382, 48).mirror().addBox(15.0F, 12.0F, -17.5F, 8.0F, 14.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(382, 24).mirror().addBox(16.0F, 13.0F, -18.5F, 6.0F, 12.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(382, 24).mirror().addBox(16.0F, 13.0F, -53.5F, 6.0F, 12.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(382, 48).addBox(15.0F, 12.0F, -52.5F, 8.0F, 14.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(382, 48).mirror().addBox(15.0F, 12.0F, -52.5F, 8.0F, 14.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(424, 101).addBox(16.0F, 9.0F, -14.5F, 1.0F, 3.0F, 4.0F, new CubeDeformation(0.0F))
                 .texOffs(434, 104).addBox(17.0F, 9.0F, -13.5F, 4.0F, 3.0F, 2.0F, new CubeDeformation(0.0F))
                 .texOffs(424, 101).addBox(21.0F, 9.0F, -14.5F, 1.0F, 3.0F, 4.0F, new CubeDeformation(0.0F))
@@ -663,11 +663,13 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(452, 187).addBox(5.0F, -1.0F, -1.5F, 3.0F, 15.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-6.7F, 0.0F, 0.0F, 0.3927F, 0.0F, 0.0F));
 
         PartDefinition foot_l = leg_l_p.addOrReplaceChild("foot_l", CubeListBuilder.create().texOffs(488, 130).addBox(-6.25F, 0.0F, -8.0F, 12.0F, 7.0F, 16.0F, new CubeDeformation(0.0F))
-                .texOffs(464, 125).addBox(-4.25F, -2.0F, 10.0F, 8.0F, 9.0F, 12.0F, new CubeDeformation(0.0F))
-                .texOffs(291, 212).addBox(-8.25F, -2.0F, -22.0F, 16.0F, 9.0F, 12.0F, new CubeDeformation(0.0F))
                 .texOffs(464, 146).addBox(-5.25F, 1.0F, -10.0F, 10.0F, 5.0F, 2.0F, new CubeDeformation(0.0F))
                 .texOffs(464, 146).addBox(-5.25F, 1.0F, 8.0F, 10.0F, 5.0F, 2.0F, new CubeDeformation(0.0F))
                 .texOffs(452, 175).addBox(-8.25F, -2.0F, -2.0F, 16.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(25.75F, -6.9211F, -0.0197F));
+
+        PartDefinition toe_1_l = foot_l.addOrReplaceChild("toe_1_l", CubeListBuilder.create().texOffs(291, 212).addBox(-8.0F, -6.0F, -14.0F, 16.0F, 9.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.25F, 4.0F, -8.0F));
+
+        PartDefinition toe_2_l = foot_l.addOrReplaceChild("toe_2_l", CubeListBuilder.create().texOffs(464, 125).addBox(-4.0F, -6.0F, 2.0F, 8.0F, 9.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.25F, 4.0F, 8.0F));
 
         PartDefinition leg_r_p = root_util.addOrReplaceChild("leg_r_p", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
@@ -766,11 +768,13 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
                 .texOffs(452, 187).mirror().addBox(-8.0F, -1.0F, -1.5F, 3.0F, 15.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(6.7F, 0.0F, 0.0F, 0.3927F, 0.0F, 0.0F));
 
         PartDefinition foot_r = leg_r_p.addOrReplaceChild("foot_r", CubeListBuilder.create().texOffs(488, 130).mirror().addBox(-5.75F, 0.0F, -8.0F, 12.0F, 7.0F, 16.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(464, 125).mirror().addBox(-3.75F, -2.0F, 10.0F, 8.0F, 9.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false)
-                .texOffs(291, 212).mirror().addBox(-7.75F, -2.0F, -22.0F, 16.0F, 9.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(464, 146).mirror().addBox(-4.75F, 1.0F, -10.0F, 10.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(464, 146).mirror().addBox(-4.75F, 1.0F, 8.0F, 10.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(452, 175).mirror().addBox(-7.75F, -2.0F, -2.0F, 16.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-25.75F, -6.9211F, -0.0197F));
+
+        PartDefinition toe_1_r = foot_r.addOrReplaceChild("toe_1_r", CubeListBuilder.create().texOffs(291, 212).mirror().addBox(-8.0F, -6.0F, -14.0F, 16.0F, 9.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.25F, 4.0F, -8.0F));
+
+        PartDefinition toe_2_r = foot_r.addOrReplaceChild("toe_2_r", CubeListBuilder.create().texOffs(464, 125).mirror().addBox(-4.0F, -6.0F, 2.0F, 8.0F, 9.0F, 12.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.25F, 4.0F, 8.0F));
 
         return LayerDefinition.create(meshdefinition, 1024, 1024);
     }
@@ -804,9 +808,9 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
         this.animate(entity.sitPoseAnimationState, OrganAnimations.organ_stay, ageInTicks, 1.0F);
         this.animate(entity.sitUpAnimationState, OrganAnimations.organ_stand, ageInTicks, 1.0F);
 
-        this.animate(entity.lookAnimationState, OrganAnimations.sit_look, ageInTicks, 1.0f);
-        this.animate(entity.shakeAnimationState, OrganAnimations.sit_shake, ageInTicks, 1.0f);
-        this.animate(entity.yawnAnimationState, OrganAnimations.sit_yawn, ageInTicks, 1.0f);
+        this.animate(entity.lookAnimationState, OrganAnimations.organ_sit_look, ageInTicks, 1.0f);
+        this.animate(entity.shakeAnimationState, OrganAnimations.organ_sit_shake, ageInTicks, 1.0f);
+        this.animate(entity.yawnAnimationState, OrganAnimations.organ_sit_yawn, ageInTicks, 1.0f);
 
         blink0.visible = entity.blinkCountdown == 0;
         blink1.visible = entity.blinkCountdown == 1 || entity.inbetween;
@@ -828,8 +832,6 @@ public class OrganModel <T extends OrganEntity> extends HierarchicalModel<T> {
 
         leg_l_p.y = !entity.leg_l1.isColliding() ? 16 : entity.leg_l1.isColliding() && !entity.leg_l2.isColliding() ? 0 : -16;
         leg_r_p.y = !entity.leg_r1.isColliding() ? 16 : entity.leg_r1.isColliding() && !entity.leg_r2.isColliding() ? 0 : -16;
-
-        float animationTick = (AnimationTickHolder.getTicks() + AnimationTickHolder.getPartialTicks()) / 10;
     }
 
     @Override

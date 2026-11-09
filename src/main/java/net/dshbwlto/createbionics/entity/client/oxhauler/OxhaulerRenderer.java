@@ -11,6 +11,7 @@ import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.render.CachedBuffers;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
+import net.dshbwlto.createbionics.entity.client.RobotVariant;
 import net.dshbwlto.createbionics.entity.custom.OxhaulerEntity;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -51,13 +52,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.Map;
 
 public class OxhaulerRenderer extends MobRenderer {
-    private static final Map<OxhaulerVariant, ResourceLocation> LOCATION_BY_VARIANT =
-            Util.make(Maps.newEnumMap(OxhaulerVariant.class), map -> {
-                map.put(OxhaulerVariant.BRASS,
+    private static final Map<RobotVariant, ResourceLocation> LOCATION_BY_VARIANT =
+            Util.make(Maps.newEnumMap(RobotVariant.class), map -> {
+                map.put(RobotVariant.BRASS,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/oxhauler_brass.png"));
-                map.put(OxhaulerVariant.COPPER,
+                map.put(RobotVariant.COPPER,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/oxhauler_copper.png"));
-                map.put(OxhaulerVariant.ANDESITE,
+                map.put(RobotVariant.ANDESITE,
                         ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/oxhauler_andesite.png"));
             });
 

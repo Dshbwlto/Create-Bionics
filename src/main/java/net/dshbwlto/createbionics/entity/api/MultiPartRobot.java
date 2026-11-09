@@ -4,7 +4,10 @@ import net.dshbwlto.createbionics.entity.part.RobotPartEntity;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
+import org.apache.logging.log4j.core.config.builder.api.Component;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public abstract class MultiPartRobot<T extends RobotPartEntity> extends AbstractRobot {
     public T[] parts; //Must be set in the constructor
@@ -86,5 +89,9 @@ public abstract class MultiPartRobot<T extends RobotPartEntity> extends Abstract
     public void tick() {
         super.tick();
         resetPartOffsets();
+    }
+
+    public static void buildTooltipComponent(AbstractRobot entity, List<Component> tooltip) {
+
     }
 }

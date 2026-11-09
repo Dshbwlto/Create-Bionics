@@ -6,12 +6,13 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.foundation.sound.SoundScapes;
 import net.createmod.catnip.math.VecHelper;
+import net.dshbwlto.createbionics.Util.TimeUtil;
+import net.dshbwlto.createbionics.entity.client.RobotVariant;
 import net.dshbwlto.createbionics.entity.part.OxhaulerHarvesterPartEntity;
 import net.dshbwlto.createbionics.entity.part.OxhaulerPloughPartEntity;
 import net.dshbwlto.createbionics.entity.part.RobotPartEntity;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
 import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerColor;
-import net.dshbwlto.createbionics.entity.client.oxhauler.OxhaulerVariant;
 import net.dshbwlto.createbionics.item.BionicsItems;
 import net.dshbwlto.createbionics.screen.custom.OxhaulerMenu;
 import net.dshbwlto.createbionics.sound.BionicsSounds;
@@ -21,6 +22,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -53,6 +55,8 @@ import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements ContainerListener, HasCustomInventoryScreen, OwnableEntity, PlayerRideableJumping, Saddleable {
     public final AnimationState idleAnimationState = new AnimationState();
@@ -223,7 +227,7 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
         if (isHarvester()) {
             spawnAtLocation(AllBlocks.MECHANICAL_HARVESTER);
         }
-        if (getVariant() != OxhaulerVariant.BRASS) {
+        if (getVariant() != RobotVariant.BRASS) {
             dropIngot();
         }
         spawnAtLocation(randomSalvage());
@@ -385,9 +389,9 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
             } else if (isHarvester()) {
                 entityData.set(HARVESTER, false);
                 spawnAtLocation(new ItemStack(AllBlocks.MECHANICAL_HARVESTER));
-            } else if (getVariant() != OxhaulerVariant.BRASS){
+            } else if (getVariant() != RobotVariant.BRASS){
                 dropIngot();
-                setVariant(OxhaulerVariant.BRASS);
+                setVariant(RobotVariant.BRASS);
             } else if (getAssembly() > 0) {
                 setAssembly(getAssembly() - 1);
                 setFuel(0);
@@ -414,9 +418,11 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
             } else {
                 itemStack.shrink(1);
             }
-        } else if (itemStack.is(AllItems.ANDESITE_ALLOY)
-                || itemStack.is(Items.COPPER_INGOT)) {
-            dropIngot();
+        } else if (itemStack.is(Items.COPPER_INGOT)
+                || itemStack.is(AllItems.ANDESITE_ALLOY)) {
+            if (getVariant() != RobotVariant.BRASS) {
+                dropIngot();
+            }
             setTypeVariant(itemStack);
             if (level().isClientSide) {
                 return InteractionResult.SUCCESS;
@@ -508,21 +514,21 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
     //Variant//
 
     private void dropIngot() {
-        if (getVariant() == OxhaulerVariant.COPPER) {
+        if (getVariant() == RobotVariant.COPPER) {
             spawnAtLocation(new ItemStack(Items.COPPER_INGOT));
-        } else if (getVariant() == OxhaulerVariant.ANDESITE) {
+        } else if (getVariant() == RobotVariant.ANDESITE) {
             spawnAtLocation(new ItemStack(AllItems.ANDESITE_ALLOY.asItem()));
         }
     }
     private void setTypeVariant(ItemStack itemStack) {
-        if (itemStack.getItem() == Items.COPPER_INGOT && getVariant() != OxhaulerVariant.COPPER) {
-            setVariant(OxhaulerVariant.COPPER);
+        if (itemStack.getItem() == Items.COPPER_INGOT && getVariant() != RobotVariant.COPPER) {
+            setVariant(RobotVariant.COPPER);
         } else if (itemStack.is(AllItems.ANDESITE_ALLOY)
-                && getVariant() != OxhaulerVariant.ANDESITE) {
-            setVariant(OxhaulerVariant.ANDESITE);
+                && getVariant() != RobotVariant.ANDESITE) {
+            setVariant(RobotVariant.ANDESITE);
         } else if (itemStack.is(AllItems.BRASS_INGOT)
-                && getVariant() != OxhaulerVariant.BRASS) {
-            setVariant(OxhaulerVariant.BRASS);
+                && getVariant() != RobotVariant.BRASS) {
+            setVariant(RobotVariant.BRASS);
         }
     }
     private int getTypeVariant() {
@@ -532,14 +538,14 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
         return this.entityData.get(COLOR);
     }
 
-    public OxhaulerVariant getVariant() {
-        return OxhaulerVariant.byId(this.getTypeVariant() & 255);
+    public RobotVariant getVariant() {
+        return RobotVariant.byId(this.getTypeVariant() & 255);
     }
     public OxhaulerColor getColor() {
         return OxhaulerColor.byId(this.getTypeColor() & 255);
     }
 
-    public void setVariant(OxhaulerVariant variant) {
+    public void setVariant(RobotVariant variant) {
         this.entityData.set(VARIANT, variant.getId() & 255);
     }
     public void setColor(OxhaulerColor color) {
@@ -638,6 +644,8 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
         }
 
     }
+
+    //RIDING//
 
     public boolean canJump() {
         return this.isSaddled();
@@ -814,4 +822,19 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
         return soundType == SoundType.WOOD || soundType == SoundType.NETHER_WOOD || soundType == SoundType.STEM || soundType == SoundType.CHERRY_WOOD || soundType == SoundType.BAMBOO_WOOD;
     }
 
+    @Override
+    public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
+        tooltip.add(Component.literal("    ").append(Component.translatable("createbionics.gui.goggles.entity")));
+
+        tooltip.add(Component.literal("     ")
+                .append(Component.translatable("entity.createbionics.tooltip.variant")
+                        .append(Component.translatable("entity.createbionics.tooltip.variant_" + getTypeVariant())
+                                .setStyle(Style.EMPTY.withColor(variantColor(getTypeVariant()))))));
+
+        tooltip.add(Component.literal("     ")
+                .append(Component.translatable("entity.createbionics.tooltip.fuel")
+                        .append(getFuel() == 24001 ? Component.translatable("entity.createbionics.tooltip.infinite")
+                                .getString() : TimeUtil.ticksToMinutes(getFuel())).setStyle(Style.EMPTY.withColor(fuelColor(getFuel())))));
+        return true;
+    }
 }

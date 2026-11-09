@@ -8,13 +8,13 @@ import net.dshbwlto.createbionics.registry.custom.BionicsRegistrate;
 
 public class BionicsBlockEntityTypes {
     private static final BionicsRegistrate REGISTRATE = CreateBionics.registrate();
-
+/*
     public static final BlockEntityEntry<DepthBellBlockEntity> DEPTH_BELL = REGISTRATE
             .blockEntity("depth_bell", DepthBellBlockEntity::new)
             .validBlocks(BionicsBlocks.DEPTH_BELL_BLOCK)
             .renderer(() -> DepthBellRenderer::new)
             .register();
-
+*/
     public static void register() {
     }
 }

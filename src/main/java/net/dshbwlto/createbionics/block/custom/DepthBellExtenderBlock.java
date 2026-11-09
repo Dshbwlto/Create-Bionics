@@ -72,7 +72,7 @@ public class DepthBellExtenderBlock extends Block implements IWrenchable {
         return new UseOnContext(context.getPlayer(), context.getHand(),
                 new BlockHitResult(context.getClickLocation(), context.getClickedFace(), target, context.isInside()));
     }
-
+/*
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (player == null || !BionicsBlocks.DEPTH_BELL_BLOCK.isIn(stack))
@@ -84,7 +84,6 @@ public class DepthBellExtenderBlock extends Block implements IWrenchable {
                     new BlockHitResult(hitResult.getLocation(), hitResult.getDirection(), findRoot, hitResult.isInside()));
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
-
     @Override
     public InteractionResult onWrenched(BlockState state, UseOnContext context) {
         Level level = context.getLevel();
@@ -140,6 +139,7 @@ public class DepthBellExtenderBlock extends Block implements IWrenchable {
                 .getValue(SIZE));
     }
 
+ */
     @Override
     public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pIsMoving) {
 
