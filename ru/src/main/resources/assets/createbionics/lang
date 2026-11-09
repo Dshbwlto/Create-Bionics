@@ -151,6 +151,7 @@
   "item.createbionics.stalker_tail_item": "Хвост Сталкера",
   "item.createbionics.stalker_antenna_item": "Антенна Сталкера",
   "item.createbionics.stalker_head_item": "Голова Сталкера",
+  "createbionics.gui.goggles.entity": "Entity Info:",
   "createbionics.ponder.oxhauler_constructing.header": "Assembling an Oxhauler",
   "createbionics.ponder.oxhauler_constructing.text_1": "Robots are constructed with their corresponding item.",
   "createbionics.ponder.oxhauler_constructing.text_2": "Parts must be placed in the correct order.",
