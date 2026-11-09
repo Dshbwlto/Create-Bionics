@@ -2,6 +2,7 @@
 package net.dshbwlto.createbionics.item.custom;
 
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
+import net.dshbwlto.createbionics.entity.client.RobotVariant;
 import net.dshbwlto.createbionics.entity.custom.OrganEntity;
 import net.dshbwlto.createbionics.entity.custom.OxhaulerEntity;
 import net.dshbwlto.createbionics.item.api.RobotSpawnerItem;
@@ -30,6 +31,7 @@ public class OxhaulerMiddleItem extends RobotSpawnerItem {
         oxhaulerEntity.showRear = true;
         oxhaulerEntity.showFront = true;
         oxhaulerEntity.showHead = true;
+        oxhaulerEntity.setVariant(RobotVariant.BRASS);
         level.addFreshEntity(oxhaulerEntity);
     }
 }
