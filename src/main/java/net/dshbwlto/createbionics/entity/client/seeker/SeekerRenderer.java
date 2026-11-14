@@ -1,47 +1,22 @@
 package net.dshbwlto.createbionics.entity.client.seeker;
 
-import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import com.simibubi.create.content.logistics.depot.DepotRenderer;
-import dev.engine_room.flywheel.lib.transform.TransformStack;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
-import net.dshbwlto.createbionics.entity.client.RobotVariant;
 import net.dshbwlto.createbionics.entity.custom.SeekerEntity;
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.phys.Vec3;
-
-import java.util.Map;
 
 public class SeekerRenderer extends MobRenderer<SeekerEntity, SeekerModel<SeekerEntity>> {
-    private final Map<RobotVariant, ResourceLocation> LOCATION_BY_VARIANT =
-            Util.make(Maps.newEnumMap(RobotVariant.class),map -> {
-                map.put(RobotVariant.COPPER,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/seeker/seeker_copper.png"));
-                map.put(RobotVariant.BRASS,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/seeker/seeker_brass.png"));
-                map.put(RobotVariant.ANDESITE,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/seeker/seeker_andesite.png"));
-            });
 
     public SeekerRenderer(EntityRendererProvider.Context context) {
         super(context, new SeekerModel<>(context.bakeLayer(BionicsModelLayers.SEEKER)), 0.25f);
@@ -51,7 +26,7 @@ public class SeekerRenderer extends MobRenderer<SeekerEntity, SeekerModel<Seeker
 
     @Override
     public ResourceLocation getTextureLocation(SeekerEntity entity) {
-        return LOCATION_BY_VARIANT.get(entity.getVariant());
+        return ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/seeker/seeker_" + entity.getTypeVariant() + ".png");
     }
 
     @Override

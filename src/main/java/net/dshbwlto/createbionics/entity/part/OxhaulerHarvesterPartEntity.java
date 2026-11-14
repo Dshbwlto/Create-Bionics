@@ -59,7 +59,8 @@ public class OxhaulerHarvesterPartEntity extends RobotPartEntity{
         if (oxhauler.isHarvester()) {
             boolean flag = false;
             AABB aabb = this.getBoundingBox().inflate(0.2);
-            for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
+            for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ),
+                    Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
                 BlockState blockstate = this.level().getBlockState(blockpos);
                 Block block = blockstate.getBlock();
                 if (block instanceof CropBlock && ((CropBlock) block).isMaxAge(blockstate)) {

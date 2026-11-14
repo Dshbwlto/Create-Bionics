@@ -422,7 +422,7 @@ public class AnoleEntity extends AbstractRobot {
         }
     }
 
-    private int getTypeVariant() {
+    public int getTypeVariant() {
         return this.entityData.get(VARIANT);
     }
 

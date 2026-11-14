@@ -556,7 +556,7 @@ public class RepleteEntity extends MultiPartRobot<RobotPartEntity> implements Me
         this.entityData.set(VARIANT, typeVariant);
     }
 
-    private int getTypeVariant() {
+    public int getTypeVariant() {
         return this.entityData.get(VARIANT);
     }
 

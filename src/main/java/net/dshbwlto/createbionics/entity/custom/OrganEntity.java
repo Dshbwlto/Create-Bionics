@@ -588,17 +588,17 @@ public class OrganEntity extends MultiPartRobot<RobotPartEntity> {
         } else if (getAssembly() == 2 || getAssembly() == 3) {
             return (AllBlocks.METAL_GIRDER.asItem());
         } else if (getAssembly() == 4 || getAssembly() == 5) {
-            return BionicsItems.ANOLE.get();
+            return BionicsItems.ORGAN_FOOT.get();
         } else if (getAssembly() == 6) {
-            return BionicsItems.ANOLE.get();
+            return BionicsItems.ORGAN_TAIL_BASE.get();
         } else if (getAssembly() == 7) {
-            return BionicsItems.ANOLE.get();
+            return BionicsItems.ORGAN_TAIL_END.get();
         } else if (getAssembly() == 8) {
-            return BionicsItems.ANOLE.get();
+            return BionicsItems.ORGAN_CHEST.get();
         } else if (getAssembly() == 9) {
-            return BionicsItems.ANOLE.get();
+            return BionicsItems.ORGAN_NECK.get();
         } else if (getAssembly() == 10) {
-            return BionicsItems.ANOLE.get();
+            return BionicsItems.ORGAN_HEAD.get();
         } else {
             return AllBlocks.STEAM_WHISTLE.asItem();
         }

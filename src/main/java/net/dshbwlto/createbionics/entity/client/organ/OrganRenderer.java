@@ -8,6 +8,7 @@ import net.dshbwlto.createbionics.entity.client.RobotVariant;
 import net.dshbwlto.createbionics.entity.client.organ.layers.*;
 import net.dshbwlto.createbionics.entity.custom.OrganEntity;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -20,18 +21,6 @@ import java.util.Map;
 
 public class OrganRenderer extends MobRenderer {
 
-    private final Map<RobotVariant, ResourceLocation> LOCATION_BY_VARIANT =
-            Util.make(Maps.newEnumMap(RobotVariant.class),map -> {
-                map.put(RobotVariant.ANDESITE,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/organ/organ_0.png"));
-                map.put(RobotVariant.BRASS,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/organ/organ_1.png"));
-                map.put(RobotVariant.COPPER,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/organ/organ_2.png"));
-                map.put(RobotVariant.STURDY_SHEET,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/organ/organ_3.png"));
-            });
-
     public OrganRenderer(EntityRendererProvider.Context context) {
         super (context, new OrganModel<>(context.bakeLayer(BionicsModelLayers.ORGAN)), 4);
         this.addLayer(new OrganGlowLayer(this, context.getModelSet()));
@@ -41,11 +30,14 @@ public class OrganRenderer extends MobRenderer {
     @Override
     public ResourceLocation getTextureLocation(Entity entity) {
         OrganEntity organ = (OrganEntity) entity;
-        return LOCATION_BY_VARIANT.get(organ.getVariant());
+        return ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/organ/organ_" + organ.getTypeVariant() + ".png");
     }
 
     @Override
     public void render(LivingEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        if (!CreateBionics.isDevUsername(Minecraft.getInstance().player.getName().getString())) {
+            return;
+        }
         OrganEntity organEntity = (OrganEntity) entity;
         /*
         CachedBuffers.partial(PartialModel.of(CreateBionics.asResource("item/debug_arrow")), organEntity.getBlockStateOn())

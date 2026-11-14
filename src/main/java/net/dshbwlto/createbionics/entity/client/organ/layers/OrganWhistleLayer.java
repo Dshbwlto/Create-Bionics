@@ -312,16 +312,10 @@ public class OrganWhistleLayer<T>extends RenderLayer<OrganEntity, OrganModel<Org
         this.getParentModel().copyPropertiesTo(this.model);
         this.model.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTicks);
         this.model.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        if (integer < 10) {
-            VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucentCull(EXHAUST_MAP_1.get(integer)));
-            this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
-        } else if (integer < 20) {
-            VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.itemEntityTranslucentCull(EXHAUST_MAP_2.get(integer)));
-            this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
-        } else {
-            VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.itemEntityTranslucentCull(EXHAUST_MAP_3.get(integer)));
-            this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
-        }
+
+        VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucentCull(
+                ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/organ/exhaust/steam" + integer + ".png")));
+        this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
 
         if (AnimationTickHolder.getTicks() == 25 && entity.isSitting()) {
             entity.z0 = 47;

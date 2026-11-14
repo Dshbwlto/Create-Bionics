@@ -531,7 +531,7 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
             setVariant(RobotVariant.BRASS);
         }
     }
-    private int getTypeVariant() {
+    public int getTypeVariant() {
         return this.entityData.get(VARIANT);
     }
     public int getTypeColor() {
@@ -541,6 +541,7 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
     public RobotVariant getVariant() {
         return RobotVariant.byId(this.getTypeVariant() & 255);
     }
+
     public OxhaulerColor getColor() {
         return OxhaulerColor.byId(this.getTypeColor() & 255);
     }

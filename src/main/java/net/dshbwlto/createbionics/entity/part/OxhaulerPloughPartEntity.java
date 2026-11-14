@@ -1,6 +1,7 @@
 package net.dshbwlto.createbionics.entity.part;
 
 import com.simibubi.create.AllBlocks;
+import net.dshbwlto.createbionics.compat.TRMT;
 import net.dshbwlto.createbionics.entity.api.MultiPartRobot;
 import net.dshbwlto.createbionics.entity.custom.OxhaulerEntity;
 import net.dshbwlto.createbionics.compat.FarmersDelight;
@@ -63,7 +64,8 @@ public class OxhaulerPloughPartEntity extends RobotPartEntity {
             for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
                 BlockState blockstate = this.level().getBlockState(blockpos);
                 Block block = blockstate.getBlock();
-                if (block.equals(Blocks.DIRT) || block.equals(Blocks.GRASS_BLOCK) || block.equals(Blocks.DIRT_PATH) || block.equals(Blocks.COARSE_DIRT)) {
+                if (block.equals(Blocks.DIRT) || block.equals(Blocks.GRASS_BLOCK) || block.equals(Blocks.DIRT_PATH) || block.equals(Blocks.COARSE_DIRT)
+                        || (TRMT.isLoaded() && (blockstate.is(TRMT.eroded_grass_block()) || blockstate.is(TRMT.eroded_dirt()) || blockstate.is(TRMT.eroded_coarse_dirt())))) {
                     level().setBlock(blockpos, Blocks.FARMLAND.defaultBlockState(), 11);
                     playSound(SoundEvents.HOE_TILL);
                 }

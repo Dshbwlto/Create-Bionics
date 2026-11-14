@@ -27,11 +27,11 @@ public class MatchboxRenderer extends MobRenderer<MatchboxEntity, MatchboxModel<
     private final Map<RobotVariant, ResourceLocation> LOCATION_BY_VARIANT =
             Util.make(Maps.newEnumMap(RobotVariant.class),map -> {
                 map.put(RobotVariant.COPPER,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/matchbox/matchbox_copper.png"));
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/matchbox/matchbox_2.png"));
                 map.put(RobotVariant.BRASS,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/matchbox/matchbox_brass.png"));
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/matchbox/matchbox_1.png"));
                 map.put(RobotVariant.ANDESITE,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/matchbox/matchbox_andesite.png"));
+                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/matchbox/matchbox_0.png"));
             });
 
     public MatchboxRenderer(EntityRendererProvider.Context context) {
@@ -41,7 +41,8 @@ public class MatchboxRenderer extends MobRenderer<MatchboxEntity, MatchboxModel<
 
     @Override
     public ResourceLocation getTextureLocation(MatchboxEntity entity) {
-        return BionicsClientConfig.arachnophobia ? ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/matchbox/matchbox_alt.png") : LOCATION_BY_VARIANT.get(entity.getVariant());
+        return BionicsClientConfig.arachnophobia ? ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/matchbox/matchbox_alt.png")
+                : ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/matchbox/matchbox_" + entity.getTypeVariant() + ".png");
     }
 
     @Override

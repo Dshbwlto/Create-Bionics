@@ -1,7 +1,7 @@
 {
 	"parent": "createbionics:item/anole_item_chest",
 	"textures": {
-		"0": "createbionics:item/entity/anole/anole_items_6",
-		"particle": "createbionics:item/entity/anole/anole_items_6"
+		"0": "createbionics:item/entity/anole/anole_6",
+		"particle": "createbionics:item/entity/anole/anole_6"
 	}
 }

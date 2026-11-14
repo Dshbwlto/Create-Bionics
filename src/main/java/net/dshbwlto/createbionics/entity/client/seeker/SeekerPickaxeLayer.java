@@ -18,11 +18,6 @@ import java.util.Map;
 
 public class SeekerPickaxeLayer extends RenderLayer<SeekerEntity, SeekerModel<SeekerEntity>> {
     private final SeekerModel<SeekerEntity> model;
-    private Map<Integer, ResourceLocation> PICK_MAP = Map.of(
-            0, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/seeker/seeker_iron.png"),
-            1, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/seeker/seeker_diamond.png"),
-            2, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/seeker/seeker_netherite.png")
-    );
 
     public SeekerPickaxeLayer(RenderLayerParent<SeekerEntity, SeekerModel<SeekerEntity>> renderer, EntityModelSet models) {
         super(renderer);
@@ -31,11 +26,12 @@ public class SeekerPickaxeLayer extends RenderLayer<SeekerEntity, SeekerModel<Se
 
     @Override
     public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, SeekerEntity livingEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        Integer integer = livingEntity.getTypePickaxe();
+        int i = livingEntity.getTypePickaxe();
         this.getParentModel().copyPropertiesTo(this.model);
         this.model.prepareMobModel(livingEntity, limbSwing, limbSwingAmount, partialTicks);
         this.model.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(PICK_MAP.get(integer)));
+        VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(
+                ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/seeker/seeker_pickaxe_" + i + ".png")));
         this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
     }
 }

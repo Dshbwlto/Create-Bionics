@@ -20,9 +20,9 @@ import java.util.Map;
 public class OrganGlowLayer extends RenderLayer<OrganEntity, OrganModel<OrganEntity>> {
     private final OrganModel<OrganEntity> model;
     private Map<Integer, ResourceLocation> GLOW_MAP = Map.of(
-            0, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/organ_emit.png"),
-            1, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/organ_redstone1.png"),
-            2, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/organ_redstone2.png")
+            0, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/organ/organ_emit.png"),
+            1, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/organ/organ_redstone1.png"),
+            2, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/organ/organ_redstone2.png")
     );
 
     public OrganGlowLayer(RenderLayerParent<OrganEntity, OrganModel<OrganEntity>> renderer, EntityModelSet models) {

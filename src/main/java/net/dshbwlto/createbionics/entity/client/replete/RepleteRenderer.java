@@ -1,47 +1,25 @@
 package net.dshbwlto.createbionics.entity.client.replete;
 
-import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.platform.NeoForgeCatnipServices;
-import net.createmod.catnip.render.CachedBuffers;
 import net.dshbwlto.createbionics.BionicsClientConfig;
 import net.dshbwlto.createbionics.CreateBionics;
 import net.dshbwlto.createbionics.entity.client.BionicsModelLayers;
-
-import net.dshbwlto.createbionics.entity.client.RobotVariant;
 import net.dshbwlto.createbionics.entity.custom.RepleteEntity;
-import net.minecraft.Util;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.fluids.FluidStack;
 
-import java.util.Map;
-
 public class RepleteRenderer extends MobRenderer {
-
-    private static final Map<RobotVariant, ResourceLocation> LOCATION_BY_VARIANT =
-            Util.make(Maps.newEnumMap(RobotVariant.class), map -> {
-                map.put(RobotVariant.COPPER,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_copper.png"));
-                map.put(RobotVariant.BRASS,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_brass.png"));
-                map.put(RobotVariant.ANDESITE,
-                        ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_andesite.png"));
-            });
 
     public RepleteRenderer(EntityRendererProvider.Context context) {
         super (context, new RepleteModel<>(context.bakeLayer(BionicsModelLayers.REPLETE)), 2.5f);
@@ -51,7 +29,8 @@ public class RepleteRenderer extends MobRenderer {
     @Override
     public ResourceLocation getTextureLocation(Entity entity) {
         RepleteEntity replete = (RepleteEntity) entity;
-        return !BionicsClientConfig.arachnophobia ? LOCATION_BY_VARIANT.get(replete.getVariant()) : ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/replete/replete_alt.png");
+        return BionicsClientConfig.arachnophobia ? ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/replete/replete_alt.png")
+                : ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/replete/replete_" + replete.getTypeVariant() + ".png");
     }
 
     @Override

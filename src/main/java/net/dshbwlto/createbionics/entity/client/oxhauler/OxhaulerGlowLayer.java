@@ -31,7 +31,7 @@ public class OxhaulerGlowLayer extends RenderLayer<OxhaulerEntity, OxhaulerModel
             this.model.prepareMobModel(livingEntity, limbSwing, limbSwingAmount, partialTicks);
             this.model.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
             VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucentEmissive(
-                    ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/oxhauler/oxhauler_glow" + i + ".png")));
+                    ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/oxhauler/oxhauler_glow_" + i + ".png")));
             this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
         }
     }

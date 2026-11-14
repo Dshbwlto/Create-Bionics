@@ -90,8 +90,4 @@ public abstract class MultiPartRobot<T extends RobotPartEntity> extends Abstract
         super.tick();
         resetPartOffsets();
     }
-
-    public static void buildTooltipComponent(AbstractRobot entity, List<Component> tooltip) {
-
-    }
 }

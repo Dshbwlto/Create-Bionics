@@ -30,8 +30,8 @@ public class MatchboxGlowLayer extends RenderLayer<MatchboxEntity, MatchboxModel
             this.model.prepareMobModel(livingEntity, limbSwing, limbSwingAmount, partialTicks);
             this.model.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
             VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucentEmissive(
-                    BionicsClientConfig.arachnophobia ? ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/organ/exhaust/steam0.png")
-                            : ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/matchbox/matchbox_glow" + i + ".png")));
+                    BionicsClientConfig.arachnophobia ? ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/matchbox/matchbox_glow_0.png")
+                            : ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/matchbox/matchbox_glow_" + i + ".png")));
             this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
         }
     }

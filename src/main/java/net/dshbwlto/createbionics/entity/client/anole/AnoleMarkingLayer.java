@@ -19,10 +19,10 @@ import java.util.Map;
 public class AnoleMarkingLayer extends RenderLayer<AnoleEntity, AnoleModel<AnoleEntity>> {
     private final AnoleModel<AnoleEntity> model;
     private Map<Integer, ResourceLocation> MARKING_MAP = Map.of(
-            0, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_redstone.png"),
-            1, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_redstone.png"),
-            2, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_gold.png"),
-            3, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/entity/anole/anole_diamond.png")
+            0, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/anole/anole_marking_1.png"),
+            1, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/anole/anole_marking_1.png"),
+            2, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/anole/anole_marking_2.png"),
+            3, ResourceLocation.fromNamespaceAndPath(CreateBionics.MOD_ID, "textures/item/entity/anole/anole_marking_3.png")
     );
 
     public AnoleMarkingLayer(RenderLayerParent<AnoleEntity, AnoleModel<AnoleEntity>> renderer, EntityModelSet models) {
@@ -40,7 +40,7 @@ public class AnoleMarkingLayer extends RenderLayer<AnoleEntity, AnoleModel<Anole
             if (livingEntity.getTypeMarkings() == 1) {
                 VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityTranslucentEmissive(MARKING_MAP.get(integer)));
                 this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
-            } else {
+            } else if (livingEntity.getTypeMarkings() != 0) {
                 VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(MARKING_MAP.get(integer)));
                 this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
             }

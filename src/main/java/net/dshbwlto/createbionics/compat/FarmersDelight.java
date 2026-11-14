@@ -22,7 +22,6 @@ public final class FarmersDelight {
     public static Block richSoil() {
         return getFarmersDelightBlock("rich_soil");
     }
-
     public static Block richSoilFarmland() {
         return getFarmersDelightBlock("rich_soil_farmland");
     }

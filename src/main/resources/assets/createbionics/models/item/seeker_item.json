@@ -3,8 +3,8 @@
 	"credit": "Made by Dshbwlto",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "createbionics:item/entity/seeker/seeker_items",
-		"particle": "createbionics:item/entity/seeker_items"
+		"0": "createbionics:item/entity/seeker/seeker_",
+		"particle": "createbionics:item/entity/seeker_"
 	},
 	"elements": [
 		{

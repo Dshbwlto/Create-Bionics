@@ -487,7 +487,7 @@ public class SeekerEntity extends AbstractRobot {
         }
     }
 
-    private int getTypeVariant() {
+    public int getTypeVariant() {
         return this.entityData.get(VARIANT);
     }
 
