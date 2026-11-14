@@ -337,7 +337,7 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
                 itemStack.shrink(1);
                 player.addItem(new ItemStack(BionicsItems.WALTZ_2_MUSIC_DISC.get()));
             }
-        } else if (itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL)) {
+        } else if ((itemStack.is(Items.COAL) || itemStack.is(Items.CHARCOAL)) && getAssembly() == 3) {
             setFuel(12000);
             if (!player.getAbilities().instabuild) {
                 itemStack.shrink(1);
@@ -345,7 +345,7 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
             playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
             spawnFireParticles(false, 3);
             return InteractionResult.CONSUME;
-        } else if (itemStack.is(AllItems.BLAZE_CAKE)) {
+        } else if (itemStack.is(AllItems.BLAZE_CAKE) && getAssembly() == 3) {
             setFuel(24000);
             if (!player.getAbilities().instabuild) {
                 itemStack.shrink(1);
@@ -353,7 +353,7 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
             playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
             spawnFireParticles(true, 3);
             return InteractionResult.CONSUME;
-        } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE)) {
+        } else if (itemStack.is(AllItems.CREATIVE_BLAZE_CAKE) && getAssembly() == 3) {
             setFuel(getFuel() == -1 ? 24000 : -1);
             playSound(AllSoundEvents.BLAZE_MUNCH.getMainEvent());
             spawnFireParticles(true, 3);
@@ -432,7 +432,7 @@ public class OxhaulerEntity extends MultiPartRobot<RobotPartEntity> implements C
         } else if (isFueled()) {
             if (player.isShiftKeyDown()){
                 openCustomInventoryScreen(player);
-            } else {
+            } else if (getAssembly() == 3) {
                 doPlayerRide(player);
             }
         } else {
